@@ -1,0 +1,64 @@
+:root {
+  --color-black: #0b0d17;
+
+  --text-size-dashboard-label: 14px;
+  --text-size-horizontal-tab-label: 12px;
+  --text-size-list-item-label: 14px;
+  --text-size-history-item-label: 12px;
+  --text-size-history-date: 10px;
+  --text-size-transactions-label: 14px;
+  --text-size-transactions-subtitle: 12px;
+
+  --data-box-spacing: 10px;
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --text-size-dashboard-label: 16px;
+    --text-size-horizontal-tab-label: 14px;
+    --text-size-list-item-label: 16px;
+    --text-size-history-item-label: 16px;
+    --text-size-history-date: 16px;
+    --text-size-transactions-label: 16px;
+    --text-size-transactions-subtitle: 14px;
+
+    --data-box-spacing: 20px;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  background: #fffeff;
+  
+}
+body {
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a {
+  color: inherit;
+}
+
+/*.MuiTextField-root {
+  background: none !important;
+}*/
+
+.MuiSwitch-thumb {
+  margin-top: 1px;
+}
+.MuiDialog-container .MuiPaper-root {
+  padding: 0;
+  background: #f4f5f7;
+  border-radius: 20px;
+}
