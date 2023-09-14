@@ -7,9 +7,8 @@ import React, {
 import axios from "axios";
 import { CircularProgress } from "grindery-ui";
 import { useGrinderyLogin } from "use-grindery-login";
-import { WORKFLOW_ENGINE_URL } from "../constants";
+import { BOT_API_URL, WORKFLOW_ENGINE_URL } from "../constants";
 
-const BOT_API_URL = "https://bot-auth-api.grindery.org";
 
 export type TelegramAuthUserInput = {
   phone: string;

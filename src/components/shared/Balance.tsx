@@ -5,17 +5,16 @@ import useAppContext from "../../hooks/useAppContext";
 type Props = {};
 
 const Balance = (props: Props) => {
-  const { userProps, checkingOptedIn } = useAppContext();
-  const [loading, setLoading] = React.useState(false);
+  const { state: {user} } = useAppContext();
   const [balance, setBalance] = React.useState<number | null>(null);
 
   const getBalance = useCallback(async () => {
-    if (!userProps.patchwallet_telegram || checkingOptedIn) {
+    if (!user?.patchwallet) {
       return;
     }
     // get balance here
-    setBalance(100);
-  }, [userProps.patchwallet_telegram, checkingOptedIn]);
+    setBalance(0);
+  }, [user]);
 
   useEffect(() => {
     getBalance();
@@ -23,11 +22,11 @@ const Balance = (props: Props) => {
 
   return (
     <div style={{ textAlign: "center", margin: "0 auto 40px" }}>
-      {checkingOptedIn || (userProps.patchwallet_telegram && !balance) ? (
+      {!user ? (
         <div style={{ textAlign: "center", margin: "0 auto 40px" }}>
           <CircularProgress />
         </div>
-      ) : userProps.patchwallet_telegram ? (
+      ) : user.patchwallet ? (
         <h2 style={{ fontSize: "2.5em" }}>{balance || 0} G1</h2>
       ) : (
         <div>

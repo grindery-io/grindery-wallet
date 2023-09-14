@@ -7,9 +7,9 @@ import useAppContext from "../../hooks/useAppContext";
 type Props = {};
 
 const Address = (props: Props) => {
-  const { userProps } = useAppContext();
+  const { state: {user} } = useAppContext();
   const [copied, setCopied] = useState(false);
-  const address = userProps.patchwallet_telegram;
+  const address = user?.patchwallet;
 
   useEffect(() => {
     if (copied) {

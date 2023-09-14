@@ -1,23 +1,21 @@
 import React, { useEffect } from "react";
-import { ThemeProvider, CircularProgress } from "grindery-ui";
+import { ThemeProvider } from "grindery-ui";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./context/AppContext";
 import HomePage from "./components/pages/HomePage";
-import GrinderyLoginProvider from "use-grindery-login";
 import SendPage from "./components/pages/SendPage";
 import AppHeader from "./components/shared/AppHeader";
+
+declare global {
+  interface Window {
+    Telegram?: any;
+  }
+}
 
 function App() {
   return (
     <ThemeProvider>
-      <GrinderyLoginProvider
-        loader={
-          <div style={{ textAlign: "center", margin: "80px auto" }}>
-            <CircularProgress />
-          </div>
-        }
-        disconnectRedirectUrl="https://www.grindery.io/sign-out?sidebar_opened=1"
-      >
+      
         <AppContextProvider>
           <BrowserRouter>
             <AppHeader />
@@ -30,7 +28,7 @@ function App() {
             </div>
           </BrowserRouter>
         </AppContextProvider>
-      </GrinderyLoginProvider>
+      
     </ThemeProvider>
   );
 }
