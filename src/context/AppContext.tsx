@@ -48,9 +48,9 @@ const getMe = useCallback(async () => {
       .get(`${BOT_API_URL}/v1/telegram/me`, { headers: {
         'Authorization': `Bearer ${window.Telegram?.WebApp?.initData || ""}`
       } })
-      if(res?.data?.user?._id){
+      if(res?.data?._id){
         setState({
-          user: res.data.user
+          user: res.data
         })
       }
     } catch(error){
