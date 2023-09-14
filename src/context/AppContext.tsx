@@ -15,6 +15,7 @@ export type UserProps = {
   responsePath?: string;
   patchwallet?: string;
   dateAdded?: string;
+  telegramSession?: string;
 };
 
 type StateProps = {
