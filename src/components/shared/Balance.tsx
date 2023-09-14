@@ -22,7 +22,7 @@ const Balance = () => {
         chainId: "matic",
       });
       if (res?.data?.balanceEther) {
-        setBalance(res.data.balanceEther.toFixed(2));
+        setBalance(parseFloat(res.data.balanceEther));
       } else {
         setBalance(0);
       }
@@ -42,12 +42,15 @@ const Balance = () => {
           <CircularProgress />
         </div>
       ) : user.patchwallet ? (
-        <h2 style={{ fontSize: "2.5em" }}>{balance || 0} G1</h2>
+        <h2 style={{ fontSize: "2.5em" }}>{balance || 0} (g1)</h2>
       ) : (
         <div>
           <p>
-            You don't have a wallet yet. Use Grindery Ai Bot to create wallet.
-            Link to Bot.
+            You don't have a wallet yet. Use{" "}
+            <a href="https://telegram.me/grinderyAIBot" target="_blank">
+              Grindery AI Bot
+            </a>{" "}
+            to create a wallet.
           </p>
         </div>
       )}
