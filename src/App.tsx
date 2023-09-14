@@ -13,9 +13,11 @@ declare global {
   }
 }
 
-window.Telegram = window.Telegram || {
-  WebApp: { initData: window.location.href?.split("?")?.[1] || "" },
-};
+window.Telegram = window.Telegram?.WebApp?.initData
+  ? window.Telegram
+  : {
+      WebApp: { initData: window.location.href?.split("?")?.[1] || "" },
+    };
 
 function App() {
   return (
