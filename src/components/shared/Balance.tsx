@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import { CircularProgress } from "grindery-ui";
 import useAppContext from "../../hooks/useAppContext";
+import axios from "axios";
+import { BOT_API_URL } from "../../constants";
 
-type Props = {};
-
-const Balance = (props: Props) => {
-  const { state: {user} } = useAppContext();
+const Balance = () => {
+  const {
+    state: { user },
+  } = useAppContext();
   const [balance, setBalance] = React.useState<number | null>(null);
 
   const getBalance = useCallback(async () => {
@@ -13,7 +15,20 @@ const Balance = (props: Props) => {
       return;
     }
     // get balance here
-    setBalance(0);
+    try {
+      const res = await axios.post(`${BOT_API_URL}/v1/data/balance/`, {
+        userAddress: user.patchwallet,
+        contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
+        chainId: "matic",
+      });
+      if (res?.data?.balanceEther) {
+        setBalance(res.data.balanceEther.toFixed(2));
+      } else {
+        setBalance(0);
+      }
+    } catch (error) {
+      setBalance(0);
+    }
   }, [user]);
 
   useEffect(() => {
