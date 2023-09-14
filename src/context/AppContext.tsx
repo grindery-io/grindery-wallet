@@ -45,7 +45,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 const getMe = useCallback(async () => {
   try {
     const res = await axios
-      .get(`${BOT_API_URL}/v1/telegram/me?id=${window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ""}`, { headers: {
+      .get(`${BOT_API_URL}/v1/telegram/me`, { headers: {
         'Authorization': `Bearer ${window.Telegram?.WebApp?.initData || ""}`
       } })
       if(res?.data?.user?._id){
