@@ -24,7 +24,7 @@ const Title = styled.h3`
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
-  margin: 0;
+  margin: 25px 0 10px;
   padding: 0;
 `;
 
