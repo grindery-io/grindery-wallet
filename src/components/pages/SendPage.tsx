@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import Button from "../shared/Button";
 import Contacts from "../shared/Contacts";
 import useAppContext from "../../hooks/useAppContext";
+import TelegramContacts from "../shared/TelegramContacts";
 
 type Props = {};
 
@@ -47,7 +48,7 @@ const SendPage = (props: Props) => {
         }}
       >
         <div style={{ marginRight: "auto" }}>{renderCancelButton(true)}</div>
-        <div>Send to</div>
+        <div>Send</div>
         <div style={{ marginLeft: "auto" }}>{renderCancelButton()}</div>
       </div>
       <div style={{ marginTop: "40px" }}>
@@ -76,14 +77,23 @@ const SendPage = (props: Props) => {
             <Button
               onClick={() => {
                 if (window.Telegram?.WebApp?.openLink) {
-                  window.Telegram.WebApp.openLink("https://www.grindery.io");
+                  window.Telegram.WebApp.openLink(
+                    `https://wallet-staging.grindery.io/connect/telegram?initData=${
+                      window.Telegram?.WebApp?.initData || ""
+                    }`
+                  );
                 }
               }}
               value="Connect Telegram"
             />
           </>
         ) : (
-          <></>
+          <TelegramContacts
+            onContactClick={(contact) => {
+              setRecepientSelected(true);
+              setRecepient(contact?.id);
+            }}
+          />
         )}
       </div>
     </>

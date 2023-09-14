@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button from "../shared/Button";
 import AlertBox from "../shared/AlertBox";
 import { Dialog } from "grindery-ui";
+import useAppContext from "../../hooks/useAppContext";
 
 const Container = styled.div`
   display: flex;
@@ -120,9 +121,7 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-type Props = {};
-
-const TelegramAuth = (props: Props) => {
+const TelegramAuth = () => {
   const {
     state: {
       input: { code, phone, password },
@@ -133,7 +132,7 @@ const TelegramAuth = (props: Props) => {
     handleInputChange,
     submitPhoneAndPassword,
     submitPhoneCode,
-  } = useTelegramContext();
+  } = useAppContext();
 
   return (
     <Container>

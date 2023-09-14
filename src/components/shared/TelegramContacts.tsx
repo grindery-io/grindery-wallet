@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import useTelegramContext from "../../hooks/useTelegramContext";
 import DataBox from "./DataBox";
 import Button from "./Button";
+import useAppContext from "../../hooks/useAppContext";
 
 type Props = {
   onContactClick: (contact: any) => void;
@@ -19,7 +20,7 @@ const getImage = (array: number[]) => {
 const TelegramContacts = ({ onContactClick }: Props) => {
   const {
     state: { contacts },
-  } = useTelegramContext();
+  } = useAppContext();
 
   const getAvatarText = (contact: any) => {
     let avatarText = "";
