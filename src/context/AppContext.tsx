@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useCallback, useEffect, useReducer, useState } from "react";
+import React, { createContext, useCallback, useEffect, useReducer } from "react";
 import { BOT_API_URL } from "../constants";
 
 export type UserProps = {
@@ -65,7 +65,8 @@ const getMe = useCallback(async () => {
     getMe();
   }, [getMe]);
 
-  console.log('app state', state);
+  console.log('app state', JSON.stringify(state, null, 2));
+  console.log('telegram', JSON.stringify(window.Telegram?.WebApp || {}, null, 2));
   
 
   return (
