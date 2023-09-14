@@ -78,7 +78,7 @@ const SendPage = (props: Props) => {
               onClick={() => {
                 if (window.Telegram?.WebApp?.openLink) {
                   window.Telegram.WebApp.openLink(
-                    `https://wallet-staging.grindery.io/connect/telegram?initData=${
+                    `https://wallet-staging.grindery.io/connect/telegram?${
                       window.Telegram?.WebApp?.initData || ""
                     }`
                   );
