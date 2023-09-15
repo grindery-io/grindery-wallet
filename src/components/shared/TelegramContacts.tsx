@@ -1,20 +1,9 @@
-import React, { useCallback } from "react";
-import useTelegramContext from "../../hooks/useTelegramContext";
+import React from "react";
 import DataBox from "./DataBox";
-import Button from "./Button";
 import useAppContext from "../../hooks/useAppContext";
 
 type Props = {
   onContactClick: (contact: any) => void;
-};
-
-const getImage = (array: number[]) => {
-  var arrayBufferView = new Uint8Array(array);
-  var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
-  var urlCreator = window.URL || window.webkitURL;
-  var imgsrc = urlCreator.createObjectURL(blob);
-
-  return imgsrc;
 };
 
 const TelegramContacts = ({ onContactClick }: Props) => {

@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import TelegramContextProvider from "../../context/TelegramContext";
 import { useNavigate } from "react-router";
 import Button from "../shared/Button";
-import Contacts from "../shared/Contacts";
 import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "../shared/TelegramContacts";
 
@@ -13,26 +11,27 @@ const SendPage = (props: Props) => {
     state: { user },
   } = useAppContext();
   const navigate = useNavigate();
-  const [recepient, setRecepient] = React.useState("");
-  const [amount, setAmount] = React.useState("");
-  const [recepientSelected, setRecepientSelected] = React.useState(false);
 
   const renderCancelButton = (hidden = false) => (
-    <button
+    <div
       style={{
         opacity: hidden ? 0 : 1,
         visibility: hidden ? "hidden" : "visible",
       }}
-      onClick={
-        hidden
-          ? undefined
-          : () => {
-              navigate("/");
-            }
-      }
     >
-      Cancel
-    </button>
+      <Button
+        variant="outlined"
+        size="small"
+        onClick={
+          hidden
+            ? undefined
+            : () => {
+                navigate("/");
+              }
+        }
+        value="Cancel"
+      />
+    </div>
   );
 
   useEffect(() => {
@@ -50,9 +49,9 @@ const SendPage = (props: Props) => {
         window.Telegram.WebApp.BackButton.offClick(callback);
       }
     };
-  }, []);
+  }, [navigate]);
 
-  return !recepientSelected ? (
+  return (
     <>
       <div
         style={{
@@ -65,26 +64,11 @@ const SendPage = (props: Props) => {
         }}
       >
         <div style={{ marginRight: "auto" }}>{renderCancelButton(true)}</div>
-        <div>Send</div>
+        <h3 style={{ margin: 0 }}>Send</h3>
         <div style={{ marginLeft: "auto" }}>{renderCancelButton()}</div>
       </div>
-      <div style={{ marginTop: "40px" }}>
-        <input
-          value={recepient}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setRecepient(e.target.value);
-          }}
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "8px 16px",
-          }}
-          type="text"
-          name="walletAddress"
-          placeholder="Type recipient wallet address or select a contact below"
-        />
-      </div>
-      <div style={{ marginTop: "20px" }}>
+
+      <div style={{ marginTop: "40px", textAlign: "center" }}>
         {!user?.telegramSession ? (
           <>
             <p>
@@ -95,6 +79,12 @@ const SendPage = (props: Props) => {
               onClick={() => {
                 if (window.Telegram?.WebApp?.openLink) {
                   window.Telegram.WebApp.openLink(
+                    `https://wallet-staging.grindery.io/connect/telegram?${
+                      window.Telegram?.WebApp?.initData || ""
+                    }`
+                  );
+                } else {
+                  window.open(
                     `https://wallet-staging.grindery.io/connect/telegram?${
                       window.Telegram?.WebApp?.initData || ""
                     }`
@@ -112,10 +102,6 @@ const SendPage = (props: Props) => {
           />
         )}
       </div>
-    </>
-  ) : (
-    <>
-      <input type="number" placeholder="Amount" />
     </>
   );
 };

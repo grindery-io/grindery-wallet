@@ -1,9 +1,7 @@
 import React from "react";
-import useTelegramContext from "../../hooks/useTelegramContext";
 import styled from "styled-components";
 import Button from "../shared/Button";
 import AlertBox from "../shared/AlertBox";
-import { Dialog } from "grindery-ui";
 import useAppContext from "../../hooks/useAppContext";
 
 const Container = styled.div`
@@ -136,86 +134,82 @@ const TelegramAuth = () => {
 
   return (
     <Container>
-      <Dialog open={true}>
-        <>
-          <Title>Sign in with Telegram</Title>
-          <Subtitle>
-            Use Telegram credentials to grant Grindery access to your contacts
-            list.
-          </Subtitle>
-          <Form>
-            <InputGroup>
-              <label>Phone number</label>
-              <input
-                type="phone"
-                value={phone}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  handleInputChange("phone", event.target.value);
-                }}
-                disabled={loading || Boolean(operationId)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              style={{
-                marginTop: "16px",
+      <>
+        <Title>Sign in with Telegram</Title>
+        <Subtitle>
+          Use Telegram credentials to grant Grindery access to your contacts
+          list.
+        </Subtitle>
+        <Form>
+          <InputGroup>
+            <label>Phone number</label>
+            <input
+              type="phone"
+              value={phone}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                handleInputChange("phone", event.target.value);
               }}
-            >
-              <label>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  handleInputChange("password", event.target.value);
-                }}
-                disabled={loading || Boolean(operationId)}
-              />
-            </InputGroup>
+              disabled={loading || Boolean(operationId)}
+            />
+          </InputGroup>
 
-            <InputGroup
-              style={{
-                height: operationId ? "69px" : "0px",
-                marginTop: operationId ? "16px" : "0px",
+          <InputGroup
+            style={{
+              marginTop: "16px",
+            }}
+          >
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                handleInputChange("password", event.target.value);
               }}
-            >
-              <label>Code</label>
-              <input
-                type="text"
-                value={code}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  handleInputChange("code", event.target.value);
+              disabled={loading || Boolean(operationId)}
+            />
+          </InputGroup>
+
+          <InputGroup
+            style={{
+              height: operationId ? "69px" : "0px",
+              marginTop: operationId ? "16px" : "0px",
+            }}
+          >
+            <label>Code</label>
+            <input
+              type="text"
+              value={code}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                handleInputChange("code", event.target.value);
+              }}
+              disabled={loading}
+            />
+          </InputGroup>
+
+          {error && (
+            <AlertBox color="error">
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "inherit",
+                  marginTop: "2px",
                 }}
-                disabled={loading}
-              />
-            </InputGroup>
+              >
+                {error}
+              </p>
+            </AlertBox>
+          )}
 
-            {error && (
-              <AlertBox color="error">
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "inherit",
-                    marginTop: "2px",
-                  }}
-                >
-                  {error}
-                </p>
-              </AlertBox>
-            )}
-
-            <ButtonWrapper>
-              <Button
-                loading={loading}
-                disabled={loading}
-                onClick={
-                  !operationId ? submitPhoneAndPassword : submitPhoneCode
-                }
-                value={loading ? "Loading" : "Submit"}
-              />
-            </ButtonWrapper>
-          </Form>
-        </>
-      </Dialog>
+          <ButtonWrapper>
+            <Button
+              loading={loading}
+              disabled={loading}
+              onClick={!operationId ? submitPhoneAndPassword : submitPhoneCode}
+              value={loading ? "Loading" : "Submit"}
+            />
+          </ButtonWrapper>
+        </Form>
+      </>
     </Container>
   );
 };

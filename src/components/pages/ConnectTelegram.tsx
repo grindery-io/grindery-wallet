@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TelegramAuth from "../shared/TelegramAuth";
 import useAppContext from "../../hooks/useAppContext";
 

@@ -84,6 +84,7 @@ type Props = {
   disabled?: boolean;
   align?: "left" | "right" | "center";
   fullWidth?: boolean;
+  size?: "small";
 };
 
 const Button = (props: Props) => {
@@ -98,6 +99,7 @@ const Button = (props: Props) => {
     hideIconBorder = false,
     align = "center",
     fullWidth = false,
+    size,
   } = props;
   return (
     <ButtonWrapper
@@ -106,6 +108,7 @@ const Button = (props: Props) => {
       fullWidth={fullWidth}
     >
       <Grinderybutton
+        size={size}
         onClick={onClick}
         value={value}
         icon={icon}
