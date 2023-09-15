@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "../shared/Button";
 import useAppContext from "../../hooks/useAppContext";
@@ -11,28 +11,7 @@ const SendPage = (props: Props) => {
     state: { user },
   } = useAppContext();
   const navigate = useNavigate();
-
-  const renderCancelButton = (hidden = false) => (
-    <div
-      style={{
-        opacity: hidden ? 0 : 1,
-        visibility: hidden ? "hidden" : "visible",
-      }}
-    >
-      <Button
-        variant="outlined"
-        size="small"
-        onClick={
-          hidden
-            ? undefined
-            : () => {
-                navigate("/");
-              }
-        }
-        value="Cancel"
-      />
-    </div>
-  );
+  const [connecting, setConnecting] = useState(false);
 
   useEffect(() => {
     const callback = () => {
@@ -73,8 +52,11 @@ const SendPage = (props: Props) => {
               Connect your Telegram account to grant Grindery access to your
               contacts list.
             </p>
+
             <Button
+              disabled={connecting}
               onClick={() => {
+                setConnecting(true);
                 if (window.Telegram?.WebApp?.openLink) {
                   window.Telegram.WebApp.openLink(
                     `https://wallet-staging.grindery.io/connect/telegram?${
