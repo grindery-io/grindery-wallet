@@ -63,9 +63,7 @@ const SendPage = (props: Props) => {
           gap: "16px",
         }}
       >
-        <div style={{ marginRight: "auto" }}>{renderCancelButton(true)}</div>
         <h3 style={{ margin: 0 }}>Send</h3>
-        <div style={{ marginLeft: "auto" }}>{renderCancelButton()}</div>
       </div>
 
       <div style={{ marginTop: "40px", textAlign: "center" }}>
