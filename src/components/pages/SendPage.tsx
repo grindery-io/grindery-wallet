@@ -90,8 +90,7 @@ const SendPage = (props: Props) => {
         ) : (
           <TelegramContacts
             onContactClick={(contact) => {
-              setRecepientSelected(true);
-              setRecepient(contact?.id);
+              alert("ID: " + contact.id);
             }}
           />
         )}
