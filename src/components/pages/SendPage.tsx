@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TelegramContextProvider from "../../context/TelegramContext";
 import { useNavigate } from "react-router";
 import Button from "../shared/Button";
@@ -34,6 +34,23 @@ const SendPage = (props: Props) => {
       Cancel
     </button>
   );
+
+  useEffect(() => {
+    const callback = () => {
+      navigate("/");
+    };
+    if (window.Telegram?.WebApp?.BackButton) {
+      window.Telegram.WebApp.BackButton.show();
+      window.Telegram.WebApp.BackButton.onClick(callback);
+    }
+
+    return () => {
+      if (window.Telegram?.WebApp?.BackButton) {
+        window.Telegram.WebApp.BackButton.hide();
+        window.Telegram.WebApp.BackButton.offClick(callback);
+      }
+    };
+  }, []);
 
   return !recepientSelected ? (
     <>
