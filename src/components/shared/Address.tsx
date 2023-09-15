@@ -3,7 +3,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Tooltip } from "grindery-ui";
 import { ICONS } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
-import { set } from "lodash";
 
 type Props = {};
 
