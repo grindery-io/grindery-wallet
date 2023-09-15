@@ -31,11 +31,13 @@ type StateProps = {
   error: string;
   operationId: string;
   contacts?: any[];
+  balance?: number;
 };
 
 // Context props
 type ContextProps = {
   state: StateProps;
+  setState: (newState: Partial<StateProps>) => void;
   handleInputChange: (name: string, value: string) => void;
   submitPhoneAndPassword: () => void;
   submitPhoneCode: () => void;
@@ -59,6 +61,7 @@ const defaultContext = {
     sessionLoading: true,
     operationId: "",
   },
+  setState: () => {},
   handleInputChange: () => {},
   submitPhoneAndPassword: () => {},
   submitPhoneCode: () => {},
@@ -244,6 +247,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         state,
+        setState,
         handleInputChange,
         submitPhoneAndPassword,
         submitPhoneCode,

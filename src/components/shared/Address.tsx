@@ -7,7 +7,9 @@ import useAppContext from "../../hooks/useAppContext";
 type Props = {};
 
 const Address = (props: Props) => {
-  const { state: {user} } = useAppContext();
+  const {
+    state: { user },
+  } = useAppContext();
   const [copied, setCopied] = useState(false);
   const address = user?.patchwallet;
 
@@ -21,7 +23,10 @@ const Address = (props: Props) => {
 
   return address ? (
     <div style={{ textAlign: "center" }}>
-      <Tooltip title={copied ? "Copied" : "Copy address"}>
+      <Tooltip
+        title={copied ? "Copied" : "Copy address"}
+        open={copied || undefined}
+      >
         <span>
           <CopyToClipboard
             text={address}

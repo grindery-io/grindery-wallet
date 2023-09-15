@@ -6,9 +6,9 @@ import { BOT_API_URL } from "../../constants";
 
 const Balance = () => {
   const {
-    state: { user },
+    state: { user, balance },
+    setState,
   } = useAppContext();
-  const [balance, setBalance] = React.useState<number | null>(null);
 
   const getBalance = useCallback(async () => {
     if (!user?.patchwallet) {
@@ -22,12 +22,12 @@ const Balance = () => {
         chainId: "matic",
       });
       if (res?.data?.balanceEther) {
-        setBalance(parseFloat(res.data.balanceEther));
+        setState({ balance: parseFloat(res.data.balanceEther) });
       } else {
-        setBalance(0);
+        setState({ balance: 0 });
       }
     } catch (error) {
-      setBalance(0);
+      setState({ balance: 0 });
     }
   }, [user]);
 
