@@ -3,6 +3,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Tooltip } from "grindery-ui";
 import { ICONS } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
+import { set } from "lodash";
 
 type Props = {};
 
@@ -11,13 +12,14 @@ const Address = (props: Props) => {
     state: { user },
   } = useAppContext();
   const [copied, setCopied] = useState(false);
+  const [open, setOpen] = useState(false);
   const address = user?.patchwallet;
 
   useEffect(() => {
     if (copied) {
       setTimeout(() => {
         setCopied(false);
-      }, 2000);
+      }, 2500);
     }
   }, [copied]);
 
@@ -25,7 +27,13 @@ const Address = (props: Props) => {
     <div style={{ textAlign: "center" }}>
       <Tooltip
         title={copied ? "Copied" : "Copy address"}
-        open={copied || undefined}
+        open={open || copied}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
       >
         <span>
           <CopyToClipboard
