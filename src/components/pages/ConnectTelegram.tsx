@@ -14,7 +14,8 @@ const ConnectTelegram = (props: Props) => {
       Telegram account connected.
       <br />
       <br />
-      You can close this page and return to the Telegram app.
+      You can close this page and return to the{" "}
+      <a href="https://telegram.me/grinderyAIBot">Telegram app</a>.
     </p>
   ) : (
     <TelegramAuth />
