@@ -28,6 +28,7 @@ export const ICONS: { [key: string]: string } = {
   SOCIAL_DISCORD: "/images/icons/social-discord.png",
   SOCIAL_TG: "/images/icons/social-tg.png",
   SOCIAL_TWITTER: "/images/icons/social-twitter.png",
+  ARROW_OPEN: "/images/icons/arrow-open.svg",
 };
 
 export const WEB2_CONNECTORS_PATH =

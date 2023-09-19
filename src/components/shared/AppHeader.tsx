@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   max-width: 100%;
   box-sizing: border-box;
   z-index: 2;
+  border-bottom: 1px solid rgb(220, 220, 220);
   @media (min-width: ${SCREEN.TABLET}) {
     width: 100%;
     top: 0;
@@ -39,7 +40,7 @@ const CompanyNameWrapper = styled.a`
   display: block;
   order: 3;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 110%;
   color: #0b0d17;
   cursor: pointer;

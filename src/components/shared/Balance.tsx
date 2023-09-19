@@ -29,20 +29,20 @@ const Balance = () => {
     } catch (error) {
       setState({ balance: 0 });
     }
-  }, [user]);
+  }, [user, setState]);
 
   useEffect(() => {
     getBalance();
   }, [getBalance]);
 
   return (
-    <div style={{ textAlign: "center", margin: "0 auto 40px" }}>
+    <div style={{ textAlign: "center", margin: "0 auto" }}>
       {!user ? (
-        <div style={{ textAlign: "center", margin: "0 auto 40px" }}>
+        <div style={{ textAlign: "center", margin: "0 auto" }}>
           <CircularProgress />
         </div>
       ) : user.patchwallet ? (
-        <h2 style={{ fontSize: "2.5em" }}>
+        <h2 style={{ fontSize: "2.5em", margin: 0 }}>
           {balance || 0} <span style={{ fontSize: "16px" }}>(g1)</span>
         </h2>
       ) : (

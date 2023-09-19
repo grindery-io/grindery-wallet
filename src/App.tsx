@@ -25,7 +25,7 @@ function App() {
       <AppContextProvider>
         <BrowserRouter>
           <AppHeader />
-          <div style={{ padding: "86px 20px 40px" }}>
+          <div style={{ padding: "82px 20px 20px" }}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/send" element={<SendPage />} />

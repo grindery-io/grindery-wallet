@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useState } from "react";
 import Button from "../shared/Button";
 import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "../shared/TelegramContacts";
+import useBackButton from "../../hooks/useBackButton";
 
 type Props = {};
 
@@ -10,25 +10,8 @@ const SendPage = (props: Props) => {
   const {
     state: { user },
   } = useAppContext();
-  const navigate = useNavigate();
   const [connecting, setConnecting] = useState(false);
-
-  useEffect(() => {
-    const callback = () => {
-      navigate("/");
-    };
-    if (window.Telegram?.WebApp?.BackButton) {
-      window.Telegram.WebApp.BackButton.show();
-      window.Telegram.WebApp.BackButton.onClick(callback);
-    }
-
-    return () => {
-      if (window.Telegram?.WebApp?.BackButton) {
-        window.Telegram.WebApp.BackButton.hide();
-        window.Telegram.WebApp.BackButton.offClick(callback);
-      }
-    };
-  }, [navigate]);
+  useBackButton({ path: "/" });
 
   return (
     <>
