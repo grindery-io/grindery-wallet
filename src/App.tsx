@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./context/AppContext";
 import HomePage from "./components/pages/HomePage";
@@ -21,6 +21,12 @@ window.Telegram = window.Telegram?.WebApp?.initData
     };
 
 function App() {
+  useEffect(() => {
+    if (typeof window.Telegram?.WebApp?.expand !== "undefined") {
+      window.Telegram.WebApp.expand();
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <AppContextProvider>
