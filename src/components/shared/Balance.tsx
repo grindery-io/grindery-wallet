@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from "react";
-import { CircularProgress } from "grindery-ui";
 import useAppContext from "../../hooks/useAppContext";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
+import { CircularProgress } from "@mui/material";
 
 const Balance = () => {
   const {

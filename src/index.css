@@ -33,8 +33,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  background: #fffeff;
-  
+  background: rgb(253, 251, 255);
 }
 body {
   background-position: center center;

@@ -202,6 +202,9 @@ const TelegramAuth = () => {
 
           <ButtonWrapper>
             <Button
+              color="secondary"
+              variant="contained"
+              sx={{ width: "100%" }}
               loading={loading}
               disabled={loading}
               onClick={!operationId ? submitPhoneAndPassword : submitPhoneCode}

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Tooltip } from "grindery-ui";
 import { ICONS } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
+import { Tooltip } from "@mui/material";
 
 type Props = {};
 
@@ -53,7 +53,7 @@ const Address = (props: Props) => {
                 margin: "0 auto",
                 border: "1px solid rgb(220, 220, 220)",
                 borderRadius: "34px",
-                padding: "7px 12px 7px 8px",
+                padding: "7px 16px 7px 16px",
                 gap: "16px",
               }}
             >

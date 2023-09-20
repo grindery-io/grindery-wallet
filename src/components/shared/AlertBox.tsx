@@ -1,6 +1,6 @@
+import { Alert, AlertProps } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
-import { Alert } from "grindery-ui";
 
 const Wrapper = styled.div`
   margin: 20px 0 0;
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
 
 type Props = {
   children: React.ReactNode;
-  color?: string;
+  color?: AlertProps["color"];
   icon?: React.ReactNode;
 };
 

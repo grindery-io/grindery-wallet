@@ -4,6 +4,8 @@ export const WORKFLOW_ENGINE_URL = "https://orchestrator.grindery.org";
 
 export const BOT_API_URL = "https://bot-auth-api-staging.grindery.org";
 
+export const MAX_WIDTH = "768px";
+
 export const SCREEN = {
   TABLET: "768px",
   TABLET_XL: "1024px",
@@ -29,6 +31,7 @@ export const ICONS: { [key: string]: string } = {
   SOCIAL_TG: "/images/icons/social-tg.png",
   SOCIAL_TWITTER: "/images/icons/social-twitter.png",
   ARROW_OPEN: "/images/icons/arrow-open.svg",
+  CONTACTS: "/images/icons/user-circle.svg",
 };
 
 export const WEB2_CONNECTORS_PATH =

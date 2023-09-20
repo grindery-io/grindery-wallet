@@ -30,6 +30,7 @@ type StateProps = {
   input: TelegramAuthUserInput;
   error: string;
   operationId: string;
+  activeTab: string;
   contacts?: any[];
   balance?: number;
 };
@@ -60,6 +61,7 @@ const defaultContext = {
     error: "",
     sessionLoading: true,
     operationId: "",
+    activeTab: "tokens",
   },
   setState: () => {},
   handleInputChange: () => {},

@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Button as Grinderybutton } from "grindery-ui";
 import { SCREEN } from "../../constants";
+import { ButtonOwnProps, Button as MuiButton, SxProps } from "@mui/material";
 
 interface ButtonWrapperProps {
   readonly hideIconBorder?: boolean;
@@ -12,6 +12,7 @@ interface ButtonWrapperProps {
 const ButtonWrapper = styled.div<ButtonWrapperProps>`
   & .MuiButton-root {
     padding: 12px 35px !important;
+    text-transform: none;
   }
   ${(props) =>
     props.hideIconBorder &&
@@ -76,15 +77,16 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 type Props = {
   onClick?: () => void;
   value: string;
-  icon?: string;
+  icon?: ButtonOwnProps["startIcon"];
   loading?: boolean;
   hideIconBorder?: boolean;
-  variant?: string;
-  color?: string;
+  variant?: ButtonOwnProps["variant"];
+  color?: ButtonOwnProps["color"];
   disabled?: boolean;
   align?: "left" | "right" | "center";
   fullWidth?: boolean;
   size?: "small";
+  sx?: SxProps;
 };
 
 const Button = (props: Props) => {
@@ -100,6 +102,7 @@ const Button = (props: Props) => {
     align = "center",
     fullWidth = false,
     size,
+    sx,
   } = props;
   return (
     <ButtonWrapper
@@ -107,16 +110,18 @@ const Button = (props: Props) => {
       align={align}
       fullWidth={fullWidth}
     >
-      <Grinderybutton
+      <MuiButton
         size={size}
         onClick={onClick}
-        value={value}
-        icon={icon}
-        loading={loading}
+        //loading={loading}
+        startIcon={icon}
         variant={variant}
         color={color}
-        disabled={disabled}
-      />
+        disabled={disabled || loading}
+        sx={sx}
+      >
+        {value}
+      </MuiButton>
     </ButtonWrapper>
   );
 };

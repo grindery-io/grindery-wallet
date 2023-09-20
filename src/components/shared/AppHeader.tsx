@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import { SCREEN } from "../../constants";
+import { MAX_WIDTH, SCREEN } from "../../constants";
 import { useNavigate } from "react-router";
 
 const Wrapper = styled.div`
@@ -13,18 +13,18 @@ const Wrapper = styled.div`
   flex-wrap: nowrap;
   gap: 10px;
   position: fixed;
-  left: 0;
+
   top: 0;
   background: #ffffff;
   width: 100%;
-  max-width: 100%;
+  max-width: ${MAX_WIDTH};
   box-sizing: border-box;
   z-index: 2;
   border-bottom: 1px solid rgb(220, 220, 220);
   @media (min-width: ${SCREEN.TABLET}) {
     width: 100%;
     top: 0;
-    max-width: 100%;
+    max-width: ${MAX_WIDTH};
   }
 `;
 
