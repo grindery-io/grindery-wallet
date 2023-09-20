@@ -11,6 +11,7 @@ const Contacts = (props: Props) => {
     state: { user },
   } = useAppContext();
   const [connecting, setConnecting] = useState(false);
+
   return (
     <div style={{ textAlign: "center", width: "100%" }}>
       {!user?.telegramSession ? (

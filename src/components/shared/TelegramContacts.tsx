@@ -1,6 +1,7 @@
 import React from "react";
 import DataBox from "./DataBox";
 import useAppContext from "../../hooks/useAppContext";
+import ContactAvatar from "./ContactAvatar";
 
 type Props = {
   onContactClick: (contact: any) => void;
@@ -11,19 +12,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     state: { contacts },
   } = useAppContext();
 
-  const getAvatarText = (contact: any) => {
-    let avatarText = "";
-    if (contact.firstName) {
-      avatarText += contact.firstName.charAt(0).toUpperCase();
-    }
-    if (contact.lastName) {
-      avatarText += contact.lastName.charAt(0).toUpperCase();
-    }
-    if (!avatarText && contact.username) {
-      avatarText += contact.username.charAt(0).toUpperCase();
-    }
-    return avatarText || "U";
-  };
+  console.log("contacts", contacts);
 
   return (
     <div style={{ textAlign: "left" }}>
@@ -46,21 +35,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
                       gap: "16px",
                     }}
                   >
-                    <div
-                      style={{
-                        width: "42px",
-                        height: "42px",
-                        minWidth: "42px",
-                        borderRadius: "21px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexDirection: "column",
-                        background: "#f5f5f5",
-                      }}
-                    >
-                      {getAvatarText(contact)}
-                    </div>
+                    <ContactAvatar contact={contact} />
                     <div>
                       <h5 style={{ margin: 0 }}>
                         {contact.firstName || contact.lastName

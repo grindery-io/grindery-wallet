@@ -109,7 +109,7 @@ const BottomNavigation = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g clip-path="url(#clip0_3554_468)">
+              <g clipPath="url(#clip0_3554_468)">
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"

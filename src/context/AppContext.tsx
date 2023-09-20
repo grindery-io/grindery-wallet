@@ -24,6 +24,22 @@ export type TelegramAuthUserInput = {
   code: string;
 };
 
+export type TelegramUserActivity = {
+  _id: string;
+  TxId: string;
+  chainId: string;
+  tokenSymbol: string;
+  tokenAddress: string;
+  senderTgId: string;
+  senderWallet: string;
+  senderName: string;
+  recipientTgId: string;
+  recipientWallet: string;
+  tokenAmount: string;
+  transactionHash: string;
+  dateAdded: string;
+};
+
 type StateProps = {
   user: UserProps | null;
   loading: boolean;
@@ -33,6 +49,7 @@ type StateProps = {
   activeTab: string;
   contacts?: any[];
   balance?: number;
+  activity: TelegramUserActivity[];
 };
 
 // Context props
@@ -62,6 +79,7 @@ const defaultContext = {
     sessionLoading: true,
     operationId: "",
     activeTab: "contacts",
+    activity: [],
   },
   setState: () => {},
   handleInputChange: () => {},
@@ -209,27 +227,40 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [state]);
 
   const getTgContacts = useCallback(async () => {
-    if (!state.user?.telegramSession || !window.Telegram?.WebApp?.initData) {
+    if (!window.Telegram?.WebApp?.initData) {
       return;
     }
     try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/contacts?session=${encodeURIComponent(
-          state.user.telegramSession
-        )}`,
-        {
-          headers: {
-            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-          },
-        }
-      );
+      const res = await axios.get(`${BOT_API_URL}/v1/telegram/contacts`, {
+        headers: {
+          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+        },
+      });
       setState({
         contacts: res.data || [],
       });
     } catch (error) {
       console.log("getTgContacts error", error);
     }
-  }, [state.user?.telegramSession]);
+  }, []);
+
+  const getTgActivity = useCallback(async () => {
+    if (!window.Telegram?.WebApp?.initData) {
+      return;
+    }
+    try {
+      const res = await axios.get(`${BOT_API_URL}/v1/telegram/activity`, {
+        headers: {
+          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+        },
+      });
+      setState({
+        activity: res.data || [],
+      });
+    } catch (error) {
+      console.log("getTgActivity error", error);
+    }
+  }, []);
 
   useEffect(() => {
     getMe();
@@ -239,11 +270,15 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     getTgContacts();
   }, [getTgContacts]);
 
-  console.log("app state", JSON.stringify(state, null, 2));
-  console.log(
+  useEffect(() => {
+    getTgActivity();
+  }, [getTgActivity]);
+
+  //console.log("app state", JSON.stringify(state, null, 2));
+  /*console.log(
     "telegram",
     JSON.stringify(window.Telegram?.WebApp || {}, null, 2)
-  );
+  );*/
 
   return (
     <AppContext.Provider

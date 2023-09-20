@@ -20,6 +20,7 @@
     "grindery-nexus-client": "0.9.14",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
