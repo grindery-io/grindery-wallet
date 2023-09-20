@@ -61,7 +61,7 @@ const defaultContext = {
     error: "",
     sessionLoading: true,
     operationId: "",
-    activeTab: "tokens",
+    activeTab: "contacts",
   },
   setState: () => {},
   handleInputChange: () => {},
