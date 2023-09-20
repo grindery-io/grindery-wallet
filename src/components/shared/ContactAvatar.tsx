@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { convertToDataURL } from "../../utils/convertToDataURL";
+import React from "react";
 
 type Props = {
   contact: any;
@@ -20,32 +19,20 @@ const getAvatarText = (contact: any) => {
 };
 
 const ContactAvatar = ({ contact }: Props) => {
-  const [avatar, setAvatar] = useState<string | null>(null);
-
-  const getAvatar = useCallback(async () => {
-    if (contact.photo?.strippedThumb?.data) {
-      const avatar = await convertToDataURL(contact.photo?.strippedThumb?.data);
-      setAvatar(avatar || null);
-    }
-  }, [contact.photo?.strippedThumb?.data]);
-
-  useEffect(() => {
-    getAvatar();
-  }, [getAvatar]);
-
   return (
     <div
       style={{
-        width: "42px",
-        height: "42px",
-        minWidth: "42px",
-        borderRadius: "21px",
+        width: "36px",
+        height: "36px",
+        minWidth: "36px",
+        borderRadius: "18px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-        background: "#f5f5f5",
+        background: "#898989",
         overflow: "hideen",
+        color: "#fff",
       }}
     >
       {getAvatarText(contact)}

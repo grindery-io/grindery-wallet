@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "./TelegramContacts";
 import Button from "./Button";
-import { Typography } from "@mui/material";
 
-type Props = {};
-
-const Contacts = (props: Props) => {
+const Contacts = () => {
   const {
     state: { user },
   } = useAppContext();
@@ -53,20 +50,6 @@ const Contacts = (props: Props) => {
         </>
       ) : (
         <>
-          <Typography
-            variant="h6"
-            sx={{
-              margin: "0 0 8px",
-              padding: "0 0 2px",
-              textAlign: "left",
-              position: "sticky",
-              top: "0px",
-              background: "#fff",
-              zIndex: 1,
-            }}
-          >
-            Contacts
-          </Typography>
           <TelegramContacts
             onContactClick={(contact) => {
               alert("ID: " + contact.id);
