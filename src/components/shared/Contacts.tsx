@@ -16,7 +16,13 @@ const Contacts = (props: Props) => {
     <div style={{ textAlign: "center", width: "100%" }}>
       {!user?.telegramSession ? (
         <>
-          <p style={{ maxWidth: "320px", textAlign: "center" }}>
+          <p
+            style={{
+              maxWidth: "320px",
+              margin: "0 auto 16px",
+              textAlign: "center",
+            }}
+          >
             Connect your Telegram account to grant Grindery access to your
             contacts list.
           </p>
@@ -54,7 +60,7 @@ const Contacts = (props: Props) => {
               padding: "0 0 2px",
               textAlign: "left",
               position: "sticky",
-              top: "61px",
+              top: "0px",
               background: "#fff",
               zIndex: 1,
             }}

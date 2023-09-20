@@ -2,6 +2,7 @@ import React from "react";
 import DataBox from "./DataBox";
 import useAppContext from "../../hooks/useAppContext";
 import ContactAvatar from "./ContactAvatar";
+import { CircularProgress } from "@mui/material";
 
 type Props = {
   onContactClick: (contact: any) => void;
@@ -9,7 +10,7 @@ type Props = {
 
 const TelegramContacts = ({ onContactClick }: Props) => {
   const {
-    state: { contacts },
+    state: { contacts, contactsLoading },
   } = useAppContext();
 
   console.log("contacts", contacts);
@@ -66,6 +67,10 @@ const TelegramContacts = ({ onContactClick }: Props) => {
             </li>
           ))}
         </ul>
+      ) : contactsLoading ? (
+        <div style={{ margin: "50px", textAlign: "center" }}>
+          <CircularProgress />
+        </div>
       ) : (
         <p style={{ margin: "20px" }}>Your contacts list is empty.</p>
       )}

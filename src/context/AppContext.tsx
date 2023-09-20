@@ -50,6 +50,8 @@ type StateProps = {
   contacts?: any[];
   balance?: number;
   activity: TelegramUserActivity[];
+  contactsLoading: boolean;
+  activityLoading: boolean;
 };
 
 // Context props
@@ -78,8 +80,10 @@ const defaultContext = {
     error: "",
     sessionLoading: true,
     operationId: "",
-    activeTab: "contacts",
+    activeTab: "tokens",
     activity: [],
+    contactsLoading: true,
+    activityLoading: true,
   },
   setState: () => {},
   handleInputChange: () => {},
@@ -230,6 +234,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
     }
+    setState({
+      contactsLoading: true,
+    });
     try {
       const res = await axios.get(`${BOT_API_URL}/v1/telegram/contacts`, {
         headers: {
@@ -242,12 +249,18 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     } catch (error) {
       console.log("getTgContacts error", error);
     }
+    setState({
+      contactsLoading: false,
+    });
   }, []);
 
   const getTgActivity = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
     }
+    setState({
+      activityLoading: true,
+    });
     try {
       const res = await axios.get(`${BOT_API_URL}/v1/telegram/activity`, {
         headers: {
@@ -260,6 +273,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     } catch (error) {
       console.log("getTgActivity error", error);
     }
+    setState({
+      activityLoading: false,
+    });
   }, []);
 
   useEffect(() => {

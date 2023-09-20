@@ -1,31 +1,23 @@
 import React from "react";
-import Balance from "../shared/Balance";
-import SendButton from "../shared/SendButton";
-import Address from "../shared/Address";
 import Contacts from "../shared/Contacts";
 import BottomNavigation from "../shared/BottomNavigation";
 import useAppContext from "../../hooks/useAppContext";
 import Tokens from "../shared/Tokens";
 import NFTs from "../shared/NFTs";
 import Rewards from "../shared/Rewards";
-import Activity from "../shared/Activity";
+import Activities from "../shared/Activities";
 
-type Props = {};
-
-const HomePage = (props: Props) => {
+const HomePage = () => {
   const {
     state: { activeTab },
   } = useAppContext();
   return (
     <>
-      <Address />
-      <Balance />
-      <SendButton />
-      {activeTab === "contacts" && <Contacts />}
       {activeTab === "tokens" && <Tokens />}
+      {activeTab === "contacts" && <Contacts />}
       {activeTab === "nfts" && <NFTs />}
       {activeTab === "rewards" && <Rewards />}
-      {activeTab === "activity" && <Activity />}
+      {activeTab === "activity" && <Activities />}
 
       <BottomNavigation />
     </>

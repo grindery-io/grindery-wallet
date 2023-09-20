@@ -32,7 +32,7 @@ function App() {
       <AppContextProvider>
         <BrowserRouter>
           <Container>
-            <AppHeader />
+            {/*<AppHeader />*/}
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/connect/telegram" element={<ConnectTelegram />} />
