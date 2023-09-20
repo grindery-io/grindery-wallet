@@ -40,6 +40,20 @@ export type TelegramUserActivity = {
   dateAdded: string;
 };
 
+export type TelegramUserReward = {
+  _id: string;
+  userTelegramID: string;
+  responsePath: string;
+  amount: string;
+  transactionHash: string;
+  dateAdded: string;
+  walletAddress: string;
+  reason: string;
+  userHandle: string;
+  userName: string;
+  message: string;
+};
+
 type StateProps = {
   user: UserProps | null;
   loading: boolean;
@@ -52,6 +66,8 @@ type StateProps = {
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
   activityLoading: boolean;
+  rewards: TelegramUserReward[];
+  rewardsLoading: boolean;
 };
 
 // Context props
@@ -84,6 +100,8 @@ const defaultContext = {
     activity: [],
     contactsLoading: true,
     activityLoading: true,
+    rewards: [],
+    rewardsLoading: true,
   },
   setState: () => {},
   handleInputChange: () => {},
@@ -278,6 +296,30 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     });
   }, []);
 
+  const getTgRewards = useCallback(async () => {
+    if (!window.Telegram?.WebApp?.initData) {
+      return;
+    }
+    setState({
+      rewardsLoading: true,
+    });
+    try {
+      const res = await axios.get(`${BOT_API_URL}/v1/telegram/rewards`, {
+        headers: {
+          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+        },
+      });
+      setState({
+        rewards: res.data || [],
+      });
+    } catch (error) {
+      console.log("getTgRewards error", error);
+    }
+    setState({
+      rewardsLoading: false,
+    });
+  }, []);
+
   useEffect(() => {
     getMe();
   }, [getMe]);
@@ -289,6 +331,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   useEffect(() => {
     getTgActivity();
   }, [getTgActivity]);
+
+  useEffect(() => {
+    getTgRewards();
+  }, [getTgRewards]);
 
   //console.log("app state", JSON.stringify(state, null, 2));
   /*console.log(

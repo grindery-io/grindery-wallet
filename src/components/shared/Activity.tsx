@@ -107,7 +107,7 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
                 style={{
                   margin: "8px 0 0",
                   fontSize: "12px",
-                  //opacity: "0.6",
+                  opacity: "0.6",
                 }}
               >
                 {moment(activity.dateAdded).fromNow()}
@@ -118,7 +118,7 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
         RightComponent={
           <div>
             <p style={{ fontSize: "12px", margin: 0 }}>
-              <span style={{ fontSize: "16px", fontWeight: "bold" }}>
+              <span style={{ fontSize: "20px", fontWeight: "bold" }}>
                 {activity.tokenAmount}
               </span>{" "}
               {activity.tokenSymbol}

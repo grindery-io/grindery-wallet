@@ -1,7 +1,14 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { TelegramUserReward } from "../../context/AppContext";
+import useAppContext from "../../hooks/useAppContext";
+import Reward from "./Reward";
 
 const Rewards = () => {
+  const {
+    state: { rewards },
+  } = useAppContext();
+
   return (
     <div style={{ width: "100%" }}>
       <Typography
@@ -11,15 +18,23 @@ const Rewards = () => {
           padding: "0 0 2px",
           textAlign: "left",
           position: "sticky",
-          top: "61px",
+          top: "0px",
           background: "#fff",
           zIndex: 1,
         }}
       >
         Rewards
       </Typography>
-      <div style={{ textAlign: "center", margin: "50px" }}>
-        <Typography color="GrayText">Coming soon</Typography>
+      <div style={{ textAlign: "left" }}>
+        {rewards && rewards.length > 0 ? (
+          <ul style={{ padding: 0, margin: 0 }}>
+            {rewards.map((reward: TelegramUserReward) => (
+              <Reward key={reward._id} reward={reward} />
+            ))}
+          </ul>
+        ) : (
+          <p style={{ margin: "20px" }}>You have no rewards.</p>
+        )}
       </div>
     </div>
   );

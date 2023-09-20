@@ -11,7 +11,7 @@ const NFTs = () => {
           padding: "0 0 2px",
           textAlign: "left",
           position: "sticky",
-          top: "61px",
+          top: "0px",
           background: "#fff",
           zIndex: 1,
         }}
