@@ -12,7 +12,7 @@ const Container = styled.div`
   flex-wrap: nowrap;
   gap: 20px;
   height: 100%;
-  padding: 0px 16px 76px;
+  padding: 0px 16px 56px;
   min-height: 100vh;
   box-sizing: border-box;
   position: relative;

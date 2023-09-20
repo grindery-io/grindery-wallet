@@ -42,6 +42,20 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
     }
   }, [secondaryUserId, secondaryUser]);
 
+  const getAvatarText = () => {
+    let avatarText = "";
+    if (secondaryUser.firstName) {
+      avatarText += secondaryUser.firstName.charAt(0).toUpperCase();
+    }
+    if (secondaryUser.lastName) {
+      avatarText += secondaryUser.lastName.charAt(0).toUpperCase();
+    }
+    if (!avatarText && secondaryUser.username) {
+      avatarText += secondaryUser.username.charAt(0).toUpperCase();
+    }
+    return avatarText || "U";
+  };
+
   useEffect(() => {
     getUser();
   }, [getUser]);
@@ -68,22 +82,40 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
           >
             <div
               style={{
-                width: "42px",
-                height: "42px",
-                minWidth: "42px",
-                borderRadius: "21px",
+                width: "36px",
+                height: "36px",
+                minWidth: "36px",
+                borderRadius: "18px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
-                background: "#f5f5f5",
+                background: "#898989",
+                color: "#fff",
+                position: "relative",
               }}
             >
-              {user?.userTelegramID === activity.senderTgId ? (
-                <CallMadeIcon />
-              ) : (
-                <CallReceivedIcon />
-              )}
+              {getAvatarText()}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "0px",
+                  right: "0px",
+                  borderRadius: "50%",
+                  background: "#ffffff",
+                  padding: "2px",
+                }}
+              >
+                {user?.userTelegramID === activity.senderTgId ? (
+                  <CallMadeIcon
+                    sx={{ color: "#000", display: "block", fontSize: "12px" }}
+                  />
+                ) : (
+                  <CallReceivedIcon
+                    sx={{ color: "#000", display: "block", fontSize: "12px" }}
+                  />
+                )}
+              </div>
             </div>
             <div>
               <h5 style={{ margin: 0 }}>

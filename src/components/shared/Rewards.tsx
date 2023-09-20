@@ -14,13 +14,14 @@ const Rewards = () => {
       <Typography
         variant="h6"
         sx={{
-          margin: "0 0 8px",
-          padding: "0 0 2px",
-          textAlign: "left",
+          margin: "16px 0",
+          padding: "0",
+          textAlign: "center",
           position: "sticky",
           top: "0px",
           background: "#fff",
           zIndex: 1,
+          width: "100%",
         }}
       >
         Rewards
