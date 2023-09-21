@@ -1,8 +1,8 @@
 import React from "react";
-import DataBox from "./DataBox";
 import useAppContext from "../../hooks/useAppContext";
-import ContactAvatar from "./ContactAvatar";
 import { CircularProgress, InputBase } from "@mui/material";
+import { TelegramUserContact } from "../../types/Telegram";
+import TelegramContact from "./TelegramContact";
 
 type Props = {
   onContactClick: (contact: any) => void;
@@ -61,63 +61,12 @@ const TelegramContacts = ({ onContactClick }: Props) => {
                 (contact.lastName &&
                   contact.lastName.toLowerCase().includes(search.toLowerCase()))
             )
-            .map((contact: any) => (
-              <li
+            .map((contact: TelegramUserContact) => (
+              <TelegramContact
+                contact={contact}
+                onContactClick={onContactClick}
                 key={contact.id}
-                style={{
-                  listStyleType: "none",
-                  padding: 0,
-                  margin: "0 0 10px",
-                }}
-              >
-                <DataBox
-                  LeftComponent={
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        flexWrap: "nowrap",
-                        flexDirection: "row",
-                        gap: "16px",
-                      }}
-                    >
-                      <ContactAvatar contact={contact} />
-                      <div>
-                        <p
-                          style={{
-                            lineHeight: "1.5",
-                            fontSize: "12px",
-                            margin: 0,
-                          }}
-                        >
-                          {contact.firstName || contact.lastName
-                            ? `${contact.firstName}${
-                                contact.lastName ? " " + contact.lastName : ""
-                              }`
-                            : `@${contact.username}`}
-                        </p>
-                        {(contact.firstName || contact.lastName) &&
-                        contact.username ? (
-                          <p
-                            style={{
-                              lineHeight: "1.5",
-                              margin: "0",
-                              fontSize: "12px",
-                              color: "#898989",
-                            }}
-                          >
-                            @{contact.username}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  }
-                  onClick={() => {
-                    onContactClick(contact);
-                  }}
-                />
-              </li>
+              />
             ))}
         </ul>
       ) : contactsLoading ? (

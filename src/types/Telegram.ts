@@ -83,6 +83,7 @@ export type TelegramUserContact = {
   usernames: any;
   storiesMaxId: any;
   className: string;
+  isGrinderyUser?: boolean;
 };
 
 export type TelegramUserContactPhoto = {

@@ -24,6 +24,7 @@ const BottomNavigation = () => {
         sx={{
           width: "100%",
           position: "fixed",
+          zIndex: 2,
           bottom: 0,
           maxWidth: MAX_WIDTH,
           borderTop: "1px solid rgb(220,220,220)",
