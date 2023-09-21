@@ -10,7 +10,7 @@ const ConnectTelegram = (props: Props) => {
   } = useAppContext();
 
   return user?.telegramSession ? (
-    <p style={{ textAlign: "center" }}>
+    <p style={{ margin: "50px", textAlign: "center" }}>
       Telegram account connected.
       <br />
       <br />

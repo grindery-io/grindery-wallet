@@ -177,7 +177,7 @@ const TelegramAuth = () => {
           >
             <label>Code</label>
             <input
-              type="text"
+              type="number"
               value={code}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 handleInputChange("code", event.target.value);

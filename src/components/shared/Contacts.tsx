@@ -3,6 +3,7 @@ import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "./TelegramContacts";
 import Button from "./Button";
 import styled from "styled-components";
+import { TelegramUserContact } from "../../context/AppContext";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,7 +41,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const Contacts = () => {
+const Contacts = ({
+  onContactClick,
+}: {
+  onContactClick: (contact: TelegramUserContact) => void;
+}) => {
   const {
     state: { user },
   } = useAppContext();
@@ -87,11 +92,7 @@ const Contacts = () => {
         </Wrapper>
       ) : (
         <>
-          <TelegramContacts
-            onContactClick={(contact) => {
-              alert("ID: " + contact.id);
-            }}
-          />
+          <TelegramContacts onContactClick={onContactClick} />
         </>
       )}
     </div>

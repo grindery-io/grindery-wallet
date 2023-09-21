@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./context/AppContext";
 import HomePage from "./components/pages/HomePage";
-import AppHeader from "./components/shared/AppHeader";
 import ConnectTelegram from "./components/pages/ConnectTelegram";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
@@ -33,7 +32,6 @@ function App() {
       <AppContextProvider>
         <BrowserRouter>
           <Container>
-            <AppHeader />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/send" element={<SendPage />} />

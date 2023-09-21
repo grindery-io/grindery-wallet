@@ -1,31 +1,138 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router";
+import AppHeader from "../shared/AppHeader";
+import Contacts from "../shared/Contacts";
+import SelectedContact from "../shared/SelectedContact";
+import { TelegramUserContact } from "../../context/AppContext";
+import SelectToken from "../shared/SelectToken";
+import useAppContext from "../../hooks/useAppContext";
+import SendButtonsGroup from "../shared/SendButtonsGroup";
+import SendAmount from "../shared/SendAmount";
 
 const SendPage = () => {
+  const {
+    state: { contacts },
+  } = useAppContext();
+  const queryString = window.location.search;
+
+  const urlParams = useMemo(
+    () => new URLSearchParams(queryString),
+    [queryString]
+  );
+
+  const recipient = urlParams.get("recipient");
+  let navigate = useNavigate();
   useBackButton({ path: "/" });
-  const [input, setInput] = useState({
+  const [input, setInput] = useState<{
+    amount: string;
+    recipient: TelegramUserContact | null;
+  }>({
     amount: "",
-    recipient: "",
+    recipient: recipient
+      ? contacts?.find((contact) => contact.id === recipient) || null
+      : null,
   });
 
   return (
-    <div style={{ width: "100%", paddingTop: "16px" }}>
+    <>
+      <AppHeader />
+
       <div
         style={{
+          width: "100%",
+          paddingTop: "16px",
+          flex: 1,
           display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "stretch",
+          justifyContent: "flex-start",
+          gap: "0px",
+          flexWrap: "nowrap",
         }}
       >
-        <p style={{ margin: 0, textAlign: "center" }}>
-          Send{!input.recipient ? " to" : ""}
-        </p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
+          <p style={{ margin: 0, textAlign: "center" }}>
+            Send{!input.recipient ? " to" : ""}
+          </p>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => {
+              navigate("/");
+            }}
+            sx={{
+              color: "#8C30F5",
+              margin: 0,
+              padding: 0,
+              position: "absolute",
+              right: "0px",
+              top: "-1px",
+              textTransform: "none",
+              fontWeight: "normal",
+              fontSize: "14px",
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
+        {!input.recipient ? (
+          <Contacts
+            onContactClick={(contact) => {
+              setInput({
+                ...input,
+                recipient: contact,
+              });
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "stretch",
+              justifyContent: "flex-start",
+              gap: "20px",
+              flexWrap: "nowrap",
+              flex: 1,
+              marginTop: "16px",
+            }}
+          >
+            {input.recipient && (
+              <SelectedContact
+                contact={input.recipient}
+                onClear={() => {
+                  setInput({
+                    ...input,
+                    recipient: null,
+                  });
+                }}
+              />
+            )}
+            <SelectToken />
+            <SendAmount
+              amount={input.amount}
+              onChange={(value) => {
+                setInput({
+                  ...input,
+                  amount: value,
+                });
+              }}
+            />
+            <SendButtonsGroup />
+          </div>
+        )}
       </div>
-      <div style={{ textAlign: "center", margin: "50px" }}>
-        <p style={{ margin: 0, opacity: 0.6 }}>Coming soon</p>
-      </div>
-    </div>
+    </>
   );
 };
 

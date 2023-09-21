@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { TelegramUserActivity } from "../../context/AppContext";
+import {
+  TelegramUser,
+  TelegramUserActivity,
+  TelegramUserContact,
+} from "../../context/AppContext";
 import DataBox from "./DataBox";
 import moment from "moment";
 import useAppContext from "../../hooks/useAppContext";
@@ -7,6 +11,7 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
+import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
 
 const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
   const {
@@ -18,14 +23,13 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
       ? activity.recipientTgId
       : activity.senderTgId;
 
-  const [secondaryUser, setSecondaryUser] = useState(
-    contacts?.find((contact) => contact.id === secondaryUserId) || {}
-  );
+  const [secondaryUser, setSecondaryUser] = useState<
+    TelegramUserContact | TelegramUser | undefined
+  >(contacts?.find((contact) => contact.id === secondaryUserId));
 
   const getUser = useCallback(async () => {
     if (!secondaryUserId) return;
-    if (Object.keys(secondaryUser) && Object.keys(secondaryUser).length > 0)
-      return;
+    if (secondaryUser) return;
     try {
       const res = await axios.get(
         `${BOT_API_URL}/v1/telegram/user?id=${secondaryUserId}`,
@@ -36,22 +40,28 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
         }
       );
 
-      setSecondaryUser(res.data || {});
+      setSecondaryUser(res.data);
     } catch (err) {
-      setSecondaryUser({});
+      setSecondaryUser(undefined);
     }
   }, [secondaryUserId, secondaryUser]);
 
   const getAvatarText = () => {
     let avatarText = "";
-    if (secondaryUser.firstName) {
-      avatarText += secondaryUser.firstName.charAt(0).toUpperCase();
-    }
-    if (secondaryUser.lastName) {
-      avatarText += secondaryUser.lastName.charAt(0).toUpperCase();
-    }
-    if (!avatarText && secondaryUser.username) {
-      avatarText += secondaryUser.username.charAt(0).toUpperCase();
+    if (secondaryUser) {
+      if ("firstName" in secondaryUser && secondaryUser.firstName) {
+        avatarText += secondaryUser.firstName.charAt(0).toUpperCase();
+      }
+      if ("lastName" in secondaryUser && secondaryUser.lastName) {
+        avatarText += secondaryUser.lastName.charAt(0).toUpperCase();
+      }
+      if (
+        !avatarText &&
+        "username" in secondaryUser &&
+        secondaryUser.username
+      ) {
+        avatarText += secondaryUser.username.charAt(0).toUpperCase();
+      }
     }
     return avatarText || "U";
   };
@@ -128,17 +138,7 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
                 {user?.userTelegramID === activity.senderTgId
                   ? "Sent to"
                   : "Recieved from"}{" "}
-                {secondaryUser.firstName || secondaryUser.lastName
-                  ? `${secondaryUser.firstName}${
-                      secondaryUser.lastName ? " " + secondaryUser.lastName : ""
-                    }`
-                  : secondaryUser.username
-                  ? `@${secondaryUser.username}`
-                  : secondaryUser.userName
-                  ? secondaryUser.userName
-                  : secondaryUser.userHandle
-                  ? `@${secondaryUser.userHandle}`
-                  : "Unknown user"}
+                {getSecondaryUserDisplayName(secondaryUser)}
               </p>
 
               <p
