@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { TelegramUserContact } from "../../context/AppContext";
 import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { TelegramUserContact } from "../../types/Telegram";
 
 const Wrapper = styled.div`
   border-radius: 10px;

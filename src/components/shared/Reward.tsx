@@ -1,7 +1,7 @@
 import React from "react";
-import { TelegramUserReward } from "../../context/AppContext";
 import DataBox from "./DataBox";
 import moment from "moment";
+import { TelegramUserReward } from "../../types/Telegram";
 
 const Reward = ({ reward }: { reward: TelegramUserReward }) => {
   return (

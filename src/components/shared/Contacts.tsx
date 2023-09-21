@@ -3,7 +3,7 @@ import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "./TelegramContacts";
 import Button from "./Button";
 import styled from "styled-components";
-import { TelegramUserContact } from "../../context/AppContext";
+import { TelegramUserContact } from "../../types/Telegram";
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,9 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  TelegramUser,
-  TelegramUserActivity,
-  TelegramUserContact,
-} from "../../context/AppContext";
 import DataBox from "./DataBox";
 import moment from "moment";
 import useAppContext from "../../hooks/useAppContext";
@@ -12,6 +7,11 @@ import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
 import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
+import {
+  TelegramUser,
+  TelegramUserActivity,
+  TelegramUserContact,
+} from "../../types/Telegram";
 
 const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
   const {

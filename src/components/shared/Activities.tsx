@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Tab, Tabs } from "@mui/material";
 import useAppContext from "../../hooks/useAppContext";
-import { TelegramUserActivity } from "../../context/AppContext";
 import Activity from "./Activity";
+import { TelegramUserActivity } from "../../types/Telegram";
 
 const Activities = () => {
   const {

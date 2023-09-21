@@ -1,8 +1,7 @@
 import React from "react";
-import { Typography } from "@mui/material";
-import { TelegramUserReward } from "../../context/AppContext";
 import useAppContext from "../../hooks/useAppContext";
 import Reward from "./Reward";
+import { TelegramUserReward } from "../../types/Telegram";
 
 const Rewards = () => {
   const {

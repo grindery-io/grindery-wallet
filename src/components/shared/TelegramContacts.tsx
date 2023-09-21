@@ -14,8 +14,6 @@ const TelegramContacts = ({ onContactClick }: Props) => {
   } = useAppContext();
   const [search, setSearch] = React.useState("");
 
-  console.log("contacts", contacts);
-
   return (
     <div style={{ textAlign: "left" }}>
       <div

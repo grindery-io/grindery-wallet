@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./context/AppContext";
 import HomePage from "./components/pages/HomePage";
-import ConnectTelegram from "./components/pages/ConnectTelegram";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import Container from "./components/shared/Container";
 import SendPage from "./components/pages/SendPage";
+import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
 
 declare global {
   interface Window {
@@ -35,7 +35,10 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/send" element={<SendPage />} />
-              <Route path="/connect/telegram" element={<ConnectTelegram />} />
+              <Route
+                path="/connect/telegram"
+                element={<ConnectTelegramPage />}
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Container>

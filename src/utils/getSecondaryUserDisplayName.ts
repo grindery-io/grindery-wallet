@@ -1,4 +1,4 @@
-import { TelegramUser, TelegramUserContact } from "../context/AppContext";
+import { TelegramUser, TelegramUserContact } from "../types/Telegram";
 
 export const getSecondaryUserDisplayName = (
   secondaryUser: TelegramUserContact | TelegramUser | undefined

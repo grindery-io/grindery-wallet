@@ -4,7 +4,7 @@ import useAppContext from "../../hooks/useAppContext";
 
 type Props = {};
 
-const ConnectTelegram = (props: Props) => {
+const ConnectTelegramPage = (props: Props) => {
   const {
     state: { user },
   } = useAppContext();
@@ -22,4 +22,4 @@ const ConnectTelegram = (props: Props) => {
   );
 };
 
-export default ConnectTelegram;
+export default ConnectTelegramPage;

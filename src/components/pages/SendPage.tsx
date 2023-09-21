@@ -5,11 +5,11 @@ import { useNavigate } from "react-router";
 import AppHeader from "../shared/AppHeader";
 import Contacts from "../shared/Contacts";
 import SelectedContact from "../shared/SelectedContact";
-import { TelegramUserContact } from "../../context/AppContext";
 import SelectToken from "../shared/SelectToken";
 import useAppContext from "../../hooks/useAppContext";
 import SendButtonsGroup from "../shared/SendButtonsGroup";
 import SendAmount from "../shared/SendAmount";
+import { TelegramUserContact } from "../../types/Telegram";
 
 const SendPage = () => {
   const {
