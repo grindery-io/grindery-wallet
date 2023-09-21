@@ -49,7 +49,13 @@ const SendButton = () => {
       <Button
         variant="contained"
         color="secondary"
-        icon={<img src={ICONS.ARROW_OPEN} alt="" />}
+        icon={
+          <img
+            src={ICONS.ARROW_OPEN}
+            alt=""
+            style={{ width: "16px", height: "16px", display: "block" }}
+          />
+        }
         fullWidth
         disabled={!user?.patchwallet}
         value="Send"

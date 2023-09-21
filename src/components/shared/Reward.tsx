@@ -26,25 +26,35 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
           >
             <div
               style={{
-                width: "42px",
-                height: "42px",
-                minWidth: "42px",
-                borderRadius: "21px",
+                width: "36px",
+                height: "36px",
+                minWidth: "36px",
+                borderRadius: "18px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
-                background: "#f5f5f5",
+                background: "#898989",
+                color: "#fff",
               }}
             ></div>
             <div>
-              <h5 style={{ margin: 0 }}>{reward.message}</h5>
+              <p
+                style={{
+                  lineHeight: "1.5",
+                  fontSize: "12px",
+                  margin: 0,
+                }}
+              >
+                {reward.message}
+              </p>
 
               <p
                 style={{
-                  margin: "8px 0 0",
+                  margin: "0",
                   fontSize: "12px",
                   opacity: "0.6",
+                  lineHeight: "1.5",
                 }}
               >
                 {moment(reward.dateAdded).fromNow()}
@@ -54,8 +64,8 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
         }
         RightComponent={
           <div>
-            <p style={{ fontSize: "12px", margin: 0 }}>
-              <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+            <p style={{ fontSize: "10px", margin: 0 }}>
+              <span style={{ fontSize: "14px", fontWeight: "bold" }}>
                 {reward.amount}
               </span>{" "}
               g1

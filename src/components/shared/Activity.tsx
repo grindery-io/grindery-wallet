@@ -118,7 +118,13 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
               </div>
             </div>
             <div>
-              <h5 style={{ margin: 0 }}>
+              <p
+                style={{
+                  lineHeight: "1.5",
+                  fontSize: "12px",
+                  margin: 0,
+                }}
+              >
                 {user?.userTelegramID === activity.senderTgId
                   ? "Sent to"
                   : "Recieved from"}{" "}
@@ -133,13 +139,14 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
                   : secondaryUser.userHandle
                   ? `@${secondaryUser.userHandle}`
                   : "Unknown user"}
-              </h5>
+              </p>
 
               <p
                 style={{
-                  margin: "8px 0 0",
+                  margin: "0",
                   fontSize: "12px",
                   opacity: "0.6",
+                  lineHeight: "1.5",
                 }}
               >
                 {moment(activity.dateAdded).fromNow()}
@@ -149,8 +156,8 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
         }
         RightComponent={
           <div>
-            <p style={{ fontSize: "12px", margin: 0 }}>
-              <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+            <p style={{ fontSize: "10px", margin: 0 }}>
+              <span style={{ fontSize: "14px", fontWeight: "bold" }}>
                 {activity.tokenAmount}
               </span>{" "}
               {activity.tokenSymbol}

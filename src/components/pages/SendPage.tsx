@@ -22,6 +22,9 @@ const SendPage = () => {
           Send{!input.recipient ? " to" : ""}
         </p>
       </div>
+      <div style={{ textAlign: "center", margin: "50px" }}>
+        <p style={{ margin: 0, opacity: 0.6 }}>Coming soon</p>
+      </div>
     </div>
   );
 };
