@@ -8,24 +8,23 @@ const Tokens = () => {
   return (
     <>
       <div />
-      <Address />
       <Balance />
+      <Address />
       <SendButton />
       <div style={{ width: "100%" }}>
-        <Typography
-          variant="h6"
-          sx={{
-            margin: "0 0 8px",
-            padding: "0 0 2px",
+        <p
+          style={{
+            margin: "0",
+            padding: "16px 0",
             textAlign: "left",
             position: "sticky",
-            top: "61px",
+            top: "0px",
             background: "#fff",
             zIndex: 1,
           }}
         >
-          Tokens
-        </Typography>
+          <span style={{ opacity: 0.6 }}>Tokens</span>
+        </p>
         <div style={{ textAlign: "center", margin: "50px" }}>
           <Typography color="GrayText">Coming soon</Typography>
         </div>

@@ -19,7 +19,7 @@ const Activities = () => {
       <div
         style={{
           position: "sticky",
-          top: 0,
+          top: "61px",
           width: "100%",
           background: "#fff",
           paddingBottom: "16px",
@@ -33,9 +33,18 @@ const Activities = () => {
           aria-label="basic tabs example"
           sx={{ background: "#FDFBFF" }}
         >
-          <Tab label="All" sx={{ textTransform: "initial" }} />
-          <Tab label="Recieved" sx={{ textTransform: "initial" }} />
-          <Tab label="Sent" sx={{ textTransform: "initial" }} />
+          <Tab
+            label="All"
+            sx={{ textTransform: "initial", fontWeight: "normal" }}
+          />
+          <Tab
+            label="Recieved"
+            sx={{ textTransform: "initial", fontWeight: "normal" }}
+          />
+          <Tab
+            label="Sent"
+            sx={{ textTransform: "initial", fontWeight: "normal" }}
+          />
         </Tabs>
       </div>
 

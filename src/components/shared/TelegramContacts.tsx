@@ -21,7 +21,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
           padding: "16px 0 10px",
           background: "#fff",
           position: "sticky",
-          top: 0,
+          top: "61px",
           width: "100%",
         }}
       >

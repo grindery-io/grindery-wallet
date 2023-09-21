@@ -7,6 +7,7 @@ import ConnectTelegram from "./components/pages/ConnectTelegram";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import Container from "./components/shared/Container";
+import SendPage from "./components/pages/SendPage";
 
 declare global {
   interface Window {
@@ -32,9 +33,10 @@ function App() {
       <AppContextProvider>
         <BrowserRouter>
           <Container>
-            {/*<AppHeader />*/}
+            <AppHeader />
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/send" element={<SendPage />} />
               <Route path="/connect/telegram" element={<ConnectTelegram />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

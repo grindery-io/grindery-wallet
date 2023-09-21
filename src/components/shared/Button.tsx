@@ -13,6 +13,8 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
   & .MuiButton-root {
     padding: 12px 35px !important;
     text-transform: none;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   ${(props) =>
     props.hideIconBorder &&
