@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DataBox from "./DataBox";
-import ContactAvatar from "./ContactAvatar";
 import { TelegramUserContact } from "../../types/Telegram";
+//import Jazzicon from "react-jazzicon";
+import axios from "axios";
+import { BOT_API_URL } from "../../constants";
+import ContactAvatar from "./ContactAvatar";
 
 type Props = {
   contact: TelegramUserContact;
@@ -9,6 +12,40 @@ type Props = {
 };
 
 const TelegramContact = ({ contact, onContactClick }: Props) => {
+  const [photo, setPhoto] = useState(
+    localStorage.getItem("gr_wallet_contact_photo_" + contact.id) || ""
+  );
+
+  const getPhoto = useCallback(async () => {
+    if (!contact.username) {
+      return;
+    }
+    try {
+      const res = await axios.get(
+        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+      setPhoto(res.data.photo || "");
+
+      localStorage.setItem(
+        "gr_wallet_contact_photo_" + contact.id,
+        res.data.photo || "null"
+      );
+    } catch (err) {
+      setPhoto("");
+    }
+  }, [contact]);
+
+  useEffect(() => {
+    if (!photo) {
+      getPhoto();
+    }
+  }, [photo, getPhoto]);
+
   return (
     <li
       style={{
@@ -29,7 +66,23 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
               gap: "16px",
             }}
           >
-            <ContactAvatar contact={contact} />
+            {photo && photo !== "null" ? (
+              <img
+                src={photo}
+                alt=""
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  display: "block",
+                  borderRadius: "50%",
+                }}
+              />
+            ) : (
+              <>
+                {/*<Jazzicon diameter={36} seed={parseFloat(contact.id)} />*/}
+                <ContactAvatar contact={contact} />
+              </>
+            )}
             <div>
               <p
                 style={{
