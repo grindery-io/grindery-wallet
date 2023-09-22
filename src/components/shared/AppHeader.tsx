@@ -22,7 +22,8 @@ const Wrapper = styled.div`
   max-width: ${MAX_WIDTH};
   box-sizing: border-box;
   z-index: 2;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   background: var(--grindery-solids-white, #fff);
   box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.1) inset;
   height: 61px;

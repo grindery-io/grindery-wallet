@@ -75,7 +75,7 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
       style={{
         listStyleType: "none",
         padding: 0,
-        margin: "0 0 10px",
+        margin: "10px 0 0",
       }}
     >
       <DataBox

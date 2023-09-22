@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import {
+  Box,
   CircularProgress,
   InputBase,
   Tab,
@@ -110,7 +111,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
             value={tab}
             onChange={handleChange}
             aria-label="basic tabs example"
-            sx={{ background: "#FDFBFF", marginBottom: "10px" }}
+            sx={{ background: "#FDFBFF" }}
           >
             <Tab
               label="All"
@@ -134,15 +135,28 @@ const TelegramContacts = ({ onContactClick }: Props) => {
               <Typography color="GrayText">Coming soon</Typography>
             </div>
           ) : (
-            <List
-              height={height - 242}
-              itemCount={data?.length}
-              itemSize={68}
-              width="100%"
-              itemData={data}
+            <Box
+              sx={{
+                "& > div": {
+                  padding: "0 0 10px",
+                  boxSizing: "border-box",
+                  "& > div": {
+                    padding: "0 0 10px",
+                    boxSizing: "border-box",
+                  },
+                },
+              }}
             >
-              {ItemRenderer}
-            </List>
+              <List
+                height={height - 232}
+                itemCount={data?.length}
+                itemSize={68}
+                width="100%"
+                itemData={data}
+              >
+                {ItemRenderer}
+              </List>
+            </Box>
           )}
         </>
       ) : contactsLoading ? (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import useAppContext from "../../hooks/useAppContext";
 import Activity from "./Activity";
 import { TelegramUserActivity } from "../../types/Telegram";
@@ -25,7 +25,6 @@ const Activities = () => {
           top: "61px",
           width: "100%",
           background: "#fff",
-          paddingBottom: "16px",
           zIndex: 1,
         }}
       >
@@ -53,27 +52,41 @@ const Activities = () => {
 
       <div style={{ textAlign: "left" }}>
         {activity && activity.length > 0 ? (
-          <List
-            height={height - 141 - 56}
-            itemCount={
-              activity.filter(
+          <Box
+            sx={{
+              "& > div": {
+                padding: "0 0 10px",
+                boxSizing: "border-box",
+                "& > div": {
+                  padding: "0 0 10px",
+                  boxSizing: "border-box",
+                },
+              },
+            }}
+          >
+            <List
+              height={height - 125 - 56}
+              itemCount={
+                activity.filter(
+                  (activity: TelegramUserActivity) =>
+                    tab === 0 ||
+                    (tab === 1 &&
+                      user?.userTelegramID !== activity.senderTgId) ||
+                    (tab === 2 && user?.userTelegramID === activity.senderTgId)
+                ).length
+              }
+              itemSize={68}
+              width="100%"
+              itemData={activity.filter(
                 (activity: TelegramUserActivity) =>
                   tab === 0 ||
                   (tab === 1 && user?.userTelegramID !== activity.senderTgId) ||
                   (tab === 2 && user?.userTelegramID === activity.senderTgId)
-              ).length
-            }
-            itemSize={68}
-            width="100%"
-            itemData={activity.filter(
-              (activity: TelegramUserActivity) =>
-                tab === 0 ||
-                (tab === 1 && user?.userTelegramID !== activity.senderTgId) ||
-                (tab === 2 && user?.userTelegramID === activity.senderTgId)
-            )}
-          >
-            {ItemRenderer}
-          </List>
+              )}
+            >
+              {ItemRenderer}
+            </List>
+          </Box>
         ) : (
           <p style={{ margin: "30px", textAlign: "center" }}>
             You have no transactions.
