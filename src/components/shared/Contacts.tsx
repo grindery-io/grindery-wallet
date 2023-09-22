@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { TelegramUserContact } from "../../types/Telegram";
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 32px);
   border-radius: 10px;
   border: 1px solid var(--grindery-solids-light-grey, #d3deec);
   background: var(--grindery-solids-white, #fff);
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   align-items: stretch;
   gap: 20px;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin: 20px 16px 0;
 
   & p {
     margin: 0;

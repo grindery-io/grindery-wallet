@@ -18,13 +18,17 @@ const Activities = () => {
   };
 
   return (
-    <div style={{ width: "100%", paddingTop: "16px" }}>
+    <div
+      style={{ width: "100%", padding: "16px 0 0", boxSizing: "border-box" }}
+    >
       <div
         style={{
           position: "sticky",
           top: "61px",
           width: "100%",
           background: "#fff",
+          padding: "0 16px",
+          boxSizing: "border-box",
           zIndex: 1,
         }}
       >
@@ -33,7 +37,27 @@ const Activities = () => {
           value={tab}
           onChange={handleChange}
           aria-label="basic tabs example"
-          sx={{ background: "#FDFBFF" }}
+          sx={{
+            width: "100%",
+            boxSizing: "border-box",
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+            "& .MuiTabs-scroller": {
+              background: "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
+            },
+            "& .MuiTabs-indicator": {
+              display: "none",
+            },
+            "& .MuiTab-root": {
+              color: "var(--grindery-solids-black, #0B0D17)",
+              fontSize: "14px",
+              fontFamily: "Geologica",
+              minWidth: "70px",
+              "&.Mui-selected": {
+                color: "var(--grindery-solids-action-alert, #8C30F5)",
+              },
+            },
+          }}
         >
           <Tab
             label="All"
@@ -65,7 +89,7 @@ const Activities = () => {
             }}
           >
             <List
-              height={height - 125 - 56}
+              height={height - 125 - 53}
               itemCount={
                 activity.filter(
                   (activity: TelegramUserActivity) =>

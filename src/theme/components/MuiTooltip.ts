@@ -4,7 +4,7 @@ const MuiTooltip = {
       background: "#000",
       maxWidth: "160px",
       padding: "10px",
-      fontFamily: "Roboto",
+      fontFamily: "Geologica",
       fontStyle: "normal",
       fontWeight: "400",
       fontSize: "12px",

@@ -6,17 +6,19 @@ import { ICONS } from "../../constants";
 import { useNavigate } from "react-router";
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 32px);
+  margin: 0 16px;
   border-radius: 10px;
   border: 1px solid var(--grindery-solids-light-grey, #d3deec);
   background: var(--grindery-solids-white, #fff);
   display: flex;
-  padding: 20px;
+  padding: 16px;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  gap: 20px;
+  gap: 8px;
   box-sizing: border-box;
+  text-align: center;
 
   & p {
     margin: 0;
@@ -25,6 +27,7 @@ const Wrapper = styled.div`
   }
   & button {
     width: 100%;
+    padding: 10px 20px !important;
   }
   & button > span {
     padding: 0;

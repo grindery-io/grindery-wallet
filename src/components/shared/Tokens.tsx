@@ -1,15 +1,14 @@
 import React from "react";
-import Address from "./Address";
 import Balance from "./Balance";
 import SendButton from "./SendButton";
 import useAppContext from "../../hooks/useAppContext";
 
 const tokens = [
   {
-    symbol: "g1",
+    symbol: "(g¹)",
     name: "Grindery One",
     balance: "0",
-    icon: "https://app.grindery.io/logo192.png",
+    icon: "/images/g1-token-red.svg",
   },
   {
     symbol: "MATIC",
@@ -29,45 +28,48 @@ const tokens = [
 
 const Tokens = () => {
   const {
-    state: { user, balance },
+    state: { user, balance, rewards },
   } = useAppContext();
   return (
     <>
-      <div />
       <Balance />
-      <Address />
       <SendButton />
-      <div style={{ width: "100%" }}>
-        <p
-          style={{
-            margin: "0",
-            padding: "16px 0",
-            textAlign: "left",
-            position: "sticky",
-            top: "0px",
-            background: "#fff",
-            zIndex: 1,
-          }}
-        >
-          <span style={{ opacity: 0.6 }}>Tokens</span>
-        </p>
+      <div
+        style={{
+          width: "100%",
+          padding: "0 16px 16px",
+          boxSizing: "border-box",
+        }}
+      >
         {user && (
-          <ul
-            style={{
-              margin: "0 0 20px",
-              padding: 0,
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              alignItems: "stretch",
-              justifyContent: "flex-start",
-              width: "100%",
-              flexWrap: "nowrap",
-            }}
-          >
-            {tokens.map((token) => (
+          <>
+            <p
+              style={{
+                margin: "0",
+                padding: "8px 0 16px",
+                textAlign: "left",
+                position: "sticky",
+                top: "0px",
+                background: "#fff",
+                zIndex: 1,
+              }}
+            >
+              <span style={{ opacity: 0.6 }}>Rewards</span>
+            </p>
+            <ul
+              style={{
+                margin: "0 0 20px",
+                padding: 0,
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                alignItems: "stretch",
+                justifyContent: "flex-start",
+                width: "100%",
+                flexWrap: "nowrap",
+              }}
+            >
               <li
-                key={token.symbol}
                 style={{
                   listStyleType: "none",
                   padding: 0,
@@ -78,43 +80,122 @@ const Tokens = () => {
                   flexWrap: "nowrap",
                   flexDirection: "row",
                   gap: "8px",
-                  opacity: token.disabled ? 0.35 : 1,
                 }}
               >
                 <img
-                  src={token.icon}
+                  src={tokens[0].icon}
                   alt=""
                   style={{ width: "32px", height: "32px", display: "block" }}
                 />
-                <div>
+
+                <p
+                  style={{
+                    margin: 0,
+                    padding: 0,
+                    fontSize: "16px",
+                    lineHeight: 1.5,
+                    color: "var(--grindery-cool-grey-cool-grey-70, #4F5563)",
+                  }}
+                >
+                  {tokens[0].name}
+                </p>
+
+                <p
+                  style={{
+                    color: "var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+                    margin: "0 0 0 auto",
+                    padding: 0,
+                    fontSize: "16px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {rewards
+                    .map((reward) => parseFloat(reward.amount))
+                    .reduce((partialSum, a) => partialSum + a, 0)}{" "}
+                  <span style={{ fontWeight: "normal" }}>
+                    {tokens[0].symbol}
+                  </span>
+                </p>
+              </li>
+            </ul>
+            <p
+              style={{
+                margin: "0",
+                padding: "8px 0 16px",
+                textAlign: "left",
+                position: "sticky",
+                top: "0px",
+                background: "#fff",
+                zIndex: 1,
+              }}
+            >
+              <span style={{ opacity: 0.6 }}>Tokens</span>
+            </p>
+            <ul
+              style={{
+                margin: "0 0 20px",
+                padding: 0,
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                alignItems: "stretch",
+                justifyContent: "flex-start",
+                width: "100%",
+                flexWrap: "nowrap",
+              }}
+            >
+              {tokens.map((token) => (
+                <li
+                  key={token.symbol}
+                  style={{
+                    listStyleType: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    flexWrap: "nowrap",
+                    flexDirection: "row",
+                    gap: "8px",
+                    opacity: token.disabled ? 0.35 : 1,
+                  }}
+                >
+                  <img
+                    src={token.icon}
+                    alt=""
+                    style={{ width: "32px", height: "32px", display: "block" }}
+                  />
+
                   <p
                     style={{
                       margin: 0,
                       padding: 0,
-                      fontSize: "14px",
+                      fontSize: "16px",
                       lineHeight: 1.5,
+                      color: "var(--grindery-cool-grey-cool-grey-70, #4F5563)",
                     }}
                   >
                     {token.name}
                   </p>
+
                   <p
                     style={{
-                      margin: 0,
+                      color: "var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+                      margin: "0 0 0 auto",
                       padding: 0,
-                      fontSize: "14px",
+                      fontSize: "16px",
                       lineHeight: 1.5,
-                      fontWeight: "bold",
                     }}
                   >
-                    {token.symbol === "g1"
+                    {token.symbol === "(g¹)"
                       ? balance?.toString()
                       : token.balance}{" "}
                     <span style={{ fontWeight: "normal" }}>{token.symbol}</span>
                   </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
     </>

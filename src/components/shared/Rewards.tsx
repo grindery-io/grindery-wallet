@@ -9,7 +9,7 @@ const Rewards = () => {
   } = useAppContext();
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", padding: "0 16px", boxSizing: "border-box" }}>
       <div style={{ textAlign: "left" }}>
         <div
           style={{
@@ -34,7 +34,7 @@ const Rewards = () => {
             {rewards
               .map((reward) => parseFloat(reward.amount))
               .reduce((partialSum, a) => partialSum + a, 0)}{" "}
-            <span style={{ fontWeight: "normal", fontSize: "12px" }}>g1</span>
+            <span style={{ fontWeight: "normal", fontSize: "12px" }}>g¹</span>
           </p>
         </div>
         {rewards && rewards.length > 0 ? (

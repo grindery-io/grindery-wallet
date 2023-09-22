@@ -11,7 +11,7 @@ interface ButtonWrapperProps {
 
 const ButtonWrapper = styled.div<ButtonWrapperProps>`
   & .MuiButton-root {
-    padding: 12px 35px !important;
+    padding: 12px 35px;
     text-transform: none;
     margin-top: 0;
     margin-bottom: 0;

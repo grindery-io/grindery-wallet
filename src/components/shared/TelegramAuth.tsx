@@ -72,7 +72,7 @@ const InputGroup = styled.div`
     font-size: 14px;
     line-height: 150%;
     text-align: center;
-    font-family: "Roboto";
+    font-family: "Geologica";
     color: #0b0d17;
     font-weight: bold;
   }
@@ -85,7 +85,7 @@ const InputGroup = styled.div`
     border: 1px solid #dcdcdc;
     box-sizing: border-box;
     min-height: 44px;
-    font-family: Roboto;
+    font-family: Geologica;
     font-weight: 400;
     font-size: 16px;
     line-height: 150%;

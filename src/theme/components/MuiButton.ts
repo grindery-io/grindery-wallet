@@ -5,7 +5,7 @@ const MuiButton = {
     root: {
       borderRadius: 5,
       padding: "10px 20px",
-      fontFamily: "Roboto",
+      fontFamily: "Geologica",
       fontStyle: "normal",
       fontWeight: "700",
       fontSize: 16,

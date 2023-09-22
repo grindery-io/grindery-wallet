@@ -50,7 +50,7 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
       style={{
         listStyleType: "none",
         padding: 0,
-        margin: "10px 0 0",
+        margin: "10px 16px 0",
       }}
     >
       <DataBox

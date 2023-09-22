@@ -8,6 +8,7 @@ import {
   OutlinedInput,
   Select,
 } from "@mui/material";
+import Address from "./Address";
 
 const Balance = () => {
   const {
@@ -41,7 +42,13 @@ const Balance = () => {
   }, [getBalance]);
 
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        padding: "16px 16px 12px",
+        boxSizing: "border-box",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -50,7 +57,7 @@ const Balance = () => {
           justifyContent: "flex-start",
           gap: "16px",
           flexWrap: "nowrap",
-          margin: "0 0 40px",
+          margin: "0 0 32px",
         }}
       >
         <p
@@ -68,18 +75,20 @@ const Balance = () => {
             displayEmpty
             input={<OutlinedInput />}
             sx={{
-              border: "none",
+              fontFamily: "Geologica",
               "& .MuiSelect-select": {
                 padding: "4px 8px",
                 border: "none",
               },
               "& fieldset": {
-                border: "none",
+                borderRadius: "5px",
+                border:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
               },
             }}
-            value="g1"
+            value="g¹"
           >
-            {["g1", "USD"].map((name) => (
+            {["g¹", "USD"].map((name) => (
               <MenuItem key={name} value={name} disabled={name === "USD"}>
                 {name}
               </MenuItem>
@@ -92,10 +101,19 @@ const Balance = () => {
           <CircularProgress />
         </div>
       ) : user.patchwallet ? (
-        <h2 style={{ textAlign: "center", fontSize: "30px", margin: "20px 0" }}>
-          {balance || 0}{" "}
-          <span style={{ fontWeight: "normal", fontSize: "16px" }}>(g1)</span>
-        </h2>
+        <>
+          <h2
+            style={{
+              textAlign: "center",
+              fontSize: "35px",
+              margin: "20px 0 16px",
+            }}
+          >
+            {balance || 0}{" "}
+            <span style={{ fontWeight: "normal", fontSize: "16px" }}>(g¹)</span>
+          </h2>
+          <Address />
+        </>
       ) : (
         <div>
           <p style={{ textAlign: "center" }}>

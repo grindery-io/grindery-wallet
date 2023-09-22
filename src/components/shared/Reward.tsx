@@ -68,7 +68,7 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
               <span style={{ fontSize: "14px", fontWeight: "bold" }}>
                 {reward.amount}
               </span>{" "}
-              g1
+              g¹
             </p>
           </div>
         }

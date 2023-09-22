@@ -29,7 +29,7 @@
 html,
 body {
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Geologica", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -40,6 +40,9 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
+* {
+  font-family: "Geologica";
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -47,6 +50,7 @@ code {
 
 p {
   font-size: 16px;
+  font-family: "Geologica", sans-serif;
 }
 
 a {

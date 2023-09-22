@@ -10,9 +10,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  gap: 20px;
+  gap: 16px;
   height: 100%;
-  padding: 0px 16px 16px;
+  padding: 0px;
   min-height: 100vh;
   box-sizing: border-box;
   position: relative;
