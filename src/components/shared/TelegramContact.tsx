@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import DataBox from "./DataBox";
 import { TelegramUserContact } from "../../types/Telegram";
 //import Jazzicon from "react-jazzicon";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
+//import axios from "axios";
+//import { BOT_API_URL } from "../../constants";
 import ContactAvatar from "./ContactAvatar";
 
 type Props = {
@@ -12,11 +12,9 @@ type Props = {
 };
 
 const TelegramContact = ({ contact, onContactClick }: Props) => {
-  const [photo, setPhoto] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + contact.id) || ""
-  );
+  const photo = "";
 
-  const getPhoto = useCallback(async () => {
+  /*const getPhoto = useCallback(async () => {
     if (!contact.username) {
       return;
     }
@@ -38,13 +36,13 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
     } catch (err) {
       setPhoto("");
     }
-  }, [contact]);
+  }, [contact]);*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!photo) {
       getPhoto();
     }
-  }, [photo, getPhoto]);
+  }, [photo, getPhoto]);*/
 
   return (
     <li

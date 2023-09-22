@@ -207,30 +207,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     });
   }, [state]);
 
-  const getTgContacts = useCallback(async () => {
-    if (!window.Telegram?.WebApp?.initData) {
-      return;
-    }
-    setState({
-      contactsLoading: true,
-    });
-    try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/contacts`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
-      setState({
-        contacts: res.data || [],
-      });
-    } catch (error) {
-      console.log("getTgContacts error", error);
-    }
-    setState({
-      contactsLoading: false,
-    });
-  }, []);
-
   const getTgActivity = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
@@ -290,10 +266,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   useEffect(() => {
     getTgRewards();
   }, [getTgRewards]);
-
-  useEffect(() => {
-    getTgContacts();
-  }, [getTgContacts]);
 
   return (
     <AppContext.Provider
