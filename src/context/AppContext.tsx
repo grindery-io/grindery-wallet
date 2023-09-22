@@ -284,10 +284,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getMe]);
 
   useEffect(() => {
-    getTgContacts();
-  }, [getTgContacts]);
-
-  useEffect(() => {
     getTgActivity();
   }, [getTgActivity]);
 
@@ -295,11 +291,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     getTgRewards();
   }, [getTgRewards]);
 
-  //console.log("app state", JSON.stringify(state, null, 2));
-  /*console.log(
-    "telegram",
-    JSON.stringify(window.Telegram?.WebApp || {}, null, 2)
-  );*/
+  useEffect(() => {
+    getTgContacts();
+  }, [getTgContacts]);
 
   return (
     <AppContext.Provider
