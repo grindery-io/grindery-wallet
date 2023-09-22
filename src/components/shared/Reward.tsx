@@ -9,7 +9,7 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
       style={{
         listStyleType: "none",
         padding: 0,
-        margin: "0 0 10px",
+        margin: "10px 16px 0",
       }}
     >
       <DataBox
