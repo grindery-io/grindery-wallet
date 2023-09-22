@@ -267,6 +267,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     getTgRewards();
   }, [getTgRewards]);
 
+  if (window.origin.includes("localhost")) {
+    console.log("state", state);
+  }
+
   return (
     <AppContext.Provider
       value={{

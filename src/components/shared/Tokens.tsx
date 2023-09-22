@@ -106,7 +106,9 @@ const Tokens = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    {token.symbol === "g1" ? balance : token.balance}{" "}
+                    {token.symbol === "g1"
+                      ? balance?.toString()
+                      : token.balance}{" "}
                     <span style={{ fontWeight: "normal" }}>{token.symbol}</span>
                   </p>
                 </div>
