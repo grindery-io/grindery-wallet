@@ -49,7 +49,11 @@ const RewardsPage = () => {
               ))}
             </ul>
           ) : (
-            <p style={{ margin: "20px" }}>You have no rewards.</p>
+            <p
+              style={{ margin: "50px 20px", textAlign: "center", opacity: 0.6 }}
+            >
+              You have no rewards.
+            </p>
           )}
         </div>
       </div>

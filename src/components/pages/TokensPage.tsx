@@ -54,7 +54,7 @@ const TokensPage = () => {
                   padding: "8px 0 16px",
                   textAlign: "left",
                   position: "sticky",
-                  top: "0px",
+                  top: "61px",
                   background: "#fff",
                   zIndex: 1,
                 }}
@@ -129,7 +129,7 @@ const TokensPage = () => {
                   padding: "8px 0 16px",
                   textAlign: "left",
                   position: "sticky",
-                  top: "0px",
+                  top: "61px",
                   background: "#fff",
                   zIndex: 1,
                 }}

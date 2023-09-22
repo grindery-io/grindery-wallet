@@ -4,6 +4,7 @@ import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplay
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { TelegramUserContact } from "../../types/Telegram";
+import ContactAvatar from "./ContactAvatar";
 
 const Wrapper = styled.div`
   border-radius: 10px;
@@ -26,8 +27,25 @@ const SelectedContact = ({
   contact: TelegramUserContact;
   onClear: () => void;
 }) => {
+  const photo = localStorage.getItem("gr_wallet_contact_photo_" + contact.id);
   return (
     <Wrapper>
+      {photo && photo !== "null" ? (
+        <img
+          src={photo}
+          alt=""
+          style={{
+            width: "36px",
+            height: "36px",
+            display: "block",
+            borderRadius: "50%",
+          }}
+        />
+      ) : (
+        <>
+          <ContactAvatar contact={contact} />
+        </>
+      )}
       <div>
         <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.5 }}>
           Recipient

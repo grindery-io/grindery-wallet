@@ -3,6 +3,7 @@ import useAppContext from "../../hooks/useAppContext";
 import {
   Box,
   CircularProgress,
+  IconButton,
   InputBase,
   Tab,
   Tabs,
@@ -11,6 +12,7 @@ import {
 import TelegramContact from "./TelegramContact";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import { ICONS } from "../../constants";
 
 type Props = {
   onContactClick: (contact: any) => void;
@@ -105,6 +107,19 @@ const TelegramContacts = ({ onContactClick }: Props) => {
                 />
               </svg>
             </span>
+          }
+          endAdornment={
+            search && search.length > 0 ? (
+              <IconButton
+                sx={{ padding: "4px" }}
+                onClick={() => {
+                  setSearch("");
+                }}
+                aria-label="clear search input"
+              >
+                <img src={ICONS.CLOSE} alt="" />
+              </IconButton>
+            ) : undefined
           }
           fullWidth
           sx={{

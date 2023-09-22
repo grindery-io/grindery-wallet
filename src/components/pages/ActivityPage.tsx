@@ -117,7 +117,9 @@ const ActivityPage = () => {
               </List>
             </Box>
           ) : (
-            <p style={{ margin: "30px", textAlign: "center" }}>
+            <p
+              style={{ margin: "50px 20px", textAlign: "center", opacity: 0.6 }}
+            >
               You have no transactions.
             </p>
           )}

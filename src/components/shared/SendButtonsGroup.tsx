@@ -41,6 +41,9 @@ const SendButtonsGroup = () => {
             textTransform: "none",
             fontWeight: "normal",
           }}
+          onClick={() => {
+            alert("Coming soon");
+          }}
         >
           Next
         </Button>

@@ -52,6 +52,7 @@ const DataBox = (props: Props) => {
       onClick={(event: React.MouseEvent<HTMLElement>) => {
         onClick?.(event);
       }}
+      tabIndex={onClick ? 0 : undefined}
     >
       {size === "small" && (
         <Row>
