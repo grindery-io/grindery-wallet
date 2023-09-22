@@ -255,6 +255,30 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     });
   }, []);
 
+  const getTgContacts = useCallback(async () => {
+    if (!window.Telegram?.WebApp?.initData) {
+      return;
+    }
+    setState({
+      contactsLoading: true,
+    });
+    try {
+      const res = await axios.get(`${BOT_API_URL}/v1/telegram/contacts`, {
+        headers: {
+          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+        },
+      });
+      setState({
+        contacts: res.data || [],
+      });
+    } catch (error) {
+      console.log("getTgContacts error", error);
+    }
+    setState({
+      contactsLoading: false,
+    });
+  }, []);
+
   useEffect(() => {
     getMe();
   }, [getMe]);
@@ -266,6 +290,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   useEffect(() => {
     getTgRewards();
   }, [getTgRewards]);
+
+  useEffect(() => {
+    getTgContacts();
+  }, [getTgContacts]);
 
   if (window.origin.includes("localhost")) {
     console.log("state", state);

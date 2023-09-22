@@ -3,8 +3,11 @@ import { Tab, Tabs } from "@mui/material";
 import useAppContext from "../../hooks/useAppContext";
 import Activity from "./Activity";
 import { TelegramUserActivity } from "../../types/Telegram";
+import { FixedSizeList as List } from "react-window";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const Activities = () => {
+  const { height } = useWindowDimensions();
   const {
     state: { activity, user },
   } = useAppContext();
@@ -50,22 +53,49 @@ const Activities = () => {
 
       <div style={{ textAlign: "left" }}>
         {activity && activity.length > 0 ? (
-          <ul style={{ padding: 0, margin: 0 }}>
-            {activity
-              .filter(
+          <List
+            height={height - 141 - 56}
+            itemCount={
+              activity.filter(
                 (activity: TelegramUserActivity) =>
                   tab === 0 ||
                   (tab === 1 && user?.userTelegramID !== activity.senderTgId) ||
                   (tab === 2 && user?.userTelegramID === activity.senderTgId)
-              )
-              .map((activity: TelegramUserActivity) => (
-                <Activity key={activity._id} activity={activity} />
-              ))}
-          </ul>
+              ).length
+            }
+            itemSize={68}
+            width="100%"
+            itemData={activity.filter(
+              (activity: TelegramUserActivity) =>
+                tab === 0 ||
+                (tab === 1 && user?.userTelegramID !== activity.senderTgId) ||
+                (tab === 2 && user?.userTelegramID === activity.senderTgId)
+            )}
+          >
+            {ItemRenderer}
+          </List>
         ) : (
-          <p style={{ margin: "20px" }}>You have no transactions.</p>
+          <p style={{ margin: "30px", textAlign: "center" }}>
+            You have no transactions.
+          </p>
         )}
       </div>
+    </div>
+  );
+};
+
+const ItemRenderer = ({
+  data,
+  index,
+  style,
+}: {
+  data: any;
+  index: number;
+  style: any;
+}) => {
+  return (
+    <div style={style}>
+      <Activity activity={data[index]} />
     </div>
   );
 };

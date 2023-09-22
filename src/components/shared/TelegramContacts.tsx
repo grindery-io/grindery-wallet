@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import {
   CircularProgress,
@@ -8,8 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import TelegramContact from "./TelegramContact";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
@@ -21,7 +19,6 @@ const TelegramContacts = ({ onContactClick }: Props) => {
   const { height } = useWindowDimensions();
   const {
     state: { contacts, contactsLoading },
-    setState,
   } = useAppContext();
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState(0);
@@ -57,30 +54,6 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     setTab(newTab);
   };
 
-  const getTgContacts = useCallback(async () => {
-    if (!window.Telegram?.WebApp?.initData) {
-      return;
-    }
-    setState({
-      contactsLoading: true,
-    });
-    try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/contacts`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
-      setState({
-        contacts: res.data || [],
-      });
-    } catch (error) {
-      console.log("getTgContacts error", error);
-    }
-    setState({
-      contactsLoading: false,
-    });
-  }, [setState]);
-
   const ItemRenderer = ({
     data,
     index,
@@ -99,10 +72,6 @@ const TelegramContacts = ({ onContactClick }: Props) => {
       </div>
     );
   };
-
-  useEffect(() => {
-    getTgContacts();
-  }, [getTgContacts]);
 
   return (
     <div style={{ textAlign: "left" }}>
