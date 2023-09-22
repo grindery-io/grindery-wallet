@@ -59,6 +59,8 @@ const SendPage = () => {
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
+            padding: "0 16px",
+            boxSizing: "border-box",
           }}
         >
           <p style={{ margin: 0, textAlign: "center" }}>
@@ -75,7 +77,7 @@ const SendPage = () => {
               margin: 0,
               padding: 0,
               position: "absolute",
-              right: "0px",
+              right: "16px",
               top: "-1px",
               textTransform: "none",
               fontWeight: "normal",
@@ -105,6 +107,7 @@ const SendPage = () => {
               flexWrap: "nowrap",
               flex: 1,
               marginTop: "16px",
+              padding: "0 16px",
             }}
           >
             {input.recipient && (
