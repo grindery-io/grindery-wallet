@@ -3,16 +3,16 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { default as MuiBottomNavigation } from "@mui/material/BottomNavigation";
 import { MAX_WIDTH } from "../../constants";
 import { SvgIcon } from "@mui/material";
-import useAppContext from "../../hooks/useAppContext";
+import { useLocation, useNavigate } from "react-router";
 
 const BottomNavigation = () => {
-  const {
-    state: { activeTab },
-    setState,
-  } = useAppContext();
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const activeTab = location.pathname;
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setState({ activeTab: newValue });
+    navigate(newValue);
   };
 
   return (
@@ -60,7 +60,7 @@ const BottomNavigation = () => {
       >
         <BottomNavigationAction
           label="Tokens"
-          value="tokens"
+          value="/"
           icon={
             <SvgIcon sx={{ width: "20px", height: "20px" }}>
               <svg
@@ -92,7 +92,7 @@ const BottomNavigation = () => {
         />
         <BottomNavigationAction
           label="Contacts"
-          value="contacts"
+          value="/contacts"
           icon={
             <SvgIcon sx={{ width: "20px", height: "20px" }}>
               <svg
@@ -124,7 +124,7 @@ const BottomNavigation = () => {
         />
         <BottomNavigationAction
           label="NFTs"
-          value="nfts"
+          value="/nfts"
           icon={
             <SvgIcon sx={{ width: "20px", height: "20px" }}>
               <svg
@@ -170,7 +170,7 @@ const BottomNavigation = () => {
         />
         <BottomNavigationAction
           label="Rewards"
-          value="rewards"
+          value="/rewards"
           icon={
             <SvgIcon sx={{ width: "20px", height: "20px" }}>
               <svg
@@ -260,7 +260,7 @@ const BottomNavigation = () => {
         />
         <BottomNavigationAction
           label="Activity"
-          value="activity"
+          value="/activity"
           icon={
             <SvgIcon sx={{ width: "20px", height: "20px" }}>
               <svg

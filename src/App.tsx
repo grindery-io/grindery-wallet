@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./context/AppContext";
-import HomePage from "./components/pages/HomePage";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import Container from "./components/shared/Container";
 import SendPage from "./components/pages/SendPage";
 import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
+import TokensPage from "./components/pages/TokensPage";
+import ContactsPage from "./components/pages/ContactsPage";
+import NFTsPage from "./components/pages/NFTsPage";
+import RewardsPage from "./components/pages/RewardsPage";
+import ActivityPage from "./components/pages/ActivityPage";
 
 declare global {
   interface Window {
@@ -33,7 +37,11 @@ function App() {
         <BrowserRouter>
           <Container>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<TokensPage />} />
+              <Route path="/contacts" element={<ContactsPage />} />
+              <Route path="/nfts" element={<NFTsPage />} />
+              <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/activity" element={<ActivityPage />} />
               <Route path="/send" element={<SendPage />} />
               <Route
                 path="/connect/telegram"

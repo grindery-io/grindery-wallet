@@ -4,6 +4,7 @@ import severity from "./severity";
 import typography from "./typography";
 import MuiTooltip from "./components/MuiTooltip";
 import MuiButton from "./components/MuiButton";
+import MuiTypography from "./components/MuiTypography";
 
 declare module "@mui/material/styles" {
   interface Theme {}
@@ -20,6 +21,7 @@ const theme = createTheme({
   components: {
     MuiButton: MuiButton,
     MuiTooltip: MuiTooltip,
+    MuiTypography: MuiTypography,
   },
 });
 
