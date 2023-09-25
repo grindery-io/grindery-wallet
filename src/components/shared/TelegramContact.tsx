@@ -4,6 +4,7 @@ import { TelegramUserContact } from "../../types/Telegram";
 import ContactAvatar from "./ContactAvatar";
 import { BOT_API_URL } from "../../constants";
 import axios from "axios";
+import CheckIcon from "../icons/CheckIcon";
 
 type Props = {
   contact: TelegramUserContact;
@@ -65,23 +66,46 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
               gap: "16px",
             }}
           >
-            {photo && photo !== "null" ? (
-              <img
-                src={photo}
-                alt=""
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  display: "block",
-                  borderRadius: "50%",
-                }}
-              />
-            ) : (
-              <>
-                {/*<Jazzicon diameter={36} seed={parseFloat(contact.id)} />*/}
-                <ContactAvatar contact={contact} />
-              </>
-            )}
+            <div
+              style={{
+                position: "relative",
+              }}
+            >
+              {photo && photo !== "null" ? (
+                <img
+                  src={photo}
+                  alt=""
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    display: "block",
+                    borderRadius: "50%",
+                  }}
+                />
+              ) : (
+                <>
+                  {/*<Jazzicon diameter={36} seed={parseFloat(contact.id)} />*/}
+                  <ContactAvatar contact={contact} />
+                </>
+              )}
+              {contact.isGrinderyUser && (
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "-6px",
+                    right: "-6px",
+                    border: "2px solid var(--White, #FFF)",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <img
+                    src="https://app.grindery.io/logo192.png"
+                    alt=""
+                    style={{ width: "16px", height: "16px", display: "block" }}
+                  />
+                </div>
+              )}
+            </div>
             <div>
               <p
                 style={{
@@ -115,13 +139,9 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
           onContactClick(contact);
         }}
         RightComponent={
-          contact.isGrinderyUser ? (
-            <div>
-              <img
-                src="https://app.grindery.io/logo192.png"
-                alt=""
-                style={{ width: "20px", height: "20px", display: "block" }}
-              />
+          contact.isInvited ? (
+            <div style={{}}>
+              <CheckIcon />
             </div>
           ) : undefined
         }

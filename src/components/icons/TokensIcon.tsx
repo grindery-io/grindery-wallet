@@ -1,9 +1,12 @@
 import React from "react";
-import { SvgIcon } from "@mui/material";
+import { SvgIcon, SvgIconProps } from "@mui/material";
 
-const TokensIcon = () => {
+const TokensIcon = (props: SvgIconProps) => {
   return (
-    <SvgIcon sx={{ width: "20px", height: "20px" }}>
+    <SvgIcon
+      {...props}
+      sx={{ ...(props.sx || {}), width: "20px", height: "20px" }}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="25"

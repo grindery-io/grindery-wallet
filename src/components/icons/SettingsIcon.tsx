@@ -1,9 +1,12 @@
 import React from "react";
-import { SvgIcon } from "@mui/material";
+import { SvgIcon, SvgIconProps } from "@mui/material";
 
-const SettingsIcon = () => {
+const SettingsIcon = (props: SvgIconProps) => {
   return (
-    <SvgIcon sx={{ width: "32px", height: "32px" }}>
+    <SvgIcon
+      {...props}
+      sx={{ ...(props.sx || {}), width: "32px", height: "32px" }}
+    >
       <svg
         width="32"
         height="32"

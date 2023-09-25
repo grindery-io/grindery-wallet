@@ -1,7 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { MAX_WIDTH } from "../../constants";
-import { IconButton, MenuItem, OutlinedInput, Select } from "@mui/material";
+import {
+  IconButton,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Tooltip,
+} from "@mui/material";
 import RefreshIcon from "../icons/RefreshIcon";
 
 const Spacer = styled.div`
@@ -77,21 +83,24 @@ const AppHeader = ({ onRefresh, refreshing }: Props) => {
         </Select>
         <div style={{ marginLeft: "auto" }}>
           {onRefresh && (
-            <IconButton
-              onClick={onRefresh}
-              sx={{
-                color: "#0B0C0E",
-                padding: 0,
-                "& svg": {
-                  "-webkit-animation": "spin 0.75s linear infinite",
-                  "-moz-animation": "spin 0.75s linear infinite",
-                  animation: "spin 0.75s linear infinite",
-                  "animation-play-state": refreshing ? "running" : "paused",
-                },
-              }}
-            >
-              <RefreshIcon />
-            </IconButton>
+            <Tooltip title="Refresh">
+              <IconButton
+                onClick={onRefresh}
+                disabled={refreshing}
+                sx={{
+                  color: "#0B0C0E",
+                  padding: 0,
+                  "& svg": {
+                    WebkitAnimation: "spin 0.75s linear infinite",
+                    MozAnimation: "spin 0.75s linear infinite",
+                    animation: "spin 0.75s linear infinite",
+                    animationPlayState: refreshing ? "running" : "paused",
+                  },
+                }}
+              >
+                <RefreshIcon />
+              </IconButton>
+            </Tooltip>
           )}
         </div>
       </Wrapper>
