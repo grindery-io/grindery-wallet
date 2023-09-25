@@ -69,6 +69,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     return (
       <div style={style}>
         <TelegramContact
+          key={data[index].id}
           contact={data[index]}
           onContactClick={onContactClick}
         />

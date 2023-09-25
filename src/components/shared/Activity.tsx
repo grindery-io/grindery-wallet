@@ -123,6 +123,18 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
       }}
     >
       <DataBox
+        onClick={() => {
+          if (window.Telegram?.WebApp?.openLink) {
+            window.Telegram.WebApp.openLink(
+              `https://polygonscan.com/tx/${activity.transactionHash}`
+            );
+          } else {
+            window.open(
+              `https://polygonscan.com/tx/${activity.transactionHash}`,
+              "_blank"
+            );
+          }
+        }}
         LeftComponent={
           <div
             style={{

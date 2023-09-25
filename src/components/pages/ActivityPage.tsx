@@ -142,7 +142,7 @@ const ItemRenderer = ({
 }) => {
   return (
     <div style={style}>
-      <Activity activity={data[index]} />
+      <Activity activity={data[index]} key={data[index]._id} />
     </div>
   );
 };

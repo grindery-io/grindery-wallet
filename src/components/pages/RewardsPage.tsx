@@ -6,12 +6,18 @@ import Reward from "../shared/Reward";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { FixedSizeList as List } from "react-window";
 import { Box } from "@mui/material";
+import { formatBalance } from "../../utils/formatBalance";
 
 const RewardsPage = () => {
   const {
     state: { rewards },
   } = useAppContext();
   const { height } = useWindowDimensions();
+  const { formatted } = formatBalance(
+    rewards
+      .map((reward) => parseFloat(reward.amount))
+      .reduce((partialSum, a) => partialSum + a, 0)
+  );
   return (
     <>
       <AppHeader />
@@ -43,9 +49,7 @@ const RewardsPage = () => {
                 gap: "6px",
               }}
             >
-              {rewards
-                .map((reward) => parseFloat(reward.amount))
-                .reduce((partialSum, a) => partialSum + a, 0)}{" "}
+              {formatted}{" "}
               <img
                 src="/images/g1-token-red.svg"
                 alt=""
