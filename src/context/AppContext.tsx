@@ -328,7 +328,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     [state.user]
   );
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (!state.user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
       console.log(
         "window.Telegram?.WebApp?.initDataUnsafe",
@@ -345,7 +345,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         },
       });
     }
-  }, [state.user]);*/
+  }, [state.user]);
 
   useEffect(() => {
     getMe();

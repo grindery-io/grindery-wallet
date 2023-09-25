@@ -91,7 +91,6 @@ const Balance = () => {
               opacity: balanceCached ? 0.6 : 1,
             }}
           >
-            {balanceCached ? "!" : ""}
             {fullBalanceVisible ? full : formatted || 0}
             {hasHiddenPart ? (
               <span
