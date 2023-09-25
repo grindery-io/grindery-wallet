@@ -7,7 +7,7 @@ import SendButton from "../shared/SendButton";
 
 const tokens = [
   {
-    symbol: "(g¹)",
+    symbol: "G1",
     name: "Grindery One",
     balance: "0",
     icon: "/images/g1-token-red.svg",
@@ -30,12 +30,13 @@ const tokens = [
 
 const TokensPage = () => {
   const {
-    state: { user, rewards, balance },
+    state: { user, balance, balanceLoading },
+    getBalance,
   } = useAppContext();
 
   return (
     <>
-      <AppHeader />
+      <AppHeader onRefresh={getBalance} refreshing={balanceLoading} />
       <>
         <Balance />
         <SendButton />
@@ -48,7 +49,7 @@ const TokensPage = () => {
         >
           {user && (
             <>
-              <p
+              {/*<p
                 style={{
                   margin: "0",
                   padding: "8px 0 16px",
@@ -122,7 +123,7 @@ const TokensPage = () => {
                     </span>
                   </p>
                 </li>
-              </ul>
+                    </ul>*/}
               <p
                 style={{
                   margin: "0",
@@ -198,7 +199,7 @@ const TokensPage = () => {
                         lineHeight: 1.5,
                       }}
                     >
-                      {token.symbol === "(g¹)"
+                      {token.symbol === "G1"
                         ? balance?.toString()
                         : token.balance}{" "}
                       <span style={{ fontWeight: "normal" }}>

@@ -2,8 +2,10 @@ import React from "react";
 import DataBox from "./DataBox";
 import moment from "moment";
 import { TelegramUserReward } from "../../types/Telegram";
+import { formatBalance } from "../../utils/formatBalance";
 
 const Reward = ({ reward }: { reward: TelegramUserReward }) => {
+  const { formatted } = formatBalance(parseFloat(reward.amount));
   return (
     <li
       style={{
@@ -34,7 +36,11 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
-                background: "#898989",
+                backgroundColor: "#898989",
+                //backgroundImage: "url(/images/g1-token-red.svg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
                 color: "#fff",
               }}
             ></div>
@@ -64,11 +70,26 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
         }
         RightComponent={
           <div>
-            <p style={{ fontSize: "10px", margin: 0 }}>
+            <p
+              style={{
+                fontSize: "10px",
+                margin: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+                gap: "6px",
+              }}
+            >
               <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                {reward.amount}
+                {formatted}
               </span>{" "}
-              g¹
+              <img
+                src="/images/g1-token-red.svg"
+                alt=""
+                width="16"
+                style={{ display: "inline-block" }}
+              />
             </p>
           </div>
         }

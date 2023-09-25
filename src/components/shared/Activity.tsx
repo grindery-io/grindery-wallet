@@ -12,6 +12,7 @@ import {
   TelegramUserActivity,
   TelegramUserContact,
 } from "../../types/Telegram";
+import { formatBalance } from "../../utils/formatBalance";
 
 const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
   const {
@@ -26,6 +27,11 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
   const [secondaryUser, setSecondaryUser] = useState<
     TelegramUserContact | TelegramUser | undefined
   >(contacts?.find((contact) => contact.id === secondaryUserId));
+
+  const [photo, setPhoto] = useState(
+    localStorage.getItem("gr_wallet_contact_photo_" + secondaryUserId) || ""
+  );
+  const { formatted } = formatBalance(parseFloat(activity.tokenAmount));
 
   const getUser = useCallback(async () => {
     if (!secondaryUserId) return;
@@ -66,6 +72,44 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
     return avatarText || "U";
   };
 
+  const getPhoto = useCallback(async () => {
+    if (!secondaryUser || "username"! in secondaryUser) {
+      return;
+    }
+    if (
+      "username" in secondaryUser &&
+      "id" in secondaryUser &&
+      secondaryUser.username
+    ) {
+      try {
+        const res = await axios.get(
+          `${BOT_API_URL}/v1/telegram/user/photo?username=${secondaryUser.username}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                window.Telegram?.WebApp?.initData || ""
+              }`,
+            },
+          }
+        );
+        setPhoto(res.data.photo || "");
+
+        localStorage.setItem(
+          "gr_wallet_contact_photo_" + secondaryUser.id,
+          res.data.photo || "null"
+        );
+      } catch (err) {
+        setPhoto("");
+      }
+    }
+  }, [secondaryUser]);
+
+  useEffect(() => {
+    if (!photo) {
+      getPhoto();
+    }
+  }, [photo, getPhoto]);
+
   useEffect(() => {
     getUser();
   }, [getUser]);
@@ -105,12 +149,25 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
                 position: "relative",
               }}
             >
-              {getAvatarText()}
+              {photo && photo !== "null" ? (
+                <img
+                  src={photo}
+                  alt=""
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    display: "block",
+                    borderRadius: "50%",
+                  }}
+                />
+              ) : (
+                getAvatarText()
+              )}
               <div
                 style={{
                   position: "absolute",
-                  bottom: "0px",
-                  right: "0px",
+                  bottom: "-2px",
+                  right: "-2px",
                   borderRadius: "50%",
                   background: "#ffffff",
                   padding: "2px",
@@ -156,11 +213,27 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
         }
         RightComponent={
           <div>
-            <p style={{ fontSize: "10px", margin: 0 }}>
+            <p
+              style={{
+                fontSize: "10px",
+                margin: 0,
+                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+                gap: "6px",
+              }}
+            >
               <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                {activity.tokenAmount}
+                {formatted}
               </span>{" "}
-              {activity.tokenSymbol}
+              <img
+                src="/images/g1-token-red.svg"
+                alt=""
+                width="16"
+                style={{ display: "inline-block" }}
+              />
             </p>
           </div>
         }

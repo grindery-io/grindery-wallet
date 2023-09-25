@@ -36,12 +36,22 @@ const RewardsPage = () => {
                 fontSize: "14px",
                 fontWeight: "bold",
                 padding: "0 9px 0 0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+                gap: "6px",
               }}
             >
               {rewards
                 .map((reward) => parseFloat(reward.amount))
                 .reduce((partialSum, a) => partialSum + a, 0)}{" "}
-              <span style={{ fontWeight: "normal", fontSize: "12px" }}>g¹</span>
+              <img
+                src="/images/g1-token-red.svg"
+                alt=""
+                width="16"
+                style={{ display: "inline-block" }}
+              />
             </p>
           </div>
 

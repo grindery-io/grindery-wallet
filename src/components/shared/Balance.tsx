@@ -1,7 +1,5 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
 import {
   CircularProgress,
   MenuItem,
@@ -9,33 +7,16 @@ import {
   Select,
 } from "@mui/material";
 import Address from "./Address";
+import { formatBalance } from "../../utils/formatBalance";
 
 const Balance = () => {
   const {
-    state: { user, balance },
-    setState,
+    state: { user, balance, balanceCached },
+    getBalance,
   } = useAppContext();
+  const [fullBalanceVisible, setFullBalanceVisible] = React.useState(false);
 
-  const getBalance = useCallback(async () => {
-    if (!user?.patchwallet) {
-      return;
-    }
-    // get balance here
-    try {
-      const res = await axios.post(`${BOT_API_URL}/v1/data/balance/`, {
-        userAddress: user.patchwallet,
-        contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-        chainId: "matic",
-      });
-      if (res?.data?.balanceEther) {
-        setState({ balance: parseFloat(res.data.balanceEther) });
-      } else {
-        setState({ balance: 0 });
-      }
-    } catch (error) {
-      setState({ balance: 0 });
-    }
-  }, [user, setState]);
+  const { full, formatted, hasHiddenPart } = formatBalance(balance);
 
   useEffect(() => {
     getBalance();
@@ -86,9 +67,9 @@ const Balance = () => {
                   "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
               },
             }}
-            value="g¹"
+            value="G1"
           >
-            {["g¹", "USD"].map((name) => (
+            {["G1", "USD"].map((name) => (
               <MenuItem key={name} value={name} disabled={name === "USD"}>
                 {name}
               </MenuItem>
@@ -107,10 +88,23 @@ const Balance = () => {
               textAlign: "center",
               fontSize: "35px",
               margin: "20px 0 16px",
+              opacity: balanceCached ? 0.6 : 1,
             }}
           >
-            {balance || 0}{" "}
-            <span style={{ fontWeight: "normal", fontSize: "16px" }}>(g¹)</span>
+            {balanceCached ? "!" : ""}
+            {fullBalanceVisible ? full : formatted || 0}
+            {hasHiddenPart ? (
+              <span
+                onClick={() => {
+                  setFullBalanceVisible(true);
+                }}
+              >
+                ...
+              </span>
+            ) : (
+              ""
+            )}{" "}
+            <span style={{ fontWeight: "normal", fontSize: "16px" }}>G1</span>
           </h2>
           <Address />
         </>

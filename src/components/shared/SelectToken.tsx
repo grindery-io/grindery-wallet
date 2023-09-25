@@ -34,7 +34,7 @@ const SelectToken = () => {
         }}
       />
       <div>
-        <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.5 }}>g1</p>
+        <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.5 }}>G1</p>
         <p
           style={{ fontSize: "12px", margin: 0, lineHeight: 1.5, opacity: 0.6 }}
         >
