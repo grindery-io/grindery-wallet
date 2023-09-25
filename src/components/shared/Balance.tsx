@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useAppContext from "../../hooks/useAppContext";
 import {
   CircularProgress,
@@ -12,15 +12,10 @@ import { formatBalance } from "../../utils/formatBalance";
 const Balance = () => {
   const {
     state: { user, balance, balanceCached },
-    getBalance,
   } = useAppContext();
   const [fullBalanceVisible, setFullBalanceVisible] = React.useState(false);
 
   const { full, formatted, hasHiddenPart } = formatBalance(balance);
-
-  useEffect(() => {
-    getBalance();
-  }, [getBalance]);
 
   return (
     <div

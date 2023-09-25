@@ -352,6 +352,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getMe]);
 
   useEffect(() => {
+    getBalance();
+  }, [getBalance]);
+
+  useEffect(() => {
     getTgActivity();
   }, [getTgActivity]);
 
