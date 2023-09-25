@@ -81,7 +81,7 @@ const Balance = () => {
         <div style={{ textAlign: "center", margin: "0 auto" }}>
           <CircularProgress />
         </div>
-      ) : user.patchwallet ? (
+      ) : (
         <>
           <h2
             style={{
@@ -107,20 +107,6 @@ const Balance = () => {
           </h2>
           <Address />
         </>
-      ) : (
-        <div>
-          <p style={{ textAlign: "center" }}>
-            You don't have a wallet yet. Use{" "}
-            <a
-              href="https://telegram.me/grinderyAIBot"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Grindery AI Bot
-            </a>{" "}
-            to create a wallet.
-          </p>
-        </div>
       )}
     </div>
   );
