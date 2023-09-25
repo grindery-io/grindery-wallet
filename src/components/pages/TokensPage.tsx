@@ -36,7 +36,12 @@ const TokensPage = () => {
 
   return (
     <>
-      <AppHeader onRefresh={getBalance} refreshing={balanceLoading} />
+      <AppHeader
+        onRefresh={() => {
+          getBalance(true);
+        }}
+        refreshing={balanceLoading}
+      />
       <>
         <Balance />
         <SendButton />

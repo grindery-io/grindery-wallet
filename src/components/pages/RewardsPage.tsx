@@ -10,7 +10,8 @@ import { formatBalance } from "../../utils/formatBalance";
 
 const RewardsPage = () => {
   const {
-    state: { rewards },
+    state: { rewards, rewardsLoading },
+    getTgRewards,
   } = useAppContext();
   const { height } = useWindowDimensions();
   const { formatted } = formatBalance(
@@ -20,7 +21,7 @@ const RewardsPage = () => {
   );
   return (
     <>
-      <AppHeader />
+      <AppHeader onRefresh={getTgRewards} refreshing={rewardsLoading} />
       <div style={{ width: "100%", boxSizing: "border-box" }}>
         <div style={{ textAlign: "left" }}>
           <div

@@ -11,7 +11,8 @@ import Activity from "../shared/Activity";
 const ActivityPage = () => {
   const { height } = useWindowDimensions();
   const {
-    state: { activity, user },
+    state: { activity, user, activityLoading },
+    getTgActivity,
   } = useAppContext();
   const [tab, setTab] = useState(0);
 
@@ -20,7 +21,7 @@ const ActivityPage = () => {
   };
   return (
     <>
-      <AppHeader />
+      <AppHeader onRefresh={getTgActivity} refreshing={activityLoading} />
       <div
         style={{ width: "100%", padding: "16px 0 0", boxSizing: "border-box" }}
       >

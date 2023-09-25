@@ -39,7 +39,9 @@ type ContextProps = {
   handleInputChange: (name: string, value: string) => void;
   submitPhoneAndPassword: () => void;
   submitPhoneCode: () => void;
-  getBalance: () => void;
+  getBalance: (a?: boolean) => void;
+  getTgActivity: () => void;
+  getTgRewards: () => void;
 };
 
 // Context provider props
@@ -71,6 +73,8 @@ const defaultContext = {
   submitPhoneAndPassword: () => {},
   submitPhoneCode: () => {},
   getBalance: () => {},
+  getTgActivity: () => {},
+  getTgRewards: () => {},
 };
 
 // Init context
@@ -286,40 +290,43 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     });
   }, []);
 
-  const getBalance = useCallback(async () => {
-    if (!state.user?.patchwallet) {
-      return;
-    }
-    setState({
-      balanceLoading: true,
-    });
-    // get balance here
-    const userId = state.user.userTelegramID;
-    try {
-      const res = await axios.post(`${BOT_API_URL}/v1/data/balance/`, {
-        userAddress: state.user.patchwallet,
-        contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-        chainId: "matic",
+  const getBalance = useCallback(
+    async (a?: boolean) => {
+      if (!state.user?.patchwallet) {
+        return;
+      }
+      setState({
+        balanceLoading: !a ? false : true,
       });
-      if (res?.data?.balanceEther) {
-        setState({
-          balance: parseFloat(res.data.balanceEther),
-          balanceCached: false,
-          balanceLoading: false,
+      // get balance here
+      const userId = state.user.userTelegramID;
+      try {
+        const res = await axios.post(`${BOT_API_URL}/v1/data/balance/`, {
+          userAddress: state.user.patchwallet,
+          contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
+          chainId: "matic",
         });
-        localStorage.setItem(
-          `grindery_${userId}_balance`,
-          res.data.balanceEther
-        );
-      } else {
+        if (res?.data?.balanceEther) {
+          setState({
+            balance: parseFloat(res.data.balanceEther),
+            balanceCached: false,
+            balanceLoading: false,
+          });
+          localStorage.setItem(
+            `grindery_${userId}_balance`,
+            res.data.balanceEther
+          );
+        } else {
+          setState({ balance: 0, balanceCached: false, balanceLoading: false });
+          localStorage.setItem(`grindery_${userId}_balance`, "0");
+        }
+      } catch (error) {
         setState({ balance: 0, balanceCached: false, balanceLoading: false });
         localStorage.setItem(`grindery_${userId}_balance`, "0");
       }
-    } catch (error) {
-      setState({ balance: 0, balanceCached: false, balanceLoading: false });
-      localStorage.setItem(`grindery_${userId}_balance`, "0");
-    }
-  }, [state.user]);
+    },
+    [state.user]
+  );
 
   /*useEffect(() => {
     if (!state.user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
@@ -382,6 +389,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         submitPhoneAndPassword,
         submitPhoneCode,
         getBalance,
+        getTgActivity,
+        getTgRewards,
       }}
     >
       {children}
