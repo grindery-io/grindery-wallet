@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
 import { Button } from "@mui/material";
+import { default as CustomButton } from "../shared/Button";
 import { useNavigate, useParams } from "react-router";
 import AppHeader from "../shared/AppHeader";
 import Contacts from "../shared/Contacts";
@@ -15,6 +16,7 @@ const SendPage = () => {
   const {
     state: { contacts },
   } = useAppContext();
+  const [connecting, setConnecting] = useState(false);
 
   const { id: recipient } = useParams();
   let navigate = useNavigate();
@@ -90,6 +92,59 @@ const SendPage = () => {
                 recipient: contact,
               });
             }}
+            placeholder={
+              <div style={{ padding: "0 16px" }}>
+                <p
+                  style={{
+                    textAlign: "center",
+                    lineHeight: "1.5",
+                  }}
+                >
+                  To select a recipient your wallet needs access to your
+                  contacts.
+                </p>
+
+                <CustomButton
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  fullWidth
+                  sx={{ width: "100%" }}
+                  disabled={connecting}
+                  onClick={() => {
+                    setConnecting(true);
+                    if (window.Telegram?.WebApp?.openLink) {
+                      window.Telegram.WebApp.openLink(
+                        `https://wallet-staging.grindery.io/connect/telegram?${
+                          window.Telegram?.WebApp?.initData || ""
+                        }`
+                      );
+                    } else {
+                      window.open(
+                        `https://wallet-staging.grindery.io/connect/telegram?${
+                          window.Telegram?.WebApp?.initData || ""
+                        }`
+                      );
+                    }
+                  }}
+                  value="Grant Access"
+                />
+                <ul style={{ margin: "24px 0", padding: 0, textAlign: "left" }}>
+                  <li style={{ margin: "0 0 0 20px", padding: "8px 0" }}>
+                    Forget about wallet addresses of your contacts
+                  </li>
+                  <li style={{ margin: "0 0 0 20px", padding: "8px 0" }}>
+                    Send tokens before they setup they own wallet
+                  </li>
+                  <li style={{ margin: "0 0 0 20px", padding: "8px 0" }}>
+                    Earn rewards by identifying contacts to refer
+                  </li>
+                  <li style={{ margin: "0 0 0 20px", padding: "8px 0" }}>
+                    and more to come…
+                  </li>
+                </ul>
+              </div>
+            }
           />
         ) : (
           <div

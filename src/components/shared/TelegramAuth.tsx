@@ -136,13 +136,10 @@ const TelegramAuth = () => {
     <Container>
       <>
         <Title>Sign in with Telegram</Title>
-        <Subtitle>
-          Use Telegram credentials to grant Grindery access to your contacts
-          list.
-        </Subtitle>
+        <Subtitle>Features you will get access to by signing in:</Subtitle>
         <Form>
           <InputGroup>
-            <label>Phone number</label>
+            <label>Phone number in the international format</label>
             <input
               type="phone"
               value={phone}
@@ -150,6 +147,7 @@ const TelegramAuth = () => {
                 handleInputChange("phone", event.target.value);
               }}
               disabled={loading || Boolean(operationId)}
+              placeholder="12345678901"
             />
           </InputGroup>
 
