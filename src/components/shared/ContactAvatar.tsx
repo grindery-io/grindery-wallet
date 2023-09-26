@@ -2,6 +2,7 @@ import React from "react";
 
 type Props = {
   contact: any;
+  style?: React.CSSProperties;
 };
 
 const getAvatarText = (contact: any) => {
@@ -18,7 +19,7 @@ const getAvatarText = (contact: any) => {
   return avatarText || "U";
 };
 
-const ContactAvatar = ({ contact }: Props) => {
+const ContactAvatar = ({ contact, style }: Props) => {
   return (
     <div
       style={{
@@ -33,6 +34,7 @@ const ContactAvatar = ({ contact }: Props) => {
         background: "#898989",
         overflow: "hideen",
         color: "#fff",
+        ...(style || {}),
       }}
     >
       {getAvatarText(contact)}

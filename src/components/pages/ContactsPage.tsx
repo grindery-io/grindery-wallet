@@ -13,7 +13,7 @@ const ContactsPage = () => {
 
       <Contacts
         onContactClick={(contact) => {
-          navigate(`/send?recipient=${contact.id}`);
+          navigate(`/contacts/${contact.id}`);
         }}
       />
 

@@ -7,7 +7,6 @@ import {
   InputBase,
   Tab,
   Tabs,
-  Typography,
 } from "@mui/material";
 import TelegramContact from "./TelegramContact";
 import { FixedSizeList as List } from "react-window";
@@ -45,7 +44,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
         return contact.isGrinderyUser;
       }
       if (tab === 2) {
-        return false;
+        return !contact.isGrinderyUser && contact.isInvited;
       }
       if (tab === 3) {
         return !contact.isGrinderyUser;
@@ -187,34 +186,29 @@ const TelegramContacts = ({ onContactClick }: Props) => {
               sx={{ textTransform: "initial", fontWeight: "normal" }}
             />
           </Tabs>
-          {tab === 2 ? (
-            <div style={{ textAlign: "center", margin: "50px" }}>
-              <Typography color="GrayText">Coming soon</Typography>
-            </div>
-          ) : (
-            <Box
-              sx={{
+
+          <Box
+            sx={{
+              "& > div": {
+                padding: "0 0 10px",
+                boxSizing: "border-box",
                 "& > div": {
                   padding: "0 0 10px",
                   boxSizing: "border-box",
-                  "& > div": {
-                    padding: "0 0 10px",
-                    boxSizing: "border-box",
-                  },
                 },
-              }}
+              },
+            }}
+          >
+            <List
+              height={height - 238}
+              itemCount={data?.length}
+              itemSize={68}
+              width="100%"
+              itemData={data}
             >
-              <List
-                height={height - 238}
-                itemCount={data?.length}
-                itemSize={68}
-                width="100%"
-                itemData={data}
-              >
-                {ItemRenderer}
-              </List>
-            </Box>
-          )}
+              {ItemRenderer}
+            </List>
+          </Box>
         </>
       ) : contactsLoading ? (
         <div style={{ margin: "50px", textAlign: "center" }}>

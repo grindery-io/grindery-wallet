@@ -9,6 +9,7 @@ import RewardsPage from "./components/pages/RewardsPage";
 import ActivityPage from "./components/pages/ActivityPage";
 import useAppContext from "./hooks/useAppContext";
 import { Box, CircularProgress } from "@mui/material";
+import ContactPage from "./components/pages/ContactPage";
 
 const AppRoutes = () => {
   const {
@@ -19,10 +20,12 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
+      <Route path="/contacts/:id" element={<ContactPage />} />
       <Route path="/nfts" element={<NFTsPage />} />
       <Route path="/rewards" element={<RewardsPage />} />
       <Route path="/activity" element={<ActivityPage />} />
       <Route path="/send" element={<SendPage />} />
+      <Route path="/send/:id" element={<SendPage />} />
       <Route path="/connect/telegram" element={<ConnectTelegramPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

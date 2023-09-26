@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import AppHeader from "../shared/AppHeader";
 import Contacts from "../shared/Contacts";
 import SelectedContact from "../shared/SelectedContact";
@@ -15,14 +15,8 @@ const SendPage = () => {
   const {
     state: { contacts },
   } = useAppContext();
-  const queryString = window.location.search;
 
-  const urlParams = useMemo(
-    () => new URLSearchParams(queryString),
-    [queryString]
-  );
-
-  const recipient = urlParams.get("recipient");
+  const { id: recipient } = useParams();
   let navigate = useNavigate();
   useBackButton({ path: "/" });
   const [input, setInput] = useState<{
@@ -90,6 +84,7 @@ const SendPage = () => {
         {!input.recipient ? (
           <Contacts
             onContactClick={(contact) => {
+              navigate(`/send/${contact.id}`);
               setInput({
                 ...input,
                 recipient: contact,
