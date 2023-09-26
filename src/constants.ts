@@ -3,7 +3,7 @@ import { Operation, Workflow } from "./types/Workflow";
 export const WORKFLOW_ENGINE_URL = "https://orchestrator.grindery.org";
 
 export const BOT_API_URL =
-  process.env.NODE_ENV === "development"
+  process.env.REACT_APP_ENV === "development"
     ? "http://localhost:3000"
     : "https://bot-auth-api-staging.grindery.org";
 
