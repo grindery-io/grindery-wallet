@@ -6,8 +6,8 @@ import { useLocation, useNavigate } from "react-router";
 import TokensIcon from "../icons/TokensIcon";
 import ContactsIcon from "../icons/ContactsIcon";
 import NftsIcon from "../icons/NftsIcon";
-import RewardsIcon from "../icons/RewardsIcon";
 import ActivityIcon from "../icons/ActivityIcon";
+import AppsIcon from "../icons/AppsIcon";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
@@ -78,14 +78,14 @@ const BottomNavigation = () => {
           icon={<NftsIcon />}
         />
         <BottomNavigationAction
-          label="Rewards"
-          value="/rewards"
-          icon={<RewardsIcon />}
+          label="Activity"
+          value="/activities/transfers/all"
+          icon={<ActivityIcon />}
         />
         <BottomNavigationAction
-          label="Activity"
-          value="/activity"
-          icon={<ActivityIcon />}
+          label="Apps"
+          value="/apps"
+          icon={<AppsIcon />}
         />
       </MuiBottomNavigation>
     </>

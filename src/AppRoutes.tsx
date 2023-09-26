@@ -5,11 +5,11 @@ import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
 import TokensPage from "./components/pages/TokensPage";
 import ContactsPage from "./components/pages/ContactsPage";
 import NFTsPage from "./components/pages/NFTsPage";
-import RewardsPage from "./components/pages/RewardsPage";
-import ActivityPage from "./components/pages/ActivityPage";
 import useAppContext from "./hooks/useAppContext";
 import { Box, CircularProgress } from "@mui/material";
 import ContactPage from "./components/pages/ContactPage";
+import ActivitiesPage from "./components/pages/ActivitiesPage";
+import AppsPage from "./components/pages/AppsPage";
 
 const AppRoutes = () => {
   const {
@@ -22,8 +22,16 @@ const AppRoutes = () => {
       <Route path="/contacts" element={<ContactsPage />} />
       <Route path="/contacts/:id" element={<ContactPage />} />
       <Route path="/nfts" element={<NFTsPage />} />
-      <Route path="/rewards" element={<RewardsPage />} />
-      <Route path="/activity" element={<ActivityPage />} />
+      <Route path="/activities/:type/:status" element={<ActivitiesPage />} />
+      <Route
+        path="/activities"
+        element={<Navigate to="/activities/transfers/all" replace />}
+      />
+      <Route
+        path="/activities/:type"
+        element={<Navigate to="/activities/transfers/all" replace />}
+      />
+      <Route path="/apps" element={<AppsPage />} />
       <Route path="/send" element={<SendPage />} />
       <Route path="/send/:id" element={<SendPage />} />
       <Route path="/connect/telegram" element={<ConnectTelegramPage />} />
