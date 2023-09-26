@@ -181,7 +181,7 @@ const SendPage = () => {
                 });
               }}
             />
-            <SendButtonsGroup />
+            <SendButtonsGroup input={input} />
           </div>
         )}
       </div>

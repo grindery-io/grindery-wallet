@@ -20,7 +20,7 @@ type Props = {
 const TelegramContacts = ({ onContactClick }: Props) => {
   const { height } = useWindowDimensions();
   const {
-    state: { user, contacts, contactsLoading },
+    state: { contacts, contactsLoading },
   } = useAppContext();
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState(0);
@@ -50,8 +50,8 @@ const TelegramContacts = ({ onContactClick }: Props) => {
         return !contact.isGrinderyUser && !contact.isInvited;
       }
       return true;
-    })
-    .filter((contact) => contact.id !== user?.userTelegramID);
+    });
+  //.filter((contact) => contact.id !== user?.userTelegramID);
 
   const handleChange = (event: React.SyntheticEvent, newTab: number) => {
     setTab(newTab);
