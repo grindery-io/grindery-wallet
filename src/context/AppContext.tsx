@@ -28,7 +28,10 @@ type StateProps = {
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
   activityLoading: boolean;
-  rewards: TelegramUserReward[];
+  rewards: {
+    received: TelegramUserReward[];
+    pending: TelegramUserActivity[];
+  };
   rewardsLoading: boolean;
   telegramSessionSaved?: boolean;
 };
@@ -66,7 +69,10 @@ const defaultContext = {
     activity: [],
     contactsLoading: true,
     activityLoading: true,
-    rewards: [],
+    rewards: {
+      received: [],
+      pending: [],
+    },
     rewardsLoading: true,
   },
   setState: () => {},
@@ -258,10 +264,16 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         },
       });
       setState({
-        rewards: (res.data || []).sort(
-          (a: TelegramUserReward, b: TelegramUserReward) =>
-            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-        ),
+        rewards: {
+          pending: (res.data?.pending || []).sort(
+            (a: TelegramUserActivity, b: TelegramUserActivity) =>
+              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
+          ),
+          received: (res.data?.received || []).sort(
+            (a: TelegramUserReward, b: TelegramUserReward) =>
+              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
+          ),
+        },
       });
     } catch (error) {
       console.log("getTgRewards error", error);

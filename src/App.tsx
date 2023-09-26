@@ -15,7 +15,12 @@ declare global {
 window.Telegram = window.Telegram?.WebApp?.initData
   ? window.Telegram
   : {
-      WebApp: { initData: window.location.href?.split("?")?.[1] || "" },
+      WebApp: {
+        initData:
+          process.env.REACT_APP_DEV_KEY ||
+          window.location.href?.split("?")?.[1] ||
+          "",
+      },
     };
 
 function App() {

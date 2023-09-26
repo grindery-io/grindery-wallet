@@ -9,6 +9,7 @@ import { TelegramUserActivity } from "../../types/Telegram";
 import Activity from "../shared/Activity";
 import Reward from "../shared/Reward";
 import { useNavigate, useParams } from "react-router";
+import PendingReward from "../shared/PendingReward";
 
 const PRIMARY_TABS = ["transfers", "rewards"];
 const TRANSFERS_TABS = ["all", "received", "sent"];
@@ -250,7 +251,8 @@ const ActivitiesPage = () => {
           )}
           {primaryTab === 1 && (
             <>
-              {rewardsTab === 1 && rewards && rewards.length > 0 ? (
+              {(rewardsTab === 0 && rewards.pending.length > 0) ||
+              (rewardsTab === 1 && rewards.received.length > 0) ? (
                 <Box
                   sx={{
                     "& > div": {
@@ -265,12 +267,20 @@ const ActivitiesPage = () => {
                 >
                   <List
                     height={height - 155 - 53}
-                    itemCount={rewardsTab === 1 ? rewards.length : 0}
+                    itemCount={
+                      rewardsTab === 0
+                        ? rewards.pending.length
+                        : rewards.received.length
+                    }
                     itemSize={68}
                     width="100%"
-                    itemData={rewardsTab === 1 ? rewards : []}
+                    itemData={
+                      rewardsTab === 0 ? rewards.pending : rewards.received
+                    }
                   >
-                    {RewardsRenderer}
+                    {rewardsTab === 0
+                      ? PendingRewardRenderer
+                      : ReceivedRewardRenderer}
                   </List>
                 </Box>
               ) : (
@@ -310,7 +320,7 @@ const TransactionRenderer = ({
   );
 };
 
-const RewardsRenderer = ({
+const ReceivedRewardRenderer = ({
   data,
   index,
   style,
@@ -321,7 +331,23 @@ const RewardsRenderer = ({
 }) => {
   return (
     <div style={style}>
-      <Reward reward={data[index]} />
+      <Reward reward={data[index]} key={data[index]._id} />
+    </div>
+  );
+};
+
+const PendingRewardRenderer = ({
+  data,
+  index,
+  style,
+}: {
+  data: any;
+  index: number;
+  style: any;
+}) => {
+  return (
+    <div style={style}>
+      <PendingReward activity={data[index]} key={data[index]._id} />
     </div>
   );
 };
