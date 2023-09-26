@@ -177,7 +177,7 @@ const ContactPage = () => {
                 <span style={{ opacity: 0.6 }}>Activity</span>
               </p>
               {contactActivity.map((activity) => (
-                <Activity activity={activity} />
+                <Activity activity={activity} onAvatarClick={() => {}} />
               ))}
             </div>
           )}

@@ -13,8 +13,16 @@ import {
   TelegramUserContact,
 } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
+import { useNavigate } from "react-router";
 
-const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
+type Props = {
+  activity: TelegramUserActivity;
+  onClick?: () => void;
+  onAvatarClick?: () => void;
+};
+
+const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
+  const navigate = useNavigate();
   const {
     state: { user, contacts },
   } = useAppContext();
@@ -123,18 +131,22 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
       }}
     >
       <DataBox
-        onClick={() => {
-          if (window.Telegram?.WebApp?.openLink) {
-            window.Telegram.WebApp.openLink(
-              `https://polygonscan.com/tx/${activity.transactionHash}`
-            );
-          } else {
-            window.open(
-              `https://polygonscan.com/tx/${activity.transactionHash}`,
-              "_blank"
-            );
-          }
-        }}
+        onClick={
+          typeof onClick !== "undefined"
+            ? onClick
+            : () => {
+                if (window.Telegram?.WebApp?.openLink) {
+                  window.Telegram.WebApp.openLink(
+                    `https://polygonscan.com/tx/${activity.transactionHash}`
+                  );
+                } else {
+                  window.open(
+                    `https://polygonscan.com/tx/${activity.transactionHash}`,
+                    "_blank"
+                  );
+                }
+              }
+        }
         LeftComponent={
           <div
             style={{
@@ -160,6 +172,16 @@ const Activity = ({ activity }: { activity: TelegramUserActivity }) => {
                 color: "#fff",
                 position: "relative",
               }}
+              onClick={
+                typeof onAvatarClick !== "undefined"
+                  ? onAvatarClick
+                  : secondaryUser && "id" in secondaryUser && secondaryUser?.id
+                  ? (e: React.MouseEvent) => {
+                      e.stopPropagation();
+                      navigate(`/contacts/${secondaryUser?.id}`);
+                    }
+                  : undefined
+              }
             >
               {photo && photo !== "null" ? (
                 <img
