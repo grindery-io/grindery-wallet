@@ -101,7 +101,7 @@ const ActivitiesPage = () => {
             }}
           >
             <Tab
-              label="Transactions"
+              label="Transfers"
               sx={{ textTransform: "initial", fontWeight: "normal" }}
             />
             <Tab
