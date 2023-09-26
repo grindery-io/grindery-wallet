@@ -256,7 +256,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         },
       });
       setState({
-        rewards: res.data || [],
+        rewards: (res.data || []).sort(
+          (a: TelegramUserReward, b: TelegramUserReward) =>
+            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
+        ),
       });
     } catch (error) {
       console.log("getTgRewards error", error);
