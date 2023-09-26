@@ -86,8 +86,8 @@ const Balance = () => {
               opacity: balanceCached ? 0.6 : 1,
             }}
           >
-            {fullBalanceVisible ? full : formatted || 0}
-            {hasHiddenPart ? (
+            {fullBalanceVisible ? full.toLocaleString() : formatted || 0}
+            {hasHiddenPart && !fullBalanceVisible ? (
               <span
                 onClick={() => {
                   setFullBalanceVisible(true);
