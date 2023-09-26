@@ -8,19 +8,22 @@ import {
   TelegramUserContact,
 } from "../../types/Telegram";
 import axios from "axios";
-import { BOT_API_URL, ICONS } from "../../constants";
+import { BOT_API_URL, ICONS, MAX_WIDTH } from "../../constants";
 import ContactAvatar from "../shared/ContactAvatar";
 import Button from "../shared/Button";
 import styled from "styled-components";
 import Activity from "../shared/Activity";
 
 const ButtonWrapper = styled.div`
-  width: 100%;
   box-sizing: border-box;
   padding: 16px;
   position: fixed;
+  width: 100%;
+  max-width: ${MAX_WIDTH};
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 0;
-  left: 0;
   background: var(--grindery-solids-white, #fff);
 
   & button {
