@@ -13,7 +13,9 @@ const BottomNavigation = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const activeTab = location.pathname;
+  const activeTab = location.pathname.includes("/activities")
+    ? "/activities"
+    : location.pathname;
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     navigate(newValue);
@@ -79,7 +81,7 @@ const BottomNavigation = () => {
         />
         <BottomNavigationAction
           label="Activity"
-          value="/activities/transfers/all"
+          value="/activities"
           icon={<ActivityIcon />}
         />
         <BottomNavigationAction
