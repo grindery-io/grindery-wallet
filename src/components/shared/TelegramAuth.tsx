@@ -210,7 +210,7 @@ const TelegramAuth = () => {
             <span
               style={{ textAlign: "center", opacity: 0.5, fontSize: "12px" }}
             >
-              Please check your Telegram account.
+              Please check your Telegram app.
               <br />
               You should receive an authorization code.
             </span>
