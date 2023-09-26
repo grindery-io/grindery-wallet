@@ -30,6 +30,7 @@ type StateProps = {
   activityLoading: boolean;
   rewards: TelegramUserReward[];
   rewardsLoading: boolean;
+  telegramSessionSaved?: boolean;
 };
 
 // Context props
@@ -198,6 +199,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           ...state.user,
           telegramSession: res.data?.session || "",
         },
+        telegramSessionSaved: true,
       });
     } catch (error: any) {
       setState({
@@ -270,7 +272,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, []);
 
   const getTgContacts = useCallback(async () => {
-    if (!window.Telegram?.WebApp?.initData) {
+    if (!window.Telegram?.WebApp?.initData || !state.user?.telegramSession) {
       return;
     }
     setState({
@@ -287,11 +289,20 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       });
     } catch (error) {
       console.log("getTgContacts error", error);
+      setState({
+        contacts: [],
+        user: state.user?._id
+          ? {
+              ...state.user,
+              telegramSession: "",
+            }
+          : null,
+      });
     }
     setState({
       contactsLoading: false,
     });
-  }, []);
+  }, [state.user]);
 
   const getBalance = useCallback(
     async (a?: boolean) => {

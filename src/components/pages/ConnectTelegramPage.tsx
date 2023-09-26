@@ -2,14 +2,12 @@ import React from "react";
 import TelegramAuth from "../shared/TelegramAuth";
 import useAppContext from "../../hooks/useAppContext";
 
-type Props = {};
-
-const ConnectTelegramPage = (props: Props) => {
+const ConnectTelegramPage = () => {
   const {
-    state: { user },
+    state: { telegramSessionSaved },
   } = useAppContext();
 
-  return user?.telegramSession ? (
+  return telegramSessionSaved ? (
     <p style={{ margin: "50px", textAlign: "center" }}>
       Telegram account connected.
       <br />
