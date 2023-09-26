@@ -140,7 +140,7 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
         }}
         RightComponent={
           contact.isInvited ? (
-            <div style={{}}>
+            <div style={{ position: "relative", top: "-6px" }}>
               <CheckIcon />
             </div>
           ) : undefined
