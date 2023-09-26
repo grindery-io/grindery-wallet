@@ -27,8 +27,8 @@ const Title = styled.h3`
 `;
 
 const Subtitle = styled.h5`
-  text-align: center;
-  font-size: 16px;
+  text-align: left;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
@@ -119,6 +119,17 @@ const ButtonWrapper = styled.div`
   }
 `;
 
+const List = styled.ul`
+  margin: 10px 0 0;
+  padding: 0;
+  text-align: left;
+
+  & li {
+    padding: 8px 0;
+    margin: 0 0 0 20px;
+  }
+`;
+
 const TelegramAuth = () => {
   const {
     state: {
@@ -136,10 +147,19 @@ const TelegramAuth = () => {
     <Container>
       <>
         <Title>Sign in with Telegram</Title>
-        <Subtitle>Features you will get access to by signing in:</Subtitle>
+        <div>
+          <Subtitle>Features you will get access to by signing in:</Subtitle>
+          <List>
+            <li>Send crypto via contact names, not wallet addresses</li>
+            <li>Spot unjoined network members, invite & earn rewards</li>
+            <li>Receive alerts for new joiners & instantly trade tokens</li>
+            <li>Access wallet both in and out of Telegram</li>
+            <li>Explore even more features coming up</li>
+          </List>
+        </div>
         <Form>
           <InputGroup>
-            <label>Phone number in the international format</label>
+            <label>Phone number</label>
             <input
               type="phone"
               value={phone}
@@ -149,6 +169,11 @@ const TelegramAuth = () => {
               disabled={loading || Boolean(operationId)}
               placeholder="12345678901"
             />
+            <span
+              style={{ textAlign: "center", opacity: 0.5, fontSize: "12px" }}
+            >
+              In the international format
+            </span>
           </InputGroup>
 
           <InputGroup
@@ -169,7 +194,7 @@ const TelegramAuth = () => {
 
           <InputGroup
             style={{
-              height: operationId ? "69px" : "0px",
+              height: operationId ? "109px" : "0px",
               marginTop: operationId ? "16px" : "0px",
             }}
           >
@@ -182,6 +207,13 @@ const TelegramAuth = () => {
               }}
               disabled={loading}
             />
+            <span
+              style={{ textAlign: "center", opacity: 0.5, fontSize: "12px" }}
+            >
+              Please check your Telegram account.
+              <br />
+              You should receive an authorization code.
+            </span>
           </InputGroup>
 
           {error && (
@@ -210,6 +242,23 @@ const TelegramAuth = () => {
             />
           </ButtonWrapper>
         </Form>
+        <div>
+          <Subtitle>Our Commitment to Data Security:</Subtitle>
+          <List>
+            <li>
+              Secure Transmission: All your data is securely transmitted and
+              encrypted.
+            </li>
+            <li>
+              Explicit Consent: We only collect and store data with your
+              explicit consent.
+            </li>
+            <li>
+              No Unsolicited Messaging: We won’t message anyone unless you agree
+              to it first.
+            </li>
+          </List>
+        </div>
       </>
     </Container>
   );
