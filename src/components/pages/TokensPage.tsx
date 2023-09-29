@@ -61,11 +61,12 @@ const TokensPage = () => {
                   textAlign: "left",
                   position: "sticky",
                   top: "61px",
-                  background: "#fff",
+                  background: "var(--tg-theme-secondary-bg-color)",
+                  color: "var(--tg-theme-hint-color)",
                   zIndex: 1,
                 }}
               >
-                <span style={{ opacity: 0.6 }}>Tokens</span>
+                <span>Tokens</span>
               </p>
               <ul
                 style={{
@@ -112,8 +113,7 @@ const TokensPage = () => {
                         padding: 0,
                         fontSize: "16px",
                         lineHeight: 1.5,
-                        color:
-                          "var(--grindery-cool-grey-cool-grey-70, #4F5563)",
+                        color: "var(--tg-theme-text-color)",
                       }}
                     >
                       {token.name}
@@ -121,8 +121,7 @@ const TokensPage = () => {
 
                     <p
                       style={{
-                        color:
-                          "var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+                        color: "var(--tg-theme-text-color)",
                         margin: "0 0 0 auto",
                         padding: 0,
                         fontSize: "16px",

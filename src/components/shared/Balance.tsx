@@ -40,7 +40,7 @@ const Balance = () => {
             margin: 0,
             padding: 0,
             textAlign: "left",
-            opacity: 0.6,
+            color: "var(--tg-theme-hint-color)",
           }}
         >
           Aggregated wallet balance
@@ -50,6 +50,8 @@ const Balance = () => {
             displayEmpty
             input={<OutlinedInput />}
             sx={{
+              backgroundColor: "var(--tg-theme-bg-color)",
+              border: 0,
               fontFamily: "Geologica",
               "& .MuiSelect-select": {
                 padding: "4px 8px",
@@ -57,8 +59,7 @@ const Balance = () => {
               },
               "& fieldset": {
                 borderRadius: "5px",
-                border:
-                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+                border: 0,
               },
             }}
             value="G1"
@@ -73,7 +74,7 @@ const Balance = () => {
       </div>
       {!user ? (
         <div style={{ textAlign: "center", margin: "0 auto" }}>
-          <CircularProgress />
+          <CircularProgress style={{ color: "var(--tg-theme-button-color)" }} />
         </div>
       ) : (
         <>
@@ -82,6 +83,7 @@ const Balance = () => {
               textAlign: "center",
               fontSize: "35px",
               margin: "20px 0 16px",
+              color: "var(--tg-theme-text-color)",
               opacity: balanceCached ? 0.6 : 1,
             }}
           >

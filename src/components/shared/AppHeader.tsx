@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   z-index: 2;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--grindery-solids-white, #fff);
+  background: var(--tg-theme-bg-color);
   box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.1) inset;
   height: 61px;
 `;
@@ -88,7 +88,7 @@ const AppHeader = ({ onRefresh, refreshing }: Props) => {
                 onClick={onRefresh}
                 disabled={refreshing}
                 sx={{
-                  color: "#0B0C0E",
+                  color: "var(--tg-theme-button-color)",
                   padding: 0,
                   "& svg": {
                     WebkitAnimation: "spin 0.75s linear infinite",

@@ -1,9 +1,9 @@
 const palette = {
   primary: {
-    main: "#8C30F5",
+    main: "var(--tg-theme-button-color)",
   },
   secondary: {
-    main: "#0B0D17",
+    main: "var(--tg-theme-text-color)",
   },
 };
 

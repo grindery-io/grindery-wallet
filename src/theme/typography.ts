@@ -4,7 +4,7 @@ const typography = {
   },
   h2: {
     fontSize: 20,
-    color: "#0B0D17",
+    color: "var(--tg-theme-text-color)",
     fontStyle: "normal",
     fontWeight: "700",
     lineHeight: "110%",
@@ -12,7 +12,7 @@ const typography = {
   },
   h3: {
     fontSize: 30,
-    color: "#0B0D17",
+    color: "var(--tg-theme-text-color)",
     fontStyle: "normal",
     fontWeight: "700",
     lineHeight: "120%",
@@ -30,7 +30,7 @@ const typography = {
   p: {
     fontSize: 16,
     fontFamily: "Geologica",
-    color: "#0B0D17",
+    color: "var(--tg-theme-text-color)",
     fontStyle: "normal",
     fontWeight: "400",
     lineHeight: "150%",
@@ -41,7 +41,7 @@ const typography = {
     fontWeight: "400",
     fontSize: "14px",
     lineHeight: "150%",
-    color: "#898989",
+    color: "var(--tg-theme-text-color)",
   },
 };
 

@@ -10,17 +10,12 @@ const MuiButton = {
       fontWeight: "700",
       fontSize: 16,
       lineHeight: "150%",
-      color: "#FFFFFF",
+      backgroundColor: "var(--tg-theme-button-color)",
+      color: "var(--tg-theme-button-text-color)",
       boxShadow: "initial",
       margin: "10px 0px",
       "& span": {
         marginRight: "10px",
-        "& img": {
-          padding: "4px",
-          backgroundColor: "#FFFFFF",
-          borderRadius: 5,
-          border: "1px solid #DCDCDC",
-        },
       },
       "&:hover": {
         opacity: 0.7,
@@ -29,15 +24,15 @@ const MuiButton = {
     containedPrimary: ({ theme }: { theme: Theme }) => ({
       "&:disabled": {
         opacity: 0.4,
-        backgroundColor: theme.palette.primary.main,
-        color: "#FFFFFF",
+        backgroundColor: "var(--tg-theme-button-color)",
+        color: "var(--tg-theme-button-text-color)",
       },
     }),
     containedSecondary: ({ theme }: { theme: Theme }) => ({
       "&:disabled": {
         opacity: 0.4,
-        backgroundColor: theme.palette.secondary.main,
-        color: "#FFFFFF",
+        backgroundColor: "var(--tg-theme-text-color)",
+        color: "var(--tg-theme-button-text-color)",
       },
     }),
     sizeSmall: {
@@ -46,14 +41,16 @@ const MuiButton = {
     sizeLarge: {
       width: "100%",
     },
-    outlinedPrimary: {
-      color: "#8C30F5",
-      border: "1px solid #8C30F5",
-    },
-    outlinedSecondary: {
-      color: "#0B0D17",
-      border: "1px solid #0B0D17",
-    },
+    outlinedPrimary: ({ theme }: { theme: Theme }) => ({
+      backgroundColor: "transparent",
+      color: theme.palette.primary.main,
+      border: `1px solid ${theme.palette.primary.main}`,
+    }),
+    outlinedSecondary: ({ theme }: { theme: Theme }) => ({
+      backgroundColor: "transparent",
+      color: theme.palette.secondary.main,
+      border: `1px solid ${theme.palette.secondary.main}`,
+    }),
   },
 };
 

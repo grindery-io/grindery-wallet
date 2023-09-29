@@ -1,7 +1,7 @@
 const MuiTooltip = {
   styleOverrides: {
     tooltip: {
-      background: "#000",
+      background: "var(--tg-theme-secondary-bg-color)",
       maxWidth: "160px",
       padding: "10px",
       fontFamily: "Geologica",
@@ -9,9 +9,10 @@ const MuiTooltip = {
       fontWeight: "400",
       fontSize: "12px",
       lineHeight: "150%",
+      color: "var(--tg-theme-text-color)",
     },
     arrow: {
-      color: "#000",
+      color: "var(--tg-theme-secondary-bg-color)",
     },
   },
 };

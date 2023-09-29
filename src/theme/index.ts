@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import palette from "./palette";
+//import palette from "./palette";
 import severity from "./severity";
 import typography from "./typography";
 import MuiTooltip from "./components/MuiTooltip";
@@ -15,7 +15,7 @@ declare module "@mui/material/styles" {
 }
 
 const theme = createTheme({
-  palette: palette,
+  //palette: palette,
   severity: severity,
   typography: typography,
   components: {

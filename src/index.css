@@ -1,4 +1,12 @@
 :root {
+  --tg-theme-bg-color: #fff;
+  --tg-theme-text-color: #0a0a0a;
+  --tg-theme-hint-color: #929292;
+  --tg-theme-link-color: #207ae4;
+  --tg-theme-button-color: #5bc8fb;
+  --tg-theme-button-text-color: #fffeec;
+  --tg-theme-secondary-bg-color: #f3f2f9;
+
   --color-black: #0b0d17;
 
   --text-size-dashboard-label: 14px;
@@ -33,7 +41,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  background: rgb(253, 251, 255);
+  background: var(--tg-theme-secondary-bg-color);
 }
 body {
   background-position: center center;

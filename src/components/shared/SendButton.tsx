@@ -9,8 +9,7 @@ const Wrapper = styled.div`
   width: calc(100% - 32px);
   margin: 0 16px;
   border-radius: 10px;
-  border: 1px solid var(--grindery-solids-light-grey, #d3deec);
-  background: var(--grindery-solids-white, #fff);
+  background: var(--tg-theme-bg-color);
   display: flex;
   padding: 16px;
   flex-direction: column;
