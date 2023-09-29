@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
-import { IconButton } from "@mui/material";
-import { default as CustomButton } from "../shared/Button";
+import { CircularProgress, IconButton } from "@mui/material";
+import Button, { default as CustomButton } from "../shared/Button";
 import { useNavigate, useParams } from "react-router";
 import AppHeader from "../shared/AppHeader";
 import Contacts from "../shared/Contacts";
@@ -11,12 +11,14 @@ import useAppContext from "../../hooks/useAppContext";
 import SendButtonsGroup from "../shared/SendButtonsGroup";
 import SendAmount from "../shared/SendAmount";
 import { TelegramUserContact } from "../../types/Telegram";
+import GasMessage from "../shared/GasMessage";
 
 const SendPage = () => {
   const {
     state: { contacts, user },
   } = useAppContext();
   const [connecting, setConnecting] = useState(false);
+  const [status, setStatus] = useState<string>("waiting_user_input");
 
   const { id: recipient } = useParams();
   let navigate = useNavigate();
@@ -60,43 +62,49 @@ const SendPage = () => {
           }}
         >
           <p style={{ margin: 0, textAlign: "center" }}>
-            {user?.telegramSession
+            {status === "sending"
+              ? "Sending"
+              : status === "sent"
+              ? "Sent"
+              : user?.telegramSession
               ? `Send${!input.recipient ? " to" : ""}`
               : ""}
           </p>
-          <IconButton
-            sx={{
-              position: "absolute",
-              right: "16px",
-              top: "-1px",
-            }}
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
+          {status !== "sending" && (
+            <IconButton
+              sx={{
+                position: "absolute",
+                right: "16px",
+                top: "-4px",
+              }}
+              onClick={() => {
+                navigate("/");
+              }}
             >
-              <path
-                d="M1 11L11 1"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M1 1L11 11"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </IconButton>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+              >
+                <path
+                  d="M1 11L11 1"
+                  stroke="black"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M1 1L11 11"
+                  stroke="black"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </IconButton>
+          )}
         </div>
         {!input.recipient ? (
           <Contacts
@@ -273,28 +281,123 @@ const SendPage = () => {
               padding: "0 16px",
             }}
           >
-            {input.recipient && (
-              <SelectedContact
-                contact={input.recipient}
-                onClear={() => {
-                  setInput({
-                    ...input,
-                    recipient: null,
-                  });
-                }}
-              />
+            {status === "sent" && (
+              <>
+                <div
+                  style={{
+                    margin: "32px auto 24px",
+                    textAlign: "center",
+                  }}
+                >
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect width="48" height="48" rx="24" fill="#00B674" />
+                    <path
+                      d="M19.8003 33.4251C19.466 33.4253 19.1349 33.3595 18.826 33.2314C18.5171 33.1034 18.2365 32.9157 18.0003 32.6791L12.5583 27.2391C12.2771 26.9578 12.1191 26.5764 12.1191 26.1786C12.1191 25.7809 12.2771 25.3994 12.5583 25.1181C12.8396 24.8369 13.2211 24.679 13.6188 24.679C14.0166 24.679 14.398 24.8369 14.6793 25.1181L19.8003 30.2391L33.3483 16.6911C33.6296 16.4099 34.0111 16.252 34.4088 16.252C34.8066 16.252 35.188 16.4099 35.4693 16.6911C35.7505 16.9724 35.9085 17.3539 35.9085 17.7516C35.9085 18.1494 35.7505 18.5308 35.4693 18.8121L21.6003 32.6791C21.3641 32.9157 21.0835 33.1034 20.7746 33.2314C20.4658 33.3595 20.1347 33.4253 19.8003 33.4251Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+                <p
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: 700,
+                    lineHeight: "145%",
+                    textAlign: "center",
+                    margin: "0",
+                  }}
+                >
+                  Tokens sent
+                </p>
+                <p style={{ marginTop: 0, textAlign: "center" }}>
+                  Tokens have been sent, and you will receive a Telegram
+                  notification once the transaction is confirmed on the
+                  blockchain.
+                </p>
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    color="secondary"
+                    variant="outlined"
+                    value="Close"
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    sx={{
+                      padding: "10px 20px !important",
+                      fontSize: "14px !important",
+                      minWidth: "160px !important",
+                      margin: "0 !important",
+                    }}
+                  />
+                </div>
+              </>
             )}
-            <SelectToken />
-            <SendAmount
-              amount={input.amount}
-              onChange={(value) => {
-                setInput({
-                  ...input,
-                  amount: value,
-                });
-              }}
-            />
-            <SendButtonsGroup input={input} />
+            {status === "sending" && (
+              <>
+                <div
+                  style={{
+                    margin: "50px 20px",
+                    textAlign: "center",
+                  }}
+                >
+                  <CircularProgress style={{ color: "black" }} />
+                </div>
+              </>
+            )}
+            {status === "error" && (
+              <>
+                <div
+                  style={{
+                    margin: "50px 20px",
+                    textAlign: "center",
+                  }}
+                >
+                  <p>Server error. Please, try again.</p>
+                  <Button
+                    onClick={() => {
+                      setStatus("waiting_user_input");
+                    }}
+                    value="Try again"
+                  />
+                </div>
+              </>
+            )}
+            {status === "waiting_user_input" && (
+              <>
+                {input.recipient && (
+                  <SelectedContact
+                    contact={input.recipient}
+                    onClear={() => {
+                      setInput({
+                        ...input,
+                        recipient: null,
+                      });
+                    }}
+                  />
+                )}
+                <SelectToken />
+                <SendAmount
+                  amount={input.amount}
+                  onChange={(value) => {
+                    setInput({
+                      ...input,
+                      amount: value,
+                    });
+                  }}
+                />
+                <GasMessage />
+                <SendButtonsGroup
+                  input={input}
+                  setStatus={setStatus}
+                  status={status}
+                />
+              </>
+            )}
           </div>
         )}
       </div>

@@ -1,18 +1,6 @@
 import React from "react";
 import TelegramAuth from "../shared/TelegramAuth";
 import useAppContext from "../../hooks/useAppContext";
-import styled from "styled-components";
-
-const List = styled.ul`
-  margin: 10px 0 0;
-  padding: 0;
-  text-align: left;
-
-  & li {
-    padding: 8px 0;
-    margin: 0 0 0 20px;
-  }
-`;
 
 const ConnectTelegramPage = () => {
   const {

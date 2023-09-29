@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-//import axios from "axios";
-//import { BOT_API_URL } from "../../constants";
 import { TelegramUserContact } from "../../types/Telegram";
+import axios from "axios";
+import { BOT_API_URL } from "../../constants";
 
 const SendButtonsGroup = ({
   input,
+  status,
+  setStatus,
 }: {
   input: {
     amount: string;
     recipient: TelegramUserContact | null;
   };
+  status: string;
+  setStatus: (status: string) => void;
 }) => {
   let navigate = useNavigate();
-  const [sending, setSending] = useState(false);
 
-  /*const sendTokens = async () => {
-    setSending(true);
+  const sendTokens = async () => {
+    setStatus("sending");
     try {
       const res = await axios.post(
         `${BOT_API_URL}/v1/telegram/send`,
@@ -32,11 +35,16 @@ const SendButtonsGroup = ({
         }
       );
       console.log("send tokens res", res);
+      if (res.data?.success) {
+        setStatus("sent");
+      } else {
+        setStatus("error");
+      }
     } catch (error) {
       console.log("send tokens error", error);
+      setStatus("error");
     }
-    setSending(true);
-  };*/
+  };
 
   return (
     <div
@@ -71,16 +79,14 @@ const SendButtonsGroup = ({
           variant="contained"
           color="primary"
           fullWidth
-          disabled={sending || !input.amount || !input.recipient}
+          disabled={status === "sending" || !input.amount || !input.recipient}
           sx={{
             textTransform: "none",
             fontWeight: "normal",
           }}
-          onClick={() => {
-            alert("Coming soon");
-          }}
+          onClick={sendTokens}
         >
-          Next
+          {status === "sending" ? "Sending..." : "Send"}
         </Button>
       </div>
     </div>

@@ -180,7 +180,11 @@ const ContactPage = () => {
                 <span style={{ opacity: 0.6 }}>Activity</span>
               </p>
               {contactActivity.map((activity) => (
-                <Activity activity={activity} onAvatarClick={() => {}} />
+                <Activity
+                  key={activity._id}
+                  activity={activity}
+                  onAvatarClick={() => {}}
+                />
               ))}
             </div>
           )}
