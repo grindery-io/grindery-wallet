@@ -97,6 +97,7 @@ const ActivitiesPage = () => {
                 minWidth: "70px",
 
                 "&.Mui-selected": {
+                  color: "var(--grindery-solids-black, #0B0D17)",
                   borderBottom:
                     "2px solid var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
                   backgroundColor:
