@@ -76,13 +76,17 @@ const ContactsPage = () => {
                 setConnecting(true);
                 if (window.Telegram?.WebApp?.openLink) {
                   window.Telegram.WebApp.openLink(
-                    `https://wallet-staging.grindery.io/connect/telegram?${
+                    `${
+                      window.location.protocol + "//" + window.location.host
+                    }/connect/telegram?${
                       window.Telegram?.WebApp?.initData || ""
                     }`
                   );
                 } else {
                   window.open(
-                    `https://wallet-staging.grindery.io/connect/telegram?${
+                    `${
+                      window.location.protocol + "//" + window.location.host
+                    }/connect/telegram?${
                       window.Telegram?.WebApp?.initData || ""
                     }`
                   );
