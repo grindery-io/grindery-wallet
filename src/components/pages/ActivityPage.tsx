@@ -140,6 +140,7 @@ const ActivityPage = () => {
           }}
         >
           <TableRow
+            first
             label={`Tokens ${
               item.recipientTgId !== user?.userTelegramID ? "sent" : "recieved"
             } `}
@@ -202,7 +203,6 @@ const ActivityPage = () => {
           <TableRow
             label="Transaction sent date"
             value={moment(item.dateAdded).fromNow()}
-            last={!item.transactionHash}
           />
           {item.transactionHash && (
             <TableRow
@@ -253,9 +253,17 @@ const ActivityPage = () => {
                   />
                 </svg>
               }
-              last
             />
           )}
+          {/*contact && contact.isInvited && (
+            <TableRow label="Reward type" value="Referral" />
+          )}
+          {contact && contact.isInvited && (
+            <TableRow
+              label="Reward status"
+              value={!contact?.isGrinderyUser ? "Pending" : "Received"}
+            />
+          )*/}
         </div>
         <div
           style={{

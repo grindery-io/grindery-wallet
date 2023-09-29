@@ -4,11 +4,11 @@ type Props = {
   label?: string | React.ReactNode;
   value?: string | React.ReactNode;
   icon?: string | React.ReactNode;
-  last?: boolean;
+  first?: boolean;
   onValueClick?: () => void;
 };
 
-const TableRow = ({ label, value, icon, last, onValueClick }: Props) => {
+const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
   return (
     <div
       style={{
@@ -19,7 +19,7 @@ const TableRow = ({ label, value, icon, last, onValueClick }: Props) => {
         flexWrap: "nowrap",
         gap: "16px",
         padding: "10px 16px",
-        borderBottom: !last
+        borderTop: !first
           ? "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)"
           : "none",
       }}
