@@ -13,9 +13,8 @@ const Balance = () => {
   const {
     state: { user, balance, balanceCached },
   } = useAppContext();
-  const [fullBalanceVisible, setFullBalanceVisible] = React.useState(false);
 
-  const { full, formatted, hasHiddenPart } = formatBalance(balance);
+  const { full } = formatBalance(balance);
 
   return (
     <div
@@ -86,18 +85,7 @@ const Balance = () => {
               opacity: balanceCached ? 0.6 : 1,
             }}
           >
-            {fullBalanceVisible ? full.toLocaleString() : formatted || 0}
-            {hasHiddenPart && !fullBalanceVisible ? (
-              <span
-                onClick={() => {
-                  setFullBalanceVisible(true);
-                }}
-              >
-                ...
-              </span>
-            ) : (
-              ""
-            )}{" "}
+            {full.toLocaleString()}{" "}
             <span style={{ fontWeight: "normal", fontSize: "16px" }}>G1</span>
           </h2>
           <Address />

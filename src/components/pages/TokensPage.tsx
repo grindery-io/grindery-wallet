@@ -130,7 +130,7 @@ const TokensPage = () => {
                       }}
                     >
                       {token.symbol === "G1"
-                        ? balance?.toString()
+                        ? balance?.toLocaleString()
                         : token.balance}{" "}
                       <span style={{ fontWeight: "normal" }}>
                         {token.symbol}
