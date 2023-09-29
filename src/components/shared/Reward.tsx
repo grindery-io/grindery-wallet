@@ -38,7 +38,7 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
               gap: "16px",
             }}
           >
-            <div
+            {/*<div
               style={{
                 width: "36px",
                 height: "36px",
@@ -55,7 +55,7 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
                 backgroundRepeat: "no-repeat",
                 color: "#fff",
               }}
-            ></div>
+            ></div>*/}
             <div>
               <p
                 style={{

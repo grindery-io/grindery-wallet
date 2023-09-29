@@ -10,6 +10,7 @@ import { Box, CircularProgress } from "@mui/material";
 import ContactPage from "./components/pages/ContactPage";
 import ActivitiesPage from "./components/pages/ActivitiesPage";
 import AppsPage from "./components/pages/AppsPage";
+import ActivityPage from "./components/pages/ActivityPage";
 
 const AppRoutes = () => {
   const {
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         path="/activities/:type"
         element={<Navigate to="/activities/transfers/all" replace />}
       />
+      <Route path="/activity/:id" element={<ActivityPage />} />
       <Route path="/apps" element={<AppsPage />} />
       <Route path="/send" element={<SendPage />} />
       <Route path="/send/:id" element={<SendPage />} />

@@ -338,9 +338,16 @@ const TransactionRenderer = ({
   index: number;
   style: any;
 }) => {
+  const navigate = useNavigate();
   return (
     <div style={style}>
-      <Activity activity={data[index]} key={data[index]._id} />
+      <Activity
+        activity={data[index]}
+        key={data[index]._id}
+        onClick={() => {
+          navigate(`/activity/${data[index]._id}`);
+        }}
+      />
     </div>
   );
 };
