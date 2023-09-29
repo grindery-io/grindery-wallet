@@ -89,7 +89,7 @@ const SendButtonsGroup = ({
               window.Telegram?.WebApp?.showConfirm(
                 "You are going to send " +
                   input.amount +
-                  " tokens. this action can not be undone. Are you sure?",
+                  " G1 tokens. This action can not be undone. Are you sure?",
                 (confirmed: boolean) => {
                   if (confirmed) {
                     sendTokens();
@@ -100,7 +100,7 @@ const SendButtonsGroup = ({
               const confirmed = window.confirm(
                 "You are going to send " +
                   input.amount +
-                  " tokens. This action can not be undone. Are you sure?"
+                  " G1 tokens. This action can not be undone. Are you sure?"
               );
               if (confirmed) {
                 sendTokens();
