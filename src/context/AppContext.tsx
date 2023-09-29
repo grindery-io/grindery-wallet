@@ -46,6 +46,7 @@ type ContextProps = {
   getBalance: (a?: boolean) => void;
   getTgActivity: () => void;
   getTgRewards: () => void;
+  getTgContacts: () => void;
 };
 
 // Context provider props
@@ -82,6 +83,7 @@ const defaultContext = {
   getBalance: () => {},
   getTgActivity: () => {},
   getTgRewards: () => {},
+  getTgContacts: () => {},
 };
 
 // Init context
@@ -421,6 +423,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         getBalance,
         getTgActivity,
         getTgRewards,
+        getTgContacts,
       }}
     >
       {children}

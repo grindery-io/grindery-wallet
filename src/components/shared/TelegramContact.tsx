@@ -140,7 +140,26 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
         }}
         RightComponent={
           contact.isInvited && !contact.isGrinderyUser ? (
-            <div style={{ position: "relative", top: "-6px" }}>
+            <div
+              style={{
+                position: "relative",
+                top: "-6px",
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                flexWrap: "nowrap",
+                gap: "4px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "var(--grindery-cool-grey-cool-grey-40, #9DA1AE)",
+                }}
+              >
+                Invited
+              </span>
               <CheckIcon />
             </div>
           ) : undefined

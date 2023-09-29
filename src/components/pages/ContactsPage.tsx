@@ -4,14 +4,24 @@ import AppHeader from "../shared/AppHeader";
 import { useNavigate } from "react-router";
 import Contacts from "../shared/Contacts";
 import Button from "../shared/Button";
+import useAppContext from "../../hooks/useAppContext";
 
 const ContactsPage = () => {
   const navigate = useNavigate();
   const [connecting, setConnecting] = useState(false);
+  const {
+    state: { contactsLoading },
+    getTgContacts,
+  } = useAppContext();
 
   return (
     <>
-      <AppHeader />
+      <AppHeader
+        onRefresh={() => {
+          getTgContacts();
+        }}
+        refreshing={contactsLoading}
+      />
 
       <Contacts
         onContactClick={(contact) => {

@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  InputBase,
-  Tab,
-  Tabs,
-} from "@mui/material";
+import { Box, CircularProgress, IconButton, InputBase } from "@mui/material";
 import TelegramContact from "./TelegramContact";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { ICONS } from "../../constants";
+import { TelegramUserContact } from "../../types/Telegram";
 
 type Props = {
   onContactClick: (contact: any) => void;
@@ -23,7 +17,6 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     state: { user, contacts, contactsLoading },
   } = useAppContext();
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState(0);
 
   const data = contacts
     ?.filter(
@@ -36,26 +29,13 @@ const TelegramContacts = ({ onContactClick }: Props) => {
         (contact.lastName &&
           contact.lastName.toLowerCase().includes(search.toLowerCase()))
     )
-    .filter((contact) => {
-      if (tab === 0) {
-        return true;
-      }
-      if (tab === 1) {
-        return contact.isGrinderyUser;
-      }
-      if (tab === 2) {
-        return !contact.isGrinderyUser && contact.isInvited;
-      }
-      if (tab === 3) {
-        return !contact.isGrinderyUser && !contact.isInvited;
-      }
-      return true;
-    })
+    .sort((a: TelegramUserContact, b: TelegramUserContact) =>
+      a.isInvited === b.isInvited ? 0 : a.isInvited ? -1 : 1
+    )
+    .sort((a: TelegramUserContact, b: TelegramUserContact) =>
+      a.isGrinderyUser === b.isGrinderyUser ? 0 : a.isGrinderyUser ? -1 : 1
+    )
     .filter((contact) => contact.id !== user?.userTelegramID);
-
-  const handleChange = (event: React.SyntheticEvent, newTab: number) => {
-    setTab(newTab);
-  };
 
   const ItemRenderer = ({
     data,
@@ -81,12 +61,13 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     <div style={{ textAlign: "left" }}>
       <div
         style={{
-          padding: "16px 16px 0",
-          background: "#fff",
+          padding: "16px 16px 6px",
+          backgroundColor: "#fff",
           position: "sticky",
           top: "61px",
           width: "100%",
           boxSizing: "border-box",
+          zIndex: 1,
         }}
       >
         <InputBase
@@ -142,52 +123,6 @@ const TelegramContacts = ({ onContactClick }: Props) => {
       </div>
       {contacts && contacts.length > 0 ? (
         <>
-          <Tabs
-            variant="fullWidth"
-            value={tab}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-            sx={{
-              margin: "20px 16px 0",
-              width: "calc(100% - 32px)",
-              boxSizing: "border-box",
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px",
-              "& .MuiTabs-scroller": {
-                background: "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
-              },
-              "& .MuiTabs-indicator": {
-                display: "none",
-              },
-              "& .MuiTab-root": {
-                color: "var(--grindery-solids-black, #0B0D17)",
-                fontSize: "14px",
-                fontFamily: "Geologica",
-                minWidth: "70px",
-                "&.Mui-selected": {
-                  color: "var(--grindery-solids-action-alert, #8C30F5)",
-                },
-              },
-            }}
-          >
-            <Tab
-              label="All"
-              sx={{ textTransform: "initial", fontWeight: "normal" }}
-            />
-            <Tab
-              label="Network"
-              sx={{ textTransform: "initial", fontWeight: "normal" }}
-            />
-            <Tab
-              label="Invited"
-              sx={{ textTransform: "initial", fontWeight: "normal" }}
-            />
-            <Tab
-              label="Others"
-              sx={{ textTransform: "initial", fontWeight: "normal" }}
-            />
-          </Tabs>
-
           <Box
             sx={{
               "& > div": {
@@ -201,7 +136,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
             }}
           >
             <List
-              height={height - 238}
+              height={height - 176}
               itemCount={data?.length}
               itemSize={68}
               width="100%"
