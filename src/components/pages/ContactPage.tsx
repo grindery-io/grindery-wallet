@@ -109,8 +109,8 @@ const ContactPage = () => {
                 src={photo}
                 alt=""
                 style={{
-                  width: "128px",
-                  height: "128px",
+                  width: "130px",
+                  height: "130px",
                   display: "block",
                   borderRadius: "50%",
                 }}
@@ -120,9 +120,9 @@ const ContactPage = () => {
                 {/*<Jazzicon diameter={36} seed={parseFloat(contact.id)} />*/}
                 <ContactAvatar
                   style={{
-                    width: "128px",
-                    height: "128px",
-                    minWidth: "128px",
+                    width: "130px",
+                    height: "130px",
+                    minWidth: "130px",
                     borderRadius: "50%",
                     fontSize: "2.5rem",
                   }}

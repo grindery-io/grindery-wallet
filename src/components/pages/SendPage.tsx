@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { default as CustomButton } from "../shared/Button";
 import { useNavigate, useParams } from "react-router";
 import AppHeader from "../shared/AppHeader";
@@ -11,7 +11,6 @@ import useAppContext from "../../hooks/useAppContext";
 import SendButtonsGroup from "../shared/SendButtonsGroup";
 import SendAmount from "../shared/SendAmount";
 import { TelegramUserContact } from "../../types/Telegram";
-import { ICONS } from "../../constants";
 
 const SendPage = () => {
   const {
