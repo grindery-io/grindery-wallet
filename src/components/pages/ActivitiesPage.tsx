@@ -80,11 +80,12 @@ const ActivitiesPage = () => {
             sx={{
               width: "100%",
               boxSizing: "border-box",
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px",
-              marginBottom: "1px",
+              borderTopLeftRadius: "12px",
+              borderTopRightRadius: "12px",
+              border:
+                "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
               "& .MuiTabs-scroller": {
-                background: "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
+                background: "var(--grindery-cool-grey-cool-grey-00, #fff)",
               },
               "& .MuiTabs-indicator": {
                 display: "none",
@@ -94,8 +95,12 @@ const ActivitiesPage = () => {
                 fontSize: "14px",
                 fontFamily: "Geologica",
                 minWidth: "70px",
+
                 "&.Mui-selected": {
-                  color: "var(--grindery-solids-action-alert, #8C30F5)",
+                  borderBottom:
+                    "2px solid var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+                  backgroundColor:
+                    "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
                 },
               },
             }}
@@ -119,8 +124,15 @@ const ActivitiesPage = () => {
                 width: "100%",
                 boxSizing: "border-box",
                 minHeight: "auto",
+                borderBottom:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+                borderLeft:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+                borderRight:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+
                 "& .MuiTabs-scroller": {
-                  background: "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
+                  background: "#fff",
                 },
                 "& .MuiTabs-indicator": {
                   display: "none",
@@ -133,7 +145,10 @@ const ActivitiesPage = () => {
                   minHeight: "auto",
                   minWidth: "70px",
                   "&.Mui-selected": {
-                    color: "var(--grindery-solids-action-alert, #8C30F5)",
+                    borderBottom:
+                      "2px solid var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+                    backgroundColor:
+                      "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
                   },
                 },
               }}
@@ -163,8 +178,14 @@ const ActivitiesPage = () => {
                 width: "100%",
                 boxSizing: "border-box",
                 minHeight: "auto",
+                borderBottom:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+                borderLeft:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+                borderRight:
+                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
                 "& .MuiTabs-scroller": {
-                  background: "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
+                  background: "#fff",
                 },
                 "& .MuiTabs-indicator": {
                   display: "none",
@@ -177,7 +198,10 @@ const ActivitiesPage = () => {
                   fontFamily: "Geologica",
                   minWidth: "70px",
                   "&.Mui-selected": {
-                    color: "var(--grindery-solids-action-alert, #8C30F5)",
+                    borderBottom:
+                      "2px solid var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+                    backgroundColor:
+                      "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
                   },
                 },
               }}
