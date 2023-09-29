@@ -144,7 +144,7 @@ const TokensPage = () => {
               </p>
               <ul
                 style={{
-                  margin: "0 0 20px",
+                  margin: "0 0 30px",
                   padding: 0,
                   display: "flex",
                   flexDirection: "column",
