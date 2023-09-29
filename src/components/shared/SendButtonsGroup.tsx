@@ -77,14 +77,32 @@ const SendButtonsGroup = ({
       <div style={{ flex: 1 }}>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           fullWidth
           disabled={status === "sending" || !input.amount || !input.recipient}
           sx={{
             textTransform: "none",
             fontWeight: "normal",
           }}
-          onClick={sendTokens}
+          onClick={() => {
+            if (window.Telegram?.WebApp?.showConfirm) {
+              window.Telegram?.WebApp?.showConfirm(
+                "You are going to send " +
+                  input.amount +
+                  " tokens. this action can not be undone. Are you sure?",
+                sendTokens
+              );
+            } else {
+              const confirmed = window.confirm(
+                "You are going to send " +
+                  input.amount +
+                  " tokens. This action can not be undone. Are you sure?"
+              );
+              if (confirmed) {
+                sendTokens();
+              }
+            }
+          }}
         >
           {status === "sending" ? "Sending..." : "Send"}
         </Button>

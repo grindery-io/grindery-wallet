@@ -47,7 +47,7 @@ const SendAmount = ({
       </div>
       {balance && (
         <Button
-          color="primary"
+          color="secondary"
           variant="outlined"
           size="small"
           sx={{
