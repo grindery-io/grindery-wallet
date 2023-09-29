@@ -34,7 +34,7 @@ const ContactsPage = () => {
           navigate(`/contacts/${contact.id}`);
         }}
         placeholder={
-          <div style={{ padding: "12px 16px" }}>
+          <div style={{ padding: "12px 16px 50px" }}>
             <div style={{ margin: "32px auto 24px" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
