@@ -14,7 +14,7 @@ type Props = {
 const TelegramContacts = ({ onContactClick }: Props) => {
   const { height } = useWindowDimensions();
   const {
-    state: { contacts, contactsLoading },
+    state: { user, contacts, contactsLoading },
   } = useAppContext();
   const [search, setSearch] = useState("");
 
@@ -34,8 +34,8 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     )
     .sort((a: TelegramUserContact, b: TelegramUserContact) =>
       a.isGrinderyUser === b.isGrinderyUser ? 0 : a.isGrinderyUser ? -1 : 1
-    );
-  //.filter((contact) => contact.id !== user?.userTelegramID);
+    )
+    .filter((contact) => contact.id !== user?.userTelegramID);
 
   const ItemRenderer = ({
     data,

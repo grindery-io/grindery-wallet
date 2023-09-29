@@ -90,7 +90,11 @@ const SendButtonsGroup = ({
                 "You are going to send " +
                   input.amount +
                   " tokens. this action can not be undone. Are you sure?",
-                sendTokens
+                (confirmed: boolean) => {
+                  if (confirmed) {
+                    sendTokens();
+                  }
+                }
               );
             } else {
               const confirmed = window.confirm(
