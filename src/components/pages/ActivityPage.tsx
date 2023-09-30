@@ -5,7 +5,7 @@ import useBackButton from "../../hooks/useBackButton";
 import AppHeader from "../shared/AppHeader";
 import Title from "../shared/Title";
 import TableRow from "../shared/TableRow";
-import { TelegramUserContact } from "../../types/Telegram";
+import { TelegramUser, TelegramUserContact } from "../../types/Telegram";
 import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
 import ContactAvatar from "../shared/ContactAvatar";
 import axios from "axios";
@@ -22,17 +22,46 @@ const ActivityPage = () => {
   const { id } = useParams();
 
   const item = activity.find((item) => item._id === id);
-  const contact = contacts?.find((contact: TelegramUserContact) =>
-    item?.recipientTgId !== user?.userTelegramID
-      ? contact.id === item?.recipientTgId
-      : contact.id === item?.senderTgId
+  const [contact, setContact] = useState<
+    TelegramUserContact | TelegramUser | undefined
+  >(
+    contacts?.find((contact: TelegramUserContact) =>
+      item?.recipientTgId !== user?.userTelegramID
+        ? contact.id === item?.recipientTgId
+        : contact.id === item?.senderTgId
+    )
   );
   const [photo, setPhoto] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + contact?.id) || ""
+    localStorage.getItem(
+      "gr_wallet_contact_photo_" +
+        (typeof contact !== "undefined" && "id" in contact ? contact?.id : "")
+    ) || ""
   );
 
+  const getUser = useCallback(async () => {
+    if (contact) return;
+    try {
+      const contactId =
+        item?.recipientTgId !== user?.userTelegramID
+          ? item?.recipientTgId
+          : item?.senderTgId;
+      const res = await axios.get(
+        `${BOT_API_URL}/v1/telegram/user?id=${contactId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+
+      setContact(res.data);
+    } catch (err) {
+      setContact(undefined);
+    }
+  }, [contact, item?.recipientTgId, item?.senderTgId, user?.userTelegramID]);
+
   const getPhoto = useCallback(async () => {
-    if (!contact?.username) {
+    if (!contact || !("username" in contact)) {
       return;
     }
     try {
@@ -60,6 +89,10 @@ const ActivityPage = () => {
       getPhoto();
     }
   }, [photo, getPhoto]);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
 
   return item ? (
     <>
@@ -167,7 +200,11 @@ const ActivityPage = () => {
             onValueClick={
               contact
                 ? () => {
-                    navigate(`/contacts/${contact.id}`);
+                    navigate(
+                      contact && "id" in contact
+                        ? `/contacts/${contact.id}`
+                        : "/"
+                    );
                   }
                 : undefined
             }

@@ -4,6 +4,8 @@ import Button from "../shared/Button";
 import AlertBox from "../shared/AlertBox";
 import useAppContext from "../../hooks/useAppContext";
 import BulletPoints from "./BulletPoints";
+import Subtitle from "./Subtitle";
+import Title from "./Title";
 
 const Container = styled.div`
   display: flex;
@@ -15,26 +17,6 @@ const Container = styled.div`
   max-width: 320px;
   margin: 0 auto;
   padding: 24px 16px;
-`;
-
-const Title = styled.h3`
-  text-align: center;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 145%;
-  margin: 24px 0;
-  padding: 0;
-`;
-
-const Subtitle = styled.h5`
-  text-align: center;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
-  margin: 0 0 16px;
-  padding: 0;
 `;
 
 const Form = styled.form`

@@ -38,6 +38,7 @@ const BulletPoints = ({ items, style }: Props) => {
           }}
         >
           <svg
+            style={{ minWidth: "18px", marginTop: "5px" }}
             xmlns="http://www.w3.org/2000/svg"
             width="18"
             height="18"

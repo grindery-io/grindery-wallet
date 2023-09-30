@@ -1,25 +1,12 @@
-import React from "react";
+import { Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-type Props = {
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-};
-
-const Title = ({ children, style }: Props) => {
-  return (
-    <p
-      style={{
-        fontSize: "24px",
-        fontWeight: 700,
-        lineHeight: "145%",
-        textAlign: "center",
-        margin: "0 0 24px",
-        ...(style || {}),
-      }}
-    >
-      {children}
-    </p>
-  );
-};
+const Title = styled(Typography)(() => ({
+  fontSize: "24px !important",
+  fontWeight: 700,
+  lineHeight: "145%",
+  textAlign: "center",
+  margin: "0 0 24px",
+}));
 
 export default Title;

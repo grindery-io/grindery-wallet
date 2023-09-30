@@ -1,24 +1,11 @@
-import React from "react";
+import { Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-type Props = {
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-};
-
-const Subtitle = ({ children, style }: Props) => {
-  return (
-    <p
-      style={{
-        fontSize: "18px",
-        fontWeight: 300,
-        textAlign: "center",
-        margin: "0 0 16px",
-        ...(style || {}),
-      }}
-    >
-      {children}
-    </p>
-  );
-};
+const Subtitle = styled(Typography)(() => ({
+  fontSize: "18px",
+  fontWeight: 300,
+  textAlign: "center",
+  margin: "0 0 16px",
+}));
 
 export default Subtitle;
