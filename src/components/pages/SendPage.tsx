@@ -25,7 +25,7 @@ const SendPage = () => {
 
   const { id: recipient } = useParams();
   let navigate = useNavigate();
-  useBackButton({ path: "/" });
+  useBackButton();
   const [input, setInput] = useState<{
     amount: string;
     recipient: TelegramUserContact | null;
@@ -81,7 +81,7 @@ const SendPage = () => {
                 top: "-4px",
               }}
               onClick={() => {
-                navigate("/");
+                navigate(-1);
               }}
             >
               <svg

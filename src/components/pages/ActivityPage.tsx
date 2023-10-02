@@ -15,7 +15,7 @@ import Button from "../shared/Button";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
-  useBackButton({ path: "/activities" });
+  useBackButton();
   const {
     state: { activity, contacts, user },
   } = useAppContext();
@@ -318,7 +318,7 @@ const ActivityPage = () => {
             variant="outlined"
             color="secondary"
             onClick={() => {
-              navigate("/activities");
+              navigate(-1);
             }}
           />
         </div>

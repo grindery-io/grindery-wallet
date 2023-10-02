@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const useBackButton = ({ path }: { path?: string }) => {
+const useBackButton = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const callback = () => {
-      navigate(path || "/");
+      navigate(-1);
     };
     if (window.Telegram?.WebApp?.BackButton) {
       window.Telegram.WebApp.BackButton.show();
@@ -19,7 +19,7 @@ const useBackButton = ({ path }: { path?: string }) => {
         window.Telegram.WebApp.BackButton.offClick(callback);
       }
     };
-  }, [path, navigate]);
+  }, [navigate]);
 
   return { BackButton: window.Telegram?.WebApp?.BackButton || {} };
 };

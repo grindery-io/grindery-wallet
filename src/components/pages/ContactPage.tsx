@@ -44,7 +44,7 @@ const ButtonWrapper = styled.div`
 
 const ContactPage = () => {
   const navigate = useNavigate();
-  useBackButton({ path: "/contacts" });
+  useBackButton();
   const { id } = useParams();
   const contactId = id;
   const {
@@ -183,7 +183,9 @@ const ContactPage = () => {
                 <Activity
                   key={activity._id}
                   activity={activity}
-                  onAvatarClick={() => {}}
+                  onClick={() => {
+                    navigate(`/activity/${activity._id}`);
+                  }}
                 />
               ))}
             </div>

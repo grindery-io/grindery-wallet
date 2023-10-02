@@ -64,7 +64,7 @@ const SendButtonsGroup = ({
           color="secondary"
           fullWidth
           onClick={() => {
-            navigate("/");
+            navigate(-1);
           }}
           sx={{
             textTransform: "none",
