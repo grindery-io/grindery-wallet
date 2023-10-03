@@ -25,6 +25,7 @@ type StateProps = {
   balance?: number;
   balanceCached?: boolean;
   balanceLoading?: boolean;
+  balanceUpdated?: string;
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
   activityLoading: boolean;
@@ -335,15 +336,18 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           chainId: "matic",
         });
         if (res?.data?.balanceEther) {
+          const date = new Date().toISOString();
           setState({
             balance: parseFloat(res.data.balanceEther),
             balanceCached: false,
             balanceLoading: false,
+            balanceUpdated: date,
           });
           localStorage.setItem(
             `grindery_${userId}_balance`,
             res.data.balanceEther
           );
+          localStorage.setItem(`grindery_${userId}_balance_updated`, date);
         } else {
           setState({ balance: 0, balanceCached: false, balanceLoading: false });
           localStorage.setItem(`grindery_${userId}_balance`, "0");
@@ -404,6 +408,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           ) || "0"
         ),
         balanceCached: true,
+        balanceUpdated:
+          localStorage.getItem(
+            `grindery_${state.user?.userTelegramID}_balance_updated`
+          ) || "",
       });
     }
   }, [state.user, state.balance]);

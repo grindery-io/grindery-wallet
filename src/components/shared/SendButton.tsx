@@ -9,10 +9,10 @@ const Wrapper = styled.div`
   width: calc(100% - 32px);
   margin: 0 16px;
   border-radius: 10px;
-  border: 1px solid var(--grindery-solids-light-grey, #d3deec);
-  background: var(--grindery-solids-white, #fff);
+  border: none;
+  background: transparent;
   display: flex;
-  padding: 16px;
+  padding: 0;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
@@ -49,7 +49,6 @@ const SendButton = () => {
   let navigate = useNavigate();
   return (
     <Wrapper>
-      <p>Send tokens to your contacts</p>
       <Button
         variant="contained"
         color="secondary"
@@ -62,7 +61,7 @@ const SendButton = () => {
         }
         fullWidth
         disabled={!user?.patchwallet}
-        value="Send"
+        value="Send tokens"
         onClick={() => {
           navigate("/send");
         }}

@@ -1,17 +1,13 @@
 import React from "react";
 import useAppContext from "../../hooks/useAppContext";
-import {
-  CircularProgress,
-  MenuItem,
-  OutlinedInput,
-  Select,
-} from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import Address from "./Address";
 import { formatBalance } from "../../utils/formatBalance";
+import moment from "moment";
 
 const Balance = () => {
   const {
-    state: { user, balance, balanceCached },
+    state: { user, balance, balanceCached, balanceUpdated },
   } = useAppContext();
 
   const { full } = formatBalance(balance);
@@ -24,53 +20,6 @@ const Balance = () => {
         boxSizing: "border-box",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          gap: "16px",
-          flexWrap: "nowrap",
-          margin: "0 0 32px",
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            padding: 0,
-            textAlign: "left",
-            opacity: 0.6,
-          }}
-        >
-          Aggregated wallet balance
-        </p>
-        <div style={{ marginLeft: "auto" }}>
-          <Select
-            displayEmpty
-            input={<OutlinedInput />}
-            sx={{
-              fontFamily: "Geologica",
-              "& .MuiSelect-select": {
-                padding: "4px 8px",
-                border: "none",
-              },
-              "& fieldset": {
-                borderRadius: "5px",
-                border:
-                  "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
-              },
-            }}
-            value="G1"
-          >
-            {["G1", "USD"].map((name) => (
-              <MenuItem key={name} value={name} disabled={name === "USD"}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
-      </div>
       {!user ? (
         <div style={{ textAlign: "center", margin: "0 auto" }}>
           <CircularProgress />
@@ -81,13 +30,26 @@ const Balance = () => {
             style={{
               textAlign: "center",
               fontSize: "35px",
-              margin: "20px 0 16px",
+              margin: "30px 0 26px",
               opacity: balanceCached ? 0.6 : 1,
             }}
           >
             {full.toLocaleString()}{" "}
             <span style={{ fontWeight: "normal", fontSize: "16px" }}>G1</span>
+            {balanceUpdated && (
+              <div
+                style={{
+                  fontSize: "12px",
+                  textAlign: "center",
+                  fontWeight: "300",
+                  opacity: 0.6,
+                }}
+              >
+                updated {moment(balanceUpdated).fromNow()}
+              </div>
+            )}
           </h2>
+
           <Address />
         </>
       )}

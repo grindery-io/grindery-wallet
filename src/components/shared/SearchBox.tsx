@@ -136,10 +136,9 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
         </Badge>
       )}
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem sx={{ marginBottom: 0, minHeight: "auto" }}>
+        <MenuItem sx={{ marginBottom: 0, minHeight: "auto" }} disabled>
           <ListItemText
             sx={{
-              opacity: 0.6,
               "& .MuiTypography-root": {
                 fontSize: "14px",
               },
