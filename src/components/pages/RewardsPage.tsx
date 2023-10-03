@@ -61,8 +61,9 @@ const RewardsPage = () => {
           }
         });
       },
-      count: data?.filter((d) => !(d as TelegramUserReward).responsePath)
-        .length,
+      count: [...rewards.received, ...rewards.pending].filter(
+        (d) => !(d as TelegramUserReward).responsePath
+      ).length,
     },
     {
       key: "received",
@@ -79,7 +80,9 @@ const RewardsPage = () => {
           }
         });
       },
-      count: data?.filter((d) => (d as TelegramUserReward).responsePath).length,
+      count: [...rewards.received, ...rewards.pending].filter(
+        (d) => (d as TelegramUserReward).responsePath
+      ).length,
     },
   ];
 
