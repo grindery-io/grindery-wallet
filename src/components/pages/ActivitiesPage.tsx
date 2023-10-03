@@ -361,9 +361,16 @@ const ReceivedRewardRenderer = ({
   index: number;
   style: any;
 }) => {
+  const navigate = useNavigate();
   return (
     <div style={style}>
-      <Reward reward={data[index]} key={data[index]._id} />
+      <Reward
+        reward={data[index]}
+        key={data[index]._id}
+        onClick={() => {
+          navigate(`/reward/${data[index]._id}`);
+        }}
+      />
     </div>
   );
 };
@@ -377,9 +384,16 @@ const PendingRewardRenderer = ({
   index: number;
   style: any;
 }) => {
+  const navigate = useNavigate();
   return (
     <div style={style}>
-      <PendingReward activity={data[index]} key={data[index]._id} />
+      <PendingReward
+        activity={data[index]}
+        key={data[index]._id}
+        onClick={() => {
+          navigate(`/activity/${data[index]._id}`);
+        }}
+      />
     </div>
   );
 };

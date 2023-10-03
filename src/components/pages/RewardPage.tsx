@@ -1,123 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import AppHeader from "../shared/AppHeader";
 import Title from "../shared/Title";
 import TableRow from "../shared/TableRow";
-import {
-  TelegramUser,
-  TelegramUserActivity,
-  TelegramUserContact,
-  TelegramUserReward,
-} from "../../types/Telegram";
-import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
-import ContactAvatar from "../shared/ContactAvatar";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
 import moment from "moment";
 import Button from "../shared/Button";
 
-const ActivityPage = () => {
+const RewardPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards, activity, contacts, user },
+    state: { rewards },
   } = useAppContext();
   const { id } = useParams();
 
-  const item = activity.find((item) => item._id === id);
-  const [contact, setContact] = useState<
-    TelegramUserContact | TelegramUser | undefined
-  >(
-    contacts?.find((contact: TelegramUserContact) =>
-      item?.recipientTgId !== user?.userTelegramID
-        ? contact.id === item?.recipientTgId
-        : contact.id === item?.senderTgId
-    )
-  );
-  const [photo, setPhoto] = useState(
-    localStorage.getItem(
-      "gr_wallet_contact_photo_" +
-        (typeof contact !== "undefined" && "id" in contact ? contact?.id : "")
-    ) || ""
-  );
-
-  const hasReferralReward =
-    contact &&
-    "isInvited" in contact &&
-    (contact as TelegramUserContact).isInvited &&
-    (rewards.received.find(
-      (reward: TelegramUserReward) =>
-        reward.transactionHash === item?.transactionHash
-    )?._id ||
-      rewards.pending.find(
-        (reward: TelegramUserActivity) =>
-          reward.transactionHash === item?.transactionHash
-      )?._id);
-
-  const referralRewardStatus =
-    contact &&
-    "isGrinderyUser" in contact &&
-    (contact as TelegramUserContact).isGrinderyUser
-      ? "Received"
-      : "Pending";
-
-  const getUser = useCallback(async () => {
-    if (contact) return;
-    try {
-      const contactId =
-        item?.recipientTgId !== user?.userTelegramID
-          ? item?.recipientTgId
-          : item?.senderTgId;
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user?id=${contactId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-
-      setContact(res.data);
-    } catch (err) {
-      setContact(undefined);
-    }
-  }, [contact, item?.recipientTgId, item?.senderTgId, user?.userTelegramID]);
-
-  const getPhoto = useCallback(async () => {
-    if (!contact || !("username" in contact)) {
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setPhoto(res.data.photo || "");
-
-      localStorage.setItem(
-        "gr_wallet_contact_photo_" + contact.id,
-        res.data.photo || "null"
-      );
-    } catch (err) {
-      setPhoto("");
-    }
-  }, [contact]);
-
-  useEffect(() => {
-    if (!photo) {
-      getPhoto();
-    }
-  }, [photo, getPhoto]);
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
+  const item = rewards.received.find((item) => item._id === id);
 
   return item ? (
     <>
@@ -183,7 +82,7 @@ const ActivityPage = () => {
             </defs>
           </svg>
         </div>
-        <Title style={{ marginBottom: "16px" }}>Transaction Details</Title>
+        <Title style={{ marginBottom: "16px" }}>Reward Details</Title>
         <div
           style={{
             borderRadius: "5px",
@@ -197,12 +96,10 @@ const ActivityPage = () => {
             width: "100%",
           }}
         >
+          <TableRow first label="Reward type" value={item.message} />
           <TableRow
-            first
-            label={`Tokens ${
-              item.recipientTgId !== user?.userTelegramID ? "sent" : "recieved"
-            } `}
-            value={item.tokenAmount}
+            label="Reward amount"
+            value={item.amount}
             icon={
               <img
                 src="/images/g1-token-red.svg"
@@ -212,58 +109,8 @@ const ActivityPage = () => {
               />
             }
           />
-
           <TableRow
-            label={
-              item.recipientTgId !== user?.userTelegramID
-                ? "Recipient"
-                : "Sender"
-            }
-            value={
-              contact ? getSecondaryUserDisplayName(contact) : "Unknown user"
-            }
-            onValueClick={
-              contact
-                ? () => {
-                    navigate(
-                      contact && "id" in contact
-                        ? `/contacts/${contact.id}`
-                        : "/"
-                    );
-                  }
-                : undefined
-            }
-            icon={
-              contact ? (
-                photo && photo !== "null" ? (
-                  <img
-                    src={photo}
-                    alt=""
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      display: "block",
-                      borderRadius: "50%",
-                    }}
-                  />
-                ) : (
-                  <ContactAvatar
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      minWidth: "20px",
-                      borderRadius: "50%",
-                      fontSize: "1rem",
-                    }}
-                    contact={contact}
-                  />
-                )
-              ) : null
-            }
-          />
-
-          <TableRow
-            label="Transaction sent date"
+            label="Reward received"
             value={moment(item.dateAdded).fromNow()}
           />
           {item.transactionHash && (
@@ -317,12 +164,6 @@ const ActivityPage = () => {
               }
             />
           )}
-          {hasReferralReward && (
-            <TableRow label="Reward type" value="Referral" />
-          )}
-          {hasReferralReward && (
-            <TableRow label="Reward status" value={referralRewardStatus} />
-          )}
         </div>
         <div
           style={{
@@ -349,4 +190,4 @@ const ActivityPage = () => {
   ) : null;
 };
 
-export default ActivityPage;
+export default RewardPage;

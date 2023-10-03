@@ -4,7 +4,13 @@ import moment from "moment";
 import { TelegramUserReward } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
 
-const Reward = ({ reward }: { reward: TelegramUserReward }) => {
+const Reward = ({
+  reward,
+  onClick,
+}: {
+  reward: TelegramUserReward;
+  onClick?: () => void;
+}) => {
   const { formatted } = formatBalance(parseFloat(reward.amount));
   return (
     <li
@@ -16,15 +22,19 @@ const Reward = ({ reward }: { reward: TelegramUserReward }) => {
     >
       <DataBox
         onClick={() => {
-          if (window.Telegram?.WebApp?.openLink) {
-            window.Telegram.WebApp.openLink(
-              `https://polygonscan.com/tx/${reward.transactionHash}`
-            );
+          if (typeof onClick !== "undefined") {
+            onClick();
           } else {
-            window.open(
-              `https://polygonscan.com/tx/${reward.transactionHash}`,
-              "_blank"
-            );
+            if (window.Telegram?.WebApp?.openLink) {
+              window.Telegram.WebApp.openLink(
+                `https://polygonscan.com/tx/${reward.transactionHash}`
+              );
+            } else {
+              window.open(
+                `https://polygonscan.com/tx/${reward.transactionHash}`,
+                "_blank"
+              );
+            }
           }
         }}
         LeftComponent={
