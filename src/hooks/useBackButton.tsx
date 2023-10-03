@@ -1,12 +1,17 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const useBackButton = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const callback = () => {
-      navigate(-1);
+      if (location.key !== "default") {
+        navigate(-1);
+      } else {
+        navigate("/");
+      }
     };
     if (window.Telegram?.WebApp?.BackButton) {
       window.Telegram.WebApp.BackButton.show();
