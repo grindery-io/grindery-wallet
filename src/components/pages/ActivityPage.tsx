@@ -39,13 +39,14 @@ const ActivityPage = () => {
   const [photo, setPhoto] = useState(
     localStorage.getItem(
       "gr_wallet_contact_photo_" +
-        (typeof contact !== "undefined" && "id" in contact ? contact?.id : "")
+        (typeof contact !== "undefined"
+          ? (contact as TelegramUserContact)?.id
+          : "")
     ) || ""
   );
 
   const hasReferralReward =
     contact &&
-    "isInvited" in contact &&
     (contact as TelegramUserContact).isInvited &&
     (rewards.received.find(
       (reward: TelegramUserReward) =>
@@ -57,9 +58,7 @@ const ActivityPage = () => {
       )?._id);
 
   const referralRewardStatus =
-    contact &&
-    "isGrinderyUser" in contact &&
-    (contact as TelegramUserContact).isGrinderyUser
+    contact && (contact as TelegramUserContact).isGrinderyUser
       ? "Received"
       : "Pending";
 
@@ -200,7 +199,7 @@ const ActivityPage = () => {
           <TableRow
             first
             label={`Tokens ${
-              item.recipientTgId !== user?.userTelegramID ? "sent" : "recieved"
+              item.recipientTgId !== user?.userTelegramID ? "sent" : "received"
             } `}
             value={item.tokenAmount}
             icon={
@@ -226,8 +225,8 @@ const ActivityPage = () => {
               contact
                 ? () => {
                     navigate(
-                      contact && "id" in contact
-                        ? `/contacts/${contact.id}`
+                      contact && (contact as TelegramUserContact).id
+                        ? `/contacts/${(contact as TelegramUserContact).id}`
                         : "/"
                     );
                   }

@@ -40,6 +40,7 @@ export type TelegramUserReward = {
   userHandle: string;
   userName: string;
   message: string;
+  parentTransactionHash?: string;
 };
 
 export type TelegramUserContact = {
