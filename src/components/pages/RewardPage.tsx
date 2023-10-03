@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
@@ -7,16 +7,99 @@ import Title from "../shared/Title";
 import TableRow from "../shared/TableRow";
 import moment from "moment";
 import Button from "../shared/Button";
+import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
+import ContactAvatar from "../shared/ContactAvatar";
+import { TelegramUser, TelegramUserContact } from "../../types/Telegram";
+import axios from "axios";
+import { BOT_API_URL } from "../../constants";
 
 const RewardPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards },
+    state: { rewards, activity: activities, contacts, user },
   } = useAppContext();
   const { id } = useParams();
 
   const item = rewards.received.find((item) => item._id === id);
+
+  const activity = activities.find(
+    (a) => a.TxId === item?.parentTransactionHash
+  );
+
+  const [contact, setContact] = useState<
+    TelegramUserContact | TelegramUser | undefined
+  >(contacts?.find((c) => c.id === activity?.recipientTgId));
+
+  const [photo, setPhoto] = useState(
+    localStorage.getItem(
+      "gr_wallet_contact_photo_" +
+        (typeof contact !== "undefined"
+          ? (contact as TelegramUserContact)?.id
+          : "")
+    ) || ""
+  );
+
+  const getUser = useCallback(async () => {
+    if (contact) return;
+    try {
+      const contactId =
+        activity?.recipientTgId !== user?.userTelegramID
+          ? activity?.recipientTgId
+          : activity?.senderTgId;
+      const res = await axios.get(
+        `${BOT_API_URL}/v1/telegram/user?id=${contactId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+
+      setContact(res.data);
+    } catch (err) {
+      setContact(undefined);
+    }
+  }, [
+    contact,
+    activity?.recipientTgId,
+    activity?.senderTgId,
+    user?.userTelegramID,
+  ]);
+
+  const getPhoto = useCallback(async () => {
+    if (!contact || !("username" in contact)) {
+      return;
+    }
+    try {
+      const res = await axios.get(
+        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+      setPhoto(res.data.photo || "");
+
+      localStorage.setItem(
+        "gr_wallet_contact_photo_" + contact.id,
+        res.data.photo || "null"
+      );
+    } catch (err) {
+      setPhoto("");
+    }
+  }, [contact]);
+
+  useEffect(() => {
+    if (!photo) {
+      getPhoto();
+    }
+  }, [photo, getPhoto]);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
 
   return item ? (
     <>
@@ -109,6 +192,55 @@ const RewardPage = () => {
               />
             }
           />
+          {item.parentTransactionHash && (
+            <TableRow
+              label="Invited"
+              value={
+                item.parentTransactionHash
+                  ? getSecondaryUserDisplayName(contact)
+                  : "Unknown user"
+              }
+              onValueClick={
+                contact
+                  ? () => {
+                      navigate(
+                        contact && (contact as TelegramUserContact).id
+                          ? `/contacts/${(contact as TelegramUserContact).id}`
+                          : "/"
+                      );
+                    }
+                  : undefined
+              }
+              icon={
+                contact ? (
+                  photo && photo !== "null" ? (
+                    <img
+                      src={photo}
+                      alt=""
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        display: "block",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  ) : (
+                    <ContactAvatar
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        minWidth: "20px",
+                        borderRadius: "50%",
+                        fontSize: "1rem",
+                      }}
+                      contact={contact}
+                    />
+                  )
+                ) : null
+              }
+            />
+          )}
+
           <TableRow
             label="Reward received"
             value={moment(item.dateAdded).fromNow()}
