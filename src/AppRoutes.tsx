@@ -12,6 +12,8 @@ import ActivitiesPage from "./components/pages/ActivitiesPage";
 import AppsPage from "./components/pages/AppsPage";
 import ActivityPage from "./components/pages/ActivityPage";
 import RewardPage from "./components/pages/RewardPage";
+import RewardsPage from "./components/pages/RewardsPage";
+import CommunityPage from "./components/pages/CommunityPage";
 
 const AppRoutes = () => {
   const {
@@ -24,18 +26,12 @@ const AppRoutes = () => {
       <Route path="/contacts" element={<ContactsPage />} />
       <Route path="/contacts/:id" element={<ContactPage />} />
       <Route path="/nfts" element={<NFTsPage />} />
-      <Route path="/activities/:type/:status" element={<ActivitiesPage />} />
-      <Route
-        path="/activities"
-        element={<Navigate to="/activities/transfers/all" replace />}
-      />
-      <Route
-        path="/activities/:type"
-        element={<Navigate to="/activities/transfers/all" replace />}
-      />
-      <Route path="/activity/:id" element={<ActivityPage />} />
-      <Route path="/reward/:id" element={<RewardPage />} />
+      <Route path="/activities" element={<ActivitiesPage />} />
+      <Route path="/activities/:id" element={<ActivityPage />} />
+      <Route path="/rewards" element={<RewardsPage />} />
+      <Route path="/rewards/:id" element={<RewardPage />} />
       <Route path="/apps" element={<AppsPage />} />
+      <Route path="/community" element={<CommunityPage />} />
       <Route path="/send" element={<SendPage />} />
       <Route path="/send/:id" element={<SendPage />} />
       <Route path="/connect/telegram" element={<ConnectTelegramPage />} />

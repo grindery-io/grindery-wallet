@@ -24,7 +24,7 @@ const useBackButton = () => {
         window.Telegram.WebApp.BackButton.offClick(callback);
       }
     };
-  }, [navigate]);
+  }, [navigate, location.key]);
 
   return { BackButton: window.Telegram?.WebApp?.BackButton || {} };
 };

@@ -184,7 +184,7 @@ const ContactPage = () => {
                   key={activity._id}
                   activity={activity}
                   onClick={() => {
-                    navigate(`/activity/${activity._id}`);
+                    navigate(`/activities/${activity._id}`);
                   }}
                 />
               ))}

@@ -5,9 +5,9 @@ import { MAX_WIDTH } from "../../constants";
 import { useLocation, useNavigate } from "react-router";
 import TokensIcon from "../icons/TokensIcon";
 import ContactsIcon from "../icons/ContactsIcon";
-import NftsIcon from "../icons/NftsIcon";
 import ActivityIcon from "../icons/ActivityIcon";
-import AppsIcon from "../icons/AppsIcon";
+import RewardsIcon from "../icons/RewardsIcon";
+import CommunityIcon from "../icons/CommunityIcon";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
@@ -75,9 +75,9 @@ const BottomNavigation = () => {
           icon={<ContactsIcon />}
         />
         <BottomNavigationAction
-          label="NFTs"
-          value="/nfts"
-          icon={<NftsIcon />}
+          label="Rewards"
+          value="/rewards"
+          icon={<RewardsIcon />}
         />
         <BottomNavigationAction
           label="Activity"
@@ -85,9 +85,9 @@ const BottomNavigation = () => {
           icon={<ActivityIcon />}
         />
         <BottomNavigationAction
-          label="Apps"
-          value="/apps"
-          icon={<AppsIcon />}
+          label="Community"
+          value="/community"
+          icon={<CommunityIcon />}
         />
       </MuiBottomNavigation>
     </>
