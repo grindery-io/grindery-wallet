@@ -27,7 +27,7 @@ const SendPage = () => {
   useBackButton();
   const [input, setInput] = useState<{
     amount: string;
-    recipient: TelegramUserContact | null;
+    recipient: TelegramUserContact | TelegramUserContact[] | null;
   }>({
     amount: "",
     recipient: recipient
@@ -106,7 +106,7 @@ const SendPage = () => {
             </IconButton>
           )}
         </div>
-        {!input.recipient ? (
+        {!input.recipient || Array.isArray(input.recipient) ? (
           <Contacts
             onContactClick={(contact) => {
               navigate(`/send/${contact.id}`);
@@ -114,6 +114,26 @@ const SendPage = () => {
                 ...input,
                 recipient: contact,
               });
+            }}
+            selected={
+              Array.isArray(input.recipient) ? input.recipient : undefined
+            }
+            onSelect={(contact) => {
+              if (Array.isArray(input.recipient)) {
+                setInput({
+                  ...input,
+                  recipient: input.recipient
+                    .map((contact) => contact.id)
+                    .includes(contact.id)
+                    ? input.recipient.filter((c) => c.id !== contact.id)
+                    : [...input.recipient, contact],
+                });
+              } else {
+                setInput({
+                  ...input,
+                  recipient: [contact],
+                });
+              }
             }}
             placeholder={
               <div style={{ padding: "12px 16px" }}>
@@ -305,7 +325,11 @@ const SendPage = () => {
               <>
                 {input.recipient && (
                   <SelectedContact
-                    contact={input.recipient}
+                    contact={
+                      Array.isArray(input.recipient)
+                        ? input.recipient[0]
+                        : input.recipient
+                    }
                     onClear={() => {
                       setInput({
                         ...input,

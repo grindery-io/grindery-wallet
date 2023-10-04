@@ -12,7 +12,7 @@ const SendButtonsGroup = ({
 }: {
   input: {
     amount: string;
-    recipient: TelegramUserContact | null;
+    recipient: TelegramUserContact | TelegramUserContact[] | null;
   };
   status: string;
   setStatus: (status: string) => void;
@@ -21,6 +21,10 @@ const SendButtonsGroup = ({
 
   const sendTokens = async () => {
     setStatus("sending");
+    if (Array.isArray(input.recipient)) {
+      setStatus("error");
+      return;
+    }
     try {
       const res = await axios.post(
         `${BOT_API_URL}/v1/telegram/send`,

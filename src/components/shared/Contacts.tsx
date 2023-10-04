@@ -5,9 +5,13 @@ import { TelegramUserContact } from "../../types/Telegram";
 
 const Contacts = ({
   onContactClick,
+  selected,
+  onSelect,
   placeholder,
 }: {
   onContactClick: (contact: TelegramUserContact) => void;
+  selected?: TelegramUserContact[];
+  onSelect?: (contact: TelegramUserContact) => void;
   placeholder?: React.ReactNode;
 }) => {
   const {
@@ -20,7 +24,11 @@ const Contacts = ({
         placeholder || null
       ) : (
         <>
-          <TelegramContacts onContactClick={onContactClick} />
+          <TelegramContacts
+            onContactClick={onContactClick}
+            selected={selected}
+            onSelect={onSelect}
+          />
         </>
       )}
     </div>

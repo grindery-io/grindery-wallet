@@ -35,7 +35,13 @@ const SendAmount = ({
           name="amount"
           value={amount}
           onChange={(e) => {
-            onChange(e.target.value);
+            onChange(
+              typeof balance !== "undefined"
+                ? parseFloat(e.target.value) > balance
+                  ? balance.toString()
+                  : e.target.value
+                : "0"
+            );
           }}
           sx={{}}
           placeholder="0"

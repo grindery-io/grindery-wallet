@@ -8,7 +8,6 @@ import Activity from "../shared/Activity";
 import { useNavigate } from "react-router";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import { TelegramUserActivity } from "../../types/Telegram";
-import ReferralBanner from "../shared/ReferralBanner";
 
 const ActivitiesPage = () => {
   const { height } = useWindowDimensions();
@@ -138,7 +137,7 @@ const ActivitiesPage = () => {
           </>
         </div>
       </div>
-      <ReferralBanner />
+
       <BottomNavigation />
     </>
   );

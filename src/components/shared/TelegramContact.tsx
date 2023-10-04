@@ -5,16 +5,31 @@ import ContactAvatar from "./ContactAvatar";
 import { BOT_API_URL } from "../../constants";
 import axios from "axios";
 import CheckIcon from "../icons/CheckIcon";
+import { useLongPress } from "use-long-press";
 
 type Props = {
   contact: TelegramUserContact;
+
+  selected?: boolean;
   onContactClick: (contact: TelegramUserContact) => void;
+  onContactPress?: (contact: TelegramUserContact) => void;
 };
 
-const TelegramContact = ({ contact, onContactClick }: Props) => {
+const TelegramContact = ({
+  contact,
+
+  selected,
+  onContactClick,
+  onContactPress,
+}: Props) => {
   const [photo, setPhoto] = useState(
     localStorage.getItem("gr_wallet_contact_photo_" + contact.id) || ""
   );
+  const bind = useLongPress(() => {
+    if (typeof onContactPress !== "undefined") {
+      onContactPress(contact);
+    }
+  });
 
   const getPhoto = useCallback(async () => {
     if (!contact.username) {
@@ -53,8 +68,17 @@ const TelegramContact = ({ contact, onContactClick }: Props) => {
         padding: 0,
         margin: "10px 16px 0",
       }}
+      {...(typeof onContactPress !== "undefined" ? bind() : {})}
     >
       <DataBox
+        style={
+          selected
+            ? {
+                background: "#E5F4FF",
+                border: "1px solid #2AABEE",
+              }
+            : {}
+        }
         LeftComponent={
           <div
             style={{

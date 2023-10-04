@@ -8,10 +8,12 @@ import { TelegramUserContact } from "../../types/Telegram";
 import SearchBox, { Filter } from "./SearchBox";
 
 type Props = {
-  onContactClick: (contact: any) => void;
+  onContactClick: (contact: TelegramUserContact) => void;
+  selected?: TelegramUserContact[];
+  onSelect?: (contact: TelegramUserContact) => void;
 };
 
-const TelegramContacts = ({ onContactClick }: Props) => {
+const TelegramContacts = ({ onContactClick, selected, onSelect }: Props) => {
   const { height } = useWindowDimensions();
   const {
     state: { user, contacts, contactsLoading, contactsFilters },
@@ -130,11 +132,19 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     style: any;
   }) => {
     return (
-      <div style={style}>
+      <div style={style} key={data[index].id}>
         <TelegramContact
-          key={data[index].id}
           contact={data[index]}
-          onContactClick={onContactClick}
+          selected={selected
+            ?.map((contact) => contact.id)
+            .includes(data[index].id)}
+          onContactClick={
+            Boolean(selected && selected.length > 0) &&
+            typeof onSelect !== "undefined"
+              ? onSelect
+              : onContactClick
+          }
+          onContactPress={onSelect}
         />
       </div>
     );

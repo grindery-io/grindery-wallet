@@ -53,7 +53,8 @@ const SelectedContact = ({
         <p
           style={{ fontSize: "14px", margin: 0, lineHeight: 1.5, opacity: 0.6 }}
         >
-          {getSecondaryUserDisplayName(contact)} | @{contact.username}
+          {getSecondaryUserDisplayName(contact)}
+          {contact.username ? ` | @${contact.username}` : ""}
         </p>
       </div>
       <IconButton onClick={onClear} sx={{ marginLeft: "auto" }}>
