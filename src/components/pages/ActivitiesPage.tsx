@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import AppHeader from "../shared/AppHeader";
 import useAppContext from "../../hooks/useAppContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { Box } from "@mui/material";
@@ -14,9 +13,8 @@ const ActivitiesPage = () => {
   const { height } = useWindowDimensions();
 
   const {
-    state: { user, activity, activityLoading, activityFilters },
+    state: { user, activity, activityFilters },
     setState,
-    getTgActivity,
   } = useAppContext();
   const [search, setSearch] = useState("");
 
@@ -91,7 +89,6 @@ const ActivitiesPage = () => {
 
   return (
     <>
-      <AppHeader onRefresh={getTgActivity} refreshing={activityLoading} />
       <div style={{ width: "100%", padding: "0", boxSizing: "border-box" }}>
         <SearchBox
           placeholder="Activities"
@@ -117,7 +114,7 @@ const ActivitiesPage = () => {
                 }}
               >
                 <List
-                  height={height - 176}
+                  height={height - 120}
                   itemCount={data.length}
                   itemSize={68}
                   width="100%"

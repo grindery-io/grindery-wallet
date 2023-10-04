@@ -3,7 +3,6 @@ import useBackButton from "../../hooks/useBackButton";
 import { CircularProgress, IconButton } from "@mui/material";
 import Button, { default as CustomButton } from "../shared/Button";
 import { useNavigate, useParams } from "react-router";
-import AppHeader from "../shared/AppHeader";
 import Contacts from "../shared/Contacts";
 import SelectedContact from "../shared/SelectedContact";
 import SelectToken from "../shared/SelectToken";
@@ -38,8 +37,6 @@ const SendPage = () => {
 
   return (
     <>
-      <AppHeader />
-
       <div
         style={{
           width: "100%",

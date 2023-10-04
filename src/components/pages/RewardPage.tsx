@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
-import AppHeader from "../shared/AppHeader";
 import Title from "../shared/Title";
 import TableRow from "../shared/TableRow";
 import moment from "moment";
@@ -103,7 +102,6 @@ const RewardPage = () => {
 
   return item ? (
     <>
-      <AppHeader />
       <div style={{ padding: "16px", width: "100%", boxSizing: "border-box" }}>
         <div
           style={{

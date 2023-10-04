@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import AppHeader from "../shared/AppHeader";
 import { useNavigate, useParams } from "react-router";
 import useAppContext from "../../hooks/useAppContext";
 import useBackButton from "../../hooks/useBackButton";
@@ -94,8 +93,6 @@ const ContactPage = () => {
 
   return (
     <>
-      <AppHeader />
-
       {contact && (
         <>
           <div
@@ -172,7 +169,7 @@ const ContactPage = () => {
                   padding: "8px 16px 8px",
                   textAlign: "left",
                   position: "sticky",
-                  top: "61px",
+                  top: "0px",
                   background: "#fff",
                   zIndex: 1,
                 }}

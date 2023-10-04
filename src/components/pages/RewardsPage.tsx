@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import AppHeader from "../shared/AppHeader";
 import useAppContext from "../../hooks/useAppContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { Box } from "@mui/material";
@@ -16,9 +15,8 @@ const RewardsPage = () => {
   const { height } = useWindowDimensions();
 
   const {
-    state: { rewards, rewardsLoading, rewardsFilters },
+    state: { rewards, rewardsFilters },
     setState,
-    getTgRewards,
   } = useAppContext();
 
   const applyFilters = (d: TelegramUserActivity | TelegramUserReward) => {
@@ -83,7 +81,6 @@ const RewardsPage = () => {
 
   return (
     <>
-      <AppHeader onRefresh={getTgRewards} refreshing={rewardsLoading} />
       <div style={{ width: "100%", padding: "0", boxSizing: "border-box" }}>
         <SearchBox
           placeholder="Rewards"
@@ -109,7 +106,7 @@ const RewardsPage = () => {
                 }}
               >
                 <List
-                  height={height - 176}
+                  height={height - 120}
                   itemCount={data.length}
                   itemSize={68}
                   width="100%"

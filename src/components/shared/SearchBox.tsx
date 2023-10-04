@@ -54,7 +54,7 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
         padding: "16px 16px 6px",
         backgroundColor: "#fff",
         position: "sticky",
-        top: "61px",
+        top: "0px",
         width: "100%",
         boxSizing: "border-box",
         zIndex: 1,

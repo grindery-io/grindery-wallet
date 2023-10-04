@@ -1,10 +1,8 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
 import useAppContext from "../../hooks/useAppContext";
-import AppHeader from "../shared/AppHeader";
 import Balance from "../shared/Balance";
 import SendButton from "../shared/SendButton";
-import Address from "../shared/Address";
 
 const tokens = [
   {
@@ -36,7 +34,6 @@ const TokensPage = () => {
 
   return (
     <>
-      <AppHeader RightComponent={<Address />} />
       <>
         <Balance />
         <SendButton />
@@ -55,7 +52,7 @@ const TokensPage = () => {
                   padding: "8px 0 16px",
                   textAlign: "left",
                   position: "sticky",
-                  top: "61px",
+                  top: "0px",
                   background: "#fff",
                   zIndex: 1,
                 }}

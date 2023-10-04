@@ -166,7 +166,7 @@ const TelegramContacts = ({ onContactClick }: Props) => {
             }}
           >
             <List
-              height={height - 176}
+              height={height - 120}
               itemCount={data?.length}
               itemSize={68}
               width="100%"

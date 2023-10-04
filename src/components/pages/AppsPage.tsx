@@ -1,12 +1,10 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import AppHeader from "../shared/AppHeader";
 import { Typography } from "@mui/material";
 
 const AppsPage = () => {
   return (
     <>
-      <AppHeader />
       <div style={{ width: "100%" }}>
         <Typography
           variant="h6"

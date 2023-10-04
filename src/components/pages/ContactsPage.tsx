@@ -1,34 +1,17 @@
 import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import AppHeader from "../shared/AppHeader";
 import { useNavigate } from "react-router";
 import Contacts from "../shared/Contacts";
 import Button from "../shared/Button";
-import useAppContext from "../../hooks/useAppContext";
 import BulletPoints from "../shared/BulletPoints";
 import Title from "../shared/Title";
 
 const ContactsPage = () => {
   const navigate = useNavigate();
   const [connecting, setConnecting] = useState(false);
-  const {
-    state: { contactsLoading, contacts },
-    getTgContacts,
-  } = useAppContext();
 
   return (
     <>
-      <AppHeader
-        onRefresh={
-          contacts && contacts.length > 0
-            ? () => {
-                getTgContacts();
-              }
-            : undefined
-        }
-        refreshing={contactsLoading}
-      />
-
       <Contacts
         onContactClick={(contact) => {
           navigate(`/contacts/${contact.id}`);
