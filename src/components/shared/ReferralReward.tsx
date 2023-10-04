@@ -28,7 +28,7 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
   } = useAppContext();
 
   const activity = activities.find(
-    (act) => act.TxId === reward.parentTransactionHash
+    (act) => act.transactionHash === reward.parentTransactionHash
   );
 
   const secondaryUserId =

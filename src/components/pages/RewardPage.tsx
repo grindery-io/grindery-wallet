@@ -24,7 +24,7 @@ const RewardPage = () => {
   const item = rewards.received.find((item) => item._id === id);
 
   const activity = activities.find(
-    (a) => a.TxId === item?.parentTransactionHash
+    (a) => a.transactionHash === item?.parentTransactionHash
   );
 
   const [contact, setContact] = useState<

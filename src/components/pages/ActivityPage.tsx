@@ -50,7 +50,7 @@ const ActivityPage = () => {
     (contact as TelegramUserContact).isInvited &&
     (rewards.received.find(
       (reward: TelegramUserReward) =>
-        reward.parentTransactionHash === item?.TxId
+        reward.parentTransactionHash === item?.transactionHash
     )?._id ||
       rewards.pending.find(
         (reward: TelegramUserActivity) =>
