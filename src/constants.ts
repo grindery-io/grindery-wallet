@@ -50,3 +50,26 @@ export const IMAGES = {
   ENABLE_NOTIFICATIONS_FIREFOX:
     "/images/grindery-ping-enable-notifications-firefox.svg",
 };
+
+export const TOKENS = [
+  {
+    symbol: "G1",
+    name: "Grindery One",
+    balance: "0",
+    icon: "/images/g1-token-red.svg",
+  },
+  {
+    symbol: "MATIC",
+    name: "Polygon Matic",
+    balance: "0",
+    icon: "https://polygonscan.com/images/svg/brands/matic.svg",
+    disabled: true,
+  },
+  {
+    symbol: "USDC",
+    name: "USD Coin",
+    balance: "0",
+    icon: "https://polygonscan.com/token/images/centre-usdc_32.png",
+    disabled: true,
+  },
+];
