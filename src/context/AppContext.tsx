@@ -384,7 +384,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getMe]);
 
   useEffect(() => {
-    getBalance();
+    getBalance(true);
   }, [getBalance]);
 
   useEffect(() => {

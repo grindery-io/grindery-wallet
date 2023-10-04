@@ -39,9 +39,10 @@ const Wrapper = styled.div`
 type Props = {
   onRefresh?: () => void;
   refreshing?: boolean;
+  RightComponent?: React.ReactNode;
 };
 
-const AppHeader = ({ onRefresh, refreshing }: Props) => {
+const AppHeader = ({ onRefresh, refreshing, RightComponent }: Props) => {
   return (
     <Spacer>
       <Wrapper>
@@ -81,7 +82,18 @@ const AppHeader = ({ onRefresh, refreshing }: Props) => {
             )
           )}
         </Select>
-        <div style={{ marginLeft: "auto" }}>
+        <div
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            flexWrap: "nowrap",
+            gap: "8px",
+          }}
+        >
+          {typeof RightComponent !== "undefined" && RightComponent}
           {onRefresh && (
             <Tooltip title="Refresh">
               <IconButton

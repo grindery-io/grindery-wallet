@@ -4,6 +4,7 @@ import useAppContext from "../../hooks/useAppContext";
 import AppHeader from "../shared/AppHeader";
 import Balance from "../shared/Balance";
 import SendButton from "../shared/SendButton";
+import Address from "../shared/Address";
 
 const tokens = [
   {
@@ -30,18 +31,12 @@ const tokens = [
 
 const TokensPage = () => {
   const {
-    state: { user, balance, balanceLoading },
-    getBalance,
+    state: { user, balance },
   } = useAppContext();
 
   return (
     <>
-      <AppHeader
-        onRefresh={() => {
-          getBalance(true);
-        }}
-        refreshing={balanceLoading}
-      />
+      <AppHeader RightComponent={<Address />} />
       <>
         <Balance />
         <SendButton />

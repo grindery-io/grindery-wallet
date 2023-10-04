@@ -1,13 +1,14 @@
 import React from "react";
 import useAppContext from "../../hooks/useAppContext";
-import { CircularProgress } from "@mui/material";
-import Address from "./Address";
+import { Box, CircularProgress } from "@mui/material";
 import { formatBalance } from "../../utils/formatBalance";
 import moment from "moment";
+import RefreshIcon from "../icons/RefreshIcon";
 
 const Balance = () => {
   const {
-    state: { user, balance, balanceCached, balanceUpdated },
+    state: { user, balance, balanceCached, balanceUpdated, balanceLoading },
+    getBalance,
   } = useAppContext();
 
   const { full } = formatBalance(balance);
@@ -42,15 +43,55 @@ const Balance = () => {
                   fontSize: "12px",
                   textAlign: "center",
                   fontWeight: "300",
-                  opacity: 0.6,
                 }}
               >
-                updated {moment(balanceUpdated).fromNow()}
+                <span style={{ opacity: 0.6 }}>
+                  Updated {moment(balanceUpdated).fromNow()}.{" "}
+                </span>
+                {moment(balanceUpdated) <
+                  moment(new Date()).add("minute", -1) && (
+                  <button
+                    onClick={() => {
+                      getBalance(true);
+                    }}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: "0",
+                      margin: 0,
+                      boxShadow: "none",
+
+                      cursor: "pointer",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Refresh{balanceLoading && "ing"}
+                    <Box
+                      component="span"
+                      sx={{
+                        color: "#0B0C0E",
+                        padding: 0,
+                        "& svg": {
+                          WebkitAnimation: "spin 0.75s linear infinite",
+                          MozAnimation: "spin 0.75s linear infinite",
+                          animation: "spin 0.75s linear infinite",
+                          animationPlayState: balanceLoading
+                            ? "running"
+                            : "paused",
+                          width: "20px",
+                          height: "20px",
+                          position: "relative",
+                          top: "5.5px",
+                        },
+                      }}
+                    >
+                      <RefreshIcon />
+                    </Box>
+                  </button>
+                )}
               </div>
             )}
           </h2>
-
-          <Address />
         </>
       )}
     </div>
