@@ -14,20 +14,22 @@ const ActivitiesPage = () => {
   const { height } = useWindowDimensions();
 
   const {
-    state: { user, activity, activityLoading },
+    state: { user, activity, activityLoading, activityFilters },
+    setState,
     getTgActivity,
   } = useAppContext();
   const [search, setSearch] = useState("");
 
-  const [filters, setFilters] = useState<string[]>([]);
-
   const applyFilters = (act: TelegramUserActivity) => {
     let res = false;
-    if (filters.includes("sent") && act.senderTgId === user?.userTelegramID) {
+    if (
+      activityFilters.includes("sent") &&
+      act.senderTgId === user?.userTelegramID
+    ) {
       res = true;
     }
     if (
-      filters.includes("received") &&
+      activityFilters.includes("received") &&
       act.recipientTgId === user?.userTelegramID
     ) {
       res = true;
@@ -49,22 +51,20 @@ const ActivitiesPage = () => {
         (act.recipientWallet &&
           act.recipientWallet.toLowerCase().includes(search.toLowerCase()))
     )
-    .filter((act) => (filters.length > 0 ? applyFilters(act) : true));
+    .filter((act) => (activityFilters.length > 0 ? applyFilters(act) : true));
 
   const options: Filter[] = [
     {
       key: "sent",
       label: "Sent",
-      value: filters.includes("sent"),
+      value: activityFilters.includes("sent"),
       type: "checkbox",
-      isActive: filters.includes("sent"),
+      isActive: activityFilters.includes("sent"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "sent"];
-          } else {
-            return filters.filter((filter) => filter !== "sent");
-          }
+        setState({
+          activityFilters: value
+            ? [...activityFilters, "sent"]
+            : activityFilters.filter((filter) => filter !== "sent"),
         });
       },
       count: activity?.filter((act) => act.senderTgId === user?.userTelegramID)
@@ -73,16 +73,14 @@ const ActivitiesPage = () => {
     {
       key: "received",
       label: "Received",
-      value: filters.includes("received"),
+      value: activityFilters.includes("received"),
       type: "checkbox",
-      isActive: filters.includes("received"),
+      isActive: activityFilters.includes("received"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "received"];
-          } else {
-            return filters.filter((filter) => filter !== "received");
-          }
+        setState({
+          activityFilters: value
+            ? [...activityFilters, "received"]
+            : activityFilters.filter((filter) => filter !== "received"),
         });
       },
       count: activity?.filter(

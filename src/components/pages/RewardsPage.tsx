@@ -16,22 +16,21 @@ const RewardsPage = () => {
   const { height } = useWindowDimensions();
 
   const {
-    state: { rewards, rewardsLoading },
+    state: { rewards, rewardsLoading, rewardsFilters },
+    setState,
     getTgRewards,
   } = useAppContext();
-
-  const [filters, setFilters] = useState<string[]>([]);
 
   const applyFilters = (d: TelegramUserActivity | TelegramUserReward) => {
     let res = false;
     if (
-      filters.includes("pending") &&
+      rewardsFilters.includes("pending") &&
       !(d as TelegramUserReward).responsePath
     ) {
       res = true;
     }
     if (
-      filters.includes("received") &&
+      rewardsFilters.includes("received") &&
       (d as TelegramUserReward).responsePath
     ) {
       res = true;
@@ -42,23 +41,21 @@ const RewardsPage = () => {
 
   const data = [...rewards.received, ...rewards.pending]
     .sort((a: any, b: any) => Date.parse(b.dateAdded) - Date.parse(a.dateAdded))
-    .filter((d) => (filters.length > 0 ? applyFilters(d) : true));
+    .filter((d) => (rewardsFilters.length > 0 ? applyFilters(d) : true));
   const [search, setSearch] = useState("");
 
   const options: Filter[] = [
     {
       key: "pending",
       label: "Eligible for reward",
-      value: filters.includes("pending"),
+      value: rewardsFilters.includes("pending"),
       type: "checkbox",
-      isActive: filters.includes("pending"),
+      isActive: rewardsFilters.includes("pending"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "pending"];
-          } else {
-            return filters.filter((filter) => filter !== "pending");
-          }
+        setState({
+          rewardsFilters: value
+            ? [...rewardsFilters, "pending"]
+            : rewardsFilters.filter((filter) => filter !== "pending"),
         });
       },
       count: [...rewards.received, ...rewards.pending].filter(
@@ -68,16 +65,14 @@ const RewardsPage = () => {
     {
       key: "received",
       label: "Rewards received",
-      value: filters.includes("received"),
+      value: rewardsFilters.includes("received"),
       type: "checkbox",
-      isActive: filters.includes("received"),
+      isActive: rewardsFilters.includes("received"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "received"];
-          } else {
-            return filters.filter((filter) => filter !== "received");
-          }
+        setState({
+          rewardsFilters: value
+            ? [...rewardsFilters, "received"]
+            : rewardsFilters.filter((filter) => filter !== "received"),
         });
       },
       count: [...rewards.received, ...rewards.pending].filter(

@@ -14,25 +14,25 @@ type Props = {
 const TelegramContacts = ({ onContactClick }: Props) => {
   const { height } = useWindowDimensions();
   const {
-    state: { user, contacts, contactsLoading },
+    state: { user, contacts, contactsLoading, contactsFilters },
+    setState,
   } = useAppContext();
   const [search, setSearch] = useState("");
-  const [filters, setFilters] = useState<string[]>([]);
 
   const applyFilters = (contact: TelegramUserContact) => {
     let res = false;
     if (
-      filters.includes("invited") &&
+      contactsFilters.includes("invited") &&
       contact.isInvited &&
       !contact.isGrinderyUser
     ) {
       res = true;
     }
-    if (filters.includes("has-wallet") && contact.isGrinderyUser) {
+    if (contactsFilters.includes("has-wallet") && contact.isGrinderyUser) {
       res = true;
     }
     if (
-      filters.includes("not-invited") &&
+      contactsFilters.includes("not-invited") &&
       !contact.isGrinderyUser &&
       !contact.isInvited
     ) {
@@ -60,22 +60,22 @@ const TelegramContacts = ({ onContactClick }: Props) => {
       a.isGrinderyUser === b.isGrinderyUser ? 0 : a.isGrinderyUser ? -1 : 1
     )
     .filter((contact) => contact.id !== user?.userTelegramID)
-    .filter((contact) => (filters.length > 0 ? applyFilters(contact) : true));
+    .filter((contact) =>
+      contactsFilters.length > 0 ? applyFilters(contact) : true
+    );
 
   const options: Filter[] = [
     {
       key: "invited",
       label: "Invited Contacts",
-      value: filters.includes("invited"),
+      value: contactsFilters.includes("invited"),
       type: "checkbox",
-      isActive: filters.includes("invited"),
+      isActive: contactsFilters.includes("invited"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "invited"];
-          } else {
-            return filters.filter((filter) => filter !== "invited");
-          }
+        setState({
+          contactsFilters: value
+            ? [...contactsFilters, "invited"]
+            : contactsFilters.filter((filter) => filter !== "invited"),
         });
       },
       count: contacts
@@ -86,16 +86,14 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     {
       key: "not-invited",
       label: "Not invited Contacts",
-      value: filters.includes("not-invited"),
+      value: contactsFilters.includes("not-invited"),
       type: "checkbox",
-      isActive: filters.includes("not-invited"),
+      isActive: contactsFilters.includes("not-invited"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "not-invited"];
-          } else {
-            return filters.filter((filter) => filter !== "not-invited");
-          }
+        setState({
+          contactsFilters: value
+            ? [...contactsFilters, "not-invited"]
+            : contactsFilters.filter((filter) => filter !== "not-invited"),
         });
       },
       count: contacts
@@ -106,16 +104,14 @@ const TelegramContacts = ({ onContactClick }: Props) => {
     {
       key: "has-wallet",
       label: "Contacts with wallets",
-      value: filters.includes("has-wallet"),
+      value: contactsFilters.includes("has-wallet"),
       type: "checkbox",
-      isActive: filters.includes("has-wallet"),
+      isActive: contactsFilters.includes("has-wallet"),
       onChange: (value) => {
-        setFilters((filters) => {
-          if (value) {
-            return [...filters, "has-wallet"];
-          } else {
-            return filters.filter((filter) => filter !== "has-wallet");
-          }
+        setState({
+          contactsFilters: value
+            ? [...contactsFilters, "has-wallet"]
+            : contactsFilters.filter((filter) => filter !== "has-wallet"),
         });
       },
       count: contacts

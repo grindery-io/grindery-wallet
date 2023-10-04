@@ -28,6 +28,9 @@ type StateProps = {
   balanceUpdated?: string;
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
+  contactsFilters: string[];
+  rewardsFilters: string[];
+  activityFilters: string[];
   activityLoading: boolean;
   rewards: {
     received: TelegramUserReward[];
@@ -70,6 +73,9 @@ const defaultContext = {
     activeTab: "tokens",
     activity: [],
     contactsLoading: true,
+    contactsFilters: [],
+    rewardsFilters: [],
+    activityFilters: [],
     activityLoading: true,
     rewards: {
       received: [],
