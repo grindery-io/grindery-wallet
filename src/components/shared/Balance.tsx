@@ -49,7 +49,7 @@ const Balance = () => {
                   Updated {moment(balanceUpdated).fromNow()}.{" "}
                 </span>
                 {moment(balanceUpdated) <
-                  moment(new Date()).add("minute", -1) && (
+                  moment(new Date()).add(-1, "minute") && (
                   <button
                     onClick={() => {
                       getBalance(true);
