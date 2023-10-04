@@ -12,30 +12,29 @@ const Banner = ({ visible, children, onClose }: Props) => {
     <Box
       sx={{
         position: "fixed",
-        left: 0,
-        bottom: "56px",
-        width: "100%",
+        left: "8px",
+        bottom: "64px",
+        width: "calc(100% - 16px)",
         boxSizing: "border-box",
+        borderRadius: "12px",
         background: "var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+        boxShadow: "5px 5px 20px 0px #AAB8D3",
         color: "#FFF",
         display: "flex",
         flexDirection: "row",
         alignItems: "flex-start",
-        justifyContent: "center",
-        gap: "16px",
+        justifyContent: "flex-start",
+        gap: "8px",
         flexWrap: "nowrap",
         fontSize: "12px",
         fontWeight: "400",
         lineHeight: "125%",
-        padding: "8px 42px",
+        padding: "8px 12px",
       }}
     >
       <div>{children}</div>
       {typeof onClose !== "undefined" && (
-        <IconButton
-          sx={{ position: "absolute", right: "16px", top: "1px" }}
-          onClick={onClose}
-        >
+        <IconButton sx={{ marginLeft: "auto", padding: 0 }} onClick={onClose}>
           <svg
             width="12"
             height="12"

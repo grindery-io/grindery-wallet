@@ -18,30 +18,35 @@ const ReferralBanner = () => {
         localStorage.setItem("gr_wallet_banner_referral_closed", "true");
       }}
     >
-      <span>
-        New referral system. Get your{" "}
-        <span
-          style={{
-            textDecoration: "underline",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            navigator.clipboard.writeText(
-              `${BOT_URL}?start=${user?.userTelegramID}`
-            );
-            setTimeout(() => {
-              if (window.Telegram?.WebApp?.showAlert) {
-                window.Telegram?.WebApp?.showAlert("Referral link copied");
-              } else {
-                window.alert("Referral link copied");
-              }
-            }, 500);
-          }}
-        >
-          referral link
-        </span>{" "}
-        now!
-      </span>
+      <div
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: "4px",
+          justifyContent: "flex-start",
+          flexWrap: "nowrap",
+        }}
+        onClick={() => {
+          navigator.clipboard.writeText(
+            `${BOT_URL}?start=${user?.userTelegramID}`
+          );
+          setTimeout(() => {
+            if (window.Telegram?.WebApp?.showAlert) {
+              window.Telegram?.WebApp?.showAlert("Referral link copied");
+            } else {
+              window.alert("Referral link copied");
+            }
+          }, 500);
+        }}
+      >
+        <strong>New referral system</strong>
+
+        <span style={{ color: "var(--flow-blue-primary-blue-20, #99BCFF)" }}>
+          Get your referral link now!
+        </span>
+      </div>
     </Banner>
   );
 };
