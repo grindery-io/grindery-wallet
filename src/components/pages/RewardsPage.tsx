@@ -10,13 +10,10 @@ import PendingReward from "../shared/PendingReward";
 import ReferralReward from "../shared/ReferralReward";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import SearchBox, { Filter } from "../shared/SearchBox";
-import Banner from "../shared/Banner";
+import ReferralBanner from "../shared/ReferralBanner";
 
 const RewardsPage = () => {
   const { height } = useWindowDimensions();
-  const [banner, setBanner] = useState(
-    localStorage.getItem("gr_wallet_banner_referral_closed") !== "true"
-  );
 
   const {
     state: { rewards, rewardsFilters },
@@ -133,30 +130,7 @@ const RewardsPage = () => {
           </>
         </div>
       </div>
-      <Banner
-        visible={banner}
-        onClose={() => {
-          setBanner(false);
-          localStorage.setItem("gr_wallet_banner_referral_closed", "true");
-        }}
-      >
-        <span>
-          New referral system. Get your{" "}
-          <a
-            href="#"
-            onClick={() => {
-              if (window.Telegram?.WebApp?.showAlert) {
-                window.Telegram?.WebApp?.showAlert("Coming soon");
-              } else {
-                window.alert("Coming soon");
-              }
-            }}
-          >
-            referral link
-          </a>{" "}
-          now!
-        </span>
-      </Banner>
+      <ReferralBanner />
       <BottomNavigation />
     </>
   );

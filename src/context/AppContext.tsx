@@ -38,6 +38,7 @@ type StateProps = {
   };
   rewardsLoading: boolean;
   telegramSessionSaved?: boolean;
+  bannerShown: boolean;
 };
 
 // Context props
@@ -82,6 +83,7 @@ const defaultContext = {
       pending: [],
     },
     rewardsLoading: true,
+    bannerShown: true,
   },
   setState: () => {},
   handleInputChange: () => {},

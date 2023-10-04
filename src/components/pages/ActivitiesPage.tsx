@@ -8,13 +8,10 @@ import Activity from "../shared/Activity";
 import { useNavigate } from "react-router";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import { TelegramUserActivity } from "../../types/Telegram";
-import Banner from "../shared/Banner";
+import ReferralBanner from "../shared/ReferralBanner";
 
 const ActivitiesPage = () => {
   const { height } = useWindowDimensions();
-  const [banner, setBanner] = useState(
-    localStorage.getItem("gr_wallet_banner_referral_closed") !== "true"
-  );
 
   const {
     state: { user, activity, activityFilters },
@@ -141,30 +138,7 @@ const ActivitiesPage = () => {
           </>
         </div>
       </div>
-      <Banner
-        visible={banner}
-        onClose={() => {
-          setBanner(false);
-          localStorage.setItem("gr_wallet_banner_referral_closed", "true");
-        }}
-      >
-        <span>
-          New referral system. Get your{" "}
-          <a
-            href="#"
-            onClick={() => {
-              if (window.Telegram?.WebApp?.showAlert) {
-                window.Telegram?.WebApp?.showAlert("Coming soon");
-              } else {
-                window.alert("Coming soon");
-              }
-            }}
-          >
-            referral link
-          </a>{" "}
-          now!
-        </span>
-      </Banner>
+      <ReferralBanner />
       <BottomNavigation />
     </>
   );
