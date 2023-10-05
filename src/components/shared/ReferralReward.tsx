@@ -210,7 +210,7 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                   bottom: "-2px",
                   right: "-2px",
                   borderRadius: "50%",
-                  background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                  background: "var(--tg-theme-bg-color, #ffffff)",
                   padding: "2px",
                 }}
               >

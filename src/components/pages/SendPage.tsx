@@ -321,13 +321,12 @@ const SendPage = () => {
                       margin: "0 !important",
                       border: "1px solid var(--tg-theme-button-color, #2481cc)",
                       color: "var(--tg-theme-button-color, #2481cc)",
-                      background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                      background: "var(--tg-theme-bg-color, #ffffff)",
                       "&:hover": {
                         border:
                           "1px solid var(--tg-theme-button-color, #2481cc)",
                         color: "var(--tg-theme-button-color, #2481cc)",
-                        background:
-                          "var(--tg-theme-secondary-bg-color, #efeff3)",
+                        background: "var(--tg-theme-bg-color, #ffffff)",
                         opacity: 1,
                       },
                     }}

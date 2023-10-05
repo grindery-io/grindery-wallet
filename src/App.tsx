@@ -37,7 +37,7 @@ function App() {
     ) {
       document.body.style.setProperty(
         "--gr-theme-divider-color",
-        "var(--tg-theme-bg-color)"
+        "var(--tg-theme-secondary-bg-color)"
       );
     } else {
       document.body.style.setProperty("--gr-theme-divider-color", "#ccc");

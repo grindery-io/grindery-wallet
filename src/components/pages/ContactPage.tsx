@@ -23,7 +23,7 @@ const ButtonWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  background: var(--tg-theme-secondary-bg-color, #efeff3);
+  background: var(--tg-theme-bg-color, #ffffff);
 
   & button {
     width: 100%;
@@ -143,8 +143,7 @@ const ContactPage = () => {
                   position: "absolute",
                   bottom: "-4px",
                   right: "-4px",
-                  border:
-                    "2px solid var(--tg-theme-secondary-bg-color, #efeff3)",
+                  border: "2px solid var(--tg-theme-bg-color, #ffffff)",
                   borderRadius: "50%",
                 }}
               >
@@ -182,7 +181,7 @@ const ContactPage = () => {
                   textAlign: "left",
                   position: "sticky",
                   top: "0px",
-                  background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                  background: "var(--tg-theme-bg-color, #ffffff)",
                   zIndex: 1,
                 }}
               >

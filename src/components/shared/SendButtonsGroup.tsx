@@ -77,13 +77,12 @@ const SendButtonsGroup = ({
             fontWeight: "normal",
             border: "1px solid var(--tg-theme-button-color, #2481cc)",
             color: "var(--tg-theme-button-color, #2481cc)",
-            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-            boxShadow:
-              "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
+            background: "var(--tg-theme-bg-color, #ffffff)",
+            boxShadow: "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
             "&:hover": {
               border: "1px solid var(--tg-theme-button-color, #2481cc)",
               color: "var(--tg-theme-button-color, #2481cc)",
-              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+              background: "var(--tg-theme-bg-color, #ffffff)",
               opacity: 1,
             },
           }}
@@ -107,8 +106,7 @@ const SendButtonsGroup = ({
             fontWeight: "normal",
             background: "var(--tg-theme-button-color, #2481cc)",
             color: "var(--tg-theme-button-text-color, #ffffff)",
-            boxShadow:
-              "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
+            boxShadow: "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
             "&:hover": {
               opacity: "1 !important",
               background: "var(--tg-theme-button-color, #2481cc)",

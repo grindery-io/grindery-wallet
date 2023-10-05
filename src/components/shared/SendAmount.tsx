@@ -6,7 +6,7 @@ import useAppContext from "../../hooks/useAppContext";
 const Wrapper = styled.div`
   border-radius: 10px;
   border: none;
-  background: var(--tg-theme-bg-color, #ffffff);
+  background: var(--tg-theme-secondary-bg-color, #efeff3);
   display: flex;
   width: 100%;
   padding: 10px 10px 10px 20px;
@@ -70,7 +70,7 @@ const SendAmount = ({
           variant="outlined"
           size="small"
           sx={{
-            background: "var(--tg-theme-bg-color, #ffffff)",
+            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
             color: "var(--tg-theme-button-color, #2481cc)",
             border: "1px solid var(--tg-theme-button-color, #2481cc)",
             margin: 0,
@@ -79,7 +79,7 @@ const SendAmount = ({
             marginLeft: "auto",
             fontSize: "12px",
             "&:hover": {
-              background: "var(--tg-theme-bg-color, #ffffff)",
+              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
               color: "var(--tg-theme-button-color, #2481cc)",
               border: "1px solid var(--tg-theme-button-color, #2481cc)",
               opacity: 1,

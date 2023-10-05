@@ -51,7 +51,7 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
     <Box
       sx={{
         padding: "16px 16px 6px",
-        backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
+        backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
         position: "sticky",
         top: "0px",
         width: "100%",
@@ -105,7 +105,7 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
         sx={{
           padding: "9px 8px 9px 16px",
           borderRadius: "10px",
-          background: "var(--tg-theme-bg-color, #ffffff)",
+          background: "var(--tg-theme-secondary-bg-color, #efeff3)",
           "& .MuiInputBase-input": {
             padding: 0,
             fontSize: "16px",
@@ -172,7 +172,7 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          sx: { background: "var(--tg-theme-bg-color, #ffffff)" },
+          sx: { background: "var(--tg-theme-secondary-bg-color, #efeff3)" },
         }}
       >
         <MenuItem sx={{ marginBottom: 0, minHeight: "auto" }} disabled>

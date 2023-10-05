@@ -224,7 +224,7 @@ const TelegramContacts = ({
                   variant="outlined"
                   color="secondary"
                   sx={{
-                    background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                    background: "var(--tg-theme-bg-color, #ffffff)",
                     border: "1px solid var(--tg-theme-button-color, #2481cc)",
                     color: "var(--tg-theme-button-color, #2481cc)",
                     padding: "12px 40px !important",
@@ -232,10 +232,10 @@ const TelegramContacts = ({
                     fontWeight: "400",
                     textTransform: "none",
                     boxShadow:
-                      "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
+                      "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
                     "&:hover": {
                       color: "var(--tg-theme-button-color, #2481cc)",
-                      background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                      background: "var(--tg-theme-bg-color, #ffffff)",
                       opacity: "1 !important",
                       border: "1px solid var(--tg-theme-button-color, #2481cc)",
                     },
@@ -256,7 +256,7 @@ const TelegramContacts = ({
                     background: "var(--tg-theme-button-color, #2481cc)",
                     color: "var(--tg-theme-button-text-color, #ffffff)",
                     boxShadow:
-                      "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
+                      "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
                     "&:hover": {
                       opacity: "1 !important",
                       background: "var(--tg-theme-button-color, #2481cc)",

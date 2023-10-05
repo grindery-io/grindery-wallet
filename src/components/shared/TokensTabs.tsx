@@ -22,7 +22,7 @@ const TokensTabs = () => {
           borderTopRightRadius: "12px",
           border: "none",
           "& .MuiTabs-scroller": {
-            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+            background: "var(--tg-theme-bg-color, #ffffff)",
           },
           "& .MuiTabs-indicator": {
             display: "none",
@@ -40,7 +40,7 @@ const TokensTabs = () => {
               boxShadow:
                 "inset 0px -1px 0px var(--tg-theme-text-color, #000000)",
               color: "var(--tg-theme-text-color, #000000)",
-              backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
+              backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
             },
           },
         }}

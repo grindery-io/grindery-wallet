@@ -9,7 +9,7 @@ import ContactAvatar from "./ContactAvatar";
 const Wrapper = styled.div`
   border-radius: 10px;
   border: none;
-  background: var(--tg-theme-bg-color, #ffffff);
+  background: var(--tg-theme-secondary-bg-color, #efeff3);
   display: flex;
   width: 100%;
   padding: 10px 10px 10px 20px;

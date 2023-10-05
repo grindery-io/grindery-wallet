@@ -195,7 +195,7 @@ const TelegramAuth = () => {
               disabled={loading || Boolean(operationId)}
               placeholder="12345678901"
               style={{
-                background: "var(--tg-theme-bg-color, #ffffff)",
+                background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                 color: "var(--tg-theme-text-color, #000000)",
                 border: "none",
                 outline: "none",
@@ -228,7 +228,7 @@ const TelegramAuth = () => {
               }}
               disabled={loading || Boolean(operationId)}
               style={{
-                background: "var(--tg-theme-bg-color, #ffffff)",
+                background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                 color: "var(--tg-theme-text-color, #000000)",
                 border: "none",
                 outline: "none",
@@ -253,7 +253,7 @@ const TelegramAuth = () => {
               }}
               disabled={loading}
               style={{
-                background: "var(--tg-theme-bg-color, #ffffff)",
+                background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                 color: "var(--tg-theme-text-color, #000000)",
                 border: "none",
                 outline: "none",

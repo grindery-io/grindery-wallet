@@ -18,8 +18,9 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
         width: "calc(100% - 16px)",
         boxSizing: "border-box",
         borderRadius: "12px",
-        background: "var(--tg-theme-bg-color, #ffffff)",
-        boxShadow: "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
+        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+        boxShadow:
+          "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
         color: "var(--tg-theme-text-color, #000000)",
         display: "flex",
         flexDirection: "row",

@@ -184,7 +184,7 @@ const ActivityPage = () => {
         <div
           style={{
             borderRadius: "5px",
-            background: "var(--tg-theme-bg-color, #ffffff)",
+            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
             display: "flex",
             flexDirection: "column",
             alignItems: "stretch",
@@ -370,11 +370,11 @@ const ActivityPage = () => {
               padding: "10px 20px !important",
               fontSize: "14px",
               width: "100%",
-              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+              background: "var(--tg-theme-bg-color, #ffffff)",
               border: "1px solid var(--tg-theme-button-color, #2481cc)",
               color: "var(--tg-theme-button-color, #2481cc)",
               "&:hover": {
-                background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                background: "var(--tg-theme-bg-color, #ffffff)",
                 border: "1px solid var(--tg-theme-button-color, #2481cc)",
                 color: "var(--tg-theme-button-color, #2481cc)",
                 opacity: 1,

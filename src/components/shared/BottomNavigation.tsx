@@ -33,7 +33,7 @@ const BottomNavigation = () => {
           bottom: 0,
           maxWidth: MAX_WIDTH,
           borderTop: "1px solid rgb(220,220,220)",
-          background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+          background: "var(--tg-theme-bg-color, #ffffff)",
           "& .MuiBottomNavigationAction-root": {
             minWidth: "auto",
             color: "var(--tg-theme-hint-colorm, #999999)",

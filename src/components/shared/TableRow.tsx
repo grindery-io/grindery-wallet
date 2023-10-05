@@ -20,7 +20,7 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
         gap: "16px",
         padding: "10px 16px",
         borderTop: !first
-          ? "1px solid var(--tg-theme-secondary-bg-color, #efeff3)"
+          ? "1px solid var(--tg-theme-bg-color, #ffffff)"
           : "none",
       }}
     >

@@ -75,7 +75,7 @@ const TelegramContact = ({
     >
       <DataBox
         style={{
-          background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+          background: "var(--tg-theme-bg-color, #ffffff)",
           border: selected
             ? "1px solid var(--tg-theme-button-color, #2481cc)"
             : "1px solid var(--gr-theme-divider-color)",
@@ -122,7 +122,8 @@ const TelegramContact = ({
                     position: "absolute",
                     bottom: "-6px",
                     right: "-6px",
-                    border: "2px solid var(--tg-theme-bg-color, #ffffff)",
+                    border:
+                      "2px solid var(--tg-theme-secondary-bg-color, #efeff3)",
                     borderRadius: "50%",
                   }}
                 >
