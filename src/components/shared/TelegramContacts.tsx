@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import TelegramContact from "./TelegramContact";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -11,9 +11,15 @@ type Props = {
   onContactClick: (contact: TelegramUserContact) => void;
   selected?: TelegramUserContact[];
   onSelect?: (contact: TelegramUserContact) => void;
+  onCancel?: () => void;
 };
 
-const TelegramContacts = ({ onContactClick, selected, onSelect }: Props) => {
+const TelegramContacts = ({
+  onCancel,
+  onContactClick,
+  selected,
+  onSelect,
+}: Props) => {
   const { height } = useWindowDimensions();
   const {
     state: { user, contacts, contactsLoading, contactsFilters },
@@ -166,7 +172,13 @@ const TelegramContacts = ({ onContactClick, selected, onSelect }: Props) => {
           <Box
             sx={{
               "& > div": {
-                padding: "0 0 10px",
+                padding: `0 0 ${
+                  typeof onSelect !== "undefined" &&
+                  selected &&
+                  selected.length > 0
+                    ? "80"
+                    : "10"
+                }px`,
                 boxSizing: "border-box",
                 "& > div": {
                   padding: "0 0 10px",
@@ -176,7 +188,7 @@ const TelegramContacts = ({ onContactClick, selected, onSelect }: Props) => {
             }}
           >
             <List
-              height={height - 120}
+              height={height - (typeof onSelect !== "undefined" ? 100 : 120)}
               itemCount={data?.length}
               itemSize={68}
               width="100%"
@@ -185,6 +197,64 @@ const TelegramContacts = ({ onContactClick, selected, onSelect }: Props) => {
               {ItemRenderer}
             </List>
           </Box>
+          {typeof onSelect !== "undefined" &&
+            selected &&
+            selected.length > 0 && (
+              <Box
+                sx={{
+                  position: "fixed",
+                  bottom: "0px",
+                  padding: "8px",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  flexWrap: "nowrap",
+                  width: "100%",
+                  boxSizing: "border-box",
+                  zIndex: 2,
+                  "& button": {
+                    boxShadow: "5px 5px 20px 0px #AAB8D3",
+                  },
+                }}
+              >
+                <Button
+                  onClick={onCancel}
+                  variant="outlined"
+                  color="secondary"
+                  sx={{
+                    background: "#fff",
+                    padding: "12px 40px !important",
+                    fontSize: "14px",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "#fff !important",
+                      opacity: "1 !important",
+                    },
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {}}
+                  variant="contained"
+                  color="secondary"
+                  sx={{
+                    flex: 1,
+                    padding: "13px 24px !important",
+                    fontSize: "14px",
+                    textTransform: "none",
+                    "&:hover": {
+                      opacity: "1 !important",
+                    },
+                  }}
+                >
+                  Send x {selected.length} contact
+                  {selected.length > 1 ? "s" : ""}
+                </Button>
+              </Box>
+            )}
         </>
       ) : contactsLoading ? (
         <div style={{ margin: "50px", textAlign: "center" }}>

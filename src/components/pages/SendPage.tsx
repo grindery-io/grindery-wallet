@@ -34,6 +34,7 @@ const SendPage = () => {
       ? contacts?.find((contact) => contact.id === recipient) || null
       : null,
   });
+  const [selected, setSelected] = useState<TelegramUserContact[]>([]);
 
   return (
     <>
@@ -106,7 +107,7 @@ const SendPage = () => {
             </IconButton>
           )}
         </div>
-        {!input.recipient || Array.isArray(input.recipient) ? (
+        {!input.recipient ? (
           <Contacts
             onContactClick={(contact) => {
               navigate(`/send/${contact.id}`);
@@ -115,25 +116,16 @@ const SendPage = () => {
                 recipient: contact,
               });
             }}
-            selected={
-              Array.isArray(input.recipient) ? input.recipient : undefined
-            }
+            selected={selected}
             onSelect={(contact) => {
-              if (Array.isArray(input.recipient)) {
-                setInput({
-                  ...input,
-                  recipient: input.recipient
-                    .map((contact) => contact.id)
-                    .includes(contact.id)
-                    ? input.recipient.filter((c) => c.id !== contact.id)
-                    : [...input.recipient, contact],
-                });
-              } else {
-                setInput({
-                  ...input,
-                  recipient: [contact],
-                });
-              }
+              setSelected(
+                selected.map((contact) => contact.id).includes(contact.id)
+                  ? selected.filter((c) => c.id !== contact.id)
+                  : [...selected, contact]
+              );
+            }}
+            onCancel={() => {
+              setSelected([]);
             }}
             placeholder={
               <div style={{ padding: "12px 16px" }}>
