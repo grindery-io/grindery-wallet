@@ -1,13 +1,14 @@
 import React from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, SxProps } from "@mui/material";
 
 type Props = {
   visible: boolean;
   children?: React.ReactNode;
   onClose?: () => void;
+  sx?: SxProps;
 };
 
-const Banner = ({ visible, children, onClose }: Props) => {
+const Banner = ({ visible, children, onClose, sx }: Props) => {
   return visible ? (
     <Box
       sx={{
@@ -30,9 +31,10 @@ const Banner = ({ visible, children, onClose }: Props) => {
         fontWeight: "400",
         lineHeight: "125%",
         padding: "8px 12px",
+        ...(sx || {}),
       }}
     >
-      <div>{children}</div>
+      {children}
       {typeof onClose !== "undefined" && (
         <IconButton sx={{ marginLeft: "auto", padding: 0 }} onClick={onClose}>
           <svg

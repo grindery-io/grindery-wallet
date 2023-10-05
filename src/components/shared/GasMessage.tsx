@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  flex: 1;
   display: flex;
   width: 100%;
-  padding: 32px 16px;
+  padding: 20px 16px 0px;
   flex-direction: column;
   justify-content: center;
   align-items: center;

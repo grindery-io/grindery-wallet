@@ -83,7 +83,12 @@ const SendButtonsGroup = ({
           variant="contained"
           color="secondary"
           fullWidth
-          disabled={status === "sending" || !input.amount || !input.recipient}
+          disabled={
+            status === "sending" ||
+            !input.amount ||
+            !input.recipient ||
+            Array.isArray(input.recipient)
+          }
           sx={{
             textTransform: "none",
             fontWeight: "normal",

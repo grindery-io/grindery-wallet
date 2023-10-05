@@ -12,6 +12,7 @@ type Props = {
   selected?: TelegramUserContact[];
   onSelect?: (contact: TelegramUserContact) => void;
   onCancel?: () => void;
+  onConfirm?: () => void;
 };
 
 const TelegramContacts = ({
@@ -19,6 +20,7 @@ const TelegramContacts = ({
   onContactClick,
   selected,
   onSelect,
+  onConfirm,
 }: Props) => {
   const { height } = useWindowDimensions();
   const {
@@ -226,7 +228,8 @@ const TelegramContacts = ({
                   sx={{
                     background: "#fff",
                     padding: "12px 40px !important",
-                    fontSize: "14px",
+                    fontSize: "16px",
+                    fontWeight: "400",
                     textTransform: "none",
                     "&:hover": {
                       background: "#fff !important",
@@ -237,13 +240,14 @@ const TelegramContacts = ({
                   Cancel
                 </Button>
                 <Button
-                  onClick={() => {}}
+                  onClick={onConfirm}
                   variant="contained"
                   color="secondary"
                   sx={{
                     flex: 1,
                     padding: "13px 24px !important",
-                    fontSize: "14px",
+                    fontSize: "16px",
+                    fontWeight: "400",
                     textTransform: "none",
                     "&:hover": {
                       opacity: "1 !important",

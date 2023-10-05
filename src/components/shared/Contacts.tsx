@@ -8,13 +8,15 @@ const Contacts = ({
   selected,
   onSelect,
   placeholder,
-  onCancel,
+  onSelectCancel,
+  onSelectConfirm,
 }: {
   onContactClick: (contact: TelegramUserContact) => void;
   selected?: TelegramUserContact[];
   onSelect?: (contact: TelegramUserContact) => void;
   placeholder?: React.ReactNode;
-  onCancel?: () => void;
+  onSelectCancel?: () => void;
+  onSelectConfirm?: () => void;
 }) => {
   const {
     state: { user },
@@ -30,7 +32,8 @@ const Contacts = ({
             onContactClick={onContactClick}
             selected={selected}
             onSelect={onSelect}
-            onCancel={onCancel}
+            onCancel={onSelectCancel}
+            onConfirm={onSelectConfirm}
           />
         </>
       )}

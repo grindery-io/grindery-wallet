@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useAppContext from "../../hooks/useAppContext";
+import { TOKENS } from "../../constants";
 
 const Wrapper = styled.div`
   border-radius: 10px;
@@ -24,7 +25,7 @@ const SelectToken = () => {
   return (
     <Wrapper>
       <img
-        src="https://app.grindery.io/logo192.png"
+        src={TOKENS[0].icon}
         alt=""
         style={{
           display: "block",
