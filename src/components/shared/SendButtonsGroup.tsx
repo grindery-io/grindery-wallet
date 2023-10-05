@@ -29,7 +29,9 @@ const SendButtonsGroup = ({
       const res = await axios.post(
         `${BOT_API_URL}/v1/telegram/send`,
         {
-          recipientTgId: input.recipient?.id,
+          recipientTgId: Array.isArray(input.recipient)
+            ? input.recipient.map((contact) => contact.id)
+            : input.recipient?.id,
           amount: input.amount,
         },
         {
@@ -38,14 +40,13 @@ const SendButtonsGroup = ({
           },
         }
       );
-      console.log("send tokens res", res);
       if (res.data?.success) {
         setStatus("sent");
       } else {
         setStatus("error");
       }
     } catch (error) {
-      console.log("send tokens error", error);
+      console.error("send tokens error", error);
       setStatus("error");
     }
   };

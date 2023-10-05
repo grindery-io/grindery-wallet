@@ -12,7 +12,7 @@ import {
   SxProps,
 } from "@mui/material";
 import { ICONS } from "../../constants";
-import TuneIcon from "@mui/icons-material/Tune";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 export type SearchOption = {
   label: string;
@@ -131,7 +131,7 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
           overlap="circular"
         >
           <IconButton sx={{ padding: "4px" }} onClick={handleClick}>
-            <TuneIcon />
+            <FilterAltIcon />
           </IconButton>
         </Badge>
       )}
