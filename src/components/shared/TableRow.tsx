@@ -20,7 +20,7 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
         gap: "16px",
         padding: "10px 16px",
         borderTop: !first
-          ? "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)"
+          ? "1px solid var(--tg-theme-secondary-bg-color, #efeff3)"
           : "none",
       }}
     >
@@ -31,7 +31,7 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
           lineHeight: "125%",
           margin: 0,
           padding: 0,
-          color: "var(--grindery-cool-grey-cool-grey-60, #666E7F)",
+          color: "var(--tg-theme-hint-color, #999999)",
         }}
       >
         {label}
@@ -44,6 +44,7 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
           justifyContent: "flex-end",
           flexWrap: "nowrap",
           gap: "4px",
+          color: "var(--tg-theme-text-color, #000000)",
         }}
         onClick={onValueClick}
       >

@@ -65,7 +65,13 @@ const SendPage = () => {
             boxSizing: "border-box",
           }}
         >
-          <p style={{ margin: 0, textAlign: "center" }}>
+          <p
+            style={{
+              margin: 0,
+              textAlign: "center",
+              color: "var(--tg-theme-text-color, #000000)",
+            }}
+          >
             {status === "sending"
               ? "Sending"
               : status === "sent"
@@ -80,6 +86,7 @@ const SendPage = () => {
                 position: "absolute",
                 right: "16px",
                 top: "-4px",
+                color: "var(--tg-theme-text-color, #000000)",
               }}
               onClick={() => {
                 navigate(-1);
@@ -94,14 +101,14 @@ const SendPage = () => {
               >
                 <path
                   d="M1 11L11 1"
-                  stroke="black"
+                  stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
                 <path
                   d="M1 1L11 11"
-                  stroke="black"
+                  stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -196,6 +203,17 @@ const SendPage = () => {
                       padding: "10px 20px !important",
                       fontSize: "14px",
                       width: "100%",
+                      backgroundColor:
+                        "var(--tg-theme-button-color, #2481cc) !important",
+                      color: "var(--tg-theme-button-text-color, #ffffff)",
+                      boxShadow: "none",
+                      "&:hover": {
+                        backgroundColor:
+                          "var(--tg-theme-button-color, #2481cc) !important",
+                        color: "var(--tg-theme-button-text-color, #ffffff)",
+                        boxShadow: "none",
+                        opacity: 1,
+                      },
                     }}
                     disabled={connecting}
                     onClick={() => {
@@ -237,12 +255,14 @@ const SendPage = () => {
                 </div>
               }
             />
-            <ContactsSelectBanner
-              onClose={() => {
-                setBanner(false);
-              }}
-              visible={banner && selected.length < 1}
-            />
+            {user?.telegramSession && (
+              <ContactsSelectBanner
+                onClose={() => {
+                  setBanner(false);
+                }}
+                visible={banner && selected.length < 1}
+              />
+            )}
           </>
         ) : (
           <div
@@ -299,6 +319,17 @@ const SendPage = () => {
                       fontSize: "14px !important",
                       minWidth: "160px !important",
                       margin: "0 !important",
+                      border: "1px solid var(--tg-theme-button-color, #2481cc)",
+                      color: "var(--tg-theme-button-color, #2481cc)",
+                      background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                      "&:hover": {
+                        border:
+                          "1px solid var(--tg-theme-button-color, #2481cc)",
+                        color: "var(--tg-theme-button-color, #2481cc)",
+                        background:
+                          "var(--tg-theme-secondary-bg-color, #efeff3)",
+                        opacity: 1,
+                      },
                     }}
                   />
                 </div>
@@ -312,7 +343,9 @@ const SendPage = () => {
                     textAlign: "center",
                   }}
                 >
-                  <CircularProgress style={{ color: "black" }} />
+                  <CircularProgress
+                    style={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+                  />
                 </div>
               </>
             )}

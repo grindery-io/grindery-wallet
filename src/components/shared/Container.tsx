@@ -16,7 +16,7 @@ const Container = styled.div`
   min-height: 100vh;
   box-sizing: border-box;
   position: relative;
-  background: #ffffff;
+  background: var(--tg-theme-secondary-bg-color, #efeff3);
 `;
 
 export default Container;

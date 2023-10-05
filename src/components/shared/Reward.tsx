@@ -37,6 +37,9 @@ const Reward = ({
             }
           }
         }}
+        style={{
+          border: "1px solid var(--gr-theme-divider-color)",
+        }}
         LeftComponent={
           <div
             style={{
@@ -55,6 +58,7 @@ const Reward = ({
                   fontSize: "12px",
                   fontWeight: "400",
                   margin: 0,
+                  color: "var(--tg-theme-text-color, #000000)",
                 }}
               >
                 {reward.message}
@@ -75,7 +79,13 @@ const Reward = ({
                 gap: "6px",
               }}
             >
-              <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: "var(--tg-theme-text-color, #000000)",
+                }}
+              >
                 {formatted}
               </span>{" "}
               <img

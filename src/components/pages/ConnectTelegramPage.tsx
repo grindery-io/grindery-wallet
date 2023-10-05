@@ -35,7 +35,13 @@ const ConnectTelegramPage = () => {
       <Title>Account Successfully Connected!</Title>
       <Subtitle>
         You can close this page and return to the{" "}
-        <a href="https://telegram.me/grinderyAIBot">Telegram app</a>.
+        <a
+          style={{ color: "var(--tg-theme-link-color, #2481cc)" }}
+          href="https://telegram.me/grinderyAIBot"
+        >
+          Telegram app
+        </a>
+        .
       </Subtitle>
       <BulletPoints
         items={[
@@ -47,7 +53,7 @@ const ConnectTelegramPage = () => {
       />
       <p
         style={{
-          color: "var(--grindery-cool-grey-cool-grey-50-base, #808898)",
+          color: "var(--tg-theme-hint-color, #999999)",
           fontSize: "14px",
           margin: "24px 0",
           textAlign: "center",

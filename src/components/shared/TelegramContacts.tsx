@@ -216,9 +216,7 @@ const TelegramContacts = ({
                   width: "100%",
                   boxSizing: "border-box",
                   zIndex: 2,
-                  "& button": {
-                    boxShadow: "5px 5px 20px 0px #AAB8D3",
-                  },
+                  "& button": {},
                 }}
               >
                 <Button
@@ -226,14 +224,20 @@ const TelegramContacts = ({
                   variant="outlined"
                   color="secondary"
                   sx={{
-                    background: "#fff",
+                    background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+                    border: "1px solid var(--tg-theme-button-color, #2481cc)",
+                    color: "var(--tg-theme-button-color, #2481cc)",
                     padding: "12px 40px !important",
                     fontSize: "16px",
                     fontWeight: "400",
                     textTransform: "none",
+                    boxShadow:
+                      "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
                     "&:hover": {
-                      background: "#fff !important",
+                      color: "var(--tg-theme-button-color, #2481cc)",
+                      background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                       opacity: "1 !important",
+                      border: "1px solid var(--tg-theme-button-color, #2481cc)",
                     },
                   }}
                 >
@@ -249,8 +253,14 @@ const TelegramContacts = ({
                     fontSize: "16px",
                     fontWeight: "400",
                     textTransform: "none",
+                    background: "var(--tg-theme-button-color, #2481cc)",
+                    color: "var(--tg-theme-button-text-color, #ffffff)",
+                    boxShadow:
+                      "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
                     "&:hover": {
                       opacity: "1 !important",
+                      background: "var(--tg-theme-button-color, #2481cc)",
+                      color: "var(--tg-theme-button-text-color, #ffffff)",
                     },
                   }}
                 >
@@ -262,7 +272,9 @@ const TelegramContacts = ({
         </>
       ) : contactsLoading ? (
         <div style={{ margin: "50px", textAlign: "center" }}>
-          <CircularProgress />
+          <CircularProgress
+            sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+          />
         </div>
       ) : (
         <p style={{ margin: "20px" }}>Your contacts list is empty.</p>

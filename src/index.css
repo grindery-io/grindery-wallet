@@ -1,4 +1,25 @@
 :root {
+  /* DARK TG THEME */
+  /*
+  --tg-theme-bg-color: #18222d;
+  --tg-theme-button-color: #2ea6ff;
+  --tg-theme-button-text-color: #ffffff;
+  --tg-theme-hint-color: #b1c3d5;
+  --tg-theme-link-color: #62bcf9;
+  --tg-theme-secondary-bg-color: #131415;
+  --tg-theme-text-color: #ffffff;
+*/
+  /* LIGHT TG THEME */
+  /*
+  --tg-theme-bg-color: #ffffff;
+  --tg-theme-button-color: #2481cc;
+  --tg-theme-button-text-color: #ffffff;
+  --tg-theme-hint-color: #999999;
+  --tg-theme-link-color: #2481cc;
+  --tg-theme-secondary-bg-color: #efeff3;
+  --tg-theme-text-color: #000000;
+  */
+
   --color-black: #0b0d17;
 
   --text-size-dashboard-label: 14px;
@@ -33,7 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  background: rgb(253, 251, 255);
+  background: var(--tg-theme-secondary-bg-color, #efeff3);
 }
 body {
   background-position: center center;

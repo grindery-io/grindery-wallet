@@ -65,7 +65,17 @@ const SendButton = () => {
         onClick={() => {
           navigate("/send");
         }}
-        sx={{ width: "100%" }}
+        sx={{
+          width: "100%",
+          backgroundColor: "var(--tg-theme-button-color, #2481cc)",
+          color: "var(--tg-theme-button-text-color, #ffffff)",
+          "&:hover": {
+            backgroundColor: "var(--tg-theme-button-color, #2481cc)",
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            boxShadow: "none",
+            opacity: 1,
+          },
+        }}
       />
     </Wrapper>
   );

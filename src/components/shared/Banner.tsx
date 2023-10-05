@@ -18,9 +18,9 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
         width: "calc(100% - 16px)",
         boxSizing: "border-box",
         borderRadius: "12px",
-        background: "var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
-        boxShadow: "5px 5px 20px 0px #AAB8D3",
-        color: "#FFF",
+        background: "var(--tg-theme-bg-color, #ffffff)",
+        boxShadow: "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
+        color: "var(--tg-theme-text-color, #000000)",
         display: "flex",
         flexDirection: "row",
         alignItems: "flex-start",
@@ -31,12 +31,22 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
         fontWeight: "400",
         lineHeight: "125%",
         padding: "8px 12px",
+        "& a": {
+          color: "var(--tg-theme-link-color, #2481cc)",
+        },
         ...(sx || {}),
       }}
     >
       {children}
       {typeof onClose !== "undefined" && (
-        <IconButton sx={{ marginLeft: "auto", padding: 0 }} onClick={onClose}>
+        <IconButton
+          sx={{
+            marginLeft: "auto",
+            padding: 0,
+            color: "var(--tg-theme-text-color, #000000)",
+          }}
+          onClick={onClose}
+        >
           <svg
             width="12"
             height="12"
@@ -46,14 +56,14 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
           >
             <path
               d="M2.25 9.75L9.75 2.25"
-              stroke="white"
+              stroke="currentColor"
               stroke-width="1.5"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M2.25 2.25L9.75 9.75"
-              stroke="white"
+              stroke="currentColor"
               stroke-width="1.5"
               stroke-linecap="round"
               stroke-linejoin="round"

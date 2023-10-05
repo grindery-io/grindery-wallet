@@ -30,6 +30,18 @@ function App() {
     if (typeof window.Telegram?.WebApp?.expand !== "undefined") {
       window.Telegram.WebApp.expand();
     }
+    if (
+      (window.Telegram?.WebApp?.colorScheme &&
+        window.Telegram?.WebApp?.colorScheme === "dark") ||
+      process.env.REACT_APP_THEME === "dark"
+    ) {
+      document.body.style.setProperty(
+        "--gr-theme-divider-color",
+        "var(--tg-theme-bg-color)"
+      );
+    } else {
+      document.body.style.setProperty("--gr-theme-divider-color", "#ccc");
+    }
   }, []);
 
   return (

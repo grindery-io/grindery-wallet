@@ -33,11 +33,12 @@ const BottomNavigation = () => {
           bottom: 0,
           maxWidth: MAX_WIDTH,
           borderTop: "1px solid rgb(220,220,220)",
+          background: "var(--tg-theme-secondary-bg-color, #efeff3)",
           "& .MuiBottomNavigationAction-root": {
             minWidth: "auto",
-            color: "#9DA1AE",
+            color: "var(--tg-theme-hint-colorm, #999999)",
             "&.Mui-selected": {
-              color: "#0B0C0E",
+              color: "var(--tg-theme-text-color, #000000)",
               position: "relative",
               "&::before": {
                 content: '""',
@@ -47,7 +48,7 @@ const BottomNavigation = () => {
                 height: "2px",
                 left: 0,
                 display: "block",
-                background: "#0B0C0E",
+                background: "var(--tg-theme-text-color, #000000)",
               },
             },
           },
@@ -55,9 +56,9 @@ const BottomNavigation = () => {
             marginTop: "3px",
             fontSize: "12px !important",
             fontFamily: "Geologica",
-            color: "#9DA1AE",
+            color: "var(--tg-theme-hint-colorm, #999999)",
             "&.Mui-selected": {
-              color: "#0B0C0E",
+              color: "var(--tg-theme-text-color, #000000)",
             },
           },
         }}

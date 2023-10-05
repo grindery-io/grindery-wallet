@@ -13,6 +13,9 @@ const MuiButton = {
       color: "#FFFFFF",
       boxShadow: "initial",
       margin: "10px 0px",
+      "& .MuiTouchRipple-root": {
+        marginRight: 0,
+      },
       "& span": {
         marginRight: "10px",
         "& img": {

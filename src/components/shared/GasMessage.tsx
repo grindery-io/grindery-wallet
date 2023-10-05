@@ -16,6 +16,7 @@ const Wrapper = styled.div`
     font-size: 14px;
     font-weight: 300;
     line-height: 125%;
+    color: var(--tg-theme-text-color, #000000);
   }
 `;
 

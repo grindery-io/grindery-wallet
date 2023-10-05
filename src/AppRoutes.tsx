@@ -49,7 +49,9 @@ const AppRoutes = () => {
         flexDirection: "column",
       }}
     >
-      <CircularProgress sx={{ color: "#0B0C0E" }} />
+      <CircularProgress
+        sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+      />
     </Box>
   );
 };

@@ -5,8 +5,8 @@ import useAppContext from "../../hooks/useAppContext";
 
 const Wrapper = styled.div`
   border-radius: 10px;
-  border: 1px solid var(--grindery-solids-light-grey, #d3deec);
-  background: var(--grindery-solids-white, #fff);
+  border: none;
+  background: var(--tg-theme-bg-color, #ffffff);
   display: flex;
   width: 100%;
   padding: 10px 10px 10px 20px;
@@ -30,8 +30,18 @@ const SendAmount = ({
   return (
     <Wrapper>
       <div>
-        <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.5 }}>Amount</p>
+        <p
+          style={{
+            fontSize: "14px",
+            margin: 0,
+            lineHeight: 1.5,
+            color: "var(--tg-theme-text-color, #000000)",
+          }}
+        >
+          Amount
+        </p>
         <InputBase
+          autoFocus
           name="amount"
           value={amount}
           onChange={(e) => {
@@ -48,6 +58,9 @@ const SendAmount = ({
           type="number"
           inputProps={{
             min: 0,
+            sx: {
+              color: "var(--tg-theme-text-color, #000000)",
+            },
           }}
         />
       </div>
@@ -57,11 +70,20 @@ const SendAmount = ({
           variant="outlined"
           size="small"
           sx={{
+            background: "var(--tg-theme-bg-color, #ffffff)",
+            color: "var(--tg-theme-button-color, #2481cc)",
+            border: "1px solid var(--tg-theme-button-color, #2481cc)",
             margin: 0,
             padding: "2px 4px",
             width: "auto",
             marginLeft: "auto",
             fontSize: "12px",
+            "&:hover": {
+              background: "var(--tg-theme-bg-color, #ffffff)",
+              color: "var(--tg-theme-button-color, #2481cc)",
+              border: "1px solid var(--tg-theme-button-color, #2481cc)",
+              opacity: 1,
+            },
           }}
           onClick={() => {
             onChange(balance.toString());

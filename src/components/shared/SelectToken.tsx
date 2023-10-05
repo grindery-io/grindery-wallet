@@ -6,8 +6,8 @@ import { TOKENS } from "../../constants";
 
 const Wrapper = styled.div`
   border-radius: 10px;
-  border: 1px solid var(--grindery-solids-light-grey, #d3deec);
-  background: var(--grindery-solids-white, #fff);
+  border: none;
+  background: var(--tg-theme-bg-color, #ffffff);
   display: flex;
   width: 100%;
   padding: 10px 10px 10px 20px;
@@ -35,17 +35,37 @@ const SelectToken = () => {
         }}
       />
       <div>
-        <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.5 }}>
-          G1 <span style={{ opacity: 0.6 }}>on Polygon blockchain</span>
+        <p
+          style={{
+            fontSize: "14px",
+            margin: 0,
+            lineHeight: 1.5,
+            color: "var(--tg-theme-text-color, #000000)",
+          }}
+        >
+          G1{" "}
+          <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+            on Polygon blockchain
+          </span>
         </p>
         <p
-          style={{ fontSize: "12px", margin: 0, lineHeight: 1.5, opacity: 0.6 }}
+          style={{
+            fontSize: "12px",
+            margin: 0,
+            lineHeight: 1.5,
+            color: "var(--tg-theme-hint-color, #999999)",
+          }}
         >
           Balance: {balance}
         </p>
       </div>
       <ArrowDropDownIcon
-        sx={{ padding: "8px", marginLeft: "auto", opacity: 0.3 }}
+        sx={{
+          padding: "8px",
+          marginLeft: "auto",
+          color: "var(--tg-theme-hint-color, #999999)",
+          opacity: 0.2,
+        }}
       />
     </Wrapper>
   );

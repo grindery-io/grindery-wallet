@@ -52,7 +52,7 @@ const TokensList = () => {
               padding: 0,
               fontSize: "16px",
               lineHeight: 1.5,
-              color: "var(--grindery-cool-grey-cool-grey-70, #4F5563)",
+              color: "var(--tg-theme-text-color, #000000)",
             }}
           >
             {token.name}
@@ -60,7 +60,7 @@ const TokensList = () => {
 
           <p
             style={{
-              color: "var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+              color: "var(--tg-theme-text-color, #000000)",
               margin: "0 0 0 auto",
               padding: 0,
               fontSize: "16px",

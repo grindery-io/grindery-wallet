@@ -183,7 +183,9 @@ const TelegramAuth = () => {
         </div>
         <Form>
           <InputGroup>
-            <label>Phone number</label>
+            <label style={{ color: "var(--tg-theme-text-color, #000000)" }}>
+              Phone number
+            </label>
             <input
               type="phone"
               value={phone}
@@ -192,9 +194,19 @@ const TelegramAuth = () => {
               }}
               disabled={loading || Boolean(operationId)}
               placeholder="12345678901"
+              style={{
+                background: "var(--tg-theme-bg-color, #ffffff)",
+                color: "var(--tg-theme-text-color, #000000)",
+                border: "none",
+                outline: "none",
+              }}
             />
             <span
-              style={{ textAlign: "center", opacity: 0.5, fontSize: "12px" }}
+              style={{
+                textAlign: "center",
+                color: "var(--tg-theme-hint-color, #999999)",
+                fontSize: "12px",
+              }}
             >
               In the international format
             </span>
@@ -205,7 +217,9 @@ const TelegramAuth = () => {
               marginTop: "16px",
             }}
           >
-            <label>Password</label>
+            <label style={{ color: "var(--tg-theme-text-color, #000000)" }}>
+              Password
+            </label>
             <input
               type="password"
               value={password}
@@ -213,6 +227,12 @@ const TelegramAuth = () => {
                 handleInputChange("password", event.target.value);
               }}
               disabled={loading || Boolean(operationId)}
+              style={{
+                background: "var(--tg-theme-bg-color, #ffffff)",
+                color: "var(--tg-theme-text-color, #000000)",
+                border: "none",
+                outline: "none",
+              }}
             />
           </InputGroup>
 
@@ -222,7 +242,9 @@ const TelegramAuth = () => {
               marginTop: operationId ? "16px" : "0px",
             }}
           >
-            <label>Code</label>
+            <label style={{ color: "var(--tg-theme-text-color, #000000)" }}>
+              Code
+            </label>
             <input
               type="number"
               value={code}
@@ -230,15 +252,26 @@ const TelegramAuth = () => {
                 handleInputChange("code", event.target.value);
               }}
               disabled={loading}
+              style={{
+                background: "var(--tg-theme-bg-color, #ffffff)",
+                color: "var(--tg-theme-text-color, #000000)",
+                border: "none",
+                outline: "none",
+              }}
             />
             <span
-              style={{ textAlign: "center", opacity: 0.5, fontSize: "12px" }}
+              style={{
+                textAlign: "center",
+                color: "var(--tg-theme-hint-color, #999999)",
+                fontSize: "12px",
+              }}
             >
               Please check your{" "}
               <a
                 href="https://telegram.me/+42777"
                 target="_blank"
                 rel="noreferrer"
+                style={{ color: "var(--tg-theme-link-color, #2481cc)" }}
               >
                 Telegram app
               </a>
@@ -266,7 +299,20 @@ const TelegramAuth = () => {
             <Button
               color="secondary"
               variant="contained"
-              sx={{ width: "100%" }}
+              sx={{
+                width: "100%",
+                backgroundColor:
+                  "var(--tg-theme-button-color, #2481cc) !important",
+                color: "var(--tg-theme-button-text-color, #ffffff)",
+                boxShadow: "none",
+                "&:hover": {
+                  backgroundColor:
+                    "var(--tg-theme-button-color, #2481cc) !important",
+                  color: "var(--tg-theme-button-text-color, #ffffff)",
+                  boxShadow: "none",
+                  opacity: 1,
+                },
+              }}
               loading={loading}
               disabled={loading}
               onClick={!operationId ? submitPhoneAndPassword : submitPhoneCode}

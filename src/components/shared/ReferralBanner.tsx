@@ -43,7 +43,7 @@ const ReferralBanner = () => {
       >
         <strong>New referral system</strong>
 
-        <span style={{ color: "var(--flow-blue-primary-blue-20, #99BCFF)" }}>
+        <span style={{ color: "var(--tg-theme-link-color, #2481cc)" }}>
           Get your referral link now!
         </span>
       </div>

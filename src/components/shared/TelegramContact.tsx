@@ -74,14 +74,15 @@ const TelegramContact = ({
       {...(typeof onContactPress !== "undefined" ? bind() : {})}
     >
       <DataBox
-        style={
-          selected
-            ? {
-                background: "#E5F4FF",
-                border: "1px solid #2AABEE",
-              }
-            : {}
-        }
+        style={{
+          background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+          border: selected
+            ? "1px solid var(--tg-theme-button-color, #2481cc)"
+            : "1px solid var(--gr-theme-divider-color)",
+          boxShadow: selected
+            ? "var(--tg-theme-button-color, #2481cc) 0px 0px 0px 1px inset"
+            : "none",
+        }}
         LeftComponent={
           <div
             style={{
@@ -121,7 +122,7 @@ const TelegramContact = ({
                     position: "absolute",
                     bottom: "-6px",
                     right: "-6px",
-                    border: "2px solid var(--White, #FFF)",
+                    border: "2px solid var(--tg-theme-bg-color, #ffffff)",
                     borderRadius: "50%",
                   }}
                 >
@@ -139,6 +140,7 @@ const TelegramContact = ({
                   lineHeight: "1.5",
                   fontSize: "12px",
                   margin: 0,
+                  color: "var(--tg-theme-text-color, #000000)",
                 }}
               >
                 {contact.firstName || contact.lastName
@@ -153,7 +155,7 @@ const TelegramContact = ({
                     lineHeight: "1.5",
                     margin: "0",
                     fontSize: "12px",
-                    color: "#898989",
+                    color: "var(--tg-theme-hint-color, #999999)",
                   }}
                 >
                   @{contact.username}
@@ -209,7 +211,7 @@ const TelegramContact = ({
               <span
                 style={{
                   fontSize: "12px",
-                  color: "var(--grindery-cool-grey-cool-grey-40, #9DA1AE)",
+                  color: "var(--tg-theme-hint-color, #999999)",
                 }}
               >
                 Invited

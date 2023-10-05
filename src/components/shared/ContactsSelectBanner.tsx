@@ -27,11 +27,16 @@ const ContactsSelectBanner = ({
       >
         <strong>Send tokens to multiple users</strong>
 
-        <span style={{ color: "var(--flow-blue-primary-blue-20, #99BCFF)" }}>
+        <span style={{ color: "var(--tg-theme-link-color, #2481cc)" }}>
           Tap and hold a Contact card
         </span>
       </div>
-      <div style={{ margin: "0 auto" }}>
+      <div
+        style={{
+          margin: "0 auto",
+          color: "var(--tg-theme-link-color, #2481cc)",
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="34"
@@ -41,7 +46,7 @@ const ContactsSelectBanner = ({
         >
           <path
             d="M9.5625 32.9347V17C9.5625 12.8924 12.8924 9.5625 17 9.5625C21.1076 9.5625 24.4375 12.8924 24.4375 17V32.9375"
-            stroke="#99BCFF"
+            stroke="currentColor"
             strokeLinecap="round"
             stroke-Linejoin="round"
           />
@@ -49,13 +54,13 @@ const ContactsSelectBanner = ({
             fillRule="evenodd"
             clipRule="evenodd"
             d="M20.1875 15.9346V18.0596H13.8125V15.9346C13.8125 14.761 14.7639 13.8096 15.9375 13.8096H18.0625C19.2361 13.8096 20.1875 14.761 20.1875 15.9346Z"
-            stroke="#99BCFF"
+            stroke="currentColor"
             strokeLinecap="round"
             stroke-Linejoin="round"
           />
           <path
             d="M28.6875 27.8081C34.5654 21.468 34.3165 11.5978 28.1266 5.56199C21.9367 -0.473789 12.0633 -0.473789 5.87345 5.56199C-0.316436 11.5978 -0.565309 21.468 5.31253 27.8081"
-            stroke="#99BCFF"
+            stroke="currentColor"
             strokeLinecap="round"
             stroke-Linejoin="round"
           />

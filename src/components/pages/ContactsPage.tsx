@@ -53,6 +53,17 @@ const ContactsPage = () => {
                 padding: "10px 20px !important",
                 fontSize: "14px",
                 width: "100%",
+                backgroundColor:
+                  "var(--tg-theme-button-color, #2481cc) !important",
+                color: "var(--tg-theme-button-text-color, #ffffff)",
+                boxShadow: "none",
+                "&:hover": {
+                  backgroundColor:
+                    "var(--tg-theme-button-color, #2481cc) !important",
+                  color: "var(--tg-theme-button-text-color, #ffffff)",
+                  boxShadow: "none",
+                  opacity: 1,
+                },
               }}
               disabled={connecting}
               onClick={() => {

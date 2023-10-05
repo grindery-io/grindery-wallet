@@ -8,8 +8,8 @@ import ContactAvatar from "./ContactAvatar";
 
 const Wrapper = styled.div`
   border-radius: 10px;
-  border: 1px solid var(--grindery-solids-light-grey, #d3deec);
-  background: var(--grindery-solids-white, #fff);
+  border: none;
+  background: var(--tg-theme-bg-color, #ffffff);
   display: flex;
   width: 100%;
   padding: 10px 10px 10px 20px;
@@ -58,11 +58,23 @@ const SendRecepient = ({
       )}
 
       <div>
-        <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.5 }}>
+        <p
+          style={{
+            fontSize: "14px",
+            margin: 0,
+            lineHeight: 1.5,
+            color: "var(--tg-theme-text-color, #000000)",
+          }}
+        >
           Recipient{!isSingle ? "s" : ""}
         </p>
         <p
-          style={{ fontSize: "14px", margin: 0, lineHeight: 1.5, opacity: 0.6 }}
+          style={{
+            fontSize: "14px",
+            margin: 0,
+            lineHeight: 1.5,
+            color: "var(--tg-theme-hint-color, #999999)",
+          }}
         >
           {isSingle && contact ? (
             <>
@@ -75,7 +87,7 @@ const SendRecepient = ({
         </p>
       </div>
       <IconButton onClick={onClear} sx={{ marginLeft: "auto" }}>
-        <CloseIcon style={{ color: "#000" }} />
+        <CloseIcon style={{ color: "var(--tg-theme-hint-color, #999999)" }} />
       </IconButton>
     </Wrapper>
   );

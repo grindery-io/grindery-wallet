@@ -151,6 +151,9 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                 }
               }
         }
+        style={{
+          border: "1px solid var(--gr-theme-divider-color)",
+        }}
         LeftComponent={
           <div
             style={{
@@ -207,17 +210,25 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                   bottom: "-2px",
                   right: "-2px",
                   borderRadius: "50%",
-                  background: "#ffffff",
+                  background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                   padding: "2px",
                 }}
               >
                 {user?.userTelegramID === activity?.senderTgId ? (
                   <CallMadeIcon
-                    sx={{ color: "#000", display: "block", fontSize: "12px" }}
+                    sx={{
+                      color: "var(--tg-theme-text-color, #000000)",
+                      display: "block",
+                      fontSize: "12px",
+                    }}
                   />
                 ) : (
                   <CallReceivedIcon
-                    sx={{ color: "#000", display: "block", fontSize: "12px" }}
+                    sx={{
+                      color: "var(--tg-theme-text-color, #000000)",
+                      display: "block",
+                      fontSize: "12px",
+                    }}
                   />
                 )}
               </div>
@@ -228,6 +239,7 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                   lineHeight: "1.5",
                   fontSize: "12px",
                   margin: 0,
+                  color: "var(--tg-theme-text-color, #000000)",
                 }}
               >
                 Referral reward
@@ -237,7 +249,7 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                 style={{
                   margin: "0",
                   fontSize: "12px",
-                  opacity: "0.6",
+                  color: "var(--tg-theme-hint-color, #999999)",
                   lineHeight: "1.5",
                 }}
               >
@@ -258,6 +270,7 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                 justifyContent: "flex-end",
                 flexDirection: "row",
                 gap: "6px",
+                color: "var(--tg-theme-text-color, #000000)",
               }}
             >
               <span style={{ fontSize: "14px", fontWeight: "bold" }}>

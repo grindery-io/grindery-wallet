@@ -23,11 +23,21 @@ const ButtonWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  background: var(--grindery-solids-white, #fff);
+  background: var(--tg-theme-secondary-bg-color, #efeff3);
 
   & button {
     width: 100%;
     padding: 10px 20px !important;
+    background: var(--tg-theme-button-color, #2481cc);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: none;
+      background: var(--tg-theme-button-color, #2481cc);
+      color: var(--tg-theme-button-text-color, #ffffff);
+      opacity: 1;
+    }
   }
   & button > span {
     padding: 0;
@@ -133,7 +143,8 @@ const ContactPage = () => {
                   position: "absolute",
                   bottom: "-4px",
                   right: "-4px",
-                  border: "2px solid var(--White, #FFF)",
+                  border:
+                    "2px solid var(--tg-theme-secondary-bg-color, #efeff3)",
                   borderRadius: "50%",
                 }}
               >
@@ -151,6 +162,7 @@ const ContactPage = () => {
                 lineHeight: "1.5",
                 fontSize: "16px",
                 margin: 0,
+                color: "var(--tg-theme-text-color, #000000)",
               }}
             >
               {contact.firstName || contact.lastName
@@ -170,11 +182,13 @@ const ContactPage = () => {
                   textAlign: "left",
                   position: "sticky",
                   top: "0px",
-                  background: "#fff",
+                  background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                   zIndex: 1,
                 }}
               >
-                <span style={{ opacity: 0.6 }}>Activity</span>
+                <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+                  Activity
+                </span>
               </p>
               {contactActivity.map((activity) => (
                 <Activity

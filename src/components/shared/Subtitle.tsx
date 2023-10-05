@@ -6,6 +6,7 @@ const Subtitle = styled(Typography)(() => ({
   fontWeight: 300,
   textAlign: "center",
   margin: "0 0 16px",
+  color: "var(--tg-theme-text-color, #000000)",
 }));
 
 export default Subtitle;

@@ -75,3 +75,13 @@ export const TOKENS = [
 ];
 
 export const BOT_URL = "https://t.me/GrinderyAIBot";
+
+/* 
+var(--tg-theme-bg-color, #ffffff)
+var(--tg-theme-button-color, #2481cc)
+var(--tg-theme-button-text-color, #ffffff)
+var(--tg-theme-hint-color, #999999)
+var(--tg-theme-link-color, #2481cc)
+var(--tg-theme-secondary-bg-color, #efeff3)
+var(--tg-theme-text-color, #000000)
+*/

@@ -22,28 +22,25 @@ const TokensTabs = () => {
           borderTopRightRadius: "12px",
           border: "none",
           "& .MuiTabs-scroller": {
-            background: "var(--grindery-cool-grey-cool-grey-00, #fff)",
+            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
           },
           "& .MuiTabs-indicator": {
             display: "none",
           },
           "& .MuiTab-root": {
-            color: "color: var(--grindery-cool-grey-cool-grey-100, #0B0C0E);",
+            color: "var(--tg-theme-hint-color, #999999)",
             fontSize: "14px",
             fontFamily: "Geologica",
             minWidth: "70px",
             textTransform: "initial",
             fontWeight: "normal",
-            borderBottom:
-              "1px solid var(--grindery-cool-grey-cool-grey-10, #E3E3E8)",
+            borderBottom: "1px solid var(--tg-theme-hint-color, #999999)",
             "&.Mui-selected": {
-              borderBottom:
-                "1px solid var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
+              borderBottom: "1px solid var(--tg-theme-text-color, #000000)",
               boxShadow:
-                "inset 0px -1px 0px var(--grindery-cool-grey-cool-grey-100, #0B0C0E)",
-              color: "inherit",
-              backgroundColor:
-                "var(--grindery-cool-grey-cool-grey-00, #F1F2F4)",
+                "inset 0px -1px 0px var(--tg-theme-text-color, #000000)",
+              color: "var(--tg-theme-text-color, #000000)",
+              backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
             },
           },
         }}
@@ -54,7 +51,9 @@ const TokensTabs = () => {
       {tab === 0 && <TokensList />}
       {tab === 1 && (
         <div style={{ textAlign: "center", margin: "50px" }}>
-          <Typography color="GrayText">Coming soon</Typography>
+          <Typography sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+            Coming soon
+          </Typography>
         </div>
       )}
     </Box>

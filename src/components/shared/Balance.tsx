@@ -23,7 +23,9 @@ const Balance = () => {
     >
       {!user ? (
         <div style={{ textAlign: "center", margin: "0 auto" }}>
-          <CircularProgress />
+          <CircularProgress
+            sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+          />
         </div>
       ) : (
         <>
@@ -33,6 +35,7 @@ const Balance = () => {
               fontSize: "35px",
               margin: "30px 0 26px",
               opacity: balanceCached ? 0.6 : 1,
+              color: "var(--tg-theme-text-color, #000000)",
             }}
           >
             {full.toLocaleString()}{" "}
@@ -45,7 +48,7 @@ const Balance = () => {
                   fontWeight: "300",
                 }}
               >
-                <span style={{ opacity: 0.6 }}>
+                <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
                   Updated {moment(balanceUpdated).fromNow()}.{" "}
                 </span>
                 {moment(balanceUpdated) <
@@ -60,7 +63,9 @@ const Balance = () => {
                       padding: "0",
                       margin: 0,
                       boxShadow: "none",
-
+                      color: balanceLoading
+                        ? "var(--tg-theme-hint-color, #999999)"
+                        : "var(--tg-theme-link-color, #2481cc)",
                       cursor: "pointer",
                       fontSize: "12px",
                     }}
@@ -69,7 +74,9 @@ const Balance = () => {
                     <Box
                       component="span"
                       sx={{
-                        color: "#0B0C0E",
+                        color: balanceLoading
+                          ? "var(--tg-theme-hint-color, #999999)"
+                          : "var(--tg-theme-link-color, #2481cc)",
                         padding: 0,
                         "& svg": {
                           WebkitAnimation: "spin 0.75s linear infinite",
@@ -85,7 +92,13 @@ const Balance = () => {
                         },
                       }}
                     >
-                      <RefreshIcon />
+                      <RefreshIcon
+                        sx={{
+                          color: balanceLoading
+                            ? "var(--tg-theme-hint-color, #999999)"
+                            : "var(--tg-theme-link-color, #2481cc)",
+                        }}
+                      />
                     </Box>
                   </button>
                 )}

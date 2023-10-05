@@ -61,6 +61,7 @@ const SendButtonsGroup = ({
         gap: "16px",
         flexWrap: "nowrap",
         marginTop: "auto",
+        marginBottom: "10px",
       }}
     >
       <div style={{ flex: 1 }}>
@@ -74,6 +75,17 @@ const SendButtonsGroup = ({
           sx={{
             textTransform: "none",
             fontWeight: "normal",
+            border: "1px solid var(--tg-theme-button-color, #2481cc)",
+            color: "var(--tg-theme-button-color, #2481cc)",
+            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+            boxShadow:
+              "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
+            "&:hover": {
+              border: "1px solid var(--tg-theme-button-color, #2481cc)",
+              color: "var(--tg-theme-button-color, #2481cc)",
+              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+              opacity: 1,
+            },
           }}
         >
           Cancel
@@ -93,6 +105,20 @@ const SendButtonsGroup = ({
           sx={{
             textTransform: "none",
             fontWeight: "normal",
+            background: "var(--tg-theme-button-color, #2481cc)",
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            boxShadow:
+              "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
+            "&:hover": {
+              opacity: "1 !important",
+              background: "var(--tg-theme-button-color, #2481cc)",
+              color: "var(--tg-theme-button-text-color, #ffffff)",
+            },
+            "&:disabled": {
+              opacity: "0.3 !important",
+              background: "var(--tg-theme-button-color, #2481cc)",
+              color: "var(--tg-theme-button-text-color, #ffffff)",
+            },
           }}
           onClick={() => {
             if (window.Telegram?.WebApp?.showConfirm) {

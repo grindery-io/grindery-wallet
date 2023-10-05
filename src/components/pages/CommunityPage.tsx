@@ -1,28 +1,17 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
 import { Typography } from "@mui/material";
+import Title from "../shared/Title";
 
 const CommunityPage = () => {
   return (
     <>
-      <div style={{ width: "100%" }}>
-        <Typography
-          variant="h6"
-          sx={{
-            margin: "16px 0",
-            padding: "0",
-            textAlign: "center",
-            position: "sticky",
-            top: "0px",
-            background: "#fff",
-            zIndex: 1,
-            width: "100%",
-          }}
-        >
-          Community
-        </Typography>
+      <div style={{ width: "100%", paddingTop: "24px" }}>
+        <Title>Community</Title>
         <div style={{ textAlign: "center", margin: "50px" }}>
-          <Typography color="GrayText">Coming soon</Typography>
+          <Typography sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+            Coming soon
+          </Typography>
         </div>
       </div>
 
