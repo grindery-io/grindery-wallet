@@ -67,6 +67,7 @@ const TelegramContact = ({
         listStyleType: "none",
         padding: 0,
         margin: "10px 16px 0",
+        userSelect: typeof onContactPress !== "undefined" ? "none" : "auto",
       }}
       {...(typeof onContactPress !== "undefined" ? bind() : {})}
     >
