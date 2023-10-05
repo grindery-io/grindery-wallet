@@ -78,7 +78,7 @@ const TelegramContact = ({
           selected
             ? {
                 background: "#E5F4FF",
-                border: "1px solid #2AABEE",
+                borderColor: "#2AABEE !important",
               }
             : {}
         }

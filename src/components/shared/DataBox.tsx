@@ -43,11 +43,11 @@ const DataBox = (props: Props) => {
   return (
     <Wrapper
       style={{
-        ...style,
         border: "1px solid #D3DEEC",
         borderRadius: size === "small" ? "5px" : "10px",
         padding: size === "small" ? "var(--data-box-spacing)" : "15px",
         cursor: !onClick ? "default" : "pointer",
+        ...style,
       }}
       onClick={(event: React.MouseEvent<HTMLElement>) => {
         onClick?.(event);
