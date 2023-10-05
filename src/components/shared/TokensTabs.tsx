@@ -34,7 +34,7 @@ const TokensTabs = () => {
             minWidth: "70px",
             textTransform: "initial",
             fontWeight: "normal",
-            borderBottom: "1px solid var(--tg-theme-hint-color, #999999)",
+            borderBottom: "1px solid var(--gr-theme-divider-color)",
             "&.Mui-selected": {
               borderBottom: "1px solid var(--tg-theme-text-color, #000000)",
               boxShadow:
