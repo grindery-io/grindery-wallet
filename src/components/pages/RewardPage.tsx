@@ -194,9 +194,18 @@ const RewardPage = () => {
             <TableRow
               label="Invited"
               value={
-                item.parentTransactionHash
-                  ? getSecondaryUserDisplayName(contact)
-                  : "Unknown user"
+                item.parentTransactionHash && contact ? (
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      color: "var(--tg-theme-link-color, #2481cc)",
+                    }}
+                  >
+                    {getSecondaryUserDisplayName(contact)}
+                  </span>
+                ) : (
+                  "Unknown user"
+                )
               }
               onValueClick={
                 contact
@@ -216,6 +225,7 @@ const RewardPage = () => {
                       src={photo}
                       alt=""
                       style={{
+                        cursor: "pointer",
                         width: "20px",
                         height: "20px",
                         display: "block",
@@ -225,6 +235,7 @@ const RewardPage = () => {
                   ) : (
                     <ContactAvatar
                       style={{
+                        cursor: "pointer",
                         width: "20px",
                         height: "20px",
                         minWidth: "20px",
@@ -247,9 +258,18 @@ const RewardPage = () => {
             <TableRow
               label="Transaction hash"
               value={
-                item.transactionHash.substring(0, 6) +
-                "..." +
-                item.transactionHash.substring(item.transactionHash.length - 4)
+                <span
+                  style={{
+                    cursor: "pointer",
+                    color: "var(--tg-theme-link-color, #2481cc)",
+                  }}
+                >
+                  {item.transactionHash.substring(0, 6) +
+                    "..." +
+                    item.transactionHash.substring(
+                      item.transactionHash.length - 4
+                    )}
+                </span>
               }
               onValueClick={() => {
                 if (window.Telegram?.WebApp?.openLink) {
@@ -265,7 +285,12 @@ const RewardPage = () => {
               }}
               icon={
                 <svg
-                  style={{ width: "12px", height: "12px", margin: "2px" }}
+                  style={{
+                    width: "12px",
+                    height: "12px",
+                    margin: "2px",
+                    color: "var(--tg-theme-link-color, #2481cc)",
+                  }}
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
