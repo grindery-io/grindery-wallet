@@ -37,10 +37,13 @@ function App() {
     ) {
       document.body.style.setProperty(
         "--gr-theme-divider-color",
-        "var(--tg-theme-secondary-bg-color)"
+        "rgba(255,255,255,0.12)"
       );
     } else {
-      document.body.style.setProperty("--gr-theme-divider-color", "#ccc");
+      document.body.style.setProperty(
+        "--gr-theme-divider-color",
+        "rgba(0,0,0,0.12)"
+      );
     }
   }, []);
 
