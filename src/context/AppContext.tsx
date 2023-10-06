@@ -254,7 +254,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         ),
       });
     } catch (error) {
-      console.log("getTgActivity error", error);
+      console.error("getTgActivity error", error);
     }
     setState({
       activityLoading: false,
@@ -287,7 +287,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         },
       });
     } catch (error) {
-      console.log("getTgRewards error", error);
+      console.error("getTgRewards error", error);
     }
     setState({
       rewardsLoading: false,
@@ -311,7 +311,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         contacts: res.data || [],
       });
     } catch (error) {
-      console.log("getTgContacts error", error);
+      console.error("getTgContacts error", error);
       setState({
         contacts: [],
         user: state.user?._id
@@ -370,11 +370,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     if (!state.user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
-      console.log(
-        "window.Telegram?.WebApp?.initDataUnsafe",
-        window.Telegram?.WebApp?.initDataUnsafe
-      );
-
       setState({
         user: {
           _id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "",

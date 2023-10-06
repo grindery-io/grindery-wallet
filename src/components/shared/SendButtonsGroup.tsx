@@ -21,10 +21,6 @@ const SendButtonsGroup = ({
 
   const sendTokens = async () => {
     setStatus("sending");
-    if (Array.isArray(input.recipient)) {
-      setStatus("error");
-      return;
-    }
     try {
       const res = await axios.post(
         `${BOT_API_URL}/v1/telegram/send`,
@@ -95,12 +91,7 @@ const SendButtonsGroup = ({
           variant="contained"
           color="secondary"
           fullWidth
-          disabled={
-            status === "sending" ||
-            !input.amount ||
-            !input.recipient ||
-            Array.isArray(input.recipient)
-          }
+          disabled={status === "sending" || !input.amount || !input.recipient}
           sx={{
             textTransform: "none",
             fontWeight: "normal",
@@ -122,7 +113,11 @@ const SendButtonsGroup = ({
             if (window.Telegram?.WebApp?.showConfirm) {
               window.Telegram?.WebApp?.showConfirm(
                 "You are going to send " +
-                  input.amount +
+                  (Array.isArray(input.recipient)
+                    ? (
+                        parseFloat(input.amount) * input.recipient.length
+                      ).toString()
+                    : input.amount) +
                   " G1 tokens. This action can not be undone. Are you sure?",
                 (confirmed: boolean) => {
                   if (confirmed) {
@@ -133,7 +128,11 @@ const SendButtonsGroup = ({
             } else {
               const confirmed = window.confirm(
                 "You are going to send " +
-                  input.amount +
+                  (Array.isArray(input.recipient)
+                    ? (
+                        parseFloat(input.amount) * input.recipient.length
+                      ).toString()
+                    : input.amount) +
                   " G1 tokens. This action can not be undone. Are you sure?"
               );
               if (confirmed) {

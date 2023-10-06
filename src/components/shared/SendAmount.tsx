@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Button, InputBase } from "@mui/material";
 import useAppContext from "../../hooks/useAppContext";
+import { TelegramUserContact } from "../../types/Telegram";
 
 const Wrapper = styled.div`
   border-radius: 10px;
@@ -20,9 +21,11 @@ const Wrapper = styled.div`
 const SendAmount = ({
   amount,
   onChange,
+  recepient,
 }: {
   amount: string;
   onChange: (value: string) => void;
+  recepient?: TelegramUserContact | TelegramUserContact[];
 }) => {
   const {
     state: { balance },
@@ -47,7 +50,14 @@ const SendAmount = ({
           onChange={(e) => {
             onChange(
               typeof balance !== "undefined"
-                ? parseFloat(e.target.value) > balance
+                ? Array.isArray(recepient)
+                  ? parseFloat(e.target.value) >
+                    Math.round((balance / recepient.length) * 100) / 100
+                    ? (
+                        Math.round((balance / recepient.length) * 100) / 100
+                      ).toString()
+                    : e.target.value
+                  : parseFloat(e.target.value) > balance
                   ? balance.toString()
                   : e.target.value
                 : "0"
@@ -63,6 +73,28 @@ const SendAmount = ({
             },
           }}
         />
+        {Array.isArray(recepient) && (
+          <>
+            <p
+              style={{
+                color: "var(--tg-theme-hint-color, #999999)",
+                margin: "6px 0 0",
+                padding: 0,
+                fontSize: "14px",
+              }}
+            >
+              <span
+                style={{
+                  color: "var(--tg-theme-text-color, #000000)",
+                  fontWeight: "bold",
+                }}
+              >
+                {amount ? parseFloat(amount) * recepient.length : 0} G1
+              </span>{" "}
+              total for {recepient.length} contacts
+            </p>
+          </>
+        )}
       </div>
       {balance && (
         <Button
@@ -86,7 +118,10 @@ const SendAmount = ({
             },
           }}
           onClick={() => {
-            onChange(balance.toString());
+            const value = Array.isArray(recepient)
+              ? Math.floor(balance / recepient.length).toString()
+              : balance.toString();
+            onChange(value);
           }}
         >
           Max

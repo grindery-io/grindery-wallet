@@ -13,9 +13,11 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
     <Box
       sx={{
         position: "fixed",
-        left: "8px",
+        left: "50%",
+        transform: "translateX(-50%)",
         bottom: "64px",
         width: "calc(100% - 16px)",
+        maxWidth: "752px",
         boxSizing: "border-box",
         borderRadius: "12px",
         background: "var(--tg-theme-secondary-bg-color, #efeff3)",
@@ -58,16 +60,16 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
             <path
               d="M2.25 9.75L9.75 2.25"
               stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M2.25 2.25L9.75 9.75"
               stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </IconButton>

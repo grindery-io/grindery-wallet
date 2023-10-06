@@ -23,8 +23,6 @@ window.Telegram = window.Telegram?.WebApp?.initData
       },
     };
 
-console.log("theme", window.Telegram?.WebApp?.themeParams);
-
 function App() {
   useEffect(() => {
     if (typeof window.Telegram?.WebApp?.expand !== "undefined") {

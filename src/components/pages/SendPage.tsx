@@ -125,6 +125,7 @@ const SendPage = () => {
                 setInput({
                   ...input,
                   recipient: contact,
+                  amount: "",
                 });
               }}
               selected={selected}
@@ -138,7 +139,8 @@ const SendPage = () => {
               onSelectConfirm={() => {
                 setInput({
                   ...input,
-                  recipient: selected,
+                  recipient: selected.length > 1 ? selected : selected[0],
+                  amount: "",
                 });
               }}
               onSelectCancel={() => {
@@ -255,14 +257,13 @@ const SendPage = () => {
                 </div>
               }
             />
-            {user?.telegramSession && (
-              <ContactsSelectBanner
-                onClose={() => {
-                  setBanner(false);
-                }}
-                visible={banner && selected.length < 1}
-              />
-            )}
+
+            <ContactsSelectBanner
+              onClose={() => {
+                setBanner(false);
+              }}
+              visible={banner && selected.length < 1}
+            />
           </>
         ) : (
           <div
@@ -375,6 +376,7 @@ const SendPage = () => {
                       setInput({
                         ...input,
                         recipient: null,
+                        amount: "",
                       });
                     }}
                   />
@@ -388,6 +390,7 @@ const SendPage = () => {
                       amount: value,
                     });
                   }}
+                  recepient={input.recipient}
                 />
                 <GasMessage />
                 <SendButtonsGroup

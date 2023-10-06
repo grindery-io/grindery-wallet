@@ -12,28 +12,11 @@ const ContactsSelectBanner = ({
   const {
     state: { user },
   } = useAppContext();
-  return user && user.userTelegramID === "66670057" ? (
+  return user && user.telegramSession ? (
     <Banner visible={visible} onClose={onClose} sx={{ bottom: "20px" }}>
       <div
         style={{
-          cursor: "pointer",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          gap: "4px",
-          justifyContent: "flex-start",
-          flexWrap: "nowrap",
-        }}
-      >
-        <strong>Send tokens to multiple users</strong>
-
-        <span style={{ color: "var(--tg-theme-link-color, #2481cc)" }}>
-          Tap and hold a Contact card
-        </span>
-      </div>
-      <div
-        style={{
-          margin: "0 auto",
+          margin: "0 4px 0 0",
           color: "var(--tg-theme-link-color, #2481cc)",
         }}
       >
@@ -65,6 +48,22 @@ const ContactsSelectBanner = ({
             stroke-Linejoin="round"
           />
         </svg>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: "4px",
+          justifyContent: "flex-start",
+          flexWrap: "nowrap",
+        }}
+      >
+        <strong>Send tokens to multiple users</strong>
+
+        <span style={{ color: "var(--tg-theme-link-color, #2481cc)" }}>
+          Tap and hold a Contact card
+        </span>
       </div>
     </Banner>
   ) : null;

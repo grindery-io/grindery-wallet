@@ -214,6 +214,7 @@ const TelegramContacts = ({
                   gap: "8px",
                   flexWrap: "nowrap",
                   width: "100%",
+                  maxWidth: "768px",
                   boxSizing: "border-box",
                   zIndex: 2,
                   "& button": {},
