@@ -15,6 +15,7 @@ import Title from "../shared/Title";
 import Subtitle from "../shared/Subtitle";
 import SendRecepient from "../shared/SendRecepient";
 import ContactsSelectBanner from "../shared/ContactsSelectBanner";
+import SendMessage from "../shared/SendMessage";
 
 const SendPage = () => {
   const {
@@ -29,11 +30,13 @@ const SendPage = () => {
   const [input, setInput] = useState<{
     amount: string;
     recipient: TelegramUserContact | TelegramUserContact[] | null;
+    message: string;
   }>({
     amount: "",
     recipient: recipient
       ? contacts?.find((contact) => contact.id === recipient) || null
       : null,
+    message: "",
   });
   const [selected, setSelected] = useState<TelegramUserContact[]>([]);
 
@@ -388,6 +391,16 @@ const SendPage = () => {
                     setInput({
                       ...input,
                       amount: value,
+                    });
+                  }}
+                  recepient={input.recipient}
+                />
+                <SendMessage
+                  message={input.message}
+                  onChange={(value) => {
+                    setInput({
+                      ...input,
+                      message: value,
                     });
                   }}
                   recepient={input.recipient}
