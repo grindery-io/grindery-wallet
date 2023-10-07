@@ -39,6 +39,8 @@ type StateProps = {
   rewardsLoading: boolean;
   telegramSessionSaved?: boolean;
   bannerShown: boolean;
+  config?: any;
+  communityFilters: string[];
 };
 
 // Context props
@@ -84,6 +86,10 @@ const defaultContext = {
     },
     rewardsLoading: true,
     bannerShown: true,
+    communityFilters: [],
+    config: localStorage.getItem("grindery_wallet_config")
+      ? JSON.parse(localStorage.getItem("grindery_wallet_config") || "[]")
+      : undefined,
   },
   setState: () => {},
   handleInputChange: () => {},
@@ -368,6 +374,28 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     [state.user]
   );
 
+  const getConfig = useCallback(async () => {
+    if (!window.Telegram?.WebApp?.initData) {
+      return;
+    }
+    try {
+      const res = await axios.get(`${BOT_API_URL}/v1/telegram/config`, {
+        headers: {
+          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+        },
+      });
+      setState({
+        config: res.data?.config || [],
+      });
+      localStorage.setItem(
+        "grindery_wallet_config",
+        JSON.stringify(res.data?.config || [])
+      );
+    } catch (error) {
+      console.error("getConfig error", error);
+    }
+  }, []);
+
   useEffect(() => {
     if (!state.user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
       setState({
@@ -385,6 +413,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   useEffect(() => {
     getMe();
   }, [getMe]);
+
+  useEffect(() => {
+    getConfig();
+  }, [getConfig]);
 
   useEffect(() => {
     getBalance(true);

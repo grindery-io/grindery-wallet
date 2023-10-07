@@ -17,10 +17,10 @@ import CommunityPage from "./components/pages/CommunityPage";
 
 const AppRoutes = () => {
   const {
-    state: { user },
+    state: { user, config },
   } = useAppContext();
 
-  return user ? (
+  return user && config ? (
     <Routes>
       <Route path="/" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
