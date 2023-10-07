@@ -70,7 +70,7 @@ const Community = ({ data }: Props) => {
             />
           </div>
         )}
-        <div>
+        <div style={{ width: "100%" }}>
           <p
             style={{
               margin: 0,
@@ -78,6 +78,11 @@ const Community = ({ data }: Props) => {
               fontSize: "12px",
               lineHeight: 1.5,
               color: "var(--tg-theme-text-color, #000000)",
+              display: "-webkit-box",
+              maxWidth: "100%",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
             }}
           >
             {Title}
@@ -90,6 +95,11 @@ const Community = ({ data }: Props) => {
                 fontSize: "12px",
                 lineHeight: 1.25,
                 color: "var(--tg-theme-hint-color, #999999)",
+                display: "-webkit-box",
+                maxWidth: "100%",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
               }}
             >
               {Description}
