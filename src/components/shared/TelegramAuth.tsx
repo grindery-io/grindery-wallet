@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../shared/Button";
 import AlertBox from "../shared/AlertBox";
@@ -113,7 +113,7 @@ const TelegramAuth = () => {
   const {
     state: {
       input: { code, phone, password },
-      operationId,
+      codeSent,
       loading,
       error,
     },
@@ -121,8 +121,32 @@ const TelegramAuth = () => {
     submitPhoneAndPassword,
     submitPhoneCode,
   } = useAppContext();
+  const [client, setClient] = useState<any>(null);
 
-  return (
+  useEffect(() => {
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "/telegram.js";
+    document.head.appendChild(script);
+
+    setTimeout(() => {
+      // @ts-ignore
+      const { TelegramClient } = window.telegram;
+      // @ts-ignore
+      const { StringSession } = window.telegram.sessions;
+      const telegramClient = new TelegramClient(
+        new StringSession(""),
+        22237271,
+        "1ea3b3cef03b4263e3af034d96928932",
+        {
+          connectionRetries: 5,
+        }
+      );
+      setClient(telegramClient);
+    }, 500);
+  }, []);
+
+  return client ? (
     <Container>
       <>
         <div>
@@ -192,7 +216,7 @@ const TelegramAuth = () => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 handleInputChange("phone", event.target.value);
               }}
-              disabled={loading || Boolean(operationId)}
+              disabled={loading || codeSent}
               placeholder="12345678901"
               style={{
                 background: "var(--tg-theme-secondary-bg-color, #efeff3)",
@@ -226,7 +250,7 @@ const TelegramAuth = () => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 handleInputChange("password", event.target.value);
               }}
-              disabled={loading || Boolean(operationId)}
+              disabled={loading || codeSent}
               style={{
                 background: "var(--tg-theme-secondary-bg-color, #efeff3)",
                 color: "var(--tg-theme-text-color, #000000)",
@@ -238,8 +262,8 @@ const TelegramAuth = () => {
 
           <InputGroup
             style={{
-              height: operationId ? "109px" : "0px",
-              marginTop: operationId ? "16px" : "0px",
+              height: codeSent ? "109px" : "0px",
+              marginTop: codeSent ? "16px" : "0px",
             }}
           >
             <label style={{ color: "var(--tg-theme-text-color, #000000)" }}>
@@ -315,7 +339,11 @@ const TelegramAuth = () => {
               }}
               loading={loading}
               disabled={loading}
-              onClick={!operationId ? submitPhoneAndPassword : submitPhoneCode}
+              onClick={
+                !codeSent
+                  ? () => submitPhoneAndPassword(client)
+                  : () => submitPhoneCode(client)
+              }
               value={loading ? "Loading" : "Submit"}
             />
           </ButtonWrapper>
@@ -332,7 +360,7 @@ const TelegramAuth = () => {
         </div>
       </>
     </Container>
-  );
+  ) : null;
 };
 
 export default TelegramAuth;

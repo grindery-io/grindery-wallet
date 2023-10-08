@@ -41,6 +41,7 @@ type StateProps = {
   bannerShown: boolean;
   config?: any;
   communityFilters: string[];
+  codeSent?: boolean;
 };
 
 // Context props
@@ -48,8 +49,8 @@ type ContextProps = {
   state: StateProps;
   setState: (newState: Partial<StateProps>) => void;
   handleInputChange: (name: string, value: string) => void;
-  submitPhoneAndPassword: () => void;
-  submitPhoneCode: () => void;
+  submitPhoneAndPassword: (client: any) => void;
+  submitPhoneCode: (client: any) => void;
   getBalance: (a?: boolean) => void;
   getTgActivity: () => void;
   getTgRewards: () => void;
@@ -148,25 +149,34 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     [state.input]
   );
 
-  const submitPhoneAndPassword = useCallback(async () => {
-    if (!state.input.phone) {
+  const submitPhoneAndPassword = useCallback(
+    async (client: any) => {
+      if (!state.input.phone) {
+        setState({
+          error: "Phone number is required",
+        });
+        return;
+      }
+      if (!state.input.password) {
+        setState({
+          error: "Password is required",
+        });
+        return;
+      }
       setState({
-        error: "Phone number is required",
+        error: "",
+        loading: true,
       });
-      return;
-    }
-    if (!state.input.password) {
-      setState({
-        error: "Password is required",
-      });
-      return;
-    }
-    setState({
-      error: "",
-      loading: true,
-    });
-    try {
-      const res = await axios.post(
+      try {
+        await client.connect(); // Connecting to the server
+        await client.sendCode(
+          {
+            apiId: 22237271,
+            apiHash: "1ea3b3cef03b4263e3af034d96928932",
+          },
+          state.input.phone
+        );
+        /*const res = await axios.post(
         `${BOT_API_URL}/v1/telegram/init`,
         {
           phone: state.input.phone,
@@ -180,31 +190,46 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
       setState({
         operationId: res.data?.operationId || "",
-      });
-    } catch (error: any) {
+      });*/
+        setState({
+          codeSent: true,
+        });
+      } catch (error: any) {
+        setState({
+          codeSent: false,
+          error:
+            error?.response?.data?.error?.message || "Something went wrong",
+        });
+      }
       setState({
-        operationId: "",
-        error: error?.response?.data?.error?.message || "Something went wrong",
+        loading: false,
       });
-    }
-    setState({
-      loading: false,
-    });
-  }, [state]);
+    },
+    [state]
+  );
 
-  const submitPhoneCode = useCallback(async () => {
-    if (!state.input.code) {
+  const submitPhoneCode = useCallback(
+    async (client: any) => {
+      if (!state.input.code) {
+        setState({
+          error: "Phone code is required",
+        });
+        return;
+      }
       setState({
-        error: "Phone code is required",
+        error: "",
+        loading: true,
       });
-      return;
-    }
-    setState({
-      error: "",
-      loading: true,
-    });
-    try {
-      const res = await axios.post(
+      try {
+        await client.start({
+          phoneNumber: state.input.phone,
+          password: async () => state.input.password,
+          phoneCode: async () => state.input.code,
+          onError: (error: any) => {
+            console.error(error);
+          },
+        });
+        /*const res = await axios.post(
         `${BOT_API_URL}/v1/telegram/callback`,
         {
           operationId: state.operationId,
@@ -223,22 +248,50 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           telegramSession: res.data?.session || "",
         },
         telegramSessionSaved: true,
-      });
-    } catch (error: any) {
+      });*/
+        const session = client.session.save();
+
+        await client.disconnect();
+
+        const encryptedSession = await axios.post(
+          `${BOT_API_URL}/v1/telegram/auth`,
+          {
+            session: session,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                window.Telegram?.WebApp?.initData || ""
+              }`,
+            },
+          }
+        );
+        setState({
+          // @ts-ignore
+          user: {
+            ...state.user,
+            telegramSession: encryptedSession.data.session || "",
+          },
+          telegramSessionSaved: true,
+        });
+      } catch (error: any) {
+        setState({
+          operationId: "",
+          // @ts-ignore
+          user: {
+            ...state.user,
+            telegramSession: "",
+          },
+          error:
+            error?.response?.data?.error?.message || "Something went wrong",
+        });
+      }
       setState({
-        operationId: "",
-        // @ts-ignore
-        user: {
-          ...state.user,
-          telegramSession: "",
-        },
-        error: error?.response?.data?.error?.message || "Something went wrong",
+        loading: false,
       });
-    }
-    setState({
-      loading: false,
-    });
-  }, [state]);
+    },
+    [state]
+  );
 
   const getTgActivity = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {

@@ -7,4 +7,5 @@ export type UserProps = {
   patchwallet?: string;
   dateAdded?: string;
   telegramSession?: string;
+  telegramSessionWeb?: string;
 };
