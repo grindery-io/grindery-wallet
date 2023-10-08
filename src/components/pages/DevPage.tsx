@@ -207,6 +207,7 @@ const DevPage = () => {
                     marginTop: "24px",
                     backgroundColor: "transparent",
                     color: "var(--tg-theme-hint-color, #999999)",
+                    fontFamily: "Geologica",
                   }}
                 >
                   Experimental features

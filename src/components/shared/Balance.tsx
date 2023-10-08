@@ -74,6 +74,12 @@ const Balance = () => {
                   fontSize: "12px",
                   textAlign: "center",
                   fontWeight: "300",
+                  minHeight: "24px",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "4px",
                 }}
               >
                 <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
@@ -96,6 +102,11 @@ const Balance = () => {
                         : "var(--tg-theme-link-color, #2481cc)",
                       cursor: "pointer",
                       fontSize: "12px",
+                      display: "inline-flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "0px",
                     }}
                   >
                     Refresh{balanceLoading && "ing"}
@@ -115,8 +126,7 @@ const Balance = () => {
                             : "paused",
                           width: "20px",
                           height: "20px",
-                          position: "relative",
-                          top: "5.5px",
+                          display: "block",
                         },
                       }}
                     >
