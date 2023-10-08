@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
+  ListSubheader,
   Switch,
   styled,
 } from "@mui/material";
@@ -59,16 +60,23 @@ const DevPage = () => {
           />
           <ListItemSecondaryAction>
             <StyledSwitch
-              checked={Boolean(devMode)}
+              checked={devMode.enabled}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setState({
-                  devMode: event.target.checked,
+                  devMode: {
+                    ...devMode,
+                    enabled: event.target.checked,
+                  },
                 });
+                localStorage.setItem(
+                  "grindery_wallet_dev_mode",
+                  event.target.checked ? "true" : "false"
+                );
               }}
             />
           </ListItemSecondaryAction>
         </ListItem>
-        {devMode && (
+        {devMode.enabled && (
           <>
             <Divider />
             <ListItem>
@@ -186,6 +194,37 @@ const DevPage = () => {
                     "& .MuiListItemText-secondary": {
                       color: "var(--tg-theme-hint-color, #999999)",
                     },
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider />
+            <ListSubheader component="div" sx={{ marginTop: "24px" }}>
+              Experimental features
+            </ListSubheader>
+
+            <ListItem>
+              <ListItemText
+                primary="Message sending"
+                sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+              />
+              <ListItemSecondaryAction>
+                <StyledSwitch
+                  checked={devMode.features?.sendMessage}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setState({
+                      devMode: {
+                        ...devMode,
+                        features: {
+                          ...devMode.features,
+                          sendMessage: event.target.checked,
+                        },
+                      },
+                    });
+                    localStorage.setItem(
+                      "grindery_wallet_features_send_message",
+                      event.target.checked ? "true" : "false"
+                    );
                   }}
                 />
               </ListItemSecondaryAction>

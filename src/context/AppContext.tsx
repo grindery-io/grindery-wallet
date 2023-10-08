@@ -41,7 +41,12 @@ type StateProps = {
   bannerShown: boolean;
   config?: any;
   communityFilters: string[];
-  devMode?: boolean;
+  devMode: {
+    enabled: boolean;
+    features?: {
+      [key: string]: boolean;
+    };
+  };
 };
 
 // Context props
@@ -91,6 +96,14 @@ const defaultContext = {
     config: localStorage.getItem("grindery_wallet_config")
       ? JSON.parse(localStorage.getItem("grindery_wallet_config") || "[]")
       : undefined,
+    devMode: {
+      enabled: localStorage.getItem("grindery_wallet_dev_mode") === "true",
+      features: {
+        sendMessage:
+          localStorage.getItem("grindery_wallet_features_send_message") ===
+          "true",
+      },
+    },
   },
   setState: () => {},
   handleInputChange: () => {},

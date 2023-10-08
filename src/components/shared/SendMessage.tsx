@@ -30,7 +30,9 @@ const SendMessage = ({
   const {
     state: { devMode },
   } = useAppContext();
-  return !Array.isArray(recepient) && devMode ? (
+  return !Array.isArray(recepient) &&
+    devMode.enabled &&
+    devMode.features?.sendMessage ? (
     <Wrapper>
       <div>
         <p
