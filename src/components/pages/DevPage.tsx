@@ -13,6 +13,7 @@ import {
   styled,
 } from "@mui/material";
 import appPackage from "../../../package.json";
+import Address from "../shared/Address";
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -199,6 +200,20 @@ const DevPage = () => {
               </ListItemSecondaryAction>
             </ListItem>
             <Divider />
+            {user?.patchwallet && (
+              <>
+                <ListItem>
+                  <ListItemText
+                    primary="Wallet address"
+                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                  />
+                  <ListItemSecondaryAction>
+                    <Address border={false} avatar={false} />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+              </>
+            )}
             {user?.telegramSession && (
               <>
                 <ListSubheader
