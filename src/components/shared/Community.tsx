@@ -53,7 +53,7 @@ const Community = ({ data }: Props) => {
             : undefined
         }
       >
-        {Image && (
+        {Image ? (
           <div
             style={{
               width: "50px",
@@ -68,6 +68,25 @@ const Community = ({ data }: Props) => {
               alt=""
               style={{ width: "50px", height: "50px", display: "block" }}
             />
+          </div>
+        ) : (
+          <div
+            style={{
+              width: "50px",
+              minWidth: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+              color: "var(--tg-theme-text-color, #000000)",
+              fontSize: "22px",
+            }}
+          >
+            {Title?.charAt(0)}
           </div>
         )}
         <div style={{ width: "100%" }}>
