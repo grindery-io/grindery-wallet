@@ -201,7 +201,14 @@ const DevPage = () => {
             <Divider />
             {user?.telegramSession && (
               <>
-                <ListSubheader component="div" sx={{ marginTop: "24px" }}>
+                <ListSubheader
+                  component="div"
+                  sx={{
+                    marginTop: "24px",
+                    backgroundColor: "transparent",
+                    color: "var(--tg-theme-hint-color, #999999)",
+                  }}
+                >
                   Experimental features
                 </ListSubheader>
 

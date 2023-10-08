@@ -61,7 +61,7 @@ const SendMessage = ({
           }}
           multiline
         />
-        <FormHelperText>
+        <FormHelperText sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
           Will be send to the recipient on your behalf
         </FormHelperText>
       </div>
