@@ -13,6 +13,7 @@ const SendButtonsGroup = ({
   input: {
     amount: string;
     recipient: TelegramUserContact | TelegramUserContact[] | null;
+    message: string;
   };
   status: string;
   setStatus: (status: string) => void;
@@ -29,6 +30,7 @@ const SendButtonsGroup = ({
             ? input.recipient.map((contact) => contact.id)
             : input.recipient?.id,
           amount: input.amount,
+          message: input.message || undefined,
         },
         {
           headers: {

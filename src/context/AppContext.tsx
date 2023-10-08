@@ -41,6 +41,7 @@ type StateProps = {
   bannerShown: boolean;
   config?: any;
   communityFilters: string[];
+  devMode?: boolean;
 };
 
 // Context props

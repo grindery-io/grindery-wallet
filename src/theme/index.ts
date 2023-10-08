@@ -5,6 +5,7 @@ import typography from "./typography";
 import MuiTooltip from "./components/MuiTooltip";
 import MuiButton from "./components/MuiButton";
 import MuiTypography from "./components/MuiTypography";
+import MuiDivider from "./components/MuiDivider";
 
 declare module "@mui/material/styles" {
   interface Theme {}
@@ -22,6 +23,7 @@ const theme = createTheme({
     MuiButton: MuiButton,
     MuiTooltip: MuiTooltip,
     MuiTypography: MuiTypography,
+    MuiDivider: MuiDivider,
   },
 });
 

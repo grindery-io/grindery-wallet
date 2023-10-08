@@ -1,17 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { Box, CircularProgress } from "@mui/material";
 import { formatBalance } from "../../utils/formatBalance";
 import moment from "moment";
 import RefreshIcon from "../icons/RefreshIcon";
+import { useNavigate } from "react-router";
 
 const Balance = () => {
   const {
     state: { user, balance, balanceCached, balanceUpdated, balanceLoading },
     getBalance,
   } = useAppContext();
-
+  const navigate = useNavigate();
   const { full } = formatBalance(balance);
+  const [clicked, setClicked] = useState(0);
+
+  useEffect(() => {
+    let timeout: any;
+    if (clicked >= 10) {
+      setClicked(0);
+      navigate("/dev");
+    } else if (clicked > 0) {
+      timeout = setTimeout(() => {
+        setClicked(0);
+      }, 2000);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [clicked, navigate]);
 
   return (
     <div
@@ -38,7 +56,17 @@ const Balance = () => {
               color: "var(--tg-theme-text-color, #000000)",
             }}
           >
-            {full.toLocaleString()}{" "}
+            <span
+              onClick={() => {
+                setClicked(clicked + 1);
+              }}
+              style={{
+                WebkitUserSelect: "none",
+                userSelect: "none",
+              }}
+            >
+              {full.toLocaleString()}{" "}
+            </span>
             <span style={{ fontWeight: "normal", fontSize: "16px" }}>G1</span>
             {balanceUpdated && (
               <div

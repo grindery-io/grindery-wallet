@@ -14,6 +14,7 @@ import ActivityPage from "./components/pages/ActivityPage";
 import RewardPage from "./components/pages/RewardPage";
 import RewardsPage from "./components/pages/RewardsPage";
 import CommunityPage from "./components/pages/CommunityPage";
+import DevPage from "./components/pages/DevPage";
 
 const AppRoutes = () => {
   const {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
       <Route path="/send" element={<SendPage />} />
       <Route path="/send/:id" element={<SendPage />} />
       <Route path="/connect/telegram" element={<ConnectTelegramPage />} />
+      <Route path="/dev" element={<DevPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   ) : (
