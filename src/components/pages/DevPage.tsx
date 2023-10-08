@@ -199,37 +199,43 @@ const DevPage = () => {
               </ListItemSecondaryAction>
             </ListItem>
             <Divider />
-            <ListSubheader component="div" sx={{ marginTop: "24px" }}>
-              Experimental features
-            </ListSubheader>
+            {user?.telegramSession && (
+              <>
+                <ListSubheader component="div" sx={{ marginTop: "24px" }}>
+                  Experimental features
+                </ListSubheader>
 
-            <ListItem>
-              <ListItemText
-                primary="Message sending"
-                sx={{ color: "var(--tg-theme-text-color, #000000)" }}
-              />
-              <ListItemSecondaryAction>
-                <StyledSwitch
-                  checked={devMode.features?.sendMessage}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setState({
-                      devMode: {
-                        ...devMode,
-                        features: {
-                          ...devMode.features,
-                          sendMessage: event.target.checked,
-                        },
-                      },
-                    });
-                    localStorage.setItem(
-                      "grindery_wallet_features_send_message",
-                      event.target.checked ? "true" : "false"
-                    );
-                  }}
-                />
-              </ListItemSecondaryAction>
-            </ListItem>
-            <Divider />
+                <ListItem>
+                  <ListItemText
+                    primary="Message sending"
+                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                  />
+                  <ListItemSecondaryAction>
+                    <StyledSwitch
+                      checked={devMode.features?.sendMessage}
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        setState({
+                          devMode: {
+                            ...devMode,
+                            features: {
+                              ...devMode.features,
+                              sendMessage: event.target.checked,
+                            },
+                          },
+                        });
+                        localStorage.setItem(
+                          "grindery_wallet_features_send_message",
+                          event.target.checked ? "true" : "false"
+                        );
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+              </>
+            )}
           </>
         )}
       </List>
