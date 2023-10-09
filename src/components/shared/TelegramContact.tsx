@@ -123,8 +123,7 @@ const TelegramContact = ({
                     position: "absolute",
                     bottom: "-6px",
                     right: "-6px",
-                    border:
-                      "2px solid var(--tg-theme-secondary-bg-color, #efeff3)",
+                    border: "2px solid var(--tg-theme-bg-color, #ffffff)",
                     borderRadius: "50%",
                   }}
                 >

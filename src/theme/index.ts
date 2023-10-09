@@ -79,7 +79,7 @@ const theme = createTheme({
         {
           props: { variant: "balance" },
           style: {
-            fontSize: "35px",
+            fontSize: "40px",
             fontWeight: 700,
             lineHeight: "120%",
           },
