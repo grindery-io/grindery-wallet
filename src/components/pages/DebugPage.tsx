@@ -96,7 +96,7 @@ const DebugPage = () => {
               component="div"
               sx={{
                 marginTop: "30px",
-                backgroundColor: "transparent",
+                backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
                 color: "var(--tg-theme-hint-color, #999999)",
                 fontFamily: "Geologica",
               }}
@@ -211,7 +211,7 @@ const DebugPage = () => {
               component="div"
               sx={{
                 marginTop: "30px",
-                backgroundColor: "transparent",
+                backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
                 color: "var(--tg-theme-hint-color, #999999)",
                 fontFamily: "Geologica",
               }}
@@ -315,7 +315,7 @@ const DebugPage = () => {
                   component="div"
                   sx={{
                     marginTop: "30px",
-                    backgroundColor: "transparent",
+                    backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
                     color: "var(--tg-theme-hint-color, #999999)",
                     fontFamily: "Geologica",
                   }}
