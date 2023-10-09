@@ -32,7 +32,7 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const DevPage = () => {
+const DebugPage = () => {
   useBackButton();
   const {
     setState,
@@ -43,8 +43,8 @@ const DevPage = () => {
       <Box sx={{ textAlign: "center", margin: "4px 20px 20px" }}>
         <Typography variant="title">⚠️</Typography>
         <Typography variant="sm" sx={{ marginTop: "4px" }} color="hint">
-          Caution: Developer Mode. Use with expertise. Only proceed if you know
-          what you are doing.
+          Caution: Debug Mode. Use with expertise. Only proceed if you know what
+          you are doing.
         </Typography>
       </Box>
       <List
@@ -60,7 +60,7 @@ const DevPage = () => {
         <ListItem>
           <ListItemText
             sx={{ color: "var(--tg-theme-text-color, #000000)" }}
-            primary="Developer Mode"
+            primary="Debug Mode"
           />
           <ListItemSecondaryAction>
             <StyledSwitch
@@ -84,7 +84,7 @@ const DevPage = () => {
           <Box sx={{ margin: "32px 20px", textAlign: "center" }}>
             <Typography variant="title">🛠️</Typography>
             <Typography color="hint" variant="sm" sx={{ marginTop: "8px" }}>
-              Enable developer mode to access experimental features and app
+              Enable debug mode to access experimental features and app
               information
             </Typography>
           </Box>
@@ -361,4 +361,4 @@ const DevPage = () => {
   );
 };
 
-export default DevPage;
+export default DebugPage;

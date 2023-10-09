@@ -19,7 +19,7 @@ const Balance = () => {
     let timeout: any;
     if (clicked >= 10) {
       setClicked(0);
-      navigate("/dev");
+      navigate("/debug");
     } else if (clicked > 0) {
       timeout = setTimeout(() => {
         setClicked(0);
