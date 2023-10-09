@@ -5,9 +5,9 @@ import { MAX_WIDTH } from "../../constants";
 import { useLocation, useNavigate } from "react-router";
 import TokensIcon from "../icons/TokensIcon";
 import ContactsIcon from "../icons/ContactsIcon";
-import ActivityIcon from "../icons/ActivityIcon";
 import RewardsIcon from "../icons/RewardsIcon";
 import CommunityIcon from "../icons/CommunityIcon";
+import AppsIcon from "../icons/AppsIcon";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
@@ -81,9 +81,9 @@ const BottomNavigation = () => {
           icon={<RewardsIcon />}
         />
         <BottomNavigationAction
-          label="Activity"
-          value="/activities"
-          icon={<ActivityIcon />}
+          label="Apps"
+          value="/apps"
+          icon={<AppsIcon />}
         />
         <BottomNavigationAction
           label="Community"

@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import TokensList from "./TokensList";
+import ActivitiesList from "./ActivitiesList";
 
 const TokensTabs = () => {
   const [tab, setTab] = React.useState(0);
@@ -10,17 +11,18 @@ const TokensTabs = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", padding: "16px", boxSizing: "border-box" }}>
+    <Box sx={{ width: "100%", padding: "16px 0", boxSizing: "border-box" }}>
       <Tabs
         value={tab}
         onChange={handleTabChange}
         variant="fullWidth"
         sx={{
-          width: "100%",
+          width: "calc(100% - 32px)",
           boxSizing: "border-box",
           borderTopLeftRadius: "12px",
           borderTopRightRadius: "12px",
           border: "none",
+          margin: "0 16px",
           "& .MuiTabs-scroller": {
             background: "var(--tg-theme-bg-color, #ffffff)",
           },
@@ -47,6 +49,7 @@ const TokensTabs = () => {
       >
         <Tab label="Tokens" />
         <Tab label="NFTs" />
+        <Tab label="Activity" />
       </Tabs>
       {tab === 0 && <TokensList />}
       {tab === 1 && (
@@ -56,6 +59,7 @@ const TokensTabs = () => {
           </Typography>
         </div>
       )}
+      {tab === 2 && <ActivitiesList virtualized={false} />}
     </Box>
   );
 };

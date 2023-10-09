@@ -1,30 +1,29 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 const AppsPage = () => {
   return (
     <>
-      <div style={{ width: "100%" }}>
+      <Box sx={{ width: "100%" }}>
         <Typography
-          variant="h6"
+          variant="title"
           sx={{
             margin: "16px 0",
-            padding: "0",
             textAlign: "center",
             position: "sticky",
             top: "0px",
-            background: "#fff",
+            background: "var(--tg-theme-bg-color, #ffffff)",
             zIndex: 1,
             width: "100%",
           }}
         >
           Apps
         </Typography>
-        <div style={{ textAlign: "center", margin: "50px" }}>
-          <Typography color="GrayText">Coming soon</Typography>
-        </div>
-      </div>
+        <Box sx={{ textAlign: "center", margin: "50px" }}>
+          <Typography color="hint">Coming soon</Typography>
+        </Box>
+      </Box>
 
       <BottomNavigation />
     </>

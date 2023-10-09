@@ -10,14 +10,14 @@ const TokensList = () => {
   return (
     <ul
       style={{
-        margin: "16px 0",
+        margin: "16px",
         padding: 0,
         display: "flex",
         flexDirection: "column",
         gap: "16px",
         alignItems: "stretch",
         justifyContent: "flex-start",
-        width: "100%",
+        width: "calc(100% - 32px)",
         flexWrap: "nowrap",
       }}
     >
