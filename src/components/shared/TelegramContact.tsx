@@ -6,6 +6,7 @@ import { BOT_API_URL } from "../../constants";
 import axios from "axios";
 import CheckIcon from "../icons/CheckIcon";
 import { useLongPress } from "use-long-press";
+import { Typography } from "@mui/material";
 
 type Props = {
   contact: TelegramUserContact;
@@ -136,31 +137,22 @@ const TelegramContact = ({
               )}
             </div>
             <div>
-              <p
-                style={{
-                  lineHeight: "1.5",
-                  fontSize: "12px",
-                  margin: 0,
-                  color: "var(--tg-theme-text-color, #000000)",
-                }}
-              >
+              <Typography sx={{ lineHeight: "1.5" }} variant="xs">
                 {contact.firstName || contact.lastName
                   ? `${contact.firstName}${
                       contact.lastName ? " " + contact.lastName : ""
                     }`
                   : `@${contact.username}`}
-              </p>
+              </Typography>
+
               {(contact.firstName || contact.lastName) && contact.username ? (
-                <p
-                  style={{
-                    lineHeight: "1.5",
-                    margin: "0",
-                    fontSize: "12px",
-                    color: "var(--tg-theme-hint-color, #999999)",
-                  }}
+                <Typography
+                  sx={{ lineHeight: "1.5" }}
+                  variant="xs"
+                  color="hint"
                 >
                   @{contact.username}
-                </p>
+                </Typography>
               ) : null}
             </div>
           </div>
@@ -209,14 +201,9 @@ const TelegramContact = ({
                 gap: "4px",
               }}
             >
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "var(--tg-theme-hint-color, #999999)",
-                }}
-              >
+              <Typography component="span" variant="xs" color="hint">
                 Invited
-              </span>
+              </Typography>
               <CheckIcon />
             </div>
           ) : undefined

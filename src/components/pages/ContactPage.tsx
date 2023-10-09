@@ -12,6 +12,7 @@ import ContactAvatar from "../shared/ContactAvatar";
 import Button from "../shared/Button";
 import styled from "styled-components";
 import Activity from "../shared/Activity";
+import { Box, Typography } from "@mui/material";
 
 const ButtonWrapper = styled.div`
   box-sizing: border-box;
@@ -105,8 +106,8 @@ const ContactPage = () => {
     <>
       {contact && (
         <>
-          <div
-            style={{
+          <Box
+            sx={{
               marginTop: "20px",
               position: "relative",
             }}
@@ -124,7 +125,6 @@ const ContactPage = () => {
               />
             ) : (
               <>
-                {/*<Jazzicon diameter={36} seed={parseFloat(contact.id)} />*/}
                 <ContactAvatar
                   style={{
                     width: "130px",
@@ -138,8 +138,8 @@ const ContactPage = () => {
               </>
             )}
             {contact.isGrinderyUser && (
-              <div
-                style={{
+              <Box
+                sx={{
                   position: "absolute",
                   bottom: "-4px",
                   right: "-4px",
@@ -152,29 +152,22 @@ const ContactPage = () => {
                   alt=""
                   style={{ width: "32px", height: "32px", display: "block" }}
                 />
-              </div>
+              </Box>
             )}
-          </div>
-          <div>
-            <p
-              style={{
-                lineHeight: "1.5",
-                fontSize: "16px",
-                margin: 0,
-                color: "var(--tg-theme-text-color, #000000)",
-              }}
-            >
+          </Box>
+          <Box>
+            <Typography variant="subtitle">
               {contact.firstName || contact.lastName
                 ? `${contact.firstName}${
                     contact.lastName ? " " + contact.lastName : ""
                   }`
                 : `@${contact.username}`}
-            </p>
-          </div>
+            </Typography>
+          </Box>
 
           {contactActivity && contactActivity.length > 0 && (
-            <div style={{ width: "100%", paddingBottom: "76px" }}>
-              <p
+            <Box sx={{ width: "100%", paddingBottom: "76px" }}>
+              <Box
                 style={{
                   margin: "0",
                   padding: "8px 16px 8px",
@@ -185,10 +178,8 @@ const ContactPage = () => {
                   zIndex: 1,
                 }}
               >
-                <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
-                  Activity
-                </span>
-              </p>
+                <Typography color="hint">Activity</Typography>
+              </Box>
               {contactActivity.map((activity) => (
                 <Activity
                   key={activity._id}
@@ -198,7 +189,7 @@ const ContactPage = () => {
                   }}
                 />
               ))}
-            </div>
+            </Box>
           )}
 
           <ButtonWrapper>

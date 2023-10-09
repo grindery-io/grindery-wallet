@@ -1,6 +1,7 @@
 import React from "react";
 import { TOKENS } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
+import { Typography } from "@mui/material";
 
 const TokensList = () => {
   const {
@@ -45,31 +46,11 @@ const TokensList = () => {
               display: "block",
             }}
           />
-
-          <p
-            style={{
-              margin: 0,
-              padding: 0,
-              fontSize: "16px",
-              lineHeight: 1.5,
-              color: "var(--tg-theme-text-color, #000000)",
-            }}
-          >
-            {token.name}
-          </p>
-
-          <p
-            style={{
-              color: "var(--tg-theme-text-color, #000000)",
-              margin: "0 0 0 auto",
-              padding: 0,
-              fontSize: "16px",
-              lineHeight: 1.5,
-            }}
-          >
+          <Typography>{token.name}</Typography>
+          <Typography sx={{ marginLeft: "auto" }}>
             {token.symbol === "G1" ? balance?.toLocaleString() : token.balance}{" "}
-            <span style={{ fontWeight: "normal" }}>{token.symbol}</span>
-          </p>
+            {token.symbol}
+          </Typography>
         </li>
       ))}
     </ul>

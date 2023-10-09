@@ -1,4 +1,5 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   label?: string | React.ReactNode;
@@ -10,8 +11,8 @@ type Props = {
 
 const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -24,20 +25,11 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
           : "none",
       }}
     >
-      <p
-        style={{
-          fontSize: "12px",
-          fontWeight: 400,
-          lineHeight: "125%",
-          margin: 0,
-          padding: 0,
-          color: "var(--tg-theme-hint-color, #999999)",
-        }}
-      >
+      <Typography sx={{ lineHeight: "125%" }} variant="xs" color="hint">
         {label}
-      </p>
-      <div
-        style={{
+      </Typography>
+      <Box
+        sx={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -45,13 +37,15 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
           flexWrap: "nowrap",
           gap: "4px",
           color: "var(--tg-theme-text-color, #000000)",
+          cursor: onValueClick ? "pointer" : "default",
         }}
+        tabIndex={onValueClick ? 0 : -1}
         onClick={onValueClick}
       >
         <strong style={{ fontSize: "12px" }}>{value}</strong>
         {icon}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

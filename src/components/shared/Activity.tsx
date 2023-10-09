@@ -14,6 +14,7 @@ import {
 } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
 import { useNavigate } from "react-router";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   activity: TelegramUserActivity;
@@ -151,8 +152,8 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
           border: "1px solid var(--gr-theme-divider-color)",
         }}
         LeftComponent={
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
@@ -161,8 +162,8 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
               gap: "16px",
             }}
           >
-            <div
-              style={{
+            <Box
+              sx={{
                 width: "36px",
                 height: "36px",
                 minWidth: "36px",
@@ -200,8 +201,8 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
               ) : (
                 getAvatarText()
               )}
-              <div
-                style={{
+              <Box
+                sx={{
                   position: "absolute",
                   bottom: "-2px",
                   right: "-2px",
@@ -227,62 +228,42 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
                     }}
                   />
                 )}
-              </div>
-            </div>
-            <div>
-              <p
-                style={{
-                  lineHeight: "1.5",
-                  fontSize: "12px",
-                  margin: 0,
-                  color: "var(--tg-theme-text-color, #000000)",
-                }}
-              >
+              </Box>
+            </Box>
+            <Box>
+              <Typography variant="xs" sx={{ lineHeight: "1.5" }}>
                 {user?.userTelegramID === activity.senderTgId
                   ? "Sent to"
                   : "Received from"}{" "}
                 {getSecondaryUserDisplayName(secondaryUser)}
-              </p>
+              </Typography>
 
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "12px",
-                  color: "var(--tg-theme-hint-color, #999999)",
-                  lineHeight: "1.5",
-                }}
-              >
+              <Typography color="hint" variant="xs" sx={{ lineHeight: "1.5" }}>
                 {moment(activity.dateAdded).fromNow()}
-              </p>
-            </div>
-          </div>
+              </Typography>
+            </Box>
+          </Box>
         }
         RightComponent={
-          <div>
-            <p
-              style={{
-                fontSize: "10px",
-                margin: 0,
-                textTransform: "uppercase",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                flexDirection: "row",
-                gap: "6px",
-                color: "var(--tg-theme-text-color, #000000)",
-              }}
-            >
-              <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                {formatted}
-              </span>{" "}
-              <img
-                src="/images/g1-token-red.svg"
-                alt=""
-                width="16"
-                style={{ display: "inline-block" }}
-              />
-            </p>
-          </div>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+              gap: "6px",
+            }}
+          >
+            <Typography variant="sm" sx={{ fontWeight: "bold" }}>
+              {formatted}
+            </Typography>{" "}
+            <img
+              src="/images/g1-token-red.svg"
+              alt=""
+              width="16"
+              style={{ display: "block" }}
+            />
+          </Box>
         }
       />
     </li>
