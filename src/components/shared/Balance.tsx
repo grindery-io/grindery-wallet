@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { formatBalance } from "../../utils/formatBalance";
 import moment from "moment";
 import RefreshIcon from "../icons/RefreshIcon";
@@ -47,32 +47,34 @@ const Balance = () => {
         </div>
       ) : (
         <>
-          <h2
-            style={{
+          <Box
+            sx={{
               textAlign: "center",
-              fontSize: "35px",
               margin: "30px 0 26px",
               opacity: balanceCached ? 0.6 : 1,
-              color: "var(--tg-theme-text-color, #000000)",
             }}
           >
-            <span
+            <Typography
+              component="span"
+              variant="balance"
               onClick={() => {
                 setClicked(clicked + 1);
               }}
-              style={{
+              sx={{
                 WebkitUserSelect: "none",
                 userSelect: "none",
               }}
             >
               {full.toLocaleString()}{" "}
-            </span>
-            <span style={{ fontWeight: "normal", fontSize: "16px" }}>G1</span>
+            </Typography>
+            <Typography component="span" variant="md">
+              G1
+            </Typography>
             {balanceUpdated && (
-              <div
-                style={{
-                  fontSize: "12px",
-                  textAlign: "center",
+              <Typography
+                variant="xs"
+                component="div"
+                sx={{
                   fontWeight: "300",
                   minHeight: "24px",
                   display: "flex",
@@ -82,9 +84,14 @@ const Balance = () => {
                   gap: "4px",
                 }}
               >
-                <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+                <Typography
+                  variant="xs"
+                  color="hint"
+                  component="span"
+                  sx={{ fontWeight: "inherit" }}
+                >
                   Updated {moment(balanceUpdated).fromNow()}.{" "}
-                </span>
+                </Typography>
                 {moment(balanceUpdated) <
                   moment(new Date()).add(-1, "minute") && (
                   <button
@@ -109,7 +116,19 @@ const Balance = () => {
                       gap: "0px",
                     }}
                   >
-                    Refresh{balanceLoading && "ing"}
+                    <Typography
+                      component="span"
+                      variant="xs"
+                      color="hint"
+                      sx={{
+                        fontWeight: "inherit",
+                        color: balanceLoading
+                          ? "var(--tg-theme-hint-color, #999999)"
+                          : "var(--tg-theme-link-color, #2481cc)",
+                      }}
+                    >
+                      Refresh{balanceLoading && "ing"}
+                    </Typography>
                     <Box
                       component="span"
                       sx={{
@@ -140,9 +159,9 @@ const Balance = () => {
                     </Box>
                   </button>
                 )}
-              </div>
+              </Typography>
             )}
-          </h2>
+          </Box>
         </>
       )}
     </div>
