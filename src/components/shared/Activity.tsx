@@ -52,18 +52,24 @@ const Activity = ({ activity, onClick }: Props) => {
         sx={{ padding: "10px" }}
         onClick={
           typeof onClick !== "undefined"
-            ? onClick
+            ? () => {
+                setTimeout(() => {
+                  onClick();
+                }, 300);
+              }
             : () => {
-                if (window.Telegram?.WebApp?.openLink) {
-                  window.Telegram.WebApp.openLink(
-                    `https://polygonscan.com/tx/${activity.transactionHash}`
-                  );
-                } else {
-                  window.open(
-                    `https://polygonscan.com/tx/${activity.transactionHash}`,
-                    "_blank"
-                  );
-                }
+                setTimeout(() => {
+                  if (window.Telegram?.WebApp?.openLink) {
+                    window.Telegram.WebApp.openLink(
+                      `https://polygonscan.com/tx/${activity.transactionHash}`
+                    );
+                  } else {
+                    window.open(
+                      `https://polygonscan.com/tx/${activity.transactionHash}`,
+                      "_blank"
+                    );
+                  }
+                }, 300);
               }
         }
       >
