@@ -365,7 +365,7 @@ const DebugPage = () => {
                 <Divider />
                 <ListItem>
                   <ListItemText
-                    primary="Colored numbers"
+                    primary="Tokens amount colored"
                     sx={{ color: "var(--tg-theme-text-color, #000000)" }}
                   />
                   <ListItemSecondaryAction>

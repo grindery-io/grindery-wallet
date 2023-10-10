@@ -6,7 +6,7 @@ import TableRow from "../shared/TableRow";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import moment from "moment";
 import TransactionIcon from "../icons/TransactionIcon";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
 
@@ -14,7 +14,7 @@ const ActivityPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards, activity, user },
+    state: { rewards, activity, user, devMode },
   } = useAppContext();
   const { id } = useParams();
 
@@ -55,15 +55,12 @@ const ActivityPage = () => {
         >
           Transaction Details
         </Typography>
-        <Box
+        <Stack
+          alignItems="stretch"
+          justifyContent="flex-start"
           sx={{
             borderRadius: "5px",
-            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "stretch",
-            justifyContent: "flex-start",
-            flexWrap: "nowrap",
+            border: "1px solid var(--gr-theme-divider-color)",
             width: "100%",
           }}
         >
@@ -72,7 +69,22 @@ const ActivityPage = () => {
             label={`Tokens ${
               item.recipientTgId !== user?.userTelegramID ? "sent" : "received"
             } `}
-            value={item.tokenAmount}
+            value={
+              <span
+                style={{
+                  color:
+                    devMode.features?.coloredNumbers &&
+                    item.recipientTgId === user?.userTelegramID
+                      ? "var(--gr-theme-success-color)"
+                      : "inherit",
+                }}
+              >
+                {devMode.features?.coloredNumbers && (
+                  <>{item.recipientTgId !== user?.userTelegramID ? "-" : "+"}</>
+                )}
+                {item.tokenAmount}
+              </span>
+            }
             icon={
               <img
                 src="/images/g1-token-red.svg"
@@ -211,22 +223,18 @@ const ActivityPage = () => {
               }
             />
           )}
-        </Box>
-        <Box
-          sx={{
-            marginTop: "24px",
+        </Stack>
+
+        <Button
+          sx={{ marginTop: "24px" }}
+          fullWidth
+          variant="outlined"
+          onClick={() => {
+            navigate(-1);
           }}
         >
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            Close
-          </Button>
-        </Box>
+          Close
+        </Button>
       </Box>
     </>
   ) : null;

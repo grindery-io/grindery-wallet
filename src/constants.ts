@@ -84,4 +84,7 @@ var(--tg-theme-hint-color, #999999)
 var(--tg-theme-link-color, #2481cc)
 var(--tg-theme-bg-color, #ffffff)
 var(--tg-theme-text-color, #000000)
+var(--gr-theme-divider-color)
+var(--gr-theme-button-shadow-color)
+var(--gr-theme-success-color)
 */

@@ -7,7 +7,7 @@ import TableRow from "../shared/TableRow";
 import moment from "moment";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
-import { Button } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 
 const RewardPage = () => {
   const navigate = useNavigate();
@@ -31,9 +31,9 @@ const RewardPage = () => {
 
   return item ? (
     <>
-      <div style={{ padding: "16px", width: "100%", boxSizing: "border-box" }}>
-        <div
-          style={{
+      <Box style={{ padding: "16px", width: "100%", boxSizing: "border-box" }}>
+        <Box
+          sx={{
             margin: "32px auto 24px",
             textAlign: "center",
           }}
@@ -91,18 +91,14 @@ const RewardPage = () => {
               </clipPath>
             </defs>
           </svg>
-        </div>
+        </Box>
         <Title style={{ marginBottom: "16px" }}>Reward Details</Title>
-        <div
-          style={{
+        <Stack
+          alignItems="stretch"
+          justifyContent="flex-start"
+          sx={{
             borderRadius: "5px",
-
-            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "stretch",
-            justifyContent: "flex-start",
-            flexWrap: "nowrap",
+            border: "1px solid var(--gr-theme-divider-color)",
             width: "100%",
           }}
         >
@@ -212,23 +208,18 @@ const RewardPage = () => {
               }
             />
           )}
-        </div>
-        <div
-          style={{
-            marginTop: "24px",
+        </Stack>
+        <Button
+          sx={{ marginTop: "24px" }}
+          fullWidth
+          variant="outlined"
+          onClick={() => {
+            navigate(-1);
           }}
         >
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            Close
-          </Button>
-        </div>
-      </div>
+          Close
+        </Button>
+      </Box>
     </>
   ) : null;
 };
