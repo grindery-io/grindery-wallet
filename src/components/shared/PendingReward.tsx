@@ -9,7 +9,7 @@ import { formatBalance } from "../../utils/formatBalance";
 import { useNavigate } from "react-router";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "./UserAvatar";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   activity: TelegramUserActivity;
@@ -61,8 +61,8 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
           border: "1px solid var(--gr-theme-divider-color)",
         }}
         LeftComponent={
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
@@ -71,8 +71,8 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
               gap: "16px",
             }}
           >
-            <div
-              style={{
+            <Box
+              sx={{
                 width: "36px",
                 height: "36px",
                 minWidth: "36px",
@@ -94,8 +94,8 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
             >
               <UserAvatar user={secondaryUser} size={36} />
 
-              <div
-                style={{
+              <Box
+                sx={{
                   position: "absolute",
                   bottom: "-2px",
                   right: "-2px",
@@ -121,9 +121,9 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
                     }}
                   />
                 )}
-              </div>
-            </div>
-            <div>
+              </Box>
+            </Box>
+            <Box>
               <Typography
                 sx={{
                   lineHeight: "1.5",
@@ -142,11 +142,11 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
               >
                 {secondaryUser.name}
               </Typography>
-            </div>
-          </div>
+            </Box>
+          </Box>
         }
         RightComponent={
-          <div>
+          <Box>
             <p
               style={{
                 margin: 0,
@@ -195,7 +195,7 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
                 Invited {moment(activity.dateAdded).fromNow()}
               </span>
             </span>
-          </div>
+          </Box>
         }
       />
     </li>

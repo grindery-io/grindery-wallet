@@ -9,7 +9,7 @@ import { formatBalance } from "../../utils/formatBalance";
 import { useNavigate } from "react-router";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "./UserAvatar";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   reward: TelegramUserReward;
@@ -65,8 +65,8 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
           border: "1px solid var(--gr-theme-divider-color)",
         }}
         LeftComponent={
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
@@ -75,8 +75,8 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
               gap: "16px",
             }}
           >
-            <div
-              style={{
+            <Box
+              sx={{
                 width: "36px",
                 height: "36px",
                 minWidth: "36px",
@@ -99,8 +99,8 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
               }
             >
               <UserAvatar user={secondaryUser} size={36} />
-              <div
-                style={{
+              <Box
+                sx={{
                   position: "absolute",
                   bottom: "-2px",
                   right: "-2px",
@@ -126,9 +126,9 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                     }}
                   />
                 )}
-              </div>
-            </div>
-            <div>
+              </Box>
+            </Box>
+            <Box>
               <Typography
                 variant="xs"
                 sx={{
@@ -147,11 +147,11 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
               >
                 {secondaryUser.name}
               </Typography>
-            </div>
-          </div>
+            </Box>
+          </Box>
         }
         RightComponent={
-          <div>
+          <Box>
             <p
               style={{
                 fontSize: "10px",
@@ -214,7 +214,7 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
                 />
               </svg>
             </span>
-          </div>
+          </Box>
         }
       />
     </li>

@@ -110,9 +110,9 @@ const TelegramAuth = () => {
   return (
     <Container>
       <>
-        <div>
-          <div
-            style={{
+        <Box>
+          <Box
+            sx={{
               margin: "32px auto 24px",
               textAlign: "center",
             }}
@@ -151,9 +151,9 @@ const TelegramAuth = () => {
                 </clipPath>
               </defs>
             </svg>
-          </div>
+          </Box>
           <Title>Sign in with Telegram</Title>
-          <div>
+          <Box>
             <Subtitle>Features you will get access to by signing in:</Subtitle>
             <BulletPoints
               items={[
@@ -164,8 +164,8 @@ const TelegramAuth = () => {
                 "Explore even more features coming up",
               ]}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
         <Form>
           <InputGroup>
             <label style={{ color: "var(--tg-theme-text-color, #000000)" }}>
@@ -290,7 +290,7 @@ const TelegramAuth = () => {
             </Button>
           </Box>
         </Form>
-        <div>
+        <Box>
           <Subtitle>Our Commitment to Data Security:</Subtitle>
           <BulletPoints
             items={[
@@ -299,7 +299,7 @@ const TelegramAuth = () => {
               "No Unsolicited Messaging: We won’t message anyone unless you agree to it first.",
             ]}
           />
-        </div>
+        </Box>
       </>
     </Container>
   );

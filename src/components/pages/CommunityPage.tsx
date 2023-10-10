@@ -76,7 +76,7 @@ const CommunityPage = () => {
 
   return (
     <>
-      <div style={{ width: "100%", padding: "0", boxSizing: "border-box" }}>
+      <Box sx={{ width: "100%", padding: "0" }}>
         <SearchBox
           placeholder="Community"
           value={search}
@@ -85,7 +85,7 @@ const CommunityPage = () => {
           }}
           filters={options}
         />
-        <div style={{ textAlign: "left" }}>
+        <Box sx={{ textAlign: "left" }}>
           <>
             {data.length > 0 ? (
               <Box
@@ -125,8 +125,8 @@ const CommunityPage = () => {
               </Typography>
             )}
           </>
-        </div>
-      </div>
+        </Box>
+      </Box>
       <BottomNavigation />
     </>
   );
@@ -142,9 +142,9 @@ const Renderer = ({
   style: any;
 }) => {
   return (
-    <div style={style} key={data[index].id}>
+    <Box sx={style} key={data[index].id}>
       <Community data={data[index]} />
-    </div>
+    </Box>
   );
 };
 

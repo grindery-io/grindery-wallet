@@ -1,22 +1,7 @@
 import React from "react";
-import styled from "styled-components";
-import { Button, InputBase } from "@mui/material";
+import { Box, Button, InputBase, Stack } from "@mui/material";
 import useAppContext from "../../hooks/useAppContext";
 import { TelegramUserContact } from "../../types/Telegram";
-
-const Wrapper = styled.div`
-  border-radius: 10px;
-  border: none;
-  background: var(--tg-theme-secondary-bg-color, #efeff3);
-  display: flex;
-  width: 100%;
-  padding: 10px 10px 10px 20px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  box-sizing: border-box;
-`;
 
 const SendAmount = ({
   amount,
@@ -31,8 +16,20 @@ const SendAmount = ({
     state: { balance },
   } = useAppContext();
   return (
-    <Wrapper>
-      <div>
+    <Stack
+      alignItems="center"
+      useFlexGap
+      direction="row"
+      sx={{
+        borderRadius: "10px",
+        border: "none",
+        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+        width: "100%",
+        padding: "10px 10px 10px 20px",
+      }}
+      spacing="16px"
+    >
+      <Box>
         <p
           style={{
             fontSize: "14px",
@@ -95,7 +92,7 @@ const SendAmount = ({
             </p>
           </>
         )}
-      </div>
+      </Box>
       {balance && (
         <Button
           variant="outlined"
@@ -114,7 +111,7 @@ const SendAmount = ({
           Max
         </Button>
       )}
-    </Wrapper>
+    </Stack>
   );
 };
 

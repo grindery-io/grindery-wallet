@@ -8,6 +8,7 @@ import ContactsIcon from "../icons/ContactsIcon";
 import RewardsIcon from "../icons/RewardsIcon";
 import CommunityIcon from "../icons/CommunityIcon";
 import AppsIcon from "../icons/AppsIcon";
+import { Box } from "@mui/material";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const BottomNavigation = () => {
 
   return (
     <>
-      <div style={{ height: "20px" }} />
+      <Box sx={{ height: "20px" }} />
       <MuiBottomNavigation
         showLabels
         sx={{

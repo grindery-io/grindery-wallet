@@ -32,19 +32,18 @@ const Balance = () => {
   }, [clicked, navigate]);
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         width: "100%",
         padding: "16px 16px 12px",
-        boxSizing: "border-box",
       }}
     >
       {!user ? (
-        <div style={{ textAlign: "center", margin: "0 auto" }}>
+        <Box sx={{ textAlign: "center", margin: "0 auto" }}>
           <CircularProgress
             sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
           />
-        </div>
+        </Box>
       ) : (
         <>
           <Box
@@ -164,7 +163,7 @@ const Balance = () => {
           </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

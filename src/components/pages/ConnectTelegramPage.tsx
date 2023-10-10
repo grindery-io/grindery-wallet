@@ -4,6 +4,7 @@ import useAppContext from "../../hooks/useAppContext";
 import BulletPoints from "../shared/BulletPoints";
 import Title from "../shared/Title";
 import Subtitle from "../shared/Subtitle";
+import { Box, Typography } from "@mui/material";
 
 const ConnectTelegramPage = () => {
   const {
@@ -11,9 +12,9 @@ const ConnectTelegramPage = () => {
   } = useAppContext();
 
   return telegramSessionSaved ? (
-    <div style={{ maxWidth: "320px", margin: "0 auto", padding: "24px 16px" }}>
-      <div
-        style={{
+    <Box sx={{ maxWidth: "320px", margin: "0 auto", padding: "24px 16px" }}>
+      <Box
+        sx={{
           margin: "32px auto 24px",
           textAlign: "center",
         }}
@@ -31,7 +32,7 @@ const ConnectTelegramPage = () => {
             fill="white"
           />
         </svg>
-      </div>
+      </Box>
       <Title>Account Successfully Connected!</Title>
       <Subtitle>
         You can close this page and return to the{" "}
@@ -51,21 +52,17 @@ const ConnectTelegramPage = () => {
           "And More: Explore additional features!",
         ]}
       />
-      <p
-        style={{
-          color: "var(--tg-theme-hint-color, #999999)",
-          fontSize: "14px",
-          margin: "24px 0",
-          textAlign: "center",
-          fontWeight: 300,
-        }}
+      <Typography
+        color="hint"
+        variant="sm"
+        sx={{ margin: "24px 0", textAlign: "center", fontWeight: 300 }}
       >
         Your data is securely transmitted, encrypted, and stored. We collect
         data only with your explicit consent and won’t message anyone without
         your approval. You can disconnect Grindery anytime from your Telegram
         client under “devices.”
-      </p>
-    </div>
+      </Typography>
+    </Box>
   ) : (
     <TelegramAuth />
   );

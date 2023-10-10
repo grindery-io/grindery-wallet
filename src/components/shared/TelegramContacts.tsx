@@ -146,7 +146,7 @@ const TelegramContacts = ({
     style: any;
   }) => {
     return (
-      <div style={style} key={data[index].id}>
+      <Box sx={style} key={data[index].id}>
         <TelegramContact
           contact={data[index]}
           selected={selected
@@ -160,7 +160,7 @@ const TelegramContacts = ({
           }
           onContactPress={onSelect}
         />
-      </div>
+      </Box>
     );
   };
 

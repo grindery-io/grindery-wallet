@@ -53,11 +53,11 @@ const TokensTabs = () => {
       </Tabs>
       {tab === 0 && <TokensList />}
       {tab === 1 && (
-        <div style={{ textAlign: "center", margin: "50px" }}>
+        <Box sx={{ textAlign: "center", margin: "50px" }}>
           <Typography sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
             Coming soon
           </Typography>
-        </div>
+        </Box>
       )}
       {tab === 2 && <ActivitiesList virtualized={false} />}
     </Box>

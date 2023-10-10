@@ -3,6 +3,7 @@ import DataBox from "./DataBox";
 import moment from "moment";
 import { TelegramUserReward } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
+import { Box } from "@mui/material";
 
 const Reward = ({
   reward,
@@ -41,8 +42,8 @@ const Reward = ({
           border: "1px solid var(--gr-theme-divider-color)",
         }}
         LeftComponent={
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
@@ -51,7 +52,7 @@ const Reward = ({
               gap: "16px",
             }}
           >
-            <div>
+            <Box>
               <p
                 style={{
                   lineHeight: "1.5",
@@ -63,11 +64,11 @@ const Reward = ({
               >
                 {reward.message}
               </p>
-            </div>
-          </div>
+            </Box>
+          </Box>
         }
         RightComponent={
-          <div>
+          <Box>
             <p
               style={{
                 fontSize: "10px",
@@ -134,7 +135,7 @@ const Reward = ({
                 />
               </svg>
             </span>
-          </div>
+          </Box>
         }
       />
     </li>

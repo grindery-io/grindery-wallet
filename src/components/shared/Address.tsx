@@ -1,6 +1,7 @@
 import React from "react";
 import useAppContext from "../../hooks/useAppContext";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
+import { Box } from "@mui/material";
 
 type Props = {
   avatar?: boolean;
@@ -14,7 +15,7 @@ const Address = ({ avatar = true, border = true }: Props) => {
   const address = user?.patchwallet;
 
   return address ? (
-    <div style={{ textAlign: "center" }}>
+    <Box sx={{ textAlign: "center" }}>
       <span>
         <button
           onClick={() => {
@@ -92,7 +93,7 @@ const Address = ({ avatar = true, border = true }: Props) => {
           </span>
         </button>
       </span>
-    </div>
+    </Box>
   ) : null;
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   data: {
@@ -19,8 +19,8 @@ const Community = ({ data }: Props) => {
     fields: { Link, Title, Image, Description },
   } = data;
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         padding: 0,
         margin: "0px 16px 0",
       }}
@@ -54,8 +54,8 @@ const Community = ({ data }: Props) => {
         }
       >
         {Image ? (
-          <div
-            style={{
+          <Box
+            sx={{
               width: "50px",
               minWidth: "50px",
               height: "50px",
@@ -68,10 +68,10 @@ const Community = ({ data }: Props) => {
               alt=""
               style={{ width: "50px", height: "50px", display: "block" }}
             />
-          </div>
+          </Box>
         ) : (
-          <div
-            style={{
+          <Box
+            sx={{
               width: "50px",
               minWidth: "50px",
               height: "50px",
@@ -87,16 +87,13 @@ const Community = ({ data }: Props) => {
             }}
           >
             {Title?.charAt(0)}
-          </div>
+          </Box>
         )}
-        <div style={{ width: "100%" }}>
-          <p
-            style={{
-              margin: 0,
-              padding: 0,
-              fontSize: "12px",
+        <Box sx={{ width: "100%" }}>
+          <Typography
+            variant="xs"
+            sx={{
               lineHeight: 1.5,
-              color: "var(--tg-theme-text-color, #000000)",
               display: "-webkit-box",
               maxWidth: "100%",
               WebkitLineClamp: 1,
@@ -105,15 +102,14 @@ const Community = ({ data }: Props) => {
             }}
           >
             {Title}
-          </p>
+          </Typography>
+
           {Description && (
-            <p
-              style={{
-                margin: "0",
-                padding: 0,
-                fontSize: "12px",
+            <Typography
+              variant="xs"
+              color="hint"
+              sx={{
                 lineHeight: 1.25,
-                color: "var(--tg-theme-hint-color, #999999)",
                 display: "-webkit-box",
                 maxWidth: "100%",
                 WebkitLineClamp: 2,
@@ -122,11 +118,11 @@ const Community = ({ data }: Props) => {
               }}
             >
               {Description}
-            </p>
+            </Typography>
           )}
-        </div>
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

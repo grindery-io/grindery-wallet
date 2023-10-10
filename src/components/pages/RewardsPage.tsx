@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
 import useAppContext from "../../hooks/useAppContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { FixedSizeList as List } from "react-window";
 import Reward from "../shared/Reward";
 import { useNavigate } from "react-router";
@@ -82,7 +82,7 @@ const RewardsPage = () => {
 
   return (
     <>
-      <div style={{ width: "100%", padding: "0", boxSizing: "border-box" }}>
+      <Box sx={{ width: "100%", padding: "0" }}>
         <SearchBox
           placeholder="Rewards"
           value={search}
@@ -91,7 +91,7 @@ const RewardsPage = () => {
           }}
           filters={options}
         />
-        <div style={{ textAlign: "left" }}>
+        <Box sx={{ textAlign: "left" }}>
           <>
             {rewards.received.length > 0 ? (
               <Box
@@ -117,19 +117,16 @@ const RewardsPage = () => {
                 </List>
               </Box>
             ) : (
-              <p
-                style={{
-                  margin: "50px 20px",
-                  textAlign: "center",
-                  opacity: 0.6,
-                }}
+              <Typography
+                sx={{ margin: "50px 20px", textAlign: "center" }}
+                color="hint"
               >
                 You have no rewards.
-              </p>
+              </Typography>
             )}
           </>
-        </div>
-      </div>
+        </Box>
+      </Box>
       <ReferralBanner />
       <BottomNavigation />
     </>
@@ -147,7 +144,7 @@ const ReceivedRewardRenderer = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <div style={style}>
+    <Box sx={style}>
       {data[index].responsePath ? (
         <>
           {!data[index].parentTransactionHash ? (
@@ -177,7 +174,7 @@ const ReceivedRewardRenderer = ({
           }}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

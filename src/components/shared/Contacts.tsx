@@ -2,6 +2,7 @@ import React from "react";
 import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "./TelegramContacts";
 import { TelegramUserContact } from "../../types/Telegram";
+import { Box } from "@mui/material";
 
 const Contacts = ({
   onContactClick,
@@ -23,7 +24,7 @@ const Contacts = ({
   } = useAppContext();
 
   return (
-    <div style={{ textAlign: "center", width: "100%" }}>
+    <Box sx={{ textAlign: "center", width: "100%" }}>
       {!user?.telegramSession ? (
         placeholder || null
       ) : (
@@ -37,7 +38,7 @@ const Contacts = ({
           />
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

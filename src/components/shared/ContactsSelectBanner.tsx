@@ -1,6 +1,7 @@
 import React from "react";
 import Banner from "./Banner";
 import useAppContext from "../../hooks/useAppContext";
+import { Box } from "@mui/material";
 
 const ContactsSelectBanner = ({
   visible,
@@ -14,8 +15,8 @@ const ContactsSelectBanner = ({
   } = useAppContext();
   return user && user.telegramSession ? (
     <Banner visible={visible} onClose={onClose} sx={{ bottom: "20px" }}>
-      <div
-        style={{
+      <Box
+        sx={{
           margin: "0 4px 0 0",
           color: "var(--tg-theme-link-color, #2481cc)",
         }}
@@ -48,9 +49,9 @@ const ContactsSelectBanner = ({
             strokeLinejoin="round"
           />
         </svg>
-      </div>
-      <div
-        style={{
+      </Box>
+      <Box
+        sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -64,7 +65,7 @@ const ContactsSelectBanner = ({
         <span style={{ color: "var(--tg-theme-link-color, #2481cc)" }}>
           Tap and hold a Contact card
         </span>
-      </div>
+      </Box>
     </Banner>
   ) : null;
 };

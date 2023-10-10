@@ -1,22 +1,7 @@
 import React from "react";
-import styled from "styled-components";
-import { FormHelperText, InputBase } from "@mui/material";
+import { Box, FormHelperText, InputBase, Stack } from "@mui/material";
 import { TelegramUserContact } from "../../types/Telegram";
 import useAppContext from "../../hooks/useAppContext";
-
-const Wrapper = styled.div`
-  border-radius: 10px;
-  border: none;
-  background: var(--tg-theme-secondary-bg-color, #efeff3);
-  display: flex;
-  width: 100%;
-  padding: 10px 10px 10px 20px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  box-sizing: border-box;
-`;
 
 const SendMessage = ({
   message,
@@ -33,8 +18,20 @@ const SendMessage = ({
   return !Array.isArray(recepient) &&
     devMode.enabled &&
     devMode.features?.sendMessage ? (
-    <Wrapper>
-      <div>
+    <Stack
+      alignItems="center"
+      useFlexGap
+      direction="row"
+      sx={{
+        borderRadius: "10px",
+        border: "none",
+        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+        width: "100%",
+        padding: "10px 10px 10px 20px",
+      }}
+      spacing="16px"
+    >
+      <Box>
         <p
           style={{
             fontSize: "14px",
@@ -64,8 +61,8 @@ const SendMessage = ({
         <FormHelperText sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
           Will be send to the recipient on your behalf
         </FormHelperText>
-      </div>
-    </Wrapper>
+      </Box>
+    </Stack>
   ) : null;
 };
 

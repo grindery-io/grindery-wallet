@@ -4,7 +4,6 @@ import SendPage from "./components/pages/SendPage";
 import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
 import TokensPage from "./components/pages/TokensPage";
 import ContactsPage from "./components/pages/ContactsPage";
-import NFTsPage from "./components/pages/NFTsPage";
 import useAppContext from "./hooks/useAppContext";
 import { Box, CircularProgress } from "@mui/material";
 import ContactPage from "./components/pages/ContactPage";
@@ -26,7 +25,6 @@ const AppRoutes = () => {
       <Route path="/" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
       <Route path="/contacts/:id" element={<ContactPage />} />
-      <Route path="/nfts" element={<NFTsPage />} />
       <Route path="/activities" element={<ActivitiesPage />} />
       <Route path="/activities/:id" element={<ActivityPage />} />
       <Route path="/rewards" element={<RewardsPage />} />

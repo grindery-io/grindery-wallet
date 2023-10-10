@@ -1,29 +1,27 @@
 import React from "react";
-import styled from "styled-components";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useAppContext from "../../hooks/useAppContext";
 import { TOKENS } from "../../constants";
-
-const Wrapper = styled.div`
-  border-radius: 10px;
-  border: none;
-  background: var(--tg-theme-secondary-bg-color, #efeff3);
-  display: flex;
-  width: 100%;
-  padding: 10px 10px 10px 20px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  box-sizing: border-box;
-`;
+import { Box, Stack, Typography } from "@mui/material";
 
 const SelectToken = () => {
   const {
     state: { balance },
   } = useAppContext();
   return (
-    <Wrapper>
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="flex-start"
+      spacing="16px"
+      sx={{
+        padding: "10px 10px 10px 20px",
+        width: "100%",
+        borderRadius: "10px",
+
+        backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
+      }}
+    >
       <img
         src={TOKENS[0].icon}
         alt=""
@@ -34,31 +32,17 @@ const SelectToken = () => {
           borderRadius: "50%",
         }}
       />
-      <div>
-        <p
-          style={{
-            fontSize: "14px",
-            margin: 0,
-            lineHeight: 1.5,
-            color: "var(--tg-theme-text-color, #000000)",
-          }}
-        >
+      <Box>
+        <Typography variant="sm" sx={{ lineHeight: 1.5 }}>
           G1{" "}
           <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
             on Polygon blockchain
           </span>
-        </p>
-        <p
-          style={{
-            fontSize: "12px",
-            margin: 0,
-            lineHeight: 1.5,
-            color: "var(--tg-theme-hint-color, #999999)",
-          }}
-        >
+        </Typography>
+        <Typography variant="xs" sx={{ lineHeight: 1.5 }} color="hint">
           Balance: {balance}
-        </p>
-      </div>
+        </Typography>
+      </Box>
       <ArrowDropDownIcon
         sx={{
           padding: "8px",
@@ -67,7 +51,7 @@ const SelectToken = () => {
           opacity: 0.2,
         }}
       />
-    </Wrapper>
+    </Stack>
   );
 };
 
