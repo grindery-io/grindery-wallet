@@ -101,7 +101,7 @@ const ContactPage = () => {
               left: "50%",
               transform: "translateX(-50%)",
               bottom: 0,
-              background: "var(--tg-theme-bg-color, #ffffff)",
+              //background: "var(--tg-theme-bg-color, #ffffff)",
             }}
           >
             <Button
@@ -115,6 +115,10 @@ const ContactPage = () => {
               fullWidth
               onClick={() => {
                 navigate(`/send/${id}`);
+              }}
+              sx={{
+                boxShadow:
+                  "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
               }}
             >
               Send tokens

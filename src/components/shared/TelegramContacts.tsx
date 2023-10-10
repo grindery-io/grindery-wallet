@@ -214,7 +214,7 @@ const TelegramContacts = ({
                 sx={{
                   position: "fixed",
                   bottom: "0px",
-                  padding: "8px",
+                  padding: "0px 8px 16px",
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
@@ -232,11 +232,21 @@ const TelegramContacts = ({
                     paddingLeft: "48px",
                     paddingRight: "48px",
                     backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+                    boxShadow:
+                      "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
                   }}
                 >
                   Cancel
                 </Button>
-                <Button onClick={onConfirm} fullWidth size="large">
+                <Button
+                  onClick={onConfirm}
+                  fullWidth
+                  size="large"
+                  sx={{
+                    boxShadow:
+                      "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
+                  }}
+                >
                   Send x {selected.length} contact
                   {selected.length > 1 ? "s" : ""}
                 </Button>
