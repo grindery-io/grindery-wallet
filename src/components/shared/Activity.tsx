@@ -1,13 +1,19 @@
 import React from "react";
-import DataBox from "./DataBox";
 import moment from "moment";
 import useAppContext from "../../hooks/useAppContext";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
-import { useNavigate } from "react-router";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "./UserAvatar";
 
@@ -17,8 +23,7 @@ type Props = {
   onAvatarClick?: () => void;
 };
 
-const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
-  const navigate = useNavigate();
+const Activity = ({ activity, onClick }: Props) => {
   const {
     state: { user, devMode },
   } = useAppContext();
@@ -33,14 +38,18 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
   const { formatted } = formatBalance(parseFloat(activity.tokenAmount));
 
   return (
-    <li
-      style={{
-        listStyleType: "none",
-        padding: 0,
+    <ListItem
+      sx={{
         margin: "10px 16px 0",
+        width: "calc(100% - 32px)",
+        padding: 0,
+        backgroundColor: "transparent",
+        border: "1px solid var(--gr-theme-divider-color)",
+        borderRadius: "5px",
       }}
     >
-      <DataBox
+      <ListItemButton
+        sx={{ padding: "10px" }}
         onClick={
           typeof onClick !== "undefined"
             ? onClick
@@ -57,120 +66,106 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
                 }
               }
         }
-        style={{
-          border: "1px solid var(--gr-theme-divider-color)",
-        }}
-        LeftComponent={
+      >
+        <ListItemAvatar
+          sx={{ minWidth: "36px", marginRight: "10px", position: "relative" }}
+        >
+          <UserAvatar user={secondaryUser} size={36} />
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              flexWrap: "nowrap",
-              flexDirection: "row",
-              gap: "16px",
+              position: "absolute",
+              bottom: "-2px",
+              right: "-2px",
+              borderRadius: "50%",
+              background: "var(--tg-theme-bg-color, #ffffff)",
+              padding: "2px",
             }}
           >
-            <Box
-              sx={{
-                width: "36px",
-                height: "36px",
-                minWidth: "36px",
-                position: "relative",
-              }}
-              onClick={
-                typeof onAvatarClick !== "undefined"
-                  ? onAvatarClick
-                  : secondaryUser && "id" in secondaryUser && secondaryUser?.id
-                  ? (e: React.MouseEvent) => {
-                      e.stopPropagation();
-                      navigate(`/contacts/${secondaryUser?.id}`);
-                    }
-                  : undefined
-              }
-            >
-              <UserAvatar user={secondaryUser} size={36} />
-
-              <Box
+            {user?.userTelegramID === activity.senderTgId ? (
+              <CallMadeIcon
                 sx={{
-                  position: "absolute",
-                  bottom: "-2px",
-                  right: "-2px",
-                  borderRadius: "50%",
-                  background: "var(--tg-theme-bg-color, #ffffff)",
-                  padding: "2px",
+                  color: "var(--tg-theme-text-color, #000000)",
+                  display: "block",
+                  fontSize: "12px",
                 }}
-              >
-                {user?.userTelegramID === activity.senderTgId ? (
-                  <CallMadeIcon
-                    sx={{
-                      color: "var(--tg-theme-text-color, #000000)",
-                      display: "block",
-                      fontSize: "12px",
-                    }}
-                  />
-                ) : (
-                  <CallReceivedIcon
-                    sx={{
-                      color: "var(--tg-theme-text-color, #000000)",
-                      display: "block",
-                      fontSize: "12px",
-                    }}
-                  />
-                )}
-              </Box>
-            </Box>
-            <Box>
-              <Typography variant="xs" sx={{ lineHeight: "1.5" }}>
-                {user?.userTelegramID === activity.senderTgId
-                  ? "Sent to"
-                  : "Received from"}{" "}
-                {secondaryUser.name}
-              </Typography>
-
-              <Typography color="hint" variant="xs" sx={{ lineHeight: "1.5" }}>
-                {moment(activity.dateAdded).fromNow()}
-              </Typography>
-            </Box>
+              />
+            ) : (
+              <CallReceivedIcon
+                sx={{
+                  color: "var(--tg-theme-text-color, #000000)",
+                  display: "block",
+                  fontSize: "12px",
+                }}
+              />
+            )}
           </Box>
-        }
-        RightComponent={
-          <Box
+        </ListItemAvatar>
+        <ListItemText
+          sx={{ margin: "0 10px 0 0" }}
+          primary={`${
+            user?.userTelegramID === activity.senderTgId
+              ? "Sent to"
+              : "Received from"
+          } ${secondaryUser.name}`}
+          primaryTypographyProps={{
+            variant: "xs",
+            sx: {
+              lineHeight: 1.5,
+              display: "-webkit-box",
+              maxWidth: "100%",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            },
+          }}
+          secondaryTypographyProps={{
+            variant: "xs",
+            color: "hint",
+            sx: {
+              lineHeight: 1.5,
+              display: "-webkit-box",
+              maxWidth: "100%",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            },
+          }}
+          secondary={moment(activity.dateAdded).fromNow()}
+        ></ListItemText>
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing="6px"
+          ml="auto"
+        >
+          <Typography
+            variant="sm"
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-              gap: "6px",
+              letterSpacing: "0.55px",
+              fontWeight: "bold",
+              color:
+                devMode.features?.coloredNumbers &&
+                user?.userTelegramID !== activity.senderTgId
+                  ? "var(--gr-theme-success-color)"
+                  : undefined,
             }}
           >
-            <Typography
-              variant="sm"
-              sx={{
-                letterSpacing: "0.55px",
-                fontWeight: "bold",
-                color:
-                  devMode.features?.coloredNumbers &&
-                  user?.userTelegramID !== activity.senderTgId
-                    ? "var(--gr-theme-success-color)"
-                    : undefined,
-              }}
-            >
-              {devMode.features?.coloredNumbers && (
-                <>{user?.userTelegramID === activity.senderTgId ? "-" : "+"}</>
-              )}
-              {formatted}
-            </Typography>{" "}
-            <img
-              src="/images/g1-token-red.svg"
-              alt=""
-              width="16"
-              style={{ display: "block" }}
-            />
-          </Box>
-        }
-      />
-    </li>
+            {devMode.features?.coloredNumbers && (
+              <>{user?.userTelegramID === activity.senderTgId ? "-" : "+"}</>
+            )}
+            {formatted}
+          </Typography>{" "}
+          <img
+            src="/images/g1-token-red.svg"
+            alt=""
+            width="16"
+            style={{ display: "block" }}
+          />
+        </Stack>
+      </ListItemButton>
+    </ListItem>
   );
 };
 
