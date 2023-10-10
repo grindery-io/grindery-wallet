@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
@@ -6,17 +6,14 @@ import Title from "../shared/Title";
 import TableRow from "../shared/TableRow";
 import moment from "moment";
 import Button from "../shared/Button";
-import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
-import ContactAvatar from "../shared/ContactAvatar";
-import { TelegramUser, TelegramUserContact } from "../../types/Telegram";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
+import useAppUser from "../../hooks/useAppUser";
+import UserAvatar from "../shared/UserAvatar";
 
 const RewardPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards, activity: activities, contacts, user },
+    state: { rewards, activity: activities, user },
   } = useAppContext();
   const { id } = useParams();
 
@@ -26,79 +23,11 @@ const RewardPage = () => {
     (a) => a.transactionHash === item?.parentTransactionHash
   );
 
-  const [contact, setContact] = useState<
-    TelegramUserContact | TelegramUser | undefined
-  >(contacts?.find((c) => c.id === activity?.recipientTgId));
-
-  const [photo, setPhoto] = useState(
-    localStorage.getItem(
-      "gr_wallet_contact_photo_" +
-        (typeof contact !== "undefined"
-          ? (contact as TelegramUserContact)?.id
-          : "")
-    ) || ""
+  const { user: contact } = useAppUser(
+    (activity?.recipientTgId !== user?.userTelegramID
+      ? activity?.recipientTgId
+      : activity?.senderTgId) || ""
   );
-
-  const getUser = useCallback(async () => {
-    if (contact) return;
-    try {
-      const contactId =
-        activity?.recipientTgId !== user?.userTelegramID
-          ? activity?.recipientTgId
-          : activity?.senderTgId;
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user?id=${contactId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-
-      setContact(res.data);
-    } catch (err) {
-      setContact(undefined);
-    }
-  }, [
-    contact,
-    activity?.recipientTgId,
-    activity?.senderTgId,
-    user?.userTelegramID,
-  ]);
-
-  const getPhoto = useCallback(async () => {
-    if (!contact || !("username" in contact)) {
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setPhoto(res.data.photo || "");
-
-      localStorage.setItem(
-        "gr_wallet_contact_photo_" + contact.id,
-        res.data.photo || "null"
-      );
-    } catch (err) {
-      setPhoto("");
-    }
-  }, [contact]);
-
-  useEffect(() => {
-    if (!photo) {
-      getPhoto();
-    }
-  }, [photo, getPhoto]);
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
 
   return item ? (
     <>
@@ -201,52 +130,16 @@ const RewardPage = () => {
                       color: "var(--tg-theme-link-color, #2481cc)",
                     }}
                   >
-                    {getSecondaryUserDisplayName(contact)}
+                    {contact.name}
                   </span>
                 ) : (
                   "Unknown user"
                 )
               }
-              onValueClick={
-                contact
-                  ? () => {
-                      navigate(
-                        contact && (contact as TelegramUserContact).id
-                          ? `/contacts/${(contact as TelegramUserContact).id}`
-                          : "/"
-                      );
-                    }
-                  : undefined
-              }
-              icon={
-                contact ? (
-                  photo && photo !== "null" ? (
-                    <img
-                      src={photo}
-                      alt=""
-                      style={{
-                        cursor: "pointer",
-                        width: "20px",
-                        height: "20px",
-                        display: "block",
-                        borderRadius: "50%",
-                      }}
-                    />
-                  ) : (
-                    <ContactAvatar
-                      style={{
-                        cursor: "pointer",
-                        width: "20px",
-                        height: "20px",
-                        minWidth: "20px",
-                        borderRadius: "50%",
-                        fontSize: "1rem",
-                      }}
-                      contact={contact}
-                    />
-                  )
-                ) : null
-              }
+              onValueClick={() => {
+                navigate(`/contacts/${contact.id}`);
+              }}
+              icon={<UserAvatar user={contact} size={20} />}
             />
           )}
 

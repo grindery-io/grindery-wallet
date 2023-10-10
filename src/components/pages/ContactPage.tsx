@@ -1,18 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import useAppContext from "../../hooks/useAppContext";
 import useBackButton from "../../hooks/useBackButton";
-import {
-  TelegramUserActivity,
-  TelegramUserContact,
-} from "../../types/Telegram";
-import axios from "axios";
-import { BOT_API_URL, ICONS, MAX_WIDTH } from "../../constants";
-import ContactAvatar from "../shared/ContactAvatar";
+import { TelegramUserActivity } from "../../types/Telegram";
+import { ICONS, MAX_WIDTH } from "../../constants";
 import Button from "../shared/Button";
 import styled from "styled-components";
 import Activity from "../shared/Activity";
 import { Box, Typography } from "@mui/material";
+import useAppUser from "../../hooks/useAppUser";
+import UserAvatar from "../shared/UserAvatar";
 
 const ButtonWrapper = styled.div`
   box-sizing: border-box;
@@ -56,51 +53,22 @@ const ContactPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const { id } = useParams();
-  const contactId = id;
+  const { user: contact } = useAppUser(id || "");
+
   const {
-    state: { contacts, activity },
+    state: { activity },
   } = useAppContext();
-  const contact = (contacts || []).find(
-    (contact: TelegramUserContact) => contact.id === contactId
-  );
-  const [photo, setPhoto] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + contact?.id) || ""
-  );
 
   const contactActivity = activity.filter(
     (act: TelegramUserActivity) =>
-      act.recipientTgId === contactId || act.senderTgId === contactId
+      act.recipientTgId === id || act.senderTgId === id
   );
 
-  const getPhoto = useCallback(async () => {
-    if (!contact?.username) {
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setPhoto(res.data.photo || "");
-
-      localStorage.setItem(
-        "gr_wallet_contact_photo_" + contact.id,
-        res.data.photo || "null"
-      );
-    } catch (err) {
-      setPhoto("");
-    }
-  }, [contact]);
-
   useEffect(() => {
-    if (!photo) {
-      getPhoto();
+    if (!id) {
+      navigate("/");
     }
-  }, [photo, getPhoto]);
+  }, [id, navigate]);
 
   return (
     <>
@@ -112,31 +80,8 @@ const ContactPage = () => {
               position: "relative",
             }}
           >
-            {photo && photo !== "null" ? (
-              <img
-                src={photo}
-                alt=""
-                style={{
-                  width: "130px",
-                  height: "130px",
-                  display: "block",
-                  borderRadius: "50%",
-                }}
-              />
-            ) : (
-              <>
-                <ContactAvatar
-                  style={{
-                    width: "130px",
-                    height: "130px",
-                    minWidth: "130px",
-                    borderRadius: "50%",
-                    fontSize: "2.5rem",
-                  }}
-                  contact={contact}
-                />
-              </>
-            )}
+            <UserAvatar user={contact} size={130} />
+
             {contact.isGrinderyUser && (
               <Box
                 sx={{
@@ -156,13 +101,7 @@ const ContactPage = () => {
             )}
           </Box>
           <Box>
-            <Typography variant="subtitle">
-              {contact.firstName || contact.lastName
-                ? `${contact.firstName}${
-                    contact.lastName ? " " + contact.lastName : ""
-                  }`
-                : `@${contact.username}`}
-            </Typography>
+            <Typography variant="subtitle">{contact.name}</Typography>
           </Box>
 
           {contactActivity && contactActivity.length > 0 && (
@@ -206,7 +145,7 @@ const ContactPage = () => {
               fullWidth
               value="Send tokens"
               onClick={() => {
-                navigate(`/send/${contactId}`);
+                navigate(`/send/${id}`);
               }}
               sx={{ width: "100%" }}
             />

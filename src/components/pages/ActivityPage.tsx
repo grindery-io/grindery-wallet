@@ -1,53 +1,33 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import TableRow from "../shared/TableRow";
-import {
-  TelegramUser,
-  TelegramUserActivity,
-  TelegramUserContact,
-  TelegramUserReward,
-} from "../../types/Telegram";
-import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
-import ContactAvatar from "../shared/ContactAvatar";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
+import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import moment from "moment";
 import Button from "../shared/Button";
 import TransactionIcon from "../icons/TransactionIcon";
 import { Box, Typography } from "@mui/material";
+import useAppUser from "../../hooks/useAppUser";
+import UserAvatar from "../shared/UserAvatar";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards, activity, contacts, user },
+    state: { rewards, activity, user },
   } = useAppContext();
   const { id } = useParams();
 
   const item = activity.find((item) => item._id === id);
-  const [contact, setContact] = useState<
-    TelegramUserContact | TelegramUser | undefined
-  >(
-    contacts?.find((contact: TelegramUserContact) =>
-      item?.recipientTgId !== user?.userTelegramID
-        ? contact.id === item?.recipientTgId
-        : contact.id === item?.senderTgId
-    )
-  );
-  const [photo, setPhoto] = useState(
-    localStorage.getItem(
-      "gr_wallet_contact_photo_" +
-        (typeof contact !== "undefined"
-          ? (contact as TelegramUserContact)?.id
-          : "")
-    ) || ""
+  const { user: contact } = useAppUser(
+    (item?.recipientTgId !== user?.userTelegramID
+      ? item?.recipientTgId
+      : item?.senderTgId) || ""
   );
 
   const hasReferralReward =
-    contact &&
-    (contact as TelegramUserContact).isInvited &&
+    contact.isInvited &&
     (rewards.received.find(
       (reward: TelegramUserReward) =>
         reward.parentTransactionHash === item?.transactionHash
@@ -57,66 +37,7 @@ const ActivityPage = () => {
           reward.transactionHash === item?.transactionHash
       )?._id);
 
-  const referralRewardStatus =
-    contact && (contact as TelegramUserContact).isGrinderyUser
-      ? "Received"
-      : "Pending";
-
-  const getUser = useCallback(async () => {
-    if (contact) return;
-    try {
-      const contactId =
-        item?.recipientTgId !== user?.userTelegramID
-          ? item?.recipientTgId
-          : item?.senderTgId;
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user?id=${contactId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-
-      setContact(res.data);
-    } catch (err) {
-      setContact(undefined);
-    }
-  }, [contact, item?.recipientTgId, item?.senderTgId, user?.userTelegramID]);
-
-  const getPhoto = useCallback(async () => {
-    if (!contact || !("username" in contact)) {
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setPhoto(res.data.photo || "");
-
-      localStorage.setItem(
-        "gr_wallet_contact_photo_" + contact.id,
-        res.data.photo || "null"
-      );
-    } catch (err) {
-      setPhoto("");
-    }
-  }, [contact]);
-
-  useEffect(() => {
-    if (!photo) {
-      getPhoto();
-    }
-  }, [photo, getPhoto]);
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
+  const referralRewardStatus = contact.isGrinderyUser ? "Received" : "Pending";
 
   return item ? (
     <>
@@ -169,60 +90,11 @@ const ActivityPage = () => {
                 ? "Recipient"
                 : "Sender"
             }
-            value={
-              contact ? (
-                <span
-                  style={{
-                    cursor: "pointer",
-                    color: "var(--tg-theme-link-color, #2481cc)",
-                  }}
-                >
-                  {getSecondaryUserDisplayName(contact)}
-                </span>
-              ) : (
-                "Unknown user"
-              )
-            }
-            onValueClick={
-              contact
-                ? () => {
-                    navigate(
-                      contact && (contact as TelegramUserContact).id
-                        ? `/contacts/${(contact as TelegramUserContact).id}`
-                        : "/"
-                    );
-                  }
-                : undefined
-            }
-            icon={
-              contact ? (
-                photo && photo !== "null" ? (
-                  <img
-                    src={photo}
-                    alt=""
-                    style={{
-                      cursor: "pointer",
-                      width: "20px",
-                      height: "20px",
-                      display: "block",
-                      borderRadius: "50%",
-                    }}
-                  />
-                ) : (
-                  <ContactAvatar
-                    style={{
-                      cursor: "pointer",
-                      width: "20px",
-                      height: "20px",
-                      minWidth: "20px",
-                      borderRadius: "50%",
-                      fontSize: "1rem",
-                    }}
-                    contact={contact}
-                  />
-                )
-              ) : null
-            }
+            value={contact.name}
+            onValueClick={() => {
+              navigate(`/contacts/${contact.id}`);
+            }}
+            icon={<UserAvatar user={contact} size={20} />}
           />
 
           <TableRow

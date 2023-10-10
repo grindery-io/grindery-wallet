@@ -1,19 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import DataBox from "./DataBox";
 import moment from "moment";
 import useAppContext from "../../hooks/useAppContext";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
-import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
-import {
-  TelegramUser,
-  TelegramUserContact,
-  TelegramUserReward,
-} from "../../types/Telegram";
+import { TelegramUserReward } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
 import { useNavigate } from "react-router";
+import useAppUser from "../../hooks/useAppUser";
+import UserAvatar from "./UserAvatar";
+import { Typography } from "@mui/material";
 
 type Props = {
   reward: TelegramUserReward;
@@ -24,7 +20,7 @@ type Props = {
 const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
   const navigate = useNavigate();
   const {
-    state: { user, contacts, activity: activities },
+    state: { user, activity: activities },
   } = useAppContext();
 
   const activity = activities.find(
@@ -36,95 +32,9 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
       ? activity?.recipientTgId
       : activity?.senderTgId;
 
-  const [secondaryUser, setSecondaryUser] = useState<
-    TelegramUserContact | TelegramUser | undefined
-  >(contacts?.find((contact) => contact.id === secondaryUserId));
+  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
 
-  const [photo, setPhoto] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + secondaryUserId) || ""
-  );
   const { formatted } = formatBalance(parseFloat(reward.amount));
-
-  const getUser = useCallback(async () => {
-    if (!secondaryUserId) return;
-    if (secondaryUser) return;
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user?id=${secondaryUserId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-
-      setSecondaryUser(res.data);
-    } catch (err) {
-      setSecondaryUser(undefined);
-    }
-  }, [secondaryUserId, secondaryUser]);
-
-  const getAvatarText = () => {
-    let avatarText = "";
-    if (secondaryUser) {
-      if ("firstName" in secondaryUser && secondaryUser.firstName) {
-        avatarText += secondaryUser.firstName.charAt(0).toUpperCase();
-      }
-      if ("lastName" in secondaryUser && secondaryUser.lastName) {
-        avatarText += secondaryUser.lastName.charAt(0).toUpperCase();
-      }
-      if (
-        !avatarText &&
-        "username" in secondaryUser &&
-        secondaryUser.username
-      ) {
-        avatarText += secondaryUser.username.charAt(0).toUpperCase();
-      }
-    }
-    return avatarText || "U";
-  };
-
-  const getPhoto = useCallback(async () => {
-    if (!secondaryUser || "username"! in secondaryUser) {
-      return;
-    }
-    if (
-      "username" in secondaryUser &&
-      "id" in secondaryUser &&
-      secondaryUser.username
-    ) {
-      try {
-        const res = await axios.get(
-          `${BOT_API_URL}/v1/telegram/user/photo?username=${secondaryUser.username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${
-                window.Telegram?.WebApp?.initData || ""
-              }`,
-            },
-          }
-        );
-        setPhoto(res.data.photo || "");
-
-        localStorage.setItem(
-          "gr_wallet_contact_photo_" + secondaryUser.id,
-          res.data.photo || "null"
-        );
-      } catch (err) {
-        setPhoto("");
-      }
-    }
-  }, [secondaryUser]);
-
-  useEffect(() => {
-    if (!photo) {
-      getPhoto();
-    }
-  }, [photo, getPhoto]);
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
 
   return (
     <li
@@ -182,28 +92,13 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
               onClick={
                 typeof onAvatarClick !== "undefined"
                   ? onAvatarClick
-                  : secondaryUser && "id" in secondaryUser && secondaryUser?.id
-                  ? (e: React.MouseEvent) => {
+                  : (e: React.MouseEvent) => {
                       e.stopPropagation();
-                      navigate(`/contacts/${secondaryUser?.id}`);
+                      navigate(`/contacts/${secondaryUser.id}`);
                     }
-                  : undefined
               }
             >
-              {photo && photo !== "null" ? (
-                <img
-                  src={photo}
-                  alt=""
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    display: "block",
-                    borderRadius: "50%",
-                  }}
-                />
-              ) : (
-                getAvatarText()
-              )}
+              <UserAvatar user={secondaryUser} size={36} />
               <div
                 style={{
                   position: "absolute",
@@ -234,27 +129,24 @@ const ReferralReward = ({ reward, onClick, onAvatarClick }: Props) => {
               </div>
             </div>
             <div>
-              <p
-                style={{
+              <Typography
+                variant="xs"
+                sx={{
                   lineHeight: "1.5",
-                  fontSize: "12px",
-                  margin: 0,
-                  color: "var(--tg-theme-text-color, #000000)",
                 }}
               >
                 Referral reward
-              </p>
+              </Typography>
 
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "12px",
-                  color: "var(--tg-theme-hint-color, #999999)",
+              <Typography
+                color="hint"
+                variant="xs"
+                sx={{
                   lineHeight: "1.5",
                 }}
               >
-                {getSecondaryUserDisplayName(secondaryUser)}
-              </p>
+                {secondaryUser.name}
+              </Typography>
             </div>
           </div>
         }
