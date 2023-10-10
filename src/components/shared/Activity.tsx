@@ -46,6 +46,7 @@ const Activity = ({ activity, onClick }: Props) => {
         backgroundColor: "transparent",
         border: "1px solid var(--gr-theme-divider-color)",
         borderRadius: "5px",
+        overflow: "hidden",
       }}
     >
       <ListItemButton

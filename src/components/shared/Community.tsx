@@ -31,7 +31,6 @@ const Community = ({ data }: Props) => {
         width: "calc(100% - 32px)",
         padding: 0,
         backgroundColor: "transparent",
-
         borderBottom: "1px solid var(--gr-theme-divider-color)",
       }}
     >
