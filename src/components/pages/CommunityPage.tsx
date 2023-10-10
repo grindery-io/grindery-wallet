@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import SearchBox, { Filter } from "../shared/SearchBox";
@@ -114,15 +114,15 @@ const CommunityPage = () => {
                 </List>
               </Box>
             ) : (
-              <p
+              <Typography
                 style={{
                   margin: "50px 20px",
                   textAlign: "center",
-                  opacity: 0.6,
                 }}
+                color="hint"
               >
-                Coming soon
-              </p>
+                Nothing found
+              </Typography>
             )}
           </>
         </div>
