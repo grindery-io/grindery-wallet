@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import DataBox from "./DataBox";
 import { TelegramUserContact } from "../../types/Telegram";
-import ContactAvatar from "./ContactAvatar";
-import { BOT_API_URL } from "../../constants";
-import axios from "axios";
 import CheckIcon from "../icons/CheckIcon";
 import { useLongPress } from "use-long-press";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import useAppUser from "../../hooks/useAppUser";
+import UserAvatar from "./UserAvatar";
 
 type Props = {
   contact: TelegramUserContact;
@@ -23,44 +22,12 @@ const TelegramContact = ({
   onContactClick,
   onContactPress,
 }: Props) => {
-  const [photo, setPhoto] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + contact.id) || ""
-  );
+  const { user } = useAppUser(contact.id);
   const bind = useLongPress(() => {
     if (typeof onContactPress !== "undefined") {
       onContactPress(contact);
     }
   });
-
-  const getPhoto = useCallback(async () => {
-    if (!contact.username) {
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user/photo?username=${contact.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setPhoto(res.data.photo || "");
-
-      localStorage.setItem(
-        "gr_wallet_contact_photo_" + contact.id,
-        res.data.photo || "null"
-      );
-    } catch (err) {
-      setPhoto("");
-    }
-  }, [contact]);
-
-  useEffect(() => {
-    if (!photo) {
-      getPhoto();
-    }
-  }, [photo, getPhoto]);
 
   return (
     <li
@@ -85,8 +52,8 @@ const TelegramContact = ({
             : "none",
         }}
         LeftComponent={
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
@@ -95,31 +62,15 @@ const TelegramContact = ({
               gap: "16px",
             }}
           >
-            <div
-              style={{
+            <Box
+              sx={{
                 position: "relative",
               }}
             >
-              {photo && photo !== "null" ? (
-                <img
-                  src={photo}
-                  alt=""
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    display: "block",
-                    borderRadius: "50%",
-                  }}
-                />
-              ) : (
-                <>
-                  {/*<Jazzicon diameter={36} seed={parseFloat(contact.id)} />*/}
-                  <ContactAvatar contact={contact} />
-                </>
-              )}
+              <UserAvatar size={36} user={user} />
               {contact.isGrinderyUser && (
-                <div
-                  style={{
+                <Box
+                  sx={{
                     position: "absolute",
                     bottom: "-6px",
                     right: "-6px",
@@ -132,10 +83,10 @@ const TelegramContact = ({
                     alt=""
                     style={{ width: "16px", height: "16px", display: "block" }}
                   />
-                </div>
+                </Box>
               )}
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Typography sx={{ lineHeight: "1.5" }} variant="xs">
                 {contact.firstName || contact.lastName
                   ? `${contact.firstName}${
@@ -153,16 +104,16 @@ const TelegramContact = ({
                   @{contact.username}
                 </Typography>
               ) : null}
-            </div>
-          </div>
+            </Box>
+          </Box>
         }
         onClick={() => {
           onContactClick(contact);
         }}
         RightComponent={
           selected ? (
-            <div
-              style={{
+            <Box
+              sx={{
                 position: "relative",
                 top: "-6px",
                 display: "flex",
@@ -186,10 +137,10 @@ const TelegramContact = ({
                   fill="white"
                 />
               </svg>
-            </div>
+            </Box>
           ) : contact.isInvited && !contact.isGrinderyUser ? (
-            <div
-              style={{
+            <Box
+              sx={{
                 position: "relative",
                 top: "-6px",
                 display: "flex",
@@ -204,7 +155,7 @@ const TelegramContact = ({
                 Invited
               </Typography>
               <CheckIcon />
-            </div>
+            </Box>
           ) : undefined
         }
       />

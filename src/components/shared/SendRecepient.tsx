@@ -1,24 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import { getSecondaryUserDisplayName } from "../../utils/getSecondaryUserDisplayName";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { TelegramUserContact } from "../../types/Telegram";
-import ContactAvatar from "./ContactAvatar";
-
-const Wrapper = styled.div`
-  border-radius: 10px;
-  border: none;
-  background: var(--tg-theme-secondary-bg-color, #efeff3);
-  display: flex;
-  width: 100%;
-  padding: 10px 10px 10px 20px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  box-sizing: border-box;
-`;
+import useAppUser from "../../hooks/useAppUser";
+import UserAvatar from "./UserAvatar";
 
 const SendRecepient = ({
   recepient,
@@ -33,63 +18,48 @@ const SendRecepient = ({
       ? recepient[0]
       : recepient
     : null;
-  const photo = isSingle
-    ? localStorage.getItem("gr_wallet_contact_photo_" + contact?.id)
-    : null;
+  const { user } = useAppUser(contact?.id || "");
   return (
-    <Wrapper>
-      {isSingle && (
-        <>
-          {photo && photo !== "null" ? (
-            <img
-              src={photo}
-              alt=""
-              style={{
-                width: "36px",
-                height: "36px",
-                display: "block",
-                borderRadius: "50%",
-              }}
-            />
-          ) : (
-            <ContactAvatar contact={contact} />
-          )}
-        </>
-      )}
+    <Stack
+      alignItems="center"
+      useFlexGap
+      direction="row"
+      sx={{
+        borderRadius: "10px",
+        border: "none",
+        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+        width: "100%",
+        padding: "10px 10px 10px 20px",
+      }}
+      spacing="16px"
+    >
+      {isSingle && <UserAvatar size={36} user={user} />}
 
-      <div>
-        <p
-          style={{
-            fontSize: "14px",
-            margin: 0,
-            lineHeight: 1.5,
-            color: "var(--tg-theme-text-color, #000000)",
-          }}
-        >
+      <Box>
+        <Typography variant="sm" sx={{ lineHeight: 1.5 }}>
           Recipient{!isSingle ? "s" : ""}
-        </p>
-        <p
-          style={{
-            fontSize: "14px",
-            margin: 0,
-            lineHeight: 1.5,
-            color: "var(--tg-theme-hint-color, #999999)",
-          }}
-        >
+        </Typography>
+        <Typography color="hint" variant="sm" sx={{ lineHeight: 1.5 }}>
           {isSingle && contact ? (
             <>
-              {getSecondaryUserDisplayName(contact)}
-              {contact.username ? ` | @${contact.username}` : ""}
+              {user.name}
+              {user.username ? ` | @${user.username}` : ""}
             </>
           ) : (
             <>{Array.isArray(recepient) ? recepient.length : 0} contacts</>
           )}
-        </p>
-      </div>
-      <IconButton onClick={onClear} sx={{ marginLeft: "auto" }}>
-        <CloseIcon style={{ color: "var(--tg-theme-hint-color, #999999)" }} />
-      </IconButton>
-    </Wrapper>
+        </Typography>
+      </Box>
+      <Box sx={{ marginLeft: "auto" }}>
+        <IconButton onClick={onClear}>
+          <CloseIcon
+            sx={{
+              color: "var(--tg-theme-hint-color, #999999)",
+            }}
+          />
+        </IconButton>
+      </Box>
+    </Stack>
   );
 };
 
