@@ -223,24 +223,13 @@ const DebugPage = () => {
                 primary="User ID"
                 sx={{ color: "var(--tg-theme-text-color, #000000)" }}
               />
-              <ListItemSecondaryAction
-                onClick={() => {
-                  if (
-                    typeof window.Telegram?.WebApp?.openTelegramLink !==
-                    "undefined"
-                  ) {
-                    window.Telegram?.WebApp?.openTelegramLink(
-                      "tg://user?id=" + user?.userTelegramID
-                    );
-                  }
-                }}
-              >
+              <ListItemSecondaryAction>
                 <ListItemText
                   secondary={user?.userTelegramID || "N/A"}
                   sx={{
-                    color: "var(--tg-theme-link-color, #2481cc)",
+                    color: "var(--tg-theme-hint-color, #999999)",
                     "& .MuiListItemText-secondary": {
-                      color: "var(--tg-theme-link-color, #2481cc)",
+                      color: "var(--tg-theme-hint-color, #999999)",
                     },
                   }}
                 />
