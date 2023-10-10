@@ -20,7 +20,7 @@ type Props = {
 const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
   const navigate = useNavigate();
   const {
-    state: { user },
+    state: { user, devMode },
   } = useAppContext();
 
   const secondaryUserId =
@@ -144,7 +144,21 @@ const Activity = ({ activity, onClick, onAvatarClick }: Props) => {
               gap: "6px",
             }}
           >
-            <Typography variant="sm" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="sm"
+              sx={{
+                letterSpacing: "0.55px",
+                fontWeight: "bold",
+                color:
+                  devMode.features?.coloredNumbers &&
+                  user?.userTelegramID !== activity.senderTgId
+                    ? "var(--gr-theme-success-color)"
+                    : undefined,
+              }}
+            >
+              {devMode.features?.coloredNumbers && (
+                <>{user?.userTelegramID === activity.senderTgId ? "-" : "+"}</>
+              )}
               {formatted}
             </Typography>{" "}
             <img

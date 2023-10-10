@@ -363,6 +363,35 @@ const DebugPage = () => {
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
+                <ListItem>
+                  <ListItemText
+                    primary="Colored numbers"
+                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                  />
+                  <ListItemSecondaryAction>
+                    <StyledSwitch
+                      checked={devMode.features?.coloredNumbers}
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        setState({
+                          devMode: {
+                            ...devMode,
+                            features: {
+                              ...devMode.features,
+                              coloredNumbers: event.target.checked,
+                            },
+                          },
+                        });
+                        localStorage.setItem(
+                          "grindery_wallet_features_colored_numbers",
+                          event.target.checked ? "true" : "false"
+                        );
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
               </>
             )}
           </>

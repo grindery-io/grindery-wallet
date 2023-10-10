@@ -102,6 +102,9 @@ const defaultContext = {
         sendMessage:
           localStorage.getItem("grindery_wallet_features_send_message") ===
           "true",
+        coloredNumbers:
+          localStorage.getItem("grindery_wallet_features_colored_numbers") ===
+          "true",
       },
     },
   },
