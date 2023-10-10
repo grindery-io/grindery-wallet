@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
-import { Box, Button, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import TelegramContact from "./TelegramContact";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -159,7 +165,7 @@ const TelegramContacts = ({
   };
 
   return (
-    <div style={{ textAlign: "left" }}>
+    <Box sx={{ textAlign: "left" }}>
       <SearchBox
         placeholder="Contacts"
         value={search}
@@ -202,7 +208,9 @@ const TelegramContacts = ({
           {typeof onSelect !== "undefined" &&
             selected &&
             selected.length > 0 && (
-              <Box
+              <Stack
+                direction="row"
+                spacing="8px"
                 sx={{
                   position: "fixed",
                   bottom: "0px",
@@ -211,76 +219,42 @@ const TelegramContacts = ({
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "8px",
-                  flexWrap: "nowrap",
                   width: "100%",
                   maxWidth: "768px",
-                  boxSizing: "border-box",
                   zIndex: 2,
-                  "& button": {},
                 }}
               >
                 <Button
                   onClick={onCancel}
                   variant="outlined"
-                  color="secondary"
+                  size="large"
                   sx={{
-                    background: "var(--tg-theme-bg-color, #ffffff)",
-                    border: "1px solid var(--tg-theme-button-color, #2481cc)",
-                    color: "var(--tg-theme-button-color, #2481cc)",
-                    padding: "12px 40px !important",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                    textTransform: "none",
-                    boxShadow:
-                      "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
-                    "&:hover": {
-                      color: "var(--tg-theme-button-color, #2481cc)",
-                      background: "var(--tg-theme-bg-color, #ffffff)",
-                      opacity: "1 !important",
-                      border: "1px solid var(--tg-theme-button-color, #2481cc)",
-                    },
+                    paddingLeft: "48px",
+                    paddingRight: "48px",
+                    backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
                   }}
                 >
                   Cancel
                 </Button>
-                <Button
-                  onClick={onConfirm}
-                  variant="contained"
-                  color="secondary"
-                  sx={{
-                    flex: 1,
-                    padding: "13px 24px !important",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                    textTransform: "none",
-                    background: "var(--tg-theme-button-color, #2481cc)",
-                    color: "var(--tg-theme-button-text-color, #ffffff)",
-                    boxShadow:
-                      "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
-                    "&:hover": {
-                      opacity: "1 !important",
-                      background: "var(--tg-theme-button-color, #2481cc)",
-                      color: "var(--tg-theme-button-text-color, #ffffff)",
-                    },
-                  }}
-                >
+                <Button onClick={onConfirm} fullWidth size="large">
                   Send x {selected.length} contact
                   {selected.length > 1 ? "s" : ""}
                 </Button>
-              </Box>
+              </Stack>
             )}
         </>
       ) : contactsLoading ? (
-        <div style={{ margin: "50px", textAlign: "center" }}>
+        <Box sx={{ margin: "50px", textAlign: "center" }}>
           <CircularProgress
             sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
           />
-        </div>
+        </Box>
       ) : (
-        <p style={{ margin: "20px" }}>Your contacts list is empty.</p>
+        <Typography sx={{ margin: "20px" }}>
+          Your contacts list is empty.
+        </Typography>
       )}
-    </div>
+    </Box>
   );
 };
 

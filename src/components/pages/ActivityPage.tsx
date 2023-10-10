@@ -5,9 +5,8 @@ import useBackButton from "../../hooks/useBackButton";
 import TableRow from "../shared/TableRow";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import moment from "moment";
-import Button from "../shared/Button";
 import TransactionIcon from "../icons/TransactionIcon";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
 
@@ -219,28 +218,14 @@ const ActivityPage = () => {
           }}
         >
           <Button
-            sx={{
-              padding: "10px 20px !important",
-              fontSize: "14px",
-              width: "100%",
-              background: "var(--tg-theme-bg-color, #ffffff)",
-              border: "1px solid var(--tg-theme-button-color, #2481cc)",
-              color: "var(--tg-theme-button-color, #2481cc)",
-              "&:hover": {
-                background: "var(--tg-theme-bg-color, #ffffff)",
-                border: "1px solid var(--tg-theme-button-color, #2481cc)",
-                color: "var(--tg-theme-button-color, #2481cc)",
-                opacity: 1,
-              },
-            }}
             fullWidth
-            value="Close"
             variant="outlined"
-            color="secondary"
             onClick={() => {
               navigate(-1);
             }}
-          />
+          >
+            Close
+          </Button>
         </Box>
       </Box>
     </>

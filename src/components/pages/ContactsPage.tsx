@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
 import { useNavigate } from "react-router";
 import Contacts from "../shared/Contacts";
-import Button from "../shared/Button";
 import BulletPoints from "../shared/BulletPoints";
 import Title from "../shared/Title";
+import { Box, Button } from "@mui/material";
 
 const ContactsPage = () => {
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ const ContactsPage = () => {
           navigate(`/contacts/${contact.id}`);
         }}
         placeholder={
-          <div style={{ padding: "12px 16px 50px" }}>
-            <div style={{ margin: "32px auto 24px" }}>
+          <Box sx={{ padding: "12px 16px 50px" }}>
+            <Box sx={{ margin: "32px auto 24px" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="49"
@@ -42,52 +42,36 @@ const ContactsPage = () => {
                   strokeWidth="1.5"
                 />
               </svg>
-            </div>
+            </Box>
             <Title>Your crypto wallet with social super powers!</Title>
             <Button
-              variant="contained"
-              color="secondary"
-              size="small"
               fullWidth
-              sx={{
-                padding: "10px 20px !important",
-                fontSize: "14px",
-                width: "100%",
-                backgroundColor:
-                  "var(--tg-theme-button-color, #2481cc) !important",
-                color: "var(--tg-theme-button-text-color, #ffffff)",
-                boxShadow: "none",
-                "&:hover": {
-                  backgroundColor:
-                    "var(--tg-theme-button-color, #2481cc) !important",
-                  color: "var(--tg-theme-button-text-color, #ffffff)",
-                  boxShadow: "none",
-                  opacity: 1,
-                },
-              }}
               disabled={connecting}
               onClick={() => {
                 setConnecting(true);
-                if (window.Telegram?.WebApp?.openLink) {
-                  window.Telegram.WebApp.openLink(
-                    `${
-                      window.location.protocol + "//" + window.location.host
-                    }/connect/telegram?${
-                      window.Telegram?.WebApp?.initData || ""
-                    }`
-                  );
-                } else {
-                  window.open(
-                    `${
-                      window.location.protocol + "//" + window.location.host
-                    }/connect/telegram?${
-                      window.Telegram?.WebApp?.initData || ""
-                    }`
-                  );
-                }
+                setTimeout(() => {
+                  if (window.Telegram?.WebApp?.openLink) {
+                    window.Telegram.WebApp.openLink(
+                      `${
+                        window.location.protocol + "//" + window.location.host
+                      }/connect/telegram?${
+                        window.Telegram?.WebApp?.initData || ""
+                      }`
+                    );
+                  } else {
+                    window.open(
+                      `${
+                        window.location.protocol + "//" + window.location.host
+                      }/connect/telegram?${
+                        window.Telegram?.WebApp?.initData || ""
+                      }`
+                    );
+                  }
+                }, 500);
               }}
-              value="Grant Access"
-            />
+            >
+              Grant Access
+            </Button>
             <BulletPoints
               style={{ marginTop: "24px" }}
               items={[
@@ -98,7 +82,7 @@ const ContactsPage = () => {
                 "and more to come…",
               ]}
             />
-          </div>
+          </Box>
         }
       />
 

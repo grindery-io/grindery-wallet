@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import { TelegramUserContact } from "../../types/Telegram";
 import axios from "axios";
@@ -50,68 +50,30 @@ const SendButtonsGroup = ({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "16px",
-        flexWrap: "nowrap",
-        marginTop: "auto",
-        marginBottom: "10px",
-      }}
+    <Stack
+      direction="row"
+      spacing="16px"
+      mt="auto"
+      mb="10px"
+      bgcolor="var(--tg-theme-bg-color, #ffffff)"
     >
-      <div style={{ flex: 1 }}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          onClick={() => {
-            navigate(-1);
-          }}
-          sx={{
-            textTransform: "none",
-            fontWeight: "normal",
-            border: "1px solid var(--tg-theme-button-color, #2481cc)",
-            color: "var(--tg-theme-button-color, #2481cc)",
-            background: "var(--tg-theme-bg-color, #ffffff)",
-            boxShadow: "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
-            "&:hover": {
-              border: "1px solid var(--tg-theme-button-color, #2481cc)",
-              color: "var(--tg-theme-button-color, #2481cc)",
-              background: "var(--tg-theme-bg-color, #ffffff)",
-              opacity: 1,
-            },
-          }}
-        >
-          Cancel
-        </Button>
-      </div>
-      <div style={{ flex: 1 }}>
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth
-          disabled={status === "sending" || !input.amount || !input.recipient}
-          sx={{
-            textTransform: "none",
-            fontWeight: "normal",
-            background: "var(--tg-theme-button-color, #2481cc)",
-            color: "var(--tg-theme-button-text-color, #ffffff)",
-            boxShadow: "5px 5px 20px 0px var(--tg-theme-bg-color, #ffffff)",
-            "&:hover": {
-              opacity: "1 !important",
-              background: "var(--tg-theme-button-color, #2481cc)",
-              color: "var(--tg-theme-button-text-color, #ffffff)",
-            },
-            "&:disabled": {
-              opacity: "0.3 !important",
-              background: "var(--tg-theme-button-color, #2481cc)",
-              color: "var(--tg-theme-button-text-color, #ffffff)",
-            },
-          }}
-          onClick={() => {
+      <Button
+        variant="outlined"
+        onClick={() => {
+          navigate(-1);
+        }}
+        size="large"
+        fullWidth
+      >
+        Cancel
+      </Button>
+
+      <Button
+        fullWidth
+        disabled={status === "sending" || !input.amount || !input.recipient}
+        size="large"
+        onClick={() => {
+          setTimeout(() => {
             if (window.Telegram?.WebApp?.showConfirm) {
               window.Telegram?.WebApp?.showConfirm(
                 "You are going to send " +
@@ -141,12 +103,12 @@ const SendButtonsGroup = ({
                 sendTokens();
               }
             }
-          }}
-        >
-          {status === "sending" ? "Sending..." : "Send"}
-        </Button>
-      </div>
-    </div>
+          }, 250);
+        }}
+      >
+        {status === "sending" ? "Sending..." : "Send"}
+      </Button>
+    </Stack>
   );
 };
 

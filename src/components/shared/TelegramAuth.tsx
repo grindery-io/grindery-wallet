@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "../shared/Button";
 import AlertBox from "../shared/AlertBox";
 import useAppContext from "../../hooks/useAppContext";
 import BulletPoints from "./BulletPoints";
 import Subtitle from "./Subtitle";
 import Title from "./Title";
+import { Box, Button } from "@mui/material";
 
 const Container = styled.div`
   display: flex;
@@ -91,21 +91,6 @@ const InputGroup = styled.div`
     &.error {
       color: #ff5858;
     }
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  margin: 24px 0 0;
-
-  & > div {
-    margin: 0;
-  }
-
-  & button {
-    font-size: 14px;
-    padding: 10px 20px !important;
-    width: 100% !important;
-    box-sizing: border-box;
   }
 `;
 
@@ -295,30 +280,15 @@ const TelegramAuth = () => {
             </AlertBox>
           )}
 
-          <ButtonWrapper>
+          <Box mt="24px">
             <Button
-              color="secondary"
-              variant="contained"
-              sx={{
-                width: "100%",
-                backgroundColor:
-                  "var(--tg-theme-button-color, #2481cc) !important",
-                color: "var(--tg-theme-button-text-color, #ffffff)",
-                boxShadow: "none",
-                "&:hover": {
-                  backgroundColor:
-                    "var(--tg-theme-button-color, #2481cc) !important",
-                  color: "var(--tg-theme-button-text-color, #ffffff)",
-                  boxShadow: "none",
-                  opacity: 1,
-                },
-              }}
-              loading={loading}
+              fullWidth
               disabled={loading}
               onClick={!operationId ? submitPhoneAndPassword : submitPhoneCode}
-              value={loading ? "Loading" : "Submit"}
-            />
-          </ButtonWrapper>
+            >
+              {loading ? "Loading" : "Submit"}
+            </Button>
+          </Box>
         </Form>
         <div>
           <Subtitle>Our Commitment to Data Security:</Subtitle>

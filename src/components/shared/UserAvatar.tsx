@@ -21,7 +21,7 @@ const UserAvatar = ({ user, size, sx }: Props) => {
         ...(sx || {}),
       }}
     >
-      {user.avatar ? (
+      {user.avatar && user.avatar !== "null" ? (
         <img
           src={user.avatar}
           alt=""

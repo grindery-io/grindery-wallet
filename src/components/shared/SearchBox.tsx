@@ -234,24 +234,9 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
           })}
         <Box sx={{ padding: "6px 16px" }}>
           <Button
+            fullWidth
             variant="outlined"
             size="small"
-            color="secondary"
-            sx={{
-              fontSize: "12px",
-              padding: "8px 16px",
-              textAlign: "center",
-              width: "100%",
-              justifyContent: "center",
-              margin: "6px 0 0",
-              color: "var(--tg-theme-button-color, #2481cc)",
-              borderColor: "var(--tg-theme-button-color, #2481cc)",
-              "&:hover": {
-                color: "var(--tg-theme-button-color, #2481cc)",
-                borderColor: "var(--tg-theme-button-color, #2481cc)",
-                opacity: 1,
-              },
-            }}
             onClick={handleClose}
           >
             Search

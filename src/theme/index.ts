@@ -3,7 +3,6 @@ import palette from "./palette";
 import severity from "./severity";
 import typography from "./typography";
 import MuiTooltip from "./components/MuiTooltip";
-import MuiButton from "./components/MuiButton";
 import MuiDivider from "./components/MuiDivider";
 
 declare module "@mui/material/styles" {
@@ -32,7 +31,107 @@ const theme = createTheme({
   severity: severity,
   typography: typography,
   components: {
-    MuiButton: MuiButton,
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          borderRadius: "8px",
+          padding: "10px 20px",
+          fontFamily: "Geologica",
+          fontWeight: "700",
+          fontSize: 14,
+          lineHeight: "150%",
+          color: "var(--tg-theme-button-text-color, #ffffff)",
+          boxShadow: "none",
+          margin: "0px",
+          backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+          border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          "& .MuiTouchRipple-root": {
+            marginRight: 0,
+          },
+          "&:disabled": {
+            opacity: 0.4,
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+          },
+          "&:active": {
+            boxShadow: "none",
+          },
+          "&:hover": {
+            opacity: 1,
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+            border: "1px solid var(----tg-theme-button-color, #2481CC)",
+            boxShadow: "none",
+          },
+        },
+        containedPrimary: {
+          color: "var(--tg-theme-button-text-color, #ffffff)",
+          backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+          border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          "&:hover": {
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+            border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          },
+          "&:disabled": {
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+          },
+        },
+        containedSecondary: {
+          color: "var(--tg-theme-button-text-color, #ffffff)",
+          backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+          border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          "&:hover": {
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+            border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          },
+          "&:disabled": {
+            color: "var(--tg-theme-button-text-color, #ffffff)",
+            backgroundColor: "var(----tg-theme-button-color, #2481CC)",
+          },
+        },
+        outlinedPrimary: {
+          color: "var(----tg-theme-button-color, #2481CC)",
+          backgroundColor: "transparent",
+          border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          "&:hover": {
+            color: "var(----tg-theme-button-color, #2481CC)",
+            backgroundColor: "transparent",
+            border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          },
+          "&:disabled": {
+            color: "var(----tg-theme-button-color, #2481CC)",
+            backgroundColor: "transparent",
+          },
+        },
+        outlinedSecondary: {
+          color: "var(----tg-theme-button-color, #2481CC)",
+          backgroundColor: "transparent",
+          border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          "&:hover": {
+            color: "var(----tg-theme-button-color, #2481CC)",
+            backgroundColor: "transparent",
+            border: "1px solid var(----tg-theme-button-color, #2481CC)",
+          },
+          "&:disabled": {
+            color: "var(----tg-theme-button-color, #2481CC)",
+            backgroundColor: "transparent",
+          },
+        },
+        sizeSmall: {
+          fontSize: "12px",
+          padding: "8px 16px",
+        },
+        sizeLarge: {
+          fontSize: "16px",
+          fontWeight: "300",
+          padding: "12px 24px",
+        },
+      },
+    },
     MuiTooltip: MuiTooltip,
     MuiTypography: {
       defaultProps: {

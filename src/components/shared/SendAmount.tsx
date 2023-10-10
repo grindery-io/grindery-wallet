@@ -98,24 +98,11 @@ const SendAmount = ({
       </div>
       {balance && (
         <Button
-          color="secondary"
           variant="outlined"
           size="small"
           sx={{
-            background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-            color: "var(--tg-theme-button-color, #2481cc)",
-            border: "1px solid var(--tg-theme-button-color, #2481cc)",
-            margin: 0,
             padding: "2px 4px",
-            width: "auto",
             marginLeft: "auto",
-            fontSize: "12px",
-            "&:hover": {
-              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-              color: "var(--tg-theme-button-color, #2481cc)",
-              border: "1px solid var(--tg-theme-button-color, #2481cc)",
-              opacity: 1,
-            },
           }}
           onClick={() => {
             const value = Array.isArray(recepient)

@@ -5,9 +5,9 @@ import useBackButton from "../../hooks/useBackButton";
 import Title from "../shared/Title";
 import TableRow from "../shared/TableRow";
 import moment from "moment";
-import Button from "../shared/Button";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
+import { Button } from "@mui/material";
 
 const RewardPage = () => {
   const navigate = useNavigate();
@@ -219,28 +219,14 @@ const RewardPage = () => {
           }}
         >
           <Button
-            sx={{
-              padding: "10px 20px !important",
-              fontSize: "14px",
-              width: "100%",
-              background: "var(--tg-theme-bg-color, #ffffff)",
-              border: "1px solid var(--tg-theme-button-color, #2481cc)",
-              color: "var(--tg-theme-button-color, #2481cc)",
-              "&:hover": {
-                background: "var(--tg-theme-bg-color, #ffffff)",
-                border: "1px solid var(--tg-theme-button-color, #2481cc)",
-                color: "var(--tg-theme-button-color, #2481cc)",
-                opacity: 1,
-              },
-            }}
             fullWidth
-            value="Close"
             variant="outlined"
-            color="secondary"
             onClick={() => {
               navigate(-1);
             }}
-          />
+          >
+            Close
+          </Button>
         </div>
       </div>
     </>

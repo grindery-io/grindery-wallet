@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
-import { CircularProgress, IconButton } from "@mui/material";
-import Button, { default as CustomButton } from "../shared/Button";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import Contacts from "../shared/Contacts";
 import SelectToken from "../shared/SelectToken";
@@ -44,8 +49,8 @@ const SendPage = () => {
 
   return (
     <>
-      <div
-        style={{
+      <Box
+        sx={{
           width: "100%",
           paddingTop: "16px",
           flex: 1,
@@ -57,7 +62,7 @@ const SendPage = () => {
           flexWrap: "nowrap",
         }}
       >
-        <div
+        <Box
           style={{
             display: "flex",
             flexDirection: "row",
@@ -68,13 +73,7 @@ const SendPage = () => {
             boxSizing: "border-box",
           }}
         >
-          <p
-            style={{
-              margin: 0,
-              textAlign: "center",
-              color: "var(--tg-theme-text-color, #000000)",
-            }}
-          >
+          <Typography sx={{ textAlign: "center" }}>
             {status === "sending"
               ? "Sending"
               : status === "sent"
@@ -82,7 +81,8 @@ const SendPage = () => {
               : user?.telegramSession
               ? `Send${!input.recipient ? " to" : ""}`
               : ""}
-          </p>
+          </Typography>
+
           {status !== "sending" && (
             <IconButton
               sx={{
@@ -119,7 +119,7 @@ const SendPage = () => {
               </svg>
             </IconButton>
           )}
-        </div>
+        </Box>
         {!input.recipient ? (
           <>
             <Contacts
@@ -150,8 +150,8 @@ const SendPage = () => {
                 setSelected([]);
               }}
               placeholder={
-                <div style={{ padding: "12px 16px" }}>
-                  <div style={{ margin: "32px auto 24px" }}>
+                <Box sx={{ padding: "12px 16px" }}>
+                  <Box sx={{ margin: "32px auto 24px" }}>
                     <svg
                       width="48"
                       height="48"
@@ -193,60 +193,44 @@ const SendPage = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                  </div>
+                  </Box>
                   <Title>
                     To select a recipient your wallet needs access to your
                     contacts.
                   </Title>
 
-                  <CustomButton
-                    variant="contained"
-                    color="secondary"
-                    size="small"
+                  <Button
                     fullWidth
-                    sx={{
-                      padding: "10px 20px !important",
-                      fontSize: "14px",
-                      width: "100%",
-                      backgroundColor:
-                        "var(--tg-theme-button-color, #2481cc) !important",
-                      color: "var(--tg-theme-button-text-color, #ffffff)",
-                      boxShadow: "none",
-                      "&:hover": {
-                        backgroundColor:
-                          "var(--tg-theme-button-color, #2481cc) !important",
-                        color: "var(--tg-theme-button-text-color, #ffffff)",
-                        boxShadow: "none",
-                        opacity: 1,
-                      },
-                    }}
                     disabled={connecting}
                     onClick={() => {
                       setConnecting(true);
-                      if (window.Telegram?.WebApp?.openLink) {
-                        window.Telegram.WebApp.openLink(
-                          `${
-                            window.location.protocol +
-                            "//" +
-                            window.location.host
-                          }/connect/telegram?${
-                            window.Telegram?.WebApp?.initData || ""
-                          }`
-                        );
-                      } else {
-                        window.open(
-                          `${
-                            window.location.protocol +
-                            "//" +
-                            window.location.host
-                          }/connect/telegram?${
-                            window.Telegram?.WebApp?.initData || ""
-                          }`
-                        );
-                      }
+                      setTimeout(() => {
+                        if (window.Telegram?.WebApp?.openLink) {
+                          window.Telegram.WebApp.openLink(
+                            `${
+                              window.location.protocol +
+                              "//" +
+                              window.location.host
+                            }/connect/telegram?${
+                              window.Telegram?.WebApp?.initData || ""
+                            }`
+                          );
+                        } else {
+                          window.open(
+                            `${
+                              window.location.protocol +
+                              "//" +
+                              window.location.host
+                            }/connect/telegram?${
+                              window.Telegram?.WebApp?.initData || ""
+                            }`
+                          );
+                        }
+                      }, 500);
                     }}
-                    value="Grant Access"
-                  />
+                  >
+                    Grant Access
+                  </Button>
                   <BulletPoints
                     style={{ marginTop: "24px" }}
                     items={[
@@ -257,7 +241,7 @@ const SendPage = () => {
                       "and more to come…",
                     ]}
                   />
-                </div>
+                </Box>
               }
             />
 
@@ -269,8 +253,8 @@ const SendPage = () => {
             />
           </>
         ) : (
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "stretch",
@@ -284,8 +268,8 @@ const SendPage = () => {
           >
             {status === "sent" && (
               <>
-                <div
-                  style={{
+                <Box
+                  sx={{
                     margin: "32px auto 24px",
                     textAlign: "center",
                   }}
@@ -303,45 +287,29 @@ const SendPage = () => {
                       fill="white"
                     />
                   </svg>
-                </div>
+                </Box>
                 <Title style={{ marginBottom: 0 }}>Tokens sent</Title>
                 <Subtitle>
                   Tokens have been sent, and you will receive a Telegram
                   notification once the transaction is confirmed on the
                   blockchain.
                 </Subtitle>
-                <div style={{ textAlign: "center" }}>
+                <Box sx={{ textAlign: "center" }}>
                   <Button
-                    color="secondary"
                     variant="outlined"
-                    value="Close"
                     onClick={() => {
                       navigate("/");
                     }}
-                    sx={{
-                      padding: "10px 20px !important",
-                      fontSize: "14px !important",
-                      minWidth: "160px !important",
-                      margin: "0 !important",
-                      border: "1px solid var(--tg-theme-button-color, #2481cc)",
-                      color: "var(--tg-theme-button-color, #2481cc)",
-                      background: "var(--tg-theme-bg-color, #ffffff)",
-                      "&:hover": {
-                        border:
-                          "1px solid var(--tg-theme-button-color, #2481cc)",
-                        color: "var(--tg-theme-button-color, #2481cc)",
-                        background: "var(--tg-theme-bg-color, #ffffff)",
-                        opacity: 1,
-                      },
-                    }}
-                  />
-                </div>
+                  >
+                    Close
+                  </Button>
+                </Box>
               </>
             )}
             {status === "sending" && (
               <>
-                <div
-                  style={{
+                <Box
+                  sx={{
                     margin: "50px 20px",
                     textAlign: "center",
                   }}
@@ -349,13 +317,13 @@ const SendPage = () => {
                   <CircularProgress
                     style={{ color: "var(--tg-theme-button-color, #2481cc)" }}
                   />
-                </div>
+                </Box>
               </>
             )}
             {status === "error" && (
               <>
-                <div
-                  style={{
+                <Box
+                  sx={{
                     margin: "50px 20px",
                     textAlign: "center",
                   }}
@@ -365,9 +333,10 @@ const SendPage = () => {
                     onClick={() => {
                       setStatus("waiting_user_input");
                     }}
-                    value="Try again"
-                  />
-                </div>
+                  >
+                    Try again
+                  </Button>
+                </Box>
               </>
             )}
             {status === "waiting_user_input" && (
@@ -413,9 +382,9 @@ const SendPage = () => {
                 />
               </>
             )}
-          </div>
+          </Box>
         )}
-      </div>
+      </Box>
     </>
   );
 };

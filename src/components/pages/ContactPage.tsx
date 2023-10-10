@@ -4,50 +4,10 @@ import useAppContext from "../../hooks/useAppContext";
 import useBackButton from "../../hooks/useBackButton";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { ICONS, MAX_WIDTH } from "../../constants";
-import Button from "../shared/Button";
-import styled from "styled-components";
 import Activity from "../shared/Activity";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
-
-const ButtonWrapper = styled.div`
-  box-sizing: border-box;
-  padding: 16px;
-  position: fixed;
-  width: 100%;
-  max-width: ${MAX_WIDTH};
-  z-index: 2;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  background: var(--tg-theme-bg-color, #ffffff);
-
-  & button {
-    width: 100%;
-    padding: 10px 20px !important;
-    background: var(--tg-theme-button-color, #2481cc);
-    color: var(--tg-theme-button-text-color, #ffffff);
-    box-shadow: none;
-
-    &:hover {
-      box-shadow: none;
-      background: var(--tg-theme-button-color, #2481cc);
-      color: var(--tg-theme-button-text-color, #ffffff);
-      opacity: 1;
-    }
-  }
-  & button > span {
-    padding: 0;
-    background: transparent;
-
-    & img {
-      padding: 0;
-      background: transparent;
-      border: none;
-    }
-  }
-`;
 
 const ContactPage = () => {
   const navigate = useNavigate();
@@ -131,11 +91,21 @@ const ContactPage = () => {
             </Box>
           )}
 
-          <ButtonWrapper>
+          <Box
+            sx={{
+              padding: "16px",
+              position: "fixed",
+              width: "100%",
+              maxWidth: MAX_WIDTH,
+              zIndex: 2,
+              left: "50%",
+              transform: "translateX(-50%)",
+              bottom: 0,
+              background: "var(--tg-theme-bg-color, #ffffff)",
+            }}
+          >
             <Button
-              variant="contained"
-              color="secondary"
-              icon={
+              startIcon={
                 <img
                   src={ICONS.ARROW_OPEN}
                   alt=""
@@ -143,13 +113,13 @@ const ContactPage = () => {
                 />
               }
               fullWidth
-              value="Send tokens"
               onClick={() => {
                 navigate(`/send/${id}`);
               }}
-              sx={{ width: "100%" }}
-            />
-          </ButtonWrapper>
+            >
+              Send tokens
+            </Button>
+          </Box>
         </>
       )}
     </>
