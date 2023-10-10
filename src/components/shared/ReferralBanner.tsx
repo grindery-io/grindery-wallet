@@ -2,6 +2,7 @@ import React from "react";
 import Banner from "./Banner";
 import useAppContext from "../../hooks/useAppContext";
 import { BOT_URL } from "../../constants";
+import { Box } from "@mui/material";
 
 const ReferralBanner = () => {
   const {
@@ -18,8 +19,8 @@ const ReferralBanner = () => {
         localStorage.setItem("gr_wallet_banner_referral_closed", "true");
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           cursor: "pointer",
           display: "flex",
           flexDirection: "column",
@@ -38,7 +39,7 @@ const ReferralBanner = () => {
             } else {
               window.alert("Referral link copied");
             }
-          }, 500);
+          }, 250);
         }}
       >
         <strong>New referral system</strong>
@@ -46,7 +47,7 @@ const ReferralBanner = () => {
         <span style={{ color: "var(--tg-theme-link-color, #2481cc)" }}>
           Get your referral link now!
         </span>
-      </div>
+      </Box>
     </Banner>
   );
 };

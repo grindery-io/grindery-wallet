@@ -37,10 +37,18 @@ function App() {
         "--gr-theme-divider-color",
         "rgba(255,255,255,0.12)"
       );
+      document.body.style.setProperty(
+        "--gr-theme-button-shadow-color",
+        "#344564"
+      );
     } else {
       document.body.style.setProperty(
         "--gr-theme-divider-color",
         "rgba(0,0,0,0.12)"
+      );
+      document.body.style.setProperty(
+        "--gr-theme-button-shadow-color",
+        "#aab8d3"
       );
     }
   }, []);

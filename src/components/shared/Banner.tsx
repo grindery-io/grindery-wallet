@@ -20,10 +20,9 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
         maxWidth: "752px",
         boxSizing: "border-box",
         borderRadius: "12px",
-        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-        boxShadow:
-          "5px 5px 20px 0px var(--tg-theme-secondary-bg-color, #efeff3)",
-        color: "var(--tg-theme-text-color, #000000)",
+        background: "var(--tg-theme-text-color, #000000)",
+        boxShadow: "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
+        color: "var(--tg-theme-bg-color, #ffffff)",
         display: "flex",
         flexDirection: "row",
         alignItems: "flex-start",
@@ -46,7 +45,7 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
           sx={{
             marginLeft: "auto",
             padding: 0,
-            color: "var(--tg-theme-text-color, #000000)",
+            color: "var(--tg-theme-bg-color, #ffffff)",
           }}
           onClick={onClose}
         >

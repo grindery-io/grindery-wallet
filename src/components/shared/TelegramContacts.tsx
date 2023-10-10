@@ -232,6 +232,9 @@ const TelegramContacts = ({
                     paddingLeft: "48px",
                     paddingRight: "48px",
                     backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+                    "&:hover": {
+                      backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+                    },
                     boxShadow:
                       "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
                   }}
