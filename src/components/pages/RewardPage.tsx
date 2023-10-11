@@ -214,7 +214,9 @@ const RewardPage = () => {
           fullWidth
           variant="outlined"
           onClick={() => {
-            navigate(-1);
+            setTimeout(() => {
+              navigate(-1);
+            }, 250);
           }}
         >
           Close
