@@ -38,11 +38,19 @@ function App() {
         "--gr-theme-button-shadow-color",
         "#344564"
       );
+      document.body.style.setProperty(
+        "--tg-theme-accent-pale",
+        "rgba(98, 188, 249, 0.15)"
+      );
     } else {
       document.body.style.setProperty("--gr-theme-divider-color", "#E3E3E8");
       document.body.style.setProperty(
         "--gr-theme-button-shadow-color",
         "#aab8d3"
+      );
+      document.body.style.setProperty(
+        "--tg-theme-accent-pale",
+        "rgba(36, 129, 204, 0.1)"
       );
     }
   }, []);

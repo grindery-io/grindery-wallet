@@ -87,4 +87,5 @@ var(--tg-theme-text-color, #000000)
 var(--gr-theme-divider-color)
 var(--gr-theme-button-shadow-color)
 var(--gr-theme-success-color)
+var(--tg-theme-accent-pale)
 */

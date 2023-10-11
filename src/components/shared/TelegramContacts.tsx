@@ -225,7 +225,15 @@ const TelegramContacts = ({
                 }}
               >
                 <Button
-                  onClick={onCancel}
+                  onClick={
+                    onCancel
+                      ? () => {
+                          setTimeout(() => {
+                            onCancel();
+                          }, 300);
+                        }
+                      : undefined
+                  }
                   variant="outlined"
                   size="large"
                   sx={{
@@ -242,7 +250,15 @@ const TelegramContacts = ({
                   Cancel
                 </Button>
                 <Button
-                  onClick={onConfirm}
+                  onClick={
+                    onConfirm
+                      ? () => {
+                          setTimeout(() => {
+                            onConfirm();
+                          }, 300);
+                        }
+                      : undefined
+                  }
                   fullWidth
                   size="large"
                   sx={{

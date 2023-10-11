@@ -60,7 +60,9 @@ const SendButtonsGroup = ({
       <Button
         variant="outlined"
         onClick={() => {
-          navigate(-1);
+          setTimeout(() => {
+            navigate(-1);
+          }, 300);
         }}
         size="large"
         fullWidth

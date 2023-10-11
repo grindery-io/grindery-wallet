@@ -140,14 +140,18 @@ const SendPage = () => {
                 );
               }}
               onSelectConfirm={() => {
-                setInput({
-                  ...input,
-                  recipient: selected.length > 1 ? selected : selected[0],
-                  amount: "",
-                });
+                setTimeout(() => {
+                  setInput({
+                    ...input,
+                    recipient: selected.length > 1 ? selected : selected[0],
+                    amount: "",
+                  });
+                }, 100);
               }}
               onSelectCancel={() => {
-                setSelected([]);
+                setTimeout(() => {
+                  setSelected([]);
+                }, 100);
               }}
               placeholder={
                 <Box sx={{ padding: "12px 16px" }}>

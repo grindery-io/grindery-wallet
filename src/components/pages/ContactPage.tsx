@@ -114,7 +114,9 @@ const ContactPage = () => {
               }
               fullWidth
               onClick={() => {
-                navigate(`/send/${id}`);
+                setTimeout(() => {
+                  navigate(`/send/${id}`);
+                }, 300);
               }}
               sx={{
                 boxShadow:
