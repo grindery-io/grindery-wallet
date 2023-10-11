@@ -47,6 +47,7 @@ type StateProps = {
       [key: string]: boolean;
     };
   };
+  tokensTab: number;
 };
 
 // Context props
@@ -107,6 +108,7 @@ const defaultContext = {
           "true",
       },
     },
+    tokensTab: 0,
   },
   setState: () => {},
   handleInputChange: () => {},

@@ -2,18 +2,24 @@ import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import TokensList from "./TokensList";
 import ActivitiesList from "./ActivitiesList";
+import useAppContext from "../../hooks/useAppContext";
 
 const TokensTabs = () => {
-  const [tab, setTab] = React.useState(0);
+  const {
+    state: { tokensTab },
+    setState,
+  } = useAppContext();
 
   const handleTabChange = (event: React.SyntheticEvent, newTab: number) => {
-    setTab(newTab);
+    setState({
+      tokensTab: newTab,
+    });
   };
 
   return (
     <Box sx={{ width: "100%", padding: "16px 0", boxSizing: "border-box" }}>
       <Tabs
-        value={tab}
+        value={tokensTab}
         onChange={handleTabChange}
         variant="fullWidth"
         sx={{
@@ -51,15 +57,15 @@ const TokensTabs = () => {
         <Tab label="NFTs" />
         <Tab label="Activity" />
       </Tabs>
-      {tab === 0 && <TokensList />}
-      {tab === 1 && (
+      {tokensTab === 0 && <TokensList />}
+      {tokensTab === 1 && (
         <Box sx={{ textAlign: "center", margin: "50px" }}>
           <Typography sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
             Coming soon
           </Typography>
         </Box>
       )}
-      {tab === 2 && <ActivitiesList virtualized={false} />}
+      {tokensTab === 2 && <ActivitiesList virtualized={false} />}
     </Box>
   );
 };
