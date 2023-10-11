@@ -1,15 +1,19 @@
 import React from "react";
-import DataBox from "./DataBox";
 import moment from "moment";
 import useAppContext from "../../hooks/useAppContext";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { formatBalance } from "../../utils/formatBalance";
-import { useNavigate } from "react-router";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "./UserAvatar";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 
 type Props = {
   activity: TelegramUserActivity;
@@ -18,7 +22,6 @@ type Props = {
 };
 
 const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
-  const navigate = useNavigate();
   const {
     state: { user },
   } = useAppContext();
@@ -33,172 +36,151 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
   const { formatted } = formatBalance(parseFloat(activity.tokenAmount));
 
   return (
-    <li
-      style={{
-        listStyleType: "none",
-        padding: 0,
+    <ListItem
+      sx={{
         margin: "10px 16px 0",
+        width: "calc(100% - 32px)",
+        padding: 0,
+        backgroundColor: "transparent",
+        border: "1px solid var(--gr-theme-divider-color)",
+        borderRadius: "5px",
+        overflow: "hidden",
       }}
     >
-      <DataBox
-        onClick={
-          typeof onClick !== "undefined"
-            ? onClick
-            : () => {
-                if (window.Telegram?.WebApp?.openLink) {
-                  window.Telegram.WebApp.openLink(
-                    `https://polygonscan.com/tx/${activity.transactionHash}`
-                  );
-                } else {
-                  window.open(
-                    `https://polygonscan.com/tx/${activity.transactionHash}`,
-                    "_blank"
-                  );
-                }
+      <ListItemButton
+        sx={{ padding: "10px" }}
+        onClick={() => {
+          setTimeout(() => {
+            if (typeof onClick !== "undefined") {
+              onClick();
+            } else {
+              if (window.Telegram?.WebApp?.openLink) {
+                window.Telegram.WebApp.openLink(
+                  `https://polygonscan.com/tx/${activity.transactionHash}`
+                );
+              } else {
+                window.open(
+                  `https://polygonscan.com/tx/${activity.transactionHash}`,
+                  "_blank"
+                );
               }
-        }
-        style={{
-          border: "1px solid var(--gr-theme-divider-color)",
+            }
+          }, 300);
         }}
-        LeftComponent={
+      >
+        <ListItemAvatar
+          sx={{ minWidth: "36px", marginRight: "10px", position: "relative" }}
+        >
+          <UserAvatar user={secondaryUser} size={36} />
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              flexWrap: "nowrap",
-              flexDirection: "row",
-              gap: "16px",
+              position: "absolute",
+              bottom: "-2px",
+              right: "-2px",
+              borderRadius: "50%",
+              background: "var(--tg-theme-bg-color, #ffffff)",
+              padding: "2px",
             }}
           >
-            <Box
-              sx={{
-                width: "36px",
-                height: "36px",
-                minWidth: "36px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                color: "#fff",
-                position: "relative",
-              }}
-              onClick={
-                typeof onAvatarClick !== "undefined"
-                  ? onAvatarClick
-                  : (e: React.MouseEvent) => {
-                      e.stopPropagation();
-                      navigate(`/contacts/${secondaryUser.id}`);
-                    }
-              }
-            >
-              <UserAvatar user={secondaryUser} size={36} />
-
-              <Box
+            {user?.userTelegramID === activity?.senderTgId ? (
+              <CallMadeIcon
                 sx={{
-                  position: "absolute",
-                  bottom: "-2px",
-                  right: "-2px",
-                  borderRadius: "50%",
-                  background: "var(--tg-theme-bg-color, #ffffff)",
-                  padding: "2px",
-                }}
-              >
-                {user?.userTelegramID === activity.senderTgId ? (
-                  <CallMadeIcon
-                    sx={{
-                      color: "var(--tg-theme-text-color, #000000)",
-                      display: "block",
-                      fontSize: "12px",
-                    }}
-                  />
-                ) : (
-                  <CallReceivedIcon
-                    sx={{
-                      color: "var(--tg-theme-text-color, #000000)",
-                      display: "block",
-                      fontSize: "12px",
-                    }}
-                  />
-                )}
-              </Box>
-            </Box>
-            <Box>
-              <Typography
-                sx={{
-                  lineHeight: "1.5",
-                }}
-                variant="xs"
-              >
-                Referral reward
-              </Typography>
-
-              <Typography
-                color="hint"
-                variant="xs"
-                sx={{
-                  lineHeight: "1.5",
-                }}
-              >
-                {secondaryUser.name}
-              </Typography>
-            </Box>
-          </Box>
-        }
-        RightComponent={
-          <Box>
-            <p
-              style={{
-                margin: 0,
-                textTransform: "uppercase",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                flexDirection: "row",
-                gap: "6px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
                   color: "var(--tg-theme-text-color, #000000)",
+                  display: "block",
+                  fontSize: "12px",
                 }}
-              >
-                {formatted}
-              </span>{" "}
-              <img
-                src="/images/g1-token-red.svg"
-                alt=""
-                width="16"
-                style={{ display: "inline-block" }}
               />
-            </p>
+            ) : (
+              <CallReceivedIcon
+                sx={{
+                  color: "var(--tg-theme-text-color, #000000)",
+                  display: "block",
+                  fontSize: "12px",
+                }}
+              />
+            )}
+          </Box>
+        </ListItemAvatar>
+        <ListItemText
+          sx={{ margin: 0 }}
+          primary="Referral reward"
+          secondary={secondaryUser.name}
+          primaryTypographyProps={{
+            variant: "xs",
+            sx: {
+              lineHeight: 1.5,
+              display: "-webkit-box",
+              maxWidth: "100%",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            },
+          }}
+          secondaryTypographyProps={{
+            variant: "xs",
+            color: "hint",
+            sx: {
+              lineHeight: 1.5,
+              display: "-webkit-box",
+              maxWidth: "100%",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            },
+          }}
+        />
+        <Box ml="auto">
+          <p
+            style={{
+              margin: 0,
+              textTransform: "uppercase",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+              gap: "6px",
+            }}
+          >
             <span
               style={{
-                margin: "4px 0 0",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                gap: "4px",
-                color: "black",
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "var(--tg-theme-text-color, #000000)",
               }}
             >
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "400",
-                  color: "var(--tg-theme-hint-color, #999999)",
-                }}
-              >
-                Invited {moment(activity.dateAdded).fromNow()}
-              </span>
+              {formatted}
+            </span>{" "}
+            <img
+              src="/images/g1-token-red.svg"
+              alt=""
+              width="16"
+              style={{ display: "inline-block" }}
+            />
+          </p>
+          <span
+            style={{
+              margin: "4px 0 0",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: "4px",
+              color: "black",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "400",
+                color: "var(--tg-theme-hint-color, #999999)",
+              }}
+            >
+              Invited {moment(activity.dateAdded).fromNow()}
             </span>
-          </Box>
-        }
-      />
-    </li>
+          </span>
+        </Box>
+      </ListItemButton>
+    </ListItem>
   );
 };
 
