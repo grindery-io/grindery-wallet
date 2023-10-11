@@ -69,7 +69,7 @@ const ReferralReward = ({ reward, onClick }: Props) => {
                 );
               }
             }
-          }, 300);
+          }, 150);
         }}
       >
         <ListItemAvatar

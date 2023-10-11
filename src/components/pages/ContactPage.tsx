@@ -116,7 +116,7 @@ const ContactPage = () => {
               onClick={() => {
                 setTimeout(() => {
                   navigate(`/send/${id}`);
-                }, 300);
+                }, 150);
               }}
               sx={{
                 boxShadow:

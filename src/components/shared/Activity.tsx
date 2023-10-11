@@ -56,7 +56,7 @@ const Activity = ({ activity, onClick }: Props) => {
             ? () => {
                 setTimeout(() => {
                   onClick();
-                }, 300);
+                }, 150);
               }
             : () => {
                 setTimeout(() => {
@@ -70,7 +70,7 @@ const Activity = ({ activity, onClick }: Props) => {
                       "_blank"
                     );
                   }
-                }, 300);
+                }, 150);
               }
         }
       >

@@ -65,7 +65,7 @@ const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
                 );
               }
             }
-          }, 300);
+          }, 150);
         }}
       >
         <ListItemAvatar

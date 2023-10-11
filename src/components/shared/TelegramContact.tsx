@@ -61,7 +61,7 @@ const TelegramContact = ({
         onClick={() => {
           setTimeout(() => {
             onContactClick(contact);
-          }, 300);
+          }, 150);
         }}
         {...(typeof onContactPress !== "undefined" ? bind() : {})}
       >

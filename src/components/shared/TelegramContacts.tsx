@@ -230,7 +230,7 @@ const TelegramContacts = ({
                       ? () => {
                           setTimeout(() => {
                             onCancel();
-                          }, 300);
+                          }, 150);
                         }
                       : undefined
                   }
@@ -255,7 +255,7 @@ const TelegramContacts = ({
                       ? () => {
                           setTimeout(() => {
                             onConfirm();
-                          }, 300);
+                          }, 150);
                         }
                       : undefined
                   }

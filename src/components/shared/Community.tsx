@@ -48,7 +48,7 @@ const Community = ({ data }: Props) => {
                   } else {
                     window.open(Link, "_blank");
                   }
-                }, 300);
+                }, 150);
               }
             : undefined
         }

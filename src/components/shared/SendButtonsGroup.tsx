@@ -62,7 +62,7 @@ const SendButtonsGroup = ({
         onClick={() => {
           setTimeout(() => {
             navigate(-1);
-          }, 300);
+          }, 150);
         }}
         size="large"
         fullWidth

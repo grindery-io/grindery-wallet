@@ -42,7 +42,7 @@ const Reward = ({
                 );
               }
             }
-          }, 300);
+          }, 150);
         }}
       >
         <ListItemText
