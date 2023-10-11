@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Container from "../shared/Container";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
 import {
-  Tab,
+  Box,
+  IconButton,
+  Stack,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import moment from "moment";
+import RefreshIcon from "../icons/RefreshIcon";
 
 type Props = {};
 
@@ -18,19 +23,24 @@ const LeaderboardPage = (props: Props) => {
   const [leaderboard, setLeaderboard] = useState<any[]>(
     JSON.parse(localStorage.getItem("gr_wallet_leaderboard") || "[]")
   );
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getLeaderboard = async () => {
+    setLoading(true);
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/leaderboard`);
+      const res = await axios.get(
+        `${BOT_API_URL}/v1/telegram/leaderboard?limit=100`
+      );
       setLeaderboard(res.data || []);
       localStorage.setItem("gr_wallet_leaderboard", JSON.stringify(res.data));
       localStorage.setItem(
         "gr_wallet_leaderboard_last_updated",
-        Date.now().toString()
+        new Date().toString()
       );
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -38,49 +48,92 @@ const LeaderboardPage = (props: Props) => {
   }, []);
 
   return (
-    <Container>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Place</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell># of tx</TableCell>
-            <TableCell># of rewards</TableCell>
-            <TableCell># of referrals</TableCell>
-            <TableCell>Balance</TableCell>
-            <TableCell>User joined</TableCell>
-            <TableCell>First transaction</TableCell>
-            <TableCell>Last transaction</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {leaderboard.map((leader, index) => (
-            <TableRow key={index}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>
-                {leader.user?.userName ||
-                  leader.user?.userHandle ||
-                  leader.user?.userTelegramId ||
-                  ""}
-              </TableCell>
-              <TableCell>{leader.txCount || 0}</TableCell>
-              <TableCell>{leader.rewardsCount || 0}</TableCell>
-              <TableCell>{leader.referralsCount || 0}</TableCell>
-              <TableCell>{leader.balance || 0}</TableCell>
-              <TableCell>
-                {moment(leader.user.dateAdded).fromNow() || ""}
-              </TableCell>
-              <TableCell>
-                {moment(leader.firstTx.dateAdded).fromNow() || ""}
-              </TableCell>
-              <TableCell>
-                {moment(leader.lastTx.dateAdded).fromNow() || ""}
-              </TableCell>
+    <Box sx={{ padding: "16px" }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="flex-start"
+        gap="8px"
+        sx={{ margin: "0 16px" }}
+      >
+        <Typography variant="xl">Leaderboard</Typography>
+        <Tooltip title={loading ? "Syncing..." : `Synced`}>
+          <Box>
+            <IconButton
+              disabled={loading}
+              onClick={getLeaderboard}
+              size="small"
+              sx={{
+                "& svg": {
+                  WebkitAnimation: "spin 0.75s linear infinite",
+                  MozAnimation: "spin 0.75s linear infinite",
+                  animation: "spin 0.75s linear infinite",
+                  animationPlayState: loading ? "running" : "paused",
+                },
+              }}
+            >
+              <RefreshIcon />
+            </IconButton>
+          </Box>
+        </Tooltip>
+      </Stack>
+
+      <TableContainer>
+        <Table size="small">
+          <TableHead>
+            <TableRow sx={{ "& th": { fontWeight: "bold" } }}>
+              <TableCell align="center">Place</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">TXs</TableCell>
+              <TableCell align="right">Rewards</TableCell>
+              <TableCell align="right">Referrals</TableCell>
+              <TableCell align="right">Balance</TableCell>
+              <TableCell align="right">Joined</TableCell>
+              <TableCell align="right">First tx</TableCell>
+              <TableCell align="right">Last tx</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Container>
+          </TableHead>
+          <TableBody>
+            {leaderboard.map((leader, index) => (
+              <TableRow key={index}>
+                <TableCell align="center">{index + 1}</TableCell>
+                <TableCell>
+                  {(
+                    leader.user?.userName ||
+                    leader.user?.userHandle ||
+                    leader.user?.userTelegramId ||
+                    ""
+                  ).replace("undefined", "")}
+                </TableCell>
+                <TableCell align="right">
+                  {(leader.txCount || 0).toLocaleString()}
+                </TableCell>
+                <TableCell align="right">
+                  {(leader.rewardsCount || 0).toLocaleString()}
+                </TableCell>
+                <TableCell align="right">
+                  {(leader.referralsCount || 0).toLocaleString()}
+                </TableCell>
+                <TableCell align="right">
+                  {parseFloat(
+                    (parseFloat(leader.balance) || 0).toFixed(2)
+                  ).toLocaleString() || ""}
+                </TableCell>
+                <TableCell align="right">
+                  {moment(leader.user.dateAdded).fromNow() || ""}
+                </TableCell>
+                <TableCell align="right">
+                  {moment(leader.firstTx.dateAdded).fromNow() || ""}
+                </TableCell>
+                <TableCell align="right">
+                  {moment(leader.lastTx.dateAdded).fromNow() || ""}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 
