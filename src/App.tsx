@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./context/AppContext";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import Container from "./components/shared/Container";
 import AppRoutes from "./AppRoutes";
+import LeaderboardPage from "./components/pages/LeaderboardPage";
 
 declare global {
   interface Window {
@@ -57,13 +58,21 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppContextProvider>
-        <BrowserRouter>
-          <Container>
-            <AppRoutes />
-          </Container>
-        </BrowserRouter>
-      </AppContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route
+            path="*"
+            element={
+              <AppContextProvider>
+                <Container>
+                  <AppRoutes />
+                </Container>
+              </AppContextProvider>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
