@@ -48,6 +48,7 @@ type StateProps = {
     };
   };
   tokensTab: number;
+  stats?: any;
 };
 
 // Context props
@@ -152,6 +153,20 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         user: null,
       });
     }
+  }, []);
+
+  const getStats = useCallback(async () => {
+    try {
+      const res = await axios.get(`${BOT_API_URL}/v1/telegram/stats`, {
+        headers: {
+          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+        },
+      });
+
+      setState({
+        stats: res.data,
+      });
+    } catch (error) {}
   }, []);
 
   const handleInputChange = useCallback(
@@ -469,6 +484,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       });
     }
   }, [state.user, state.balance]);
+
+  useEffect(() => {
+    if (state.devMode.enabled) {
+      getStats();
+    }
+  }, [state.devMode.enabled, getStats]);
 
   if (window.origin.includes("localhost")) {
     console.log("state", state);

@@ -36,7 +36,7 @@ const DebugPage = () => {
   useBackButton();
   const {
     setState,
-    state: { devMode, user },
+    state: { devMode, user, stats },
   } = useAppContext();
   return (
     <Box sx={{ width: "100%", padding: "16px 0" }}>
@@ -306,6 +306,98 @@ const DebugPage = () => {
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
+              </>
+            )}
+            {stats && (
+              <>
+                {typeof stats.sentTransactions !== "undefined" && (
+                  <>
+                    <ListItem>
+                      <ListItemText
+                        primary="Transactions sent"
+                        sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                      />
+                      <ListItemSecondaryAction>
+                        <ListItemText
+                          secondary={stats.sentTransactions.toLocaleString()}
+                          sx={{
+                            color: "var(--tg-theme-hint-color, #999999)",
+                            "& .MuiListItemText-secondary": {
+                              color: "var(--tg-theme-hint-color, #999999)",
+                            },
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+                  </>
+                )}
+                {typeof stats.receivedTransactions !== "undefined" && (
+                  <>
+                    <ListItem>
+                      <ListItemText
+                        primary="Transactions received"
+                        sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                      />
+                      <ListItemSecondaryAction>
+                        <ListItemText
+                          secondary={stats.receivedTransactions.toLocaleString()}
+                          sx={{
+                            color: "var(--tg-theme-hint-color, #999999)",
+                            "& .MuiListItemText-secondary": {
+                              color: "var(--tg-theme-hint-color, #999999)",
+                            },
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+                  </>
+                )}
+                {typeof stats.rewards !== "undefined" && (
+                  <>
+                    <ListItem>
+                      <ListItemText
+                        primary="Rewards received"
+                        sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                      />
+                      <ListItemSecondaryAction>
+                        <ListItemText
+                          secondary={stats.rewards.toLocaleString()}
+                          sx={{
+                            color: "var(--tg-theme-hint-color, #999999)",
+                            "& .MuiListItemText-secondary": {
+                              color: "var(--tg-theme-hint-color, #999999)",
+                            },
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+                  </>
+                )}
+                {typeof stats.referrals !== "undefined" && (
+                  <>
+                    <ListItem>
+                      <ListItemText
+                        primary="Referrals rewards received"
+                        sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                      />
+                      <ListItemSecondaryAction>
+                        <ListItemText
+                          secondary={stats.referrals.toLocaleString()}
+                          sx={{
+                            color: "var(--tg-theme-hint-color, #999999)",
+                            "& .MuiListItemText-secondary": {
+                              color: "var(--tg-theme-hint-color, #999999)",
+                            },
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+                  </>
+                )}
               </>
             )}
 
