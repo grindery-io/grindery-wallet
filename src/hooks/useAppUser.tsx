@@ -58,14 +58,11 @@ const useAppUser = (userId: string) => {
     if (user) return;
 
     try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user?id=${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
+      const res = await axios.get(`${BOT_API_URL}/v1/user?id=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+        },
+      });
 
       if (res.data._id) {
         setUser(res.data);
@@ -91,7 +88,7 @@ const useAppUser = (userId: string) => {
 
     try {
       const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/user/photo?username=${
+        `${BOT_API_URL}/v1/user/photo?username=${
           (user as TelegramUserContact)?.username ||
           (user as TelegramUser)?.userHandle
         }`,

@@ -135,7 +135,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getMe = useCallback(async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/me`, {
+      const res = await axios.get(`${BOT_API_URL}/v1/me`, {
         headers: {
           Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
         },
@@ -155,7 +155,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getStats = useCallback(async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/stats`, {
+      const res = await axios.get(`${BOT_API_URL}/v1/stats`, {
         headers: {
           Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
         },
@@ -199,7 +199,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     });
     try {
       const res = await axios.post(
-        `${BOT_API_URL}/v1/telegram/init`,
+        `${BOT_API_URL}/v1/init`,
         {
           phone: state.input.phone,
           password: state.input.password,
@@ -237,7 +237,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     });
     try {
       const res = await axios.post(
-        `${BOT_API_URL}/v1/telegram/callback`,
+        `${BOT_API_URL}/v1/callback`,
         {
           operationId: state.operationId,
           code: state.input.code,
@@ -280,7 +280,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       activityLoading: true,
     });
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/activity`, {
+      const res = await axios.get(`${BOT_API_URL}/v1/activity`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
@@ -307,7 +307,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       rewardsLoading: true,
     });
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/rewards`, {
+      const res = await axios.get(`${BOT_API_URL}/v1/rewards`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
@@ -340,7 +340,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       contactsLoading: true,
     });
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/contacts`, {
+      const res = await axios.get(`${BOT_API_URL}/v1/contacts`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
@@ -376,7 +376,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       // get balance here
       const userId = state.user.userTelegramID;
       try {
-        const res = await axios.post(`${BOT_API_URL}/v1/data/balance/`, {
+        const res = await axios.post(`${BOT_API_URL}/v1/balance/`, {
           userAddress: state.user.patchwallet,
           contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
           chainId: "matic",
@@ -411,7 +411,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       return;
     }
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/telegram/config`, {
+      const res = await axios.get(`${BOT_API_URL}/v1/config`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },

@@ -3,7 +3,9 @@ export const WORKFLOW_ENGINE_URL = "https://orchestrator.grindery.org";
 export const BOT_API_URL =
   process.env.REACT_APP_ENV === "development"
     ? "http://localhost:3000"
-    : "https://bot-auth-api-staging.grindery.org";
+    : process.env.REACT_APP_ENV === "production"
+    ? "https://wallet-api.grindery.io"
+    : "https://wallet-api-staging.grindery.io";
 
 export const MAX_WIDTH = "768px";
 
