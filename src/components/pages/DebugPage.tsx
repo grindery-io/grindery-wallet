@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
 import useAppContext from "../../hooks/useAppContext";
 import {
   Box,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
   ListSubheader,
+  Stack,
   Switch,
   Typography,
   styled,
@@ -16,6 +18,8 @@ import {
 import appPackage from "../../../package.json";
 import Address from "../shared/Address";
 import { EXPERIMENTAL_FEATURES } from "../../constants";
+import getLocalStorageSize from "../../utils/getLocalStorageSize";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -39,6 +43,7 @@ const DebugPage = () => {
     setState,
     state: { devMode, user, stats },
   } = useAppContext();
+  const [cache, setCache] = useState<string>(getLocalStorageSize());
   return (
     <Box sx={{ width: "100%", padding: "16px 0" }}>
       <Box sx={{ textAlign: "center", margin: "4px 20px 20px" }}>
@@ -186,16 +191,21 @@ const DebugPage = () => {
               <Divider />
             </>
 
-            {window.Telegram?.WebApp?.colorScheme && (
-              <>
-                <ListItem>
-                  <ListItemText
-                    primary="Color scheme"
-                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
-                  />
-                  <ListItemSecondaryAction>
+            <>
+              <ListItem>
+                <ListItemText
+                  primary="Cache size"
+                  sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                />
+                <ListItemSecondaryAction>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="flex-end"
+                    spacing="4px"
+                  >
                     <ListItemText
-                      secondary={window.Telegram?.WebApp?.colorScheme}
+                      secondary={cache}
                       sx={{
                         color: "var(--tg-theme-hint-color, #999999)",
                         "& .MuiListItemText-secondary": {
@@ -203,11 +213,37 @@ const DebugPage = () => {
                         },
                       }}
                     />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-              </>
-            )}
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        if (window.Telegram?.WebApp?.showConfirm) {
+                          window.Telegram?.WebApp?.showConfirm(
+                            "Clear local cache?",
+                            (confirmed: boolean) => {
+                              if (confirmed) {
+                                localStorage.clear();
+                                setCache(getLocalStorageSize());
+                              }
+                            }
+                          );
+                        } else {
+                          const confirmed =
+                            window.confirm("Clear local cache?");
+                          if (confirmed) {
+                            localStorage.clear();
+                            setCache(getLocalStorageSize());
+                          }
+                        }
+                      }}
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Stack>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+            </>
+
             <ListSubheader
               component="div"
               sx={{

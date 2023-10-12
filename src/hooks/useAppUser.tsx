@@ -53,6 +53,8 @@ const useAppUser = (userId: string) => {
     isContact: Boolean((user as TelegramUserContact)?.id),
   };
 
+  console.log("appUser", appUser);
+
   const getUser = useCallback(async () => {
     if (!userId) return;
     if (user) return;
@@ -80,8 +82,8 @@ const useAppUser = (userId: string) => {
     if (
       avatar ||
       !user ||
-      !(user as TelegramUserContact)?.username ||
-      !(user as TelegramUser)?.userName
+      (!(user as TelegramUserContact)?.username &&
+        !(user as TelegramUser)?.userName)
     ) {
       return;
     }
