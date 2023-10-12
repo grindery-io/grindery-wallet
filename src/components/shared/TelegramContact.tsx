@@ -120,7 +120,7 @@ const TelegramContact = ({
               overflow: "hidden",
             },
           }}
-          secondary={user.username}
+          secondary={user.username ? "@" + user.username : undefined}
         ></ListItemText>
 
         <Box ml="auto">
