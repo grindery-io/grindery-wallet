@@ -80,6 +80,7 @@ export const BOT_URL = "https://t.me/GrinderyAIBot";
 
 export const EXPERIMENTAL_FEATURES = {
   SEND_MESSAGE: "Message sending",
+  BATCH_SENDING: "Batch token sending",
   COLORED_NUMBERS: "Tokens amount colored",
   LEADERBOARD: "Leaderboard",
 };

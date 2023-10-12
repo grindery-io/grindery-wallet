@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "./UserAvatar";
+import useAppContext from "../../hooks/useAppContext";
 
 type Props = {
   contact: TelegramUserContact;
@@ -28,6 +29,9 @@ const TelegramContact = ({
   onContactClick,
   onContactPress,
 }: Props) => {
+  const {
+    state: { devMode },
+  } = useAppContext();
   const { user } = useAppUser(contact.id);
   const bind = useLongPress(() => {
     if (typeof onContactPress !== "undefined") {
@@ -63,7 +67,10 @@ const TelegramContact = ({
             onContactClick(contact);
           }, 150);
         }}
-        //{...(typeof onContactPress !== "undefined" ? bind() : {})}
+        {...(typeof onContactPress !== "undefined" &&
+        devMode.features?.BATCH_SENDING
+          ? bind()
+          : {})}
       >
         <ListItemAvatar
           sx={{ minWidth: "36px", marginRight: "16px", position: "relative" }}

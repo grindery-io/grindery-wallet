@@ -24,7 +24,7 @@ import SendMessage from "../shared/SendMessage";
 
 const SendPage = () => {
   const {
-    state: { contacts, user },
+    state: { contacts, user, devMode },
   } = useAppContext();
   const [connecting, setConnecting] = useState(false);
   const [status, setStatus] = useState<string>("waiting_user_input");
@@ -249,12 +249,14 @@ const SendPage = () => {
               }
             />
 
-            {/*<ContactsSelectBanner
-              onClose={() => {
-                setBanner(false);
-              }}
-              visible={banner && selected.length < 1}
-            />*/}
+            {devMode.features?.BATCH_SENDING && (
+              <ContactsSelectBanner
+                onClose={() => {
+                  setBanner(false);
+                }}
+                visible={banner && selected.length < 1}
+              />
+            )}
           </>
         ) : (
           <Box
