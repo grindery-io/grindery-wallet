@@ -236,7 +236,9 @@ const DebugPage = () => {
                         }
                       }}
                     >
-                      <DeleteForeverIcon />
+                      <DeleteForeverIcon
+                        sx={{ color: "var(--tg-theme-hint-color, #999999)" }}
+                      />
                     </IconButton>
                   </Stack>
                 </ListItemSecondaryAction>
