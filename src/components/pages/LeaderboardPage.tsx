@@ -1,28 +1,51 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
 import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
 import moment from "moment";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+
+type StateProps = {
+  me: any;
+  page: number;
+  stop: boolean;
+  loading: boolean;
+  sort: string;
+  order: string;
+};
 
 const LeaderboardPage = () => {
-  const [me, setMe] = useState<any>(null);
+  const [state, setState] = useReducer(
+    (state: StateProps, newState: Partial<StateProps>) => ({
+      ...state,
+      ...newState,
+    }),
+    {
+      me: null,
+      page: 1,
+      stop: false,
+      loading: true,
+      sort: "txCount",
+      order: "desc",
+    }
+  );
+  const [leaderboard, setLeaderboard] = React.useState<any[]>([]);
+  const { me, page, stop, loading, sort, order } = state;
   const id = me?.userTelegramID || "";
-  const [page, setPage] = useState(1);
-  const [stop, setStop] = useState(false);
-  const [leaderboard, setLeaderboard] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const getLeaderboard = useCallback(async () => {
-    setLoading(true);
+    setState({ loading: true });
     try {
       const res = await axios.get(
-        `${BOT_API_URL}/v1/telegram/leaderboard?limit=30&page=${page}`
+        `${BOT_API_URL}/v1/telegram/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
       );
       const items = res.data || [];
       setLeaderboard((_leaderboard) =>
@@ -30,13 +53,13 @@ const LeaderboardPage = () => {
       );
 
       if (items.length < 1) {
-        setStop(true);
+        setState({ stop: true });
       }
     } catch (error) {
       console.error(error);
     }
-    setLoading(false);
-  }, [page]);
+    setState({ loading: false });
+  }, [page, sort, order]);
 
   const getMe = async () => {
     try {
@@ -46,9 +69,9 @@ const LeaderboardPage = () => {
         },
       });
 
-      setMe(res?.data || null);
+      setState({ me: res?.data || null });
     } catch (error) {
-      setMe(null);
+      setState({ me: null });
     }
   };
 
@@ -64,12 +87,21 @@ const LeaderboardPage = () => {
     <Box sx={{ padding: "16px", position: "relative" }}>
       <Stack
         direction="row"
-        alignItems="center"
+        alignItems="flex-end"
         justifyContent="flex-start"
-        gap="8px"
+        gap="16px"
         sx={{ margin: "0 16px" }}
       >
         <Typography variant="xl">Leaderboard</Typography>
+        {loading && (
+          <Typography
+            variant="xs"
+            color="hint"
+            sx={{ lineHeight: 1.5, marginBottom: "1.5px" }}
+          >
+            Loading...
+          </Typography>
+        )}
       </Stack>
       <Box
         sx={{
@@ -92,28 +124,257 @@ const LeaderboardPage = () => {
               zIndex: 2,
               background: "var(--tg-theme-bg-color, #ffffff)",
               borderBottom: "1px solid var(--gr-theme-divider-color)",
-              "& p": {
+              "& > div": {
                 padding: "4px 8px",
-                width: "calc((100% - 210px) / 7)",
+                width: "calc((100% - 210px) / 9)",
+                maxWidth: "calc((100% - 210px) / 9)",
+              },
+              "& p": {
                 fontWeight: "bold",
+                maxWidth: "100%",
+                display: "-webkit-box",
+                WebkitLineClamp: 1,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
               },
-              "& > p:nth-child(1)": {
+              "& > div:nth-child(1)": {
                 width: "60px",
+                maxWidth: "60px",
               },
-              "& > p:nth-child(2)": {
+              "& > div:nth-child(2)": {
                 width: "150px",
+                maxWidth: "150px",
               },
             }}
           >
-            <Typography align="center">Place</Typography>
-            <Typography align="left">Name</Typography>
-            <Typography align="right">TXs</Typography>
-            <Typography align="right">Rewards</Typography>
-            <Typography align="right">Referrals</Typography>
-            <Typography align="right">Balance</Typography>
-            <Typography align="right">Joined</Typography>
-            <Typography align="right">First tx</Typography>
-            <Typography align="right">Last tx</Typography>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-start"
+            >
+              <Typography align="center" variant="sm">
+                Place
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-start"
+            >
+              <Typography align="left" variant="sm">
+                Name
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <IconButton
+                disabled={loading}
+                size="small"
+                sx={{
+                  padding: 0,
+                  "&:hover": {
+                    background: "none",
+                  },
+                }}
+                onClick={() => {
+                  if (sort === "txCount") {
+                    setState({
+                      order: order === "asc" ? "desc" : "asc",
+                      page: 1,
+                    });
+                  } else {
+                    setState({ sort: "txCount", page: 1 });
+                  }
+                }}
+              >
+                <Stack>
+                  <ArrowDropUpIcon
+                    sx={{
+                      marginBottom: "-8px",
+                      color:
+                        sort === "txCount" && order === "asc"
+                          ? "var(--tg-theme-link-color, #2481cc)"
+                          : "var(--tg-theme-text-color, #000000)",
+                    }}
+                  />
+                  <ArrowDropDownIcon
+                    sx={{
+                      marginTop: "-8px",
+                      color:
+                        sort === "txCount" && order === "desc"
+                          ? "var(--tg-theme-link-color, #2481cc)"
+                          : "var(--tg-theme-text-color, #000000)",
+                    }}
+                  />
+                </Stack>
+              </IconButton>
+              <Typography align="right" variant="sm">
+                TXs
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <IconButton
+                disabled={loading}
+                size="small"
+                sx={{
+                  padding: 0,
+                  "&:hover": {
+                    background: "none",
+                  },
+                }}
+                onClick={() => {
+                  if (sort === "rewardsCount") {
+                    setState({
+                      order: order === "asc" ? "desc" : "asc",
+                      page: 1,
+                    });
+                  } else {
+                    setState({
+                      sort: "rewardsCount",
+                      page: 1,
+                    });
+                  }
+                }}
+              >
+                <Stack>
+                  <ArrowDropUpIcon
+                    sx={{
+                      marginBottom: "-8px",
+                      color:
+                        sort === "rewardsCount" && order === "asc"
+                          ? "var(--tg-theme-link-color, #2481cc)"
+                          : "var(--tg-theme-text-color, #000000)",
+                    }}
+                  />
+                  <ArrowDropDownIcon
+                    sx={{
+                      marginTop: "-8px",
+                      color:
+                        sort === "rewardsCount" && order === "desc"
+                          ? "var(--tg-theme-link-color, #2481cc)"
+                          : "var(--tg-theme-text-color, #000000)",
+                    }}
+                  />
+                </Stack>
+              </IconButton>
+              <Typography align="right" variant="sm">
+                Rewards
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <IconButton
+                disabled={loading}
+                size="small"
+                sx={{
+                  padding: 0,
+                  "&:hover": {
+                    background: "none",
+                  },
+                }}
+                onClick={() => {
+                  if (sort === "referralsCount") {
+                    setState({
+                      order: order === "asc" ? "desc" : "asc",
+                      page: 1,
+                    });
+                  } else {
+                    setState({
+                      sort: "referralsCount",
+                      page: 1,
+                    });
+                  }
+                }}
+              >
+                <Stack>
+                  <ArrowDropUpIcon
+                    sx={{
+                      marginBottom: "-8px",
+                      color:
+                        sort === "referralsCount" && order === "asc"
+                          ? "var(--tg-theme-link-color, #2481cc)"
+                          : "var(--tg-theme-text-color, #000000)",
+                    }}
+                  />
+                  <ArrowDropDownIcon
+                    sx={{
+                      marginTop: "-8px",
+                      color:
+                        sort === "referralsCount" && order === "desc"
+                          ? "var(--tg-theme-link-color, #2481cc)"
+                          : "var(--tg-theme-text-color, #000000)",
+                    }}
+                  />
+                </Stack>
+              </IconButton>
+              <Typography align="right" variant="sm">
+                Referrals
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography align="right" variant="sm">
+                Balance
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography align="right" variant="sm">
+                Bot Joined
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography align="right" variant="sm">
+                TG connected
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography align="right" variant="sm">
+                WebWallet activated
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography align="right" variant="sm">
+                First tx
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography align="right" variant="sm">
+                Last tx
+              </Typography>
+            </Stack>
           </Stack>
           {leaderboard.map((leader, index) => (
             <Stack
@@ -130,7 +391,7 @@ const LeaderboardPage = () => {
                   id && id === leader.user?.userTelegramID
                     ? "sticky"
                     : undefined,
-                top: id && id === leader.user?.userTelegramID ? "32px" : 0,
+                top: id && id === leader.user?.userTelegramID ? "41px" : 0,
                 bottom: 0,
                 zIndex: id && id === leader.user?.userTelegramID ? 2 : 1,
                 borderBottom: "1px solid var(--gr-theme-divider-color)",
@@ -139,7 +400,7 @@ const LeaderboardPage = () => {
                     id && id === leader.user?.userTelegramID
                       ? "12px 8px"
                       : "8px 8px",
-                  width: "calc((100% - 210px) / 7)",
+                  width: "calc((100% - 210px) / 9)",
                   fontWeight:
                     id && id === leader.user?.userTelegramID
                       ? "bold"
@@ -147,9 +408,11 @@ const LeaderboardPage = () => {
                 },
                 "& > p:nth-child(1)": {
                   width: "60px",
+                  maxWidth: "60px",
                 },
                 "& > p:nth-child(2)": {
                   width: "150px",
+                  maxWidth: "150px",
                 },
               }}
             >
@@ -179,13 +442,26 @@ const LeaderboardPage = () => {
                 ).toLocaleString() || ""}
               </Typography>
               <Typography align="right" variant="sm">
-                {moment(leader.user.dateAdded).fromNow() || ""}
+                {moment(leader.user?.dateAdded).fromNow() || ""}
               </Typography>
               <Typography align="right" variant="sm">
-                {moment(leader.firstTx.dateAdded).fromNow() || ""}
+                {leader.user?.telegramSessionSavedDate
+                  ? moment(leader.user?.telegramSessionSavedDate).fromNow() ||
+                    ""
+                  : leader.user?.telegramSession
+                  ? "Yes"
+                  : "No"}
               </Typography>
               <Typography align="right" variant="sm">
-                {moment(leader.lastTx.dateAdded).fromNow() || ""}
+                {leader.user?.webAppOpenedFirstDate
+                  ? moment(leader.user?.webAppOpenedFirstDate).fromNow() || ""
+                  : "No"}
+              </Typography>
+              <Typography align="right" variant="sm">
+                {moment(leader.firstTx?.dateAdded).fromNow() || ""}
+              </Typography>
+              <Typography align="right" variant="sm">
+                {moment(leader.lastTx?.dateAdded).fromNow() || ""}
               </Typography>
             </Stack>
           ))}
@@ -196,7 +472,7 @@ const LeaderboardPage = () => {
           <Button
             disabled={loading}
             onClick={() => {
-              setPage(page + 1);
+              setState({ page: page + 1 });
             }}
           >
             Show more
