@@ -9,10 +9,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import moment from "moment";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import useBackButton from "../../hooks/useBackButton";
+import LeaderRow from "../shared/LeaderRow";
 
 type StateProps = {
   me: any;
@@ -385,93 +385,7 @@ const LeaderboardPage = () => {
             </Stack>
           </Stack>
           {leaderboard.map((leader, index) => (
-            <Stack
-              key={index}
-              direction="row"
-              alignItems="center"
-              justifyContent="flex-start"
-              sx={{
-                background:
-                  id && id === leader.user?.userTelegramID
-                    ? "var(--tg-theme-secondary-bg-color, #efeff3)"
-                    : "var(--tg-theme-bg-color, #ffffff)",
-                position:
-                  id && id === leader.user?.userTelegramID
-                    ? "sticky"
-                    : undefined,
-                top: id && id === leader.user?.userTelegramID ? "41px" : 0,
-                bottom: 0,
-                zIndex: id && id === leader.user?.userTelegramID ? 2 : 1,
-                borderBottom: "1px solid var(--gr-theme-divider-color)",
-                "& p": {
-                  padding:
-                    id && id === leader.user?.userTelegramID
-                      ? "12px 8px"
-                      : "8px 8px",
-                  width: "calc((100% - 210px) / 9)",
-                  fontWeight:
-                    id && id === leader.user?.userTelegramID
-                      ? "bold"
-                      : undefined,
-                },
-                "& > p:nth-child(1)": {
-                  width: "60px",
-                  maxWidth: "60px",
-                },
-                "& > p:nth-child(2)": {
-                  width: "150px",
-                  maxWidth: "150px",
-                },
-              }}
-            >
-              <Typography variant="sm" align="center">
-                {index + 1}
-              </Typography>
-              <Typography variant="sm">
-                {(
-                  leader.user?.userName ||
-                  leader.user?.userHandle ||
-                  leader.user?.userTelegramId ||
-                  ""
-                ).replace("undefined", "")}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {(leader.txCount || 0).toLocaleString()}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {(leader.rewardsCount || 0).toLocaleString()}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {(leader.referralsCount || 0).toLocaleString()}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {parseFloat(
-                  (parseFloat(leader.balance) || 0).toFixed(2)
-                ).toLocaleString() || ""}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {moment(leader.user?.dateAdded).fromNow() || ""}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {leader.user?.telegramSessionSavedDate
-                  ? moment(leader.user?.telegramSessionSavedDate).fromNow() ||
-                    ""
-                  : leader.user?.telegramSession
-                  ? "Yes"
-                  : "No"}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {leader.user?.webAppOpenedFirstDate
-                  ? moment(leader.user?.webAppOpenedFirstDate).fromNow() || ""
-                  : "No"}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {moment(leader.firstTx?.dateAdded).fromNow() || ""}
-              </Typography>
-              <Typography align="right" variant="sm">
-                {moment(leader.lastTx?.dateAdded).fromNow() || ""}
-              </Typography>
-            </Stack>
+            <LeaderRow leader={leader} id={id} index={index} key={index} />
           ))}
         </Stack>
       </Box>
