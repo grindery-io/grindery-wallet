@@ -99,7 +99,7 @@ const LeaderRow = ({
         {balance}
       </Typography>
       <Typography align="right" variant="sm">
-        {moment(leader.user?.dateAdded).fromNow() || ""}
+        {leader.user?.dateAdded ? moment(leader.user?.dateAdded).fromNow() : ""}
       </Typography>
       <Typography align="right" variant="sm">
         {leader.user?.telegramSessionSavedDate
@@ -110,14 +110,18 @@ const LeaderRow = ({
       </Typography>
       <Typography align="right" variant="sm">
         {leader.user?.webAppOpenedFirstDate
-          ? moment(leader.user?.webAppOpenedFirstDate).fromNow() || ""
+          ? moment(leader.user?.webAppOpenedFirstDate).fromNow() || "No"
           : "No"}
       </Typography>
       <Typography align="right" variant="sm">
-        {moment(leader.firstTx?.dateAdded).fromNow() || ""}
+        {leader.firstTx?.dateAdded
+          ? moment(leader.firstTx?.dateAdded).fromNow()
+          : "No"}
       </Typography>
       <Typography align="right" variant="sm">
-        {moment(leader.lastTx?.dateAdded).fromNow() || ""}
+        {leader.lastTx?.dateAdded
+          ? moment(leader.lastTx?.dateAdded).fromNow()
+          : "No"}
       </Typography>
     </Stack>
   );

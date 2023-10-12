@@ -5,14 +5,12 @@ import {
   Box,
   Button,
   CircularProgress,
-  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import useBackButton from "../../hooks/useBackButton";
 import LeaderRow from "../shared/LeaderRow";
+import LeaderboardSortButton from "../shared/LeaderboardSortButton";
 
 type StateProps = {
   me: any;
@@ -178,156 +176,48 @@ const LeaderboardPage = () => {
               alignItems="center"
               justifyContent="flex-end"
             >
-              <IconButton
-                disabled={loading}
-                size="small"
-                sx={{
-                  padding: 0,
-                  "&:hover": {
-                    background: "none",
-                  },
-                }}
-                onClick={() => {
-                  if (sort === "txCount") {
-                    setState({
-                      order: order === "asc" ? "desc" : "asc",
-                      page: 1,
-                    });
-                  } else {
-                    setState({ sort: "txCount", page: 1 });
-                  }
-                }}
-              >
-                <Stack>
-                  <ArrowDropUpIcon
-                    sx={{
-                      marginBottom: "-8px",
-                      color:
-                        sort === "txCount" && order === "asc"
-                          ? "var(--tg-theme-link-color, #2481cc)"
-                          : "var(--tg-theme-text-color, #000000)",
-                    }}
-                  />
-                  <ArrowDropDownIcon
-                    sx={{
-                      marginTop: "-8px",
-                      color:
-                        sort === "txCount" && order === "desc"
-                          ? "var(--tg-theme-link-color, #2481cc)"
-                          : "var(--tg-theme-text-color, #000000)",
-                    }}
-                  />
-                </Stack>
-              </IconButton>
               <Typography align="right" variant="sm">
                 TXs
               </Typography>
+              <LeaderboardSortButton
+                name="txCount"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
               alignItems="center"
               justifyContent="flex-end"
             >
-              <IconButton
-                disabled={loading}
-                size="small"
-                sx={{
-                  padding: 0,
-                  "&:hover": {
-                    background: "none",
-                  },
-                }}
-                onClick={() => {
-                  if (sort === "rewardsCount") {
-                    setState({
-                      order: order === "asc" ? "desc" : "asc",
-                      page: 1,
-                    });
-                  } else {
-                    setState({
-                      sort: "rewardsCount",
-                      page: 1,
-                    });
-                  }
-                }}
-              >
-                <Stack>
-                  <ArrowDropUpIcon
-                    sx={{
-                      marginBottom: "-8px",
-                      color:
-                        sort === "rewardsCount" && order === "asc"
-                          ? "var(--tg-theme-link-color, #2481cc)"
-                          : "var(--tg-theme-text-color, #000000)",
-                    }}
-                  />
-                  <ArrowDropDownIcon
-                    sx={{
-                      marginTop: "-8px",
-                      color:
-                        sort === "rewardsCount" && order === "desc"
-                          ? "var(--tg-theme-link-color, #2481cc)"
-                          : "var(--tg-theme-text-color, #000000)",
-                    }}
-                  />
-                </Stack>
-              </IconButton>
               <Typography align="right" variant="sm">
                 Rewards
               </Typography>
+              <LeaderboardSortButton
+                name="rewardsCount"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
               alignItems="center"
               justifyContent="flex-end"
             >
-              <IconButton
-                disabled={loading}
-                size="small"
-                sx={{
-                  padding: 0,
-                  "&:hover": {
-                    background: "none",
-                  },
-                }}
-                onClick={() => {
-                  if (sort === "referralsCount") {
-                    setState({
-                      order: order === "asc" ? "desc" : "asc",
-                      page: 1,
-                    });
-                  } else {
-                    setState({
-                      sort: "referralsCount",
-                      page: 1,
-                    });
-                  }
-                }}
-              >
-                <Stack>
-                  <ArrowDropUpIcon
-                    sx={{
-                      marginBottom: "-8px",
-                      color:
-                        sort === "referralsCount" && order === "asc"
-                          ? "var(--tg-theme-link-color, #2481cc)"
-                          : "var(--tg-theme-text-color, #000000)",
-                    }}
-                  />
-                  <ArrowDropDownIcon
-                    sx={{
-                      marginTop: "-8px",
-                      color:
-                        sort === "referralsCount" && order === "desc"
-                          ? "var(--tg-theme-link-color, #2481cc)"
-                          : "var(--tg-theme-text-color, #000000)",
-                    }}
-                  />
-                </Stack>
-              </IconButton>
               <Typography align="right" variant="sm">
                 Referrals
               </Typography>
+              <LeaderboardSortButton
+                name="referralsCount"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -346,6 +236,13 @@ const LeaderboardPage = () => {
               <Typography align="right" variant="sm">
                 Bot Joined
               </Typography>
+              <LeaderboardSortButton
+                name="user.dateAdded"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -355,6 +252,13 @@ const LeaderboardPage = () => {
               <Typography align="right" variant="sm">
                 TG connected
               </Typography>
+              <LeaderboardSortButton
+                name="user.telegramSessionSavedDate"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -364,6 +268,13 @@ const LeaderboardPage = () => {
               <Typography align="right" variant="sm">
                 WebWallet activated
               </Typography>
+              <LeaderboardSortButton
+                name="user.webAppOpenedFirstDate"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -373,6 +284,13 @@ const LeaderboardPage = () => {
               <Typography align="right" variant="sm">
                 First tx
               </Typography>
+              <LeaderboardSortButton
+                name="firstTx.dateAdded"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -382,6 +300,13 @@ const LeaderboardPage = () => {
               <Typography align="right" variant="sm">
                 Last tx
               </Typography>
+              <LeaderboardSortButton
+                name="lastTx.dateAdded"
+                loading={loading}
+                sort={sort}
+                setState={setState}
+                order={order}
+              />
             </Stack>
           </Stack>
           {leaderboard.map((leader, index) => (
