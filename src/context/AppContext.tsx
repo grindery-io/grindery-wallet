@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
-import { BOT_API_URL } from "../constants";
+import { BOT_API_URL, EXPERIMENTAL_FEATURES } from "../constants";
 import {
   TelegramAuthUserInput,
   TelegramUserActivity,
@@ -100,14 +100,12 @@ const defaultContext = {
       : undefined,
     devMode: {
       enabled: localStorage.getItem("grindery_wallet_dev_mode") === "true",
-      features: {
-        sendMessage:
-          localStorage.getItem("grindery_wallet_features_send_message") ===
-          "true",
-        coloredNumbers:
-          localStorage.getItem("grindery_wallet_features_colored_numbers") ===
-          "true",
-      },
+      features: Object.fromEntries(
+        Object.keys(EXPERIMENTAL_FEATURES).map((key) => [
+          key,
+          localStorage.getItem(`grindery_wallet_features_${key}`) === "true",
+        ])
+      ),
     },
     tokensTab: 0,
   },

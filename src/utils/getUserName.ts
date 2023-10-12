@@ -3,8 +3,6 @@ import { TelegramUser, TelegramUserContact } from "../types/Telegram";
 export const getUserName = (
   user: TelegramUserContact | TelegramUser | null
 ) => {
-  console.log("getUserName", user);
-
   return !!(user as TelegramUserContact)?.firstName
     ? `${(user as TelegramUserContact)?.firstName}${
         !!(user as TelegramUserContact)?.lastName

@@ -17,7 +17,7 @@ const SendMessage = ({
   } = useAppContext();
   return !Array.isArray(recepient) &&
     devMode.enabled &&
-    devMode.features?.sendMessage ? (
+    devMode.features?.SEND_MESSAGE ? (
     <Stack
       alignItems="center"
       useFlexGap

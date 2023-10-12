@@ -7,13 +7,14 @@ import Activity from "../shared/Activity";
 import { useNavigate } from "react-router";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import { TelegramUserActivity } from "../../types/Telegram";
+import LeaderboardBanner from "./LeaderboardBanner";
 
 const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
   const { height } = useWindowDimensions();
   const navigate = useNavigate();
 
   const {
-    state: { user, activity, activityFilters },
+    state: { user, activity, activityFilters, devMode },
     setState,
   } = useAppContext();
   const [search, setSearch] = useState("");
@@ -151,6 +152,9 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
           )}
         </>
       </Box>
+      {devMode.enabled && devMode.features?.LEADERBOARD && (
+        <LeaderboardBanner />
+      )}
     </Box>
   );
 };

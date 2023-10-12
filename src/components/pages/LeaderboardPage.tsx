@@ -12,6 +12,7 @@ import {
 import moment from "moment";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import useBackButton from "../../hooks/useBackButton";
 
 type StateProps = {
   me: any;
@@ -23,6 +24,7 @@ type StateProps = {
 };
 
 const LeaderboardPage = () => {
+  useBackButton();
   const [state, setState] = useReducer(
     (state: StateProps, newState: Partial<StateProps>) => ({
       ...state,
@@ -84,7 +86,13 @@ const LeaderboardPage = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: "16px", position: "relative" }}>
+    <Box
+      sx={{
+        padding: "16px",
+        position: "relative",
+        backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+      }}
+    >
       <Stack
         direction="row"
         alignItems="flex-end"

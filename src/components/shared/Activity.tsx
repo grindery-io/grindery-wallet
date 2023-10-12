@@ -153,13 +153,13 @@ const Activity = ({ activity, onClick }: Props) => {
               letterSpacing: "0.55px",
               fontWeight: "bold",
               color:
-                devMode.features?.coloredNumbers &&
+                devMode.features?.COLORED_NUMBERS &&
                 user?.userTelegramID !== activity.senderTgId
                   ? "var(--gr-theme-success-color)"
                   : undefined,
             }}
           >
-            {devMode.features?.coloredNumbers && (
+            {devMode.features?.COLORED_NUMBERS && (
               <>{user?.userTelegramID === activity.senderTgId ? "-" : "+"}</>
             )}
             {formatted}

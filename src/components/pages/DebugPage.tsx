@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import appPackage from "../../../package.json";
 import Address from "../shared/Address";
+import { EXPERIMENTAL_FEATURES } from "../../constants";
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -415,64 +416,43 @@ const DebugPage = () => {
                   Experimental features
                 </ListSubheader>
 
-                <ListItem>
-                  <ListItemText
-                    primary="Message sending"
-                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
-                  />
-                  <ListItemSecondaryAction>
-                    <StyledSwitch
-                      checked={devMode.features?.sendMessage}
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>
-                      ) => {
-                        setState({
-                          devMode: {
-                            ...devMode,
-                            features: {
-                              ...devMode.features,
-                              sendMessage: event.target.checked,
-                            },
-                          },
-                        });
-                        localStorage.setItem(
-                          "grindery_wallet_features_send_message",
-                          event.target.checked ? "true" : "false"
-                        );
-                      }}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText
-                    primary="Tokens amount colored"
-                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
-                  />
-                  <ListItemSecondaryAction>
-                    <StyledSwitch
-                      checked={devMode.features?.coloredNumbers}
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>
-                      ) => {
-                        setState({
-                          devMode: {
-                            ...devMode,
-                            features: {
-                              ...devMode.features,
-                              coloredNumbers: event.target.checked,
-                            },
-                          },
-                        });
-                        localStorage.setItem(
-                          "grindery_wallet_features_colored_numbers",
-                          event.target.checked ? "true" : "false"
-                        );
-                      }}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
+                {Object.keys(EXPERIMENTAL_FEATURES).map((key) => (
+                  <React.Fragment key={key}>
+                    <ListItem>
+                      <ListItemText
+                        primary={
+                          EXPERIMENTAL_FEATURES[
+                            key as keyof typeof EXPERIMENTAL_FEATURES
+                          ]
+                        }
+                        sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                      />
+                      <ListItemSecondaryAction>
+                        <StyledSwitch
+                          checked={devMode.features?.[key]}
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setState({
+                              devMode: {
+                                ...devMode,
+                                features: {
+                                  ...devMode.features,
+                                  [key]: event.target.checked,
+                                },
+                              },
+                            });
+                            localStorage.setItem(
+                              `grindery_wallet_features_${key}`,
+                              event.target.checked ? "true" : "false"
+                            );
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
+                ))}
               </>
             )}
           </>

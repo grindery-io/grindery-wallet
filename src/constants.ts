@@ -76,6 +76,12 @@ export const TOKENS = [
 
 export const BOT_URL = "https://t.me/GrinderyAIBot";
 
+export const EXPERIMENTAL_FEATURES = {
+  SEND_MESSAGE: "Message sending",
+  COLORED_NUMBERS: "Tokens amount colored",
+  LEADERBOARD: "Leaderboard",
+};
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)

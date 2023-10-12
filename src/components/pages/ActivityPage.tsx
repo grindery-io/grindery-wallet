@@ -73,13 +73,13 @@ const ActivityPage = () => {
               <span
                 style={{
                   color:
-                    devMode.features?.coloredNumbers &&
+                    devMode.features?.COLORED_NUMBERS &&
                     item.recipientTgId === user?.userTelegramID
                       ? "var(--gr-theme-success-color)"
                       : "inherit",
                 }}
               >
-                {devMode.features?.coloredNumbers && (
+                {devMode.features?.COLORED_NUMBERS && (
                   <>{item.recipientTgId !== user?.userTelegramID ? "-" : "+"}</>
                 )}
                 {item.tokenAmount}
