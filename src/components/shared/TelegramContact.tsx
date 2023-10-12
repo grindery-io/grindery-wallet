@@ -63,7 +63,7 @@ const TelegramContact = ({
             onContactClick(contact);
           }, 150);
         }}
-        {...(typeof onContactPress !== "undefined" ? bind() : {})}
+        //{...(typeof onContactPress !== "undefined" ? bind() : {})}
       >
         <ListItemAvatar
           sx={{ minWidth: "36px", marginRight: "16px", position: "relative" }}

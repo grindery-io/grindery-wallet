@@ -249,12 +249,12 @@ const SendPage = () => {
               }
             />
 
-            <ContactsSelectBanner
+            {/*<ContactsSelectBanner
               onClose={() => {
                 setBanner(false);
               }}
               visible={banner && selected.length < 1}
-            />
+            />*/}
           </>
         ) : (
           <Box
