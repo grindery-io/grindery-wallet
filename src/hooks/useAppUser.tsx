@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import useAppContext from "./useAppContext";
 import { TelegramUser, TelegramUserContact } from "../types/Telegram";
@@ -53,62 +53,6 @@ const useAppUser = (userId: string) => {
     isContact: Boolean((user as TelegramUserContact)?.id),
   };
 
-  const getUser = useCallback(async () => {
-    if (!userId) return;
-    if (user) return;
-
-    try {
-      const res = await axios.get(`${BOT_API_URL}/v1/user?id=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-        },
-      });
-
-      if (res.data._id) {
-        setUser(res.data);
-        localStorage.setItem(
-          `gr_wallet_app_user_${userId}`,
-          JSON.stringify(res.data)
-        );
-      }
-    } catch (err) {
-      //
-    }
-  }, [userId, user]);
-
-  const getAvatar = useCallback(async () => {
-    if (
-      avatar ||
-      !user ||
-      (!(user as TelegramUserContact)?.username &&
-        !(user as TelegramUser)?.userName)
-    ) {
-      return;
-    }
-
-    try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/user/photo?username=${
-          (user as TelegramUserContact)?.username ||
-          (user as TelegramUser)?.userHandle
-        }`,
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setAvatar(res.data.photo || "");
-
-      localStorage.setItem(
-        "gr_wallet_contact_photo_" + userId,
-        res.data.photo || "null"
-      );
-    } catch (err) {
-      setAvatar("");
-    }
-  }, [userId, user, avatar]);
-
   useEffect(() => {
     const contact = contacts?.find((c) => c.id === userId);
     if (contact) {
@@ -117,12 +61,73 @@ const useAppUser = (userId: string) => {
   }, [contacts, userId]);
 
   useEffect(() => {
-    getUser();
-  }, [getUser]);
+    const controller = new AbortController();
+    if (userId && !user) {
+      axios
+        .get(`${BOT_API_URL}/v1/user?id=${userId}`, {
+          signal: controller.signal,
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        })
+        .then((res) => {
+          if (res.data._id) {
+            setUser(res.data);
+            localStorage.setItem(
+              `gr_wallet_app_user_${userId}`,
+              JSON.stringify(res.data)
+            );
+          }
+        })
+        .catch((err) => {
+          //
+        });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [userId, user]);
 
   useEffect(() => {
-    getAvatar();
-  }, [getAvatar]);
+    const controller = new AbortController();
+    if (
+      !avatar &&
+      user &&
+      ((user as TelegramUserContact)?.username ||
+        (user as TelegramUser)?.userName)
+    ) {
+      axios
+        .get(
+          `${BOT_API_URL}/v1/user/photo?username=${
+            (user as TelegramUserContact)?.username ||
+            (user as TelegramUser)?.userHandle
+          }`,
+          {
+            signal: controller.signal,
+            headers: {
+              Authorization: `Bearer ${
+                window.Telegram?.WebApp?.initData || ""
+              }`,
+            },
+          }
+        )
+        .then((res) => {
+          setAvatar(res.data.photo || "");
+          localStorage.setItem(
+            "gr_wallet_contact_photo_" + userId,
+            res.data.photo || "null"
+          );
+        })
+        .catch((err) => {
+          setAvatar("");
+        });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [userId, user, avatar]);
 
   return { user: appUser };
 };
