@@ -560,10 +560,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     getPhotos();
-    const controller = abortControllerRef.current;
-    return () => {
-      controller.abort();
-    };
   }, [getPhotos]);
 
   if (window.origin.includes("localhost")) {
