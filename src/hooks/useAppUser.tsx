@@ -19,8 +19,11 @@ export type AppUser = {
 const useAppUser = (userId: string) => {
   const {
     state: { contacts },
+    photos,
   } = useAppContext();
   const cachedUser = localStorage.getItem(`gr_wallet_app_user_${userId}`);
+
+  const photo = photos?.[userId];
 
   const [user, setUser] = useState<TelegramUserContact | TelegramUser | null>(
     contacts?.find((c) => c.id === userId)
@@ -31,7 +34,7 @@ const useAppUser = (userId: string) => {
   );
 
   const [avatar, setAvatar] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + userId) || ""
+    localStorage.getItem("gr_wallet_contact_photo_" + userId) || photo || ""
   );
 
   const appUser: AppUser = {
@@ -128,6 +131,12 @@ const useAppUser = (userId: string) => {
       controller.abort();
     };
   }, [userId, user, avatar]);*/
+
+  useEffect(() => {
+    if (photo) {
+      setAvatar(photo);
+    }
+  }, [photo]);
 
   return { user: appUser };
 };

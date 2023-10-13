@@ -4,6 +4,8 @@ import React, {
   useCallback,
   useEffect,
   useReducer,
+  useRef,
+  useState,
 } from "react";
 import { BOT_API_URL, EXPERIMENTAL_FEATURES } from "../constants";
 import {
@@ -54,6 +56,7 @@ type StateProps = {
 // Context props
 type ContextProps = {
   state: StateProps;
+  photos?: { [key: string]: string };
   setState: (newState: Partial<StateProps>) => void;
   handleInputChange: (name: string, value: string) => void;
   submitPhoneAndPassword: () => void;
@@ -82,16 +85,20 @@ const defaultContext = {
     sessionLoading: true,
     operationId: "",
     activeTab: "tokens",
-    activity: [],
+    activity: localStorage.getItem("gr_wallet_activity")
+      ? JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
+      : [],
     contactsLoading: true,
     contactsFilters: [],
     rewardsFilters: [],
     activityFilters: [],
     activityLoading: true,
-    rewards: {
-      received: [],
-      pending: [],
-    },
+    rewards: localStorage.getItem("gr_wallet_rewards")
+      ? JSON.parse(localStorage.getItem("gr_wallet_rewards") || "[]")
+      : {
+          received: [],
+          pending: [],
+        },
     rewardsLoading: true,
     bannerShown: true,
     communityFilters: [],
@@ -108,6 +115,9 @@ const defaultContext = {
       ),
     },
     tokensTab: 0,
+    contacts: localStorage.getItem("gr_wallet_contacts")
+      ? JSON.parse(localStorage.getItem("gr_wallet_contacts") || "[]")
+      : undefined,
   },
   setState: () => {},
   handleInputChange: () => {},
@@ -123,6 +133,7 @@ const defaultContext = {
 export const AppContext = createContext<ContextProps>(defaultContext);
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
+  const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
     (state: StateProps, newState: Partial<StateProps>) => ({
       ...state,
@@ -291,6 +302,15 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
         ),
       });
+      localStorage.setItem(
+        `gr_wallet_activity`,
+        JSON.stringify(
+          (res.data || []).sort(
+            (a: TelegramUserActivity, b: TelegramUserActivity) =>
+              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
+          )
+        )
+      );
     } catch (error) {
       console.error("getTgActivity error", error);
     }
@@ -312,18 +332,20 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
       });
+      const rewards = {
+        pending: (res.data?.pending || []).sort(
+          (a: TelegramUserActivity, b: TelegramUserActivity) =>
+            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
+        ),
+        received: (res.data?.received || []).sort(
+          (a: TelegramUserReward, b: TelegramUserReward) =>
+            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
+        ),
+      };
       setState({
-        rewards: {
-          pending: (res.data?.pending || []).sort(
-            (a: TelegramUserActivity, b: TelegramUserActivity) =>
-              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-          ),
-          received: (res.data?.received || []).sort(
-            (a: TelegramUserReward, b: TelegramUserReward) =>
-              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-          ),
-        },
+        rewards,
       });
+      localStorage.setItem(`gr_wallet_rewards`, JSON.stringify(rewards));
     } catch (error) {
       console.error("getTgRewards error", error);
     }
@@ -348,6 +370,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       setState({
         contacts: res.data || [],
       });
+      localStorage.setItem(
+        `gr_wallet_contacts`,
+        JSON.stringify(res.data || [])
+      );
     } catch (error) {
       console.error("getTgContacts error", error);
       setState({
@@ -489,6 +515,53 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     }
   }, [state.devMode.enabled, getStats]);
 
+  const abortControllerRef = useRef<AbortController>(new AbortController());
+
+  const getPhotos = useCallback(async () => {
+    if (
+      !state.devMode.features?.CONTACT_PHOTOS ||
+      !state.contacts ||
+      state.contacts.length < 1
+    ) {
+      return;
+    }
+
+    for (const contact of state.contacts.filter((c) => c.id && c.username)) {
+      const cachedPhoto = localStorage.getItem(
+        "gr_wallet_contact_photo_" + contact.id
+      );
+      if (cachedPhoto) {
+        setPhotos((_photos) => ({
+          ..._photos,
+          [contact.id]: cachedPhoto,
+        }));
+        continue;
+      }
+
+      const res = await axios.get(
+        `${BOT_API_URL}/v1/user/photo?username=${contact?.username}`,
+        {
+          signal: abortControllerRef.current.signal,
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+      localStorage.setItem(
+        "gr_wallet_contact_photo_" + contact.id,
+        res.data.photo || "null"
+      );
+      setPhotos((_photos) => ({
+        ..._photos,
+        [contact.id]: res.data.photo || "null",
+      }));
+    }
+  }, [state.contacts, state.devMode.features?.CONTACT_PHOTOS]);
+
+  useEffect(() => {
+    getPhotos();
+  }, [getPhotos]);
+
   if (window.origin.includes("localhost")) {
     console.log("state", state);
   }
@@ -497,6 +570,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         state,
+        photos,
         setState,
         handleInputChange,
         submitPhoneAndPassword,
