@@ -26,6 +26,7 @@ export type TelegramUserActivity = {
   tokenAmount: string;
   transactionHash: string;
   dateAdded: string;
+  status?: string;
 };
 
 export type TelegramUserReward = {
@@ -41,6 +42,7 @@ export type TelegramUserReward = {
   userName: string;
   message: string;
   parentTransactionHash?: string;
+  status?: string;
 };
 
 export type TelegramUserContact = {

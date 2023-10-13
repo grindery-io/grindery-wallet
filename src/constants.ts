@@ -86,6 +86,12 @@ export const EXPERIMENTAL_FEATURES = {
   CONTACT_PHOTOS: "Contact photos",
 };
 
+export const TRANSACTION_STATUS = {
+  PENDING: "pending",
+  SUCCESS: "success",
+  FAILURE: "failure",
+};
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)

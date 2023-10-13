@@ -9,6 +9,7 @@ import TransactionIcon from "../icons/TransactionIcon";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
+import { TRANSACTION_STATUS } from "../../constants";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,19 @@ const ActivityPage = () => {
       )?._id);
 
   const referralRewardStatus = contact.isGrinderyUser ? "Received" : "Pending";
+
+  const renderItemStatus = (status: string) => {
+    switch (status) {
+      case TRANSACTION_STATUS.PENDING:
+        return "Pending";
+      case TRANSACTION_STATUS.SUCCESS:
+        return "Completed";
+      case TRANSACTION_STATUS.FAILURE:
+        return "Failed";
+      default:
+        return "Unknown";
+    }
+  };
 
   return item ? (
     <>
@@ -112,6 +126,13 @@ const ActivityPage = () => {
             label="Transaction sent date"
             value={moment(item.dateAdded).fromNow()}
           />
+          {item.status && (
+            <TableRow
+              label="Transaction status"
+              value={renderItemStatus(item.status)}
+            />
+          )}
+
           {item.transactionHash && (
             <TableRow
               label="Transaction hash"
