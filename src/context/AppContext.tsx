@@ -596,7 +596,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         [contact.id]: base64PhotoUrl || "null",
       }));
     }
-    await client.connect();
+    await client.disconnect();
   }, [
     state.devMode.features?.CONTACT_PHOTOS,
     state.contacts,
