@@ -518,7 +518,11 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   const abortControllerRef = useRef<AbortController>(new AbortController());
 
   const getPhotos = useCallback(async () => {
-    if (!state.contacts || state.contacts.length < 1) {
+    if (
+      !state.devMode.features?.CONTACT_PHOTOS ||
+      !state.contacts ||
+      state.contacts.length < 1
+    ) {
       return;
     }
 
@@ -552,7 +556,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         [contact.id]: res.data.photo || "null",
       }));
     }
-  }, [state.contacts]);
+  }, [state.devMode.features?.CONTACT_PHOTOS, state.contacts]);
 
   useEffect(() => {
     getPhotos();
