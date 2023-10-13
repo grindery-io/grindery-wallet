@@ -10,6 +10,12 @@ import LeaderboardPage from "./components/pages/LeaderboardPage";
 declare global {
   interface Window {
     Telegram?: any;
+    telegram?: {
+      TelegramClient: any;
+      sessions: {
+        StringSession: any;
+      };
+    };
   }
 }
 

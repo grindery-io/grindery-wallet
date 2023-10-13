@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useEffect,
   useReducer,
-  useRef,
   useState,
 } from "react";
 import { BOT_API_URL, EXPERIMENTAL_FEATURES } from "../constants";
@@ -14,9 +13,7 @@ import {
   TelegramUserContact,
   TelegramUserReward,
 } from "../types/Telegram";
-import { TelegramClient } from "telegram";
 import { UserProps } from "../types/User";
-import { StringSession } from "telegram/sessions";
 
 type StateProps = {
   user: UserProps | null;
@@ -457,6 +454,15 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, []);
 
   useEffect(() => {
+    if (state.user?.telegramSession) {
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "/telegram.js";
+      document.head.appendChild(script);
+    }
+  }, [state.user?.telegramSession]);
+
+  useEffect(() => {
     if (!state.user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
       setState({
         user: {
@@ -522,13 +528,16 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       !state.devMode.features?.CONTACT_PHOTOS ||
       !state.contacts ||
       state.contacts.length < 1 ||
-      !state.user?.telegramSession
+      !state.user?.telegramSession ||
+      !window.telegram
     ) {
       return;
     }
 
+    const { TelegramClient } = window.telegram;
+    const { StringSession } = window.telegram.sessions;
     const client = new TelegramClient(
-      new StringSession(state.user?.telegramSession),
+      new StringSession(state.user?.telegramSession || ""),
       Number(process.env.REACT_APP_TELEGRAM_API_ID),
       process.env.REACT_APP_TELEGRAM_API_HASH || "",
       {
@@ -568,6 +577,14 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         String.fromCharCode(...new Uint8Array(photo as Buffer))
       );
 
+      if (!base64Photo) {
+        setPhotos((_photos) => ({
+          ..._photos,
+          [contact.id]: "null",
+        }));
+        continue;
+      }
+
       const base64PhotoUrl = `data:image/png;base64,${base64Photo}`;
 
       localStorage.setItem(
@@ -580,7 +597,11 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       }));
     }
     await client.connect();
-  }, [state.devMode.features?.CONTACT_PHOTOS, state.contacts]);
+  }, [
+    state.devMode.features?.CONTACT_PHOTOS,
+    state.contacts,
+    state.user?.telegramSession,
+  ]);
 
   useEffect(() => {
     getPhotos();

@@ -34,7 +34,10 @@ const useAppUser = (userId: string) => {
   );
 
   const [avatar, setAvatar] = useState(
-    localStorage.getItem("gr_wallet_contact_photo_" + userId) || photo || ""
+    Boolean(localStorage.getItem("gr_wallet_contact_photo_" + userId)) &&
+      localStorage.getItem("gr_wallet_contact_photo_" + userId) !== "null"
+      ? localStorage.getItem("gr_wallet_contact_photo_" + userId) || ""
+      : photo || ""
   );
 
   const appUser: AppUser = {
