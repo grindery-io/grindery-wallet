@@ -18,11 +18,17 @@ const LeaderRow = ({
   useEffect(() => {
     const controller = new AbortController();
     axios
-      .post(`${BOT_API_URL}/v1/balance/`, {
-        userAddress: leader.user?.patchwallet,
-        contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-        chainId: "matic",
-      })
+      .post(
+        `${BOT_API_URL}/v1/balance/`,
+        {
+          userAddress: leader.user?.patchwallet,
+          contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
+          chainId: "matic",
+        },
+        {
+          signal: controller.signal,
+        }
+      )
 
       .then((res) => {
         if (res?.data?.balanceEther) {
