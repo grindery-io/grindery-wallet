@@ -34,6 +34,9 @@ type StateProps = {
   rewardsFilters: string[];
   activityFilters: string[];
   activityLoading: boolean;
+  activityTotal: number;
+  activitySkip: number;
+  activityFind?: any;
   rewards: {
     received: TelegramUserReward[];
     pending: TelegramUserActivity[];
@@ -93,6 +96,11 @@ const defaultContext = {
     rewardsFilters: [],
     activityFilters: [],
     activityLoading: true,
+    activityTotal: (localStorage.getItem("gr_wallet_activity")
+      ? JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
+      : []
+    ).length,
+    activitySkip: 0,
     rewards: localStorage.getItem("gr_wallet_rewards")
       ? JSON.parse(localStorage.getItem("gr_wallet_rewards") || "[]")
       : {
@@ -291,25 +299,25 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       activityLoading: true,
     });
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/activity`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
+      const res = await axios.get(
+        `${BOT_API_URL}/v2/activity?limit=10&find=${
+          state.activityFind?.length > 0
+            ? JSON.stringify(state.activityFind)
+            : ""
+        }`,
+        {
+          headers: {
+            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+          },
+        }
+      );
       setState({
-        activity: (res.data || []).sort(
-          (a: TelegramUserActivity, b: TelegramUserActivity) =>
-            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-        ),
+        activity: res.data?.docs || [],
+        activityTotal: res.data?.total || 0,
       });
       localStorage.setItem(
         `gr_wallet_activity`,
-        JSON.stringify(
-          (res.data || []).sort(
-            (a: TelegramUserActivity, b: TelegramUserActivity) =>
-              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-          )
-        )
+        JSON.stringify(res.data?.docs || [])
       );
     } catch (error) {
       console.error("getTgActivity error", error);
@@ -317,7 +325,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     setState({
       activityLoading: false,
     });
-  }, []);
+  }, [state.activityFind]);
 
   const getTgRewards = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
