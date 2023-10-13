@@ -89,7 +89,7 @@ const useAppUser = (userId: string) => {
     };
   }, [userId, user]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const controller = new AbortController();
     if (
       !avatar &&
@@ -127,7 +127,7 @@ const useAppUser = (userId: string) => {
     return () => {
       controller.abort();
     };
-  }, [userId, user, avatar]);
+  }, [userId, user, avatar]);*/
 
   return { user: appUser };
 };
