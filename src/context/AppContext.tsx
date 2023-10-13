@@ -14,7 +14,9 @@ import {
   TelegramUserContact,
   TelegramUserReward,
 } from "../types/Telegram";
+import { TelegramClient } from "telegram";
 import { UserProps } from "../types/User";
+import { StringSession } from "telegram/sessions";
 
 type StateProps = {
   user: UserProps | null;
@@ -515,14 +517,28 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     }
   }, [state.devMode.enabled, getStats]);
 
-  const abortControllerRef = useRef<AbortController>(new AbortController());
-
   const getPhotos = useCallback(async () => {
     if (
       !state.devMode.features?.CONTACT_PHOTOS ||
       !state.contacts ||
-      state.contacts.length < 1
+      state.contacts.length < 1 ||
+      !state.user?.telegramSession
     ) {
+      return;
+    }
+
+    const client = new TelegramClient(
+      new StringSession(state.user?.telegramSession),
+      Number(process.env.REACT_APP_TELEGRAM_API_ID),
+      process.env.REACT_APP_TELEGRAM_API_HASH || "",
+      {
+        connectionRetries: 5,
+        maxConcurrentDownloads: 1,
+      }
+    );
+
+    await client.connect();
+    if (!client.connected) {
       return;
     }
 
@@ -538,24 +554,32 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         continue;
       }
 
-      const res = await axios.get(
-        `${BOT_API_URL}/v1/user/photo?username=${contact?.username}`,
-        {
-          signal: abortControllerRef.current.signal,
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
+      const photo = await client.downloadProfilePhoto(contact.username);
+
+      if (!photo) {
+        setPhotos((_photos) => ({
+          ..._photos,
+          [contact.id]: "null",
+        }));
+        continue;
+      }
+
+      const base64Photo = btoa(
+        String.fromCharCode(...new Uint8Array(photo as Buffer))
       );
+
+      const base64PhotoUrl = `data:image/png;base64,${base64Photo}`;
+
       localStorage.setItem(
         "gr_wallet_contact_photo_" + contact.id,
-        res.data.photo || "null"
+        base64PhotoUrl || "null"
       );
       setPhotos((_photos) => ({
         ..._photos,
-        [contact.id]: res.data.photo || "null",
+        [contact.id]: base64PhotoUrl || "null",
       }));
     }
+    await client.connect();
   }, [state.devMode.features?.CONTACT_PHOTOS, state.contacts]);
 
   useEffect(() => {
