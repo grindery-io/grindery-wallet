@@ -51,7 +51,7 @@ const Leader = ({ leader, id }: { leader: any; id: any }) => {
           ? "var(--tg-theme-secondary-bg-color, #efeff3)"
           : "var(--tg-theme-bg-color, #ffffff)",
         position: isMe ? "sticky" : undefined,
-        top: isMe ? "50px" : 0,
+        top: isMe ? "56px" : 0,
         bottom: 0,
         zIndex: isMe ? 2 : 1,
         border: isMe ? "none" : "1px solid var(--gr-theme-divider-color)",

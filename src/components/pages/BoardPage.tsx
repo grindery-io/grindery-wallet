@@ -19,6 +19,7 @@ import LeaderFixed from "../shared/LeaderFixed";
 import SortIcon from "@mui/icons-material/Sort";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import moment from "moment";
 
 type StateProps = {
   page: number;
@@ -46,7 +47,14 @@ const BoardPage = () => {
   const {
     state: { user },
   } = useAppContext();
-  const [leaderboard, setLeaderboard] = React.useState<any[]>([]);
+  const cachedLeaderboard = JSON.parse(
+    localStorage.getItem("gr_wallet_leaderboard") || "[]"
+  );
+  const cachedLeaderboardSaved = localStorage.getItem(
+    "gr_wallet_leaderboard_saved"
+  );
+  const [leaderboard, setLeaderboard] =
+    React.useState<any[]>(cachedLeaderboard);
   const { page, loading, sort, order } = state;
   const id = user?.userTelegramID || "";
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -70,6 +78,13 @@ const BoardPage = () => {
         page === 1 ? items : [..._leaderboard, ...items]
       );
       setState({ total: res.data?.total || 0 });
+      if (page === 1 && sort === "txCount" && order === "desc") {
+        localStorage.setItem("gr_wallet_leaderboard", JSON.stringify(items));
+        localStorage.setItem(
+          "gr_wallet_leaderboard_saved",
+          new Date().toString()
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +110,7 @@ const BoardPage = () => {
     >
       <Stack
         direction="row"
-        alignItems="flex-end"
+        alignItems="center"
         justifyContent="space-between"
         gap="16px"
         sx={{
@@ -104,10 +119,17 @@ const BoardPage = () => {
           position: "sticky",
           top: 0,
           borderBottom: "1px solid var(--gr-theme-divider-color)",
-          minHeight: "50px",
+          minHeight: "56px",
         }}
       >
-        <Typography>Leaderboard</Typography>
+        <Box>
+          <Typography variant="md">Leaderboard</Typography>
+          {cachedLeaderboardSaved && (
+            <Typography variant="xs" color="hint">
+              Updated {moment(cachedLeaderboardSaved).fromNow()}
+            </Typography>
+          )}
+        </Box>
         <IconButton
           disabled={leaderboard.length < 1}
           sx={{
