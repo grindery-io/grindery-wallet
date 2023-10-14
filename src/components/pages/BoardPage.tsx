@@ -2,11 +2,23 @@ import React, { useCallback, useEffect, useReducer } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BOT_API_URL } from "../../constants";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  IconButton,
+  Menu,
+  Stack,
+  Typography,
+} from "@mui/material";
 import useBackButton from "../../hooks/useBackButton";
 import useAppContext from "../../hooks/useAppContext";
 import Leader from "../shared/Leader";
 import LeaderFixed from "../shared/LeaderFixed";
+import SortIcon from "@mui/icons-material/Sort";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 type StateProps = {
   page: number;
@@ -37,6 +49,15 @@ const BoardPage = () => {
   const [leaderboard, setLeaderboard] = React.useState<any[]>([]);
   const { page, loading, sort, order } = state;
   const id = user?.userTelegramID || "";
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const [hideLoader, setHideLoader] = React.useState(false);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const getLeaderboard = useCallback(async () => {
     setState({ loading: true });
@@ -87,15 +108,126 @@ const BoardPage = () => {
         }}
       >
         <Typography>Leaderboard</Typography>
-        {loading && (
-          <Typography
-            variant="xs"
-            color="hint"
-            sx={{ lineHeight: 1.5, marginBottom: "1.5px" }}
-          >
-            Loading...
-          </Typography>
-        )}
+        <IconButton
+          disabled={loading}
+          sx={{
+            padding: "0px",
+            color: "var(--tg-theme-button-color, #2481cc)",
+          }}
+          onClick={handleClick}
+        >
+          <SortIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            sx: { background: "var(--tg-theme-secondary-bg-color, #efeff3)" },
+          }}
+        >
+          <Box sx={{ padding: "10px 12px" }}>
+            <Typography color="hint" variant="sm" textAlign="center" mb="8px">
+              Sort and order by
+            </Typography>
+            <ButtonGroup size="small" fullWidth>
+              <Button
+                onClick={() => {
+                  if (sort !== "txCount") {
+                    setState({ sort: "txCount", page: 1 });
+                    setHideLoader(true);
+                    setLeaderboard([]);
+                    handleClose();
+                  }
+                }}
+                disabled={loading}
+                key="txCount"
+                variant={sort === "txCount" ? "contained" : "outlined"}
+                sx={{
+                  padding: "2px 8px",
+                }}
+              >
+                Transfer
+              </Button>
+              <Button
+                variant={sort === "rewardsCount" ? "contained" : "outlined"}
+                sx={{
+                  padding: "2px 8px",
+                }}
+                onClick={() => {
+                  if (sort !== "rewardsCount") {
+                    setState({ sort: "rewardsCount", page: 1 });
+                    setHideLoader(true);
+                    setLeaderboard([]);
+                    handleClose();
+                  }
+                }}
+                key="rewardsCount"
+                disabled={loading}
+              >
+                Affiliate
+              </Button>
+              <Button
+                variant={sort === "referralsCount" ? "contained" : "outlined"}
+                sx={{
+                  padding: "2px 8px",
+                }}
+                onClick={() => {
+                  if (sort !== "referralsCount") {
+                    setState({ sort: "referralsCount", page: 1 });
+                    setHideLoader(true);
+                    setLeaderboard([]);
+                    handleClose();
+                  }
+                }}
+                key="referralsCount"
+                disabled={loading}
+              >
+                Referral
+              </Button>
+              <Button
+                variant={"outlined"}
+                sx={{
+                  padding: "0px",
+                  minWidth: "none",
+                  width: "auto",
+                }}
+                onClick={() => {
+                  setState({
+                    order: order === "asc" ? "desc" : "asc",
+                    page: 1,
+                  });
+                  setHideLoader(true);
+                  setLeaderboard([]);
+                  handleClose();
+                }}
+                key="order"
+                disabled={loading}
+              >
+                <Stack>
+                  <ArrowDropUpIcon
+                    sx={{
+                      marginBottom: "-8px",
+                      color:
+                        order === "asc"
+                          ? "var(--tg-theme-button-color, #2481cc)"
+                          : "var(--tg-theme-hint-color, #999999)",
+                    }}
+                  />
+                  <ArrowDropDownIcon
+                    sx={{
+                      marginTop: "-8px",
+                      color:
+                        order === "desc"
+                          ? "var(--tg-theme-button-color, #2481cc)"
+                          : "var(--tg-theme-hint-color, #999999)",
+                    }}
+                  />
+                </Stack>
+              </Button>
+            </ButtonGroup>
+          </Box>
+        </Menu>
       </Stack>
 
       <Box
@@ -138,7 +270,7 @@ const BoardPage = () => {
           .includes(id) &&
           leaderboard.length > 0 && <LeaderFixed />}
       </Box>
-      {leaderboard.length < 1 && state.loading && (
+      {leaderboard.length < 1 && state.loading && !hideLoader && (
         <Box
           sx={{
             textAlign: "center",
