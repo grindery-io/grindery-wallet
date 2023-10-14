@@ -348,59 +348,57 @@ const DebugPage = () => {
               </>
             )}
 
-            {user?.telegramSession && (
-              <>
-                <ListSubheader
-                  component="div"
-                  sx={{
-                    marginTop: "30px",
-                    backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
-                    color: "var(--tg-theme-hint-color, #999999)",
-                    fontFamily: "Geologica",
-                  }}
-                >
-                  Experimental features
-                </ListSubheader>
+            <>
+              <ListSubheader
+                component="div"
+                sx={{
+                  marginTop: "30px",
+                  backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+                  color: "var(--tg-theme-hint-color, #999999)",
+                  fontFamily: "Geologica",
+                }}
+              >
+                Experimental features
+              </ListSubheader>
 
-                {Object.keys(EXPERIMENTAL_FEATURES).map((key) => (
-                  <React.Fragment key={key}>
-                    <ListItem>
-                      <ListItemText
-                        primary={
-                          EXPERIMENTAL_FEATURES[
-                            key as keyof typeof EXPERIMENTAL_FEATURES
-                          ]
-                        }
-                        sx={{ color: "var(--tg-theme-text-color, #000000)" }}
-                      />
-                      <ListItemSecondaryAction>
-                        <StyledSwitch
-                          checked={devMode.features?.[key]}
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
-                            setState({
-                              devMode: {
-                                ...devMode,
-                                features: {
-                                  ...devMode.features,
-                                  [key]: event.target.checked,
-                                },
+              {Object.keys(EXPERIMENTAL_FEATURES).map((key) => (
+                <React.Fragment key={key}>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        EXPERIMENTAL_FEATURES[
+                          key as keyof typeof EXPERIMENTAL_FEATURES
+                        ]
+                      }
+                      sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                    />
+                    <ListItemSecondaryAction>
+                      <StyledSwitch
+                        checked={devMode.features?.[key]}
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>
+                        ) => {
+                          setState({
+                            devMode: {
+                              ...devMode,
+                              features: {
+                                ...devMode.features,
+                                [key]: event.target.checked,
                               },
-                            });
-                            localStorage.setItem(
-                              `grindery_wallet_features_${key}`,
-                              event.target.checked ? "true" : "false"
-                            );
-                          }}
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider />
-                  </React.Fragment>
-                ))}
-              </>
-            )}
+                            },
+                          });
+                          localStorage.setItem(
+                            `grindery_wallet_features_${key}`,
+                            event.target.checked ? "true" : "false"
+                          );
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider />
+                </React.Fragment>
+              ))}
+            </>
           </>
         )}
       </List>
