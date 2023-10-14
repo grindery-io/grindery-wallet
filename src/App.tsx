@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Provider as StoreProvider } from "react-redux";
 import AppContextProvider from "./context/AppContext";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import Container from "./components/shared/Container";
 import AppRoutes from "./AppRoutes";
 import LeaderboardPage from "./components/pages/LeaderboardPage";
+import { store } from "./store";
 
 declare global {
   interface Window {
@@ -70,11 +72,13 @@ function App() {
           <Route
             path="*"
             element={
-              <AppContextProvider>
-                <Container>
-                  <AppRoutes />
-                </Container>
-              </AppContextProvider>
+              <StoreProvider store={store}>
+                <AppContextProvider>
+                  <Container>
+                    <AppRoutes />
+                  </Container>
+                </AppContextProvider>
+              </StoreProvider>
             }
           />
         </Routes>

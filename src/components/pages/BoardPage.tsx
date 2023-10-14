@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useReducer } from "react";
+import React, { useCallback, useEffect } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { BOT_API_URL } from "../../constants";
+import { BOT_API_URL, STORAGE_KEYS } from "../../constants";
 import {
   Box,
   Button,
@@ -20,42 +20,24 @@ import SortIcon from "@mui/icons-material/Sort";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import moment from "moment";
-
-type StateProps = {
-  page: number;
-  total: number;
-  loading: boolean;
-  sort: string;
-  order: string;
-};
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const BoardPage = () => {
   useBackButton();
-  const [state, setState] = useReducer(
-    (state: StateProps, newState: Partial<StateProps>) => ({
-      ...state,
-      ...newState,
-    }),
-    {
-      page: 1,
-      total: 0,
-      loading: true,
-      sort: "txCount",
-      order: "desc",
-    }
-  );
+  const {
+    leaderboard: { page, total, loading, sort, order, docs, savedDate },
+  } = useAppSelector(selectAppStore);
+  const dispatch = useAppDispatch();
   const {
     state: { user },
   } = useAppContext();
-  const cachedLeaderboard = JSON.parse(
-    localStorage.getItem("gr_wallet_leaderboard") || "[]"
-  );
-  const cachedLeaderboardSaved = localStorage.getItem(
-    "gr_wallet_leaderboard_saved"
-  );
-  const [leaderboard, setLeaderboard] =
-    React.useState<any[]>(cachedLeaderboard);
-  const { page, loading, sort, order } = state;
+  const leaderboard = docs;
+
   const id = user?.userTelegramID || "";
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -68,37 +50,35 @@ const BoardPage = () => {
   };
 
   const getLeaderboard = useCallback(async () => {
-    setState({ loading: true });
+    dispatch(appStoreActions.setLeaderboard({ loading: true }));
     try {
       const res = await axios.get(
         `${BOT_API_URL}/v1/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
       );
       const items = res.data?.items || [];
-      setLeaderboard((_leaderboard) =>
-        page === 1 ? items : [..._leaderboard, ...items]
-      );
-      setState({ total: res.data?.total || 0 });
+      if (page === 1) {
+        dispatch(appStoreActions.setLeaderboardDocs(items));
+      } else {
+        dispatch(appStoreActions.addLeaderboardDocs(items));
+      }
+      dispatch(appStoreActions.setLeaderboard({ total: res.data?.total || 0 }));
+
       if (page === 1 && sort === "txCount" && order === "desc") {
-        localStorage.setItem("gr_wallet_leaderboard", JSON.stringify(items));
+        localStorage.setItem(STORAGE_KEYS.LEADERBOARD, JSON.stringify(items));
         localStorage.setItem(
-          "gr_wallet_leaderboard_saved",
+          STORAGE_KEYS.LEADERBOARD_SAVED,
           new Date().toString()
         );
       }
     } catch (error) {
       console.error(error);
     }
-    setState({ loading: false });
-  }, [page, sort, order]);
+    dispatch(appStoreActions.setLeaderboard({ loading: false }));
+  }, [page, sort, order, dispatch]);
 
   useEffect(() => {
     getLeaderboard();
   }, [getLeaderboard]);
-
-  if (window.origin.includes("localhost")) {
-    console.log("state", state);
-    console.log("leaderboard", leaderboard);
-  }
 
   return (
     <Box
@@ -124,9 +104,9 @@ const BoardPage = () => {
       >
         <Box>
           <Typography variant="md">Leaderboard</Typography>
-          {cachedLeaderboardSaved && (
+          {savedDate && (
             <Typography variant="xs" color="hint">
-              Updated {moment(cachedLeaderboardSaved).fromNow()}
+              Updated {moment(savedDate).fromNow()}
             </Typography>
           )}
         </Box>
@@ -168,9 +148,14 @@ const BoardPage = () => {
               <Button
                 onClick={() => {
                   if (sort !== "txCount") {
-                    setState({ sort: "txCount", page: 1 });
+                    dispatch(
+                      appStoreActions.setLeaderboard({
+                        sort: "txCount",
+                        page: 1,
+                        docs: [],
+                      })
+                    );
                     setHideLoader(true);
-                    setLeaderboard([]);
                     handleClose();
                   }
                 }}
@@ -190,9 +175,14 @@ const BoardPage = () => {
                 }}
                 onClick={() => {
                   if (sort !== "rewardsCount") {
-                    setState({ sort: "rewardsCount", page: 1 });
+                    dispatch(
+                      appStoreActions.setLeaderboard({
+                        sort: "rewardsCount",
+                        page: 1,
+                        docs: [],
+                      })
+                    );
                     setHideLoader(true);
-                    setLeaderboard([]);
                     handleClose();
                   }
                 }}
@@ -208,9 +198,14 @@ const BoardPage = () => {
                 }}
                 onClick={() => {
                   if (sort !== "referralsCount") {
-                    setState({ sort: "referralsCount", page: 1 });
+                    dispatch(
+                      appStoreActions.setLeaderboard({
+                        sort: "referralsCount",
+                        page: 1,
+                        docs: [],
+                      })
+                    );
                     setHideLoader(true);
-                    setLeaderboard([]);
                     handleClose();
                   }
                 }}
@@ -227,12 +222,15 @@ const BoardPage = () => {
                   width: "auto",
                 }}
                 onClick={() => {
-                  setState({
-                    order: order === "asc" ? "desc" : "asc",
-                    page: 1,
-                  });
+                  dispatch(
+                    appStoreActions.setLeaderboard({
+                      order: order === "asc" ? "desc" : "asc",
+                      page: 1,
+                      docs: [],
+                    })
+                  );
+
                   setHideLoader(true);
-                  setLeaderboard([]);
                   handleClose();
                 }}
                 key="order"
@@ -275,9 +273,9 @@ const BoardPage = () => {
         <InfiniteScroll
           dataLength={leaderboard.length}
           next={async () => {
-            setState({ page: page + 1 });
+            dispatch(appStoreActions.setLeaderboard({ page: page + 1 }));
           }}
-          hasMore={leaderboard.length < state.total}
+          hasMore={leaderboard.length < total}
           loader={
             <Box
               sx={{
@@ -304,7 +302,7 @@ const BoardPage = () => {
           .includes(id) &&
           leaderboard.length > 0 && <LeaderFixed />}
       </Box>
-      {leaderboard.length < 1 && state.loading && !hideLoader && (
+      {leaderboard.length < 1 && loading && !hideLoader && (
         <Box
           sx={{
             textAlign: "center",

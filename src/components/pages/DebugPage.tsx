@@ -41,7 +41,7 @@ const DebugPage = () => {
   useBackButton();
   const {
     setState,
-    state: { devMode, user, stats },
+    state: { devMode, user },
   } = useAppContext();
   const [cache, setCache] = useState<string>(getLocalStorageSize());
   return (

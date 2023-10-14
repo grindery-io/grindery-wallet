@@ -92,6 +92,11 @@ export const TRANSACTION_STATUS = {
   FAILURE: "failure",
 };
 
+export const STORAGE_KEYS = {
+  LEADERBOARD: "gr_wallet_leaderboard",
+  LEADERBOARD_SAVED: "gr_wallet_leaderboard_saved",
+};
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)
