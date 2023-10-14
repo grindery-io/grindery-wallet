@@ -126,7 +126,11 @@ const BoardPage = () => {
           }
         >
           {leaderboard.map((leader, index) => (
-            <Leader leader={leader} id={id} index={index} key={index} />
+            <Leader
+              leader={leader}
+              id={id}
+              key={leader.user?.userTelegramID || index}
+            />
           ))}
         </InfiniteScroll>
         {!leaderboard

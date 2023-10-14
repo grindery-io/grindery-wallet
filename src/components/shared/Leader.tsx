@@ -4,17 +4,8 @@ import moment from "moment";
 import axios from "axios";
 import { BOT_API_URL, TOKENS } from "../../constants";
 
-const Leader = ({
-  leader,
-  id,
-  index,
-}: {
-  leader: any;
-  id: any;
-  index: number;
-}) => {
+const Leader = ({ leader, id }: { leader: any; id: any }) => {
   const [balance, setBalance] = useState("");
-
   const isMe = id && id === leader.user?.userTelegramID;
 
   useEffect(() => {
