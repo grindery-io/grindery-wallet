@@ -109,10 +109,14 @@ const BoardPage = () => {
       >
         <Typography>Leaderboard</Typography>
         <IconButton
-          disabled={loading}
+          disabled={leaderboard.length < 1}
           sx={{
             padding: "0px",
             color: "var(--tg-theme-button-color, #2481cc)",
+            "&:disabled": {
+              color: "var(--tg-theme-button-color, #2481cc)",
+              opacity: 0.3,
+            },
           }}
           onClick={handleClick}
         >
@@ -130,7 +134,15 @@ const BoardPage = () => {
             <Typography color="hint" variant="sm" textAlign="center" mb="8px">
               Sort and order by
             </Typography>
-            <ButtonGroup size="small" fullWidth>
+            <ButtonGroup
+              size="small"
+              fullWidth
+              sx={{
+                "& .MuiButton-root": {
+                  fontWeight: 400,
+                },
+              }}
+            >
               <Button
                 onClick={() => {
                   if (sort !== "txCount") {
