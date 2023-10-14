@@ -543,6 +543,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       {
         connectionRetries: 5,
         maxConcurrentDownloads: 1,
+        useWSS: false,
       }
     );
 
