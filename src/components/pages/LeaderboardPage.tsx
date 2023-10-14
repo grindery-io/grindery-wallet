@@ -1,13 +1,8 @@
 import React, { useCallback, useEffect, useReducer } from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { BOT_API_URL } from "../../constants";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import useBackButton from "../../hooks/useBackButton";
 import LeaderRow from "../shared/LeaderRow";
 import LeaderboardSortButton from "../shared/LeaderboardSortButton";
@@ -15,7 +10,7 @@ import LeaderboardSortButton from "../shared/LeaderboardSortButton";
 type StateProps = {
   me: any;
   page: number;
-  stop: boolean;
+  total: number;
   loading: boolean;
   sort: string;
   order: string;
@@ -31,30 +26,27 @@ const LeaderboardPage = () => {
     {
       me: null,
       page: 1,
-      stop: false,
+      total: 0,
       loading: true,
       sort: "txCount",
       order: "desc",
     }
   );
   const [leaderboard, setLeaderboard] = React.useState<any[]>([]);
-  const { me, page, stop, loading, sort, order } = state;
+  const { me, page, loading, sort, order } = state;
   const id = me?.userTelegramID || "";
 
   const getLeaderboard = useCallback(async () => {
     setState({ loading: true });
     try {
       const res = await axios.get(
-        `${BOT_API_URL}/v1/leaderboard?limit=15&page=${page}&sortBy=${sort}&order=${order}`
+        `${BOT_API_URL}/v1/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
       );
-      const items = res.data || [];
+      const items = res.data?.items || [];
       setLeaderboard((_leaderboard) =>
         page === 1 ? items : [..._leaderboard, ...items]
       );
-
-      if (items.length < 1) {
-        setState({ stop: true });
-      }
+      setState({ total: res.data?.total || 0 });
     } catch (error) {
       console.error(error);
     }
@@ -82,6 +74,11 @@ const LeaderboardPage = () => {
   useEffect(() => {
     getMe();
   }, []);
+
+  if (window.origin.includes("localhost")) {
+    console.log("state", state);
+    console.log("leaderboard", leaderboard);
+  }
 
   return (
     <Box
@@ -309,35 +306,51 @@ const LeaderboardPage = () => {
               />
             </Stack>
           </Stack>
-          {leaderboard.map((leader, index) => (
-            <LeaderRow leader={leader} id={id} index={index} key={index} />
-          ))}
-        </Stack>
-      </Box>
-      {!stop && !loading && (
-        <Box sx={{ textAlign: "center", margin: "20px" }}>
-          <Button
-            disabled={loading}
-            onClick={() => {
-              setState({ page: page + 1 });
+          <Box
+            sx={{
+              "& .infinite-scroll-component": {
+                overflow: "visible !important",
+              },
             }}
           >
-            Show more
-          </Button>
-        </Box>
-      )}
-      {loading && (
-        <Box
-          sx={{
-            textAlign: "center",
-            margin: "20px",
-          }}
-        >
-          <CircularProgress
-            sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
-          />
-        </Box>
-      )}
+            <InfiniteScroll
+              dataLength={leaderboard.length}
+              next={async () => {
+                setState({ page: page + 1 });
+              }}
+              hasMore={leaderboard.length < state.total}
+              loader={
+                <Box
+                  sx={{
+                    textAlign: "center",
+                    margin: "20px",
+                  }}
+                >
+                  <CircularProgress
+                    sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+                  />
+                </Box>
+              }
+            >
+              {leaderboard.map((leader, index) => (
+                <LeaderRow leader={leader} id={id} index={index} key={index} />
+              ))}
+            </InfiniteScroll>
+          </Box>
+          {leaderboard.length < 1 && state.loading && (
+            <Box
+              sx={{
+                textAlign: "center",
+                margin: "20px",
+              }}
+            >
+              <CircularProgress
+                sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+              />
+            </Box>
+          )}
+        </Stack>
+      </Box>
     </Box>
   );
 };
