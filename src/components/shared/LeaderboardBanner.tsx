@@ -25,7 +25,7 @@ const LeaderboardBanner = () => {
         }}
         onClick={() => {
           setTimeout(() => {
-            navigate("/leaderboard");
+            navigate("/board");
           }, 250);
         }}
       >
@@ -69,7 +69,7 @@ const LeaderboardBanner = () => {
         }}
         onClick={() => {
           setTimeout(() => {
-            navigate("/leaderboard");
+            navigate("/board");
           }, 250);
         }}
       >

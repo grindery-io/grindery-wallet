@@ -190,7 +190,7 @@ const LeaderboardPage = () => {
               justifyContent="flex-end"
             >
               <Typography align="right" variant="sm">
-                Rewards
+                Affiliate
               </Typography>
               <LeaderboardSortButton
                 name="rewardsCount"
@@ -206,7 +206,7 @@ const LeaderboardPage = () => {
               justifyContent="flex-end"
             >
               <Typography align="right" variant="sm">
-                Referrals
+                Referral
               </Typography>
               <LeaderboardSortButton
                 name="referralsCount"
