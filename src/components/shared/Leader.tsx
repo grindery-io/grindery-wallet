@@ -63,10 +63,10 @@ const Leader = ({
         top: isMe ? "50px" : 0,
         bottom: 0,
         zIndex: isMe ? 2 : 1,
-        border: "1px solid var(--gr-theme-divider-color)",
+        border: isMe ? "none" : "1px solid var(--gr-theme-divider-color)",
         borderRadius: isMe ? 0 : "5px",
         margin: isMe ? "0 0 10px" : "0 16px 10px",
-        padding: isMe ? "10px 26px" : "10px",
+        padding: isMe ? "10px 27px" : "10px",
       }}
     >
       <Stack
