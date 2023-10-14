@@ -22,7 +22,7 @@ const LeaderFixed = () => {
         zIndex: 2,
         border: "none",
         borderRadius: 0,
-        margin: "0 0 10px",
+        margin: "0",
         padding: "10px 27px",
       }}
     >
