@@ -518,10 +518,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [state.user, state.balance]);
 
   useEffect(() => {
-    if (state.devMode.enabled) {
+    if (state.devMode.enabled || state.devMode.features?.LEADERBOARD) {
       getStats();
     }
-  }, [state.devMode.enabled, getStats]);
+  }, [state.devMode.enabled, state.devMode.features, getStats]);
 
   const getPhotos = useCallback(async () => {
     if (

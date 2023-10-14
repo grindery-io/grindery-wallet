@@ -6,6 +6,7 @@ import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import useBackButton from "../../hooks/useBackButton";
 import useAppContext from "../../hooks/useAppContext";
 import Leader from "../shared/Leader";
+import LeaderFixed from "../shared/LeaderFixed";
 
 type StateProps = {
   page: number;
@@ -128,6 +129,10 @@ const BoardPage = () => {
             <Leader leader={leader} id={id} index={index} key={index} />
           ))}
         </InfiniteScroll>
+        {!leaderboard
+          .map((leader) => leader.user.userTelegramID)
+          .includes(id) &&
+          leaderboard.length > 0 && <LeaderFixed />}
       </Box>
       {leaderboard.length < 1 && state.loading && (
         <Box
