@@ -61,13 +61,21 @@ const BoardPage = () => {
       } else {
         dispatch(appStoreActions.addLeaderboardDocs(items));
       }
-      dispatch(appStoreActions.setLeaderboard({ total: res.data?.total || 0 }));
-
+      dispatch(
+        appStoreActions.setLeaderboard({
+          total: res.data?.total || 0,
+        })
+      );
       if (page === 1 && sort === "txCount" && order === "desc") {
         localStorage.setItem(STORAGE_KEYS.LEADERBOARD, JSON.stringify(items));
         localStorage.setItem(
           STORAGE_KEYS.LEADERBOARD_SAVED,
           new Date().toString()
+        );
+        dispatch(
+          appStoreActions.setLeaderboard({
+            savedDate: new Date().toString(),
+          })
         );
       }
     } catch (error) {
