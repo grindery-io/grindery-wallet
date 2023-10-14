@@ -1,7 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import SendPage from "./components/pages/SendPage";
-import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
 import TokensPage from "./components/pages/TokensPage";
 import ContactsPage from "./components/pages/ContactsPage";
 import useAppContext from "./hooks/useAppContext";
@@ -34,7 +33,6 @@ const AppRoutes = () => {
       <Route path="/community" element={<CommunityPage />} />
       <Route path="/send" element={<SendPage />} />
       <Route path="/send/:id" element={<SendPage />} />
-      <Route path="/connect/telegram" element={<ConnectTelegramPage />} />
       <Route path="/board" element={<BoardPage />} />
       <Route path="/debug" element={<DebugPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />

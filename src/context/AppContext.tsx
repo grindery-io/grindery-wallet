@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { BOT_API_URL, EXPERIMENTAL_FEATURES } from "../constants";
 import {
-  TelegramAuthUserInput,
   TelegramUserActivity,
   TelegramUserContact,
   TelegramUserReward,
@@ -18,9 +17,7 @@ import { UserProps } from "../types/User";
 type StateProps = {
   user: UserProps | null;
   loading: boolean;
-  input: TelegramAuthUserInput;
   error: string;
-  operationId: string;
   activeTab: string;
   contacts?: TelegramUserContact[];
   balance?: number;
@@ -38,7 +35,6 @@ type StateProps = {
     pending: TelegramUserActivity[];
   };
   rewardsLoading: boolean;
-  telegramSessionSaved?: boolean;
   bannerShown: boolean;
   config?: any;
   communityFilters: string[];
@@ -57,9 +53,6 @@ type ContextProps = {
   state: StateProps;
   photos?: { [key: string]: string };
   setState: (newState: Partial<StateProps>) => void;
-  handleInputChange: (name: string, value: string) => void;
-  submitPhoneAndPassword: () => void;
-  submitPhoneCode: () => void;
   getBalance: (a?: boolean) => void;
   getTgActivity: () => void;
   getTgRewards: () => void;
@@ -75,14 +68,8 @@ const defaultContext = {
   state: {
     user: null,
     loading: false,
-    input: {
-      phone: "",
-      password: "",
-      code: "",
-    },
     error: "",
     sessionLoading: true,
-    operationId: "",
     activeTab: "tokens",
     activity: localStorage.getItem("gr_wallet_activity")
       ? JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
@@ -119,9 +106,6 @@ const defaultContext = {
       : undefined,
   },
   setState: () => {},
-  handleInputChange: () => {},
-  submitPhoneAndPassword: () => {},
-  submitPhoneCode: () => {},
   getBalance: () => {},
   getTgActivity: () => {},
   getTgRewards: () => {},
@@ -176,111 +160,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       });
     } catch (error) {}
   }, []);
-
-  const handleInputChange = useCallback(
-    (name: string, value: string) => {
-      setState({
-        error: "",
-        input: {
-          ...state.input,
-          [name]: value,
-        },
-      });
-    },
-    [state.input]
-  );
-
-  const submitPhoneAndPassword = useCallback(async () => {
-    if (!state.input.phone) {
-      setState({
-        error: "Phone number is required",
-      });
-      return;
-    }
-    if (!state.input.password) {
-      setState({
-        error: "Password is required",
-      });
-      return;
-    }
-    setState({
-      error: "",
-      loading: true,
-    });
-    try {
-      const res = await axios.post(
-        `${BOT_API_URL}/v1/init`,
-        {
-          phone: state.input.phone,
-          password: state.input.password,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setState({
-        operationId: res.data?.operationId || "",
-      });
-    } catch (error: any) {
-      setState({
-        operationId: "",
-        error: error?.response?.data?.error?.message || "Something went wrong",
-      });
-    }
-    setState({
-      loading: false,
-    });
-  }, [state]);
-
-  const submitPhoneCode = useCallback(async () => {
-    if (!state.input.code) {
-      setState({
-        error: "Phone code is required",
-      });
-      return;
-    }
-    setState({
-      error: "",
-      loading: true,
-    });
-    try {
-      const res = await axios.post(
-        `${BOT_API_URL}/v1/callback`,
-        {
-          operationId: state.operationId,
-          code: state.input.code,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
-      setState({
-        // @ts-ignore
-        user: {
-          ...state.user,
-          telegramSession: res.data?.session || "",
-        },
-        telegramSessionSaved: true,
-      });
-    } catch (error: any) {
-      setState({
-        operationId: "",
-        // @ts-ignore
-        user: {
-          ...state.user,
-          telegramSession: "",
-        },
-        error: error?.response?.data?.error?.message || "Something went wrong",
-      });
-    }
-    setState({
-      loading: false,
-    });
-  }, [state]);
 
   const getTgActivity = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
@@ -617,9 +496,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         state,
         photos,
         setState,
-        handleInputChange,
-        submitPhoneAndPassword,
-        submitPhoneCode,
         getBalance,
         getTgActivity,
         getTgRewards,

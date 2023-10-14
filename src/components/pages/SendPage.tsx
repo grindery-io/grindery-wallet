@@ -236,7 +236,12 @@ const SendPage = () => {
                     Grant Access
                   </Button>
                   <BulletPoints
-                    style={{ marginTop: "24px" }}
+                    style={{
+                      marginTop: "24px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      display: "inline-flex",
+                    }}
                     items={[
                       "Forget about wallet addresses of your contacts",
                       "Send tokens before they setup they own wallet",

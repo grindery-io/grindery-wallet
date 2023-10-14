@@ -47,12 +47,13 @@ type Props = {
   children: React.ReactNode;
   color?: AlertProps["color"];
   icon?: React.ReactNode;
+  style?: React.CSSProperties;
 };
 
 const AlertBox = (props: Props) => {
-  const { children, color, icon } = props;
+  const { children, color, icon, style } = props;
   return (
-    <Wrapper>
+    <Wrapper style={style}>
       <Alert color={color} icon={icon}>
         {children}
       </Alert>

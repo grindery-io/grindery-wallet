@@ -30,7 +30,7 @@ const BulletPoints = ({ items, style }: Props) => {
             fontWeight: 300,
             listStyleType: "none",
             display: "flex",
-            alignItems: "flex-start",
+            alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
             flexWrap: "nowrap",
@@ -39,7 +39,7 @@ const BulletPoints = ({ items, style }: Props) => {
           }}
         >
           <svg
-            style={{ minWidth: "18px", marginTop: "5px" }}
+            style={{ minWidth: "18px" }}
             xmlns="http://www.w3.org/2000/svg"
             width="18"
             height="18"

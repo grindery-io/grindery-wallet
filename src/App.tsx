@@ -8,6 +8,7 @@ import Container from "./components/shared/Container";
 import AppRoutes from "./AppRoutes";
 import LeaderboardPage from "./components/pages/LeaderboardPage";
 import { store } from "./store";
+import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
 
 declare global {
   interface Window {
@@ -26,8 +27,8 @@ window.Telegram = window.Telegram?.WebApp?.initData
   : {
       WebApp: {
         initData:
-          process.env.REACT_APP_DEV_KEY ||
           window.location.href?.split("?")?.[1] ||
+          process.env.REACT_APP_DEV_KEY ||
           "",
       },
     };
@@ -69,6 +70,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/connect/telegram" element={<ConnectTelegramPage />} />
           <Route
             path="*"
             element={

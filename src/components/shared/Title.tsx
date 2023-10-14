@@ -6,8 +6,9 @@ const Title = styled(Typography)(() => ({
   fontWeight: 700,
   lineHeight: "145%",
   textAlign: "center",
-  margin: "0 0 24px",
+  margin: "0 auto 24px",
   color: "var(--tg-theme-text-color, #000000)",
+  maxWidth: "320px",
 }));
 
 export default Title;

@@ -1,70 +1,220 @@
-import React from "react";
-import TelegramAuth from "../shared/TelegramAuth";
-import useAppContext from "../../hooks/useAppContext";
-import BulletPoints from "../shared/BulletPoints";
-import Title from "../shared/Title";
-import Subtitle from "../shared/Subtitle";
-import { Box, Typography } from "@mui/material";
+import React, { useCallback, useReducer } from "react";
+import { TelegramAuthUserInput } from "../../types/Telegram";
+import { BOT_API_URL } from "../../constants";
+import axios from "axios";
+import ConnectTelegramSuccess from "../shared/ConnectTelegramSuccess";
+import { Stack } from "@mui/material";
+import ConnectTelegramDescription from "../shared/ConnectTelegramDescription";
+import ConnectTelegramForm from "../shared/ConnectTelegramForm";
+
+export type ConnectTelegramPageStateProps = {
+  loading: boolean;
+  input: TelegramAuthUserInput;
+  error: string;
+  operationId: string;
+  telegramSessionSaved?: boolean;
+};
+
+const defaultState = {
+  loading: false,
+  input: {
+    phone: "",
+    password: "",
+    code: "",
+  },
+  error: "",
+  operationId: "",
+  telegramSessionSaved: false,
+};
 
 const ConnectTelegramPage = () => {
-  const {
-    state: { telegramSessionSaved },
-  } = useAppContext();
+  const [state, setState] = useReducer(
+    (
+      state: ConnectTelegramPageStateProps,
+      newState: Partial<ConnectTelegramPageStateProps>
+    ) => ({
+      ...state,
+      ...newState,
+    }),
+    {
+      ...defaultState,
+    }
+  );
+  const { telegramSessionSaved } = state;
 
-  return telegramSessionSaved ? (
-    <Box sx={{ maxWidth: "320px", margin: "0 auto", padding: "24px 16px" }}>
-      <Box
+  const handleInputChange = useCallback(
+    (name: string, value: string) => {
+      setState({
+        error: "",
+        input: {
+          ...state.input,
+          [name]: value,
+        },
+      });
+    },
+    [state.input]
+  );
+
+  const submitPhoneAndPassword = useCallback(async () => {
+    if (!state.input.phone) {
+      setState({
+        error: "Phone number is required",
+      });
+      return;
+    }
+    if (!state.input.password) {
+      setState({
+        error: "Password is required",
+      });
+      return;
+    }
+    setState({
+      error: "",
+      loading: true,
+    });
+    try {
+      const res = await axios.post(
+        `${BOT_API_URL}/v1/init`,
+        {
+          phone: state.input.phone,
+          password: state.input.password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+      setState({
+        operationId: res.data?.operationId || "",
+      });
+    } catch (error: any) {
+      setState({
+        operationId: "",
+        error: error?.response?.data?.error?.message || "Something went wrong",
+      });
+    }
+    setState({
+      loading: false,
+    });
+  }, [state]);
+
+  const submitPhoneCode = useCallback(async () => {
+    if (!state.input.code) {
+      setState({
+        error: "Phone code is required",
+      });
+      return;
+    }
+    setState({
+      error: "",
+      loading: true,
+    });
+    try {
+      await axios.post(
+        `${BOT_API_URL}/v1/callback`,
+        {
+          operationId: state.operationId,
+          code: state.input.code,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+          },
+        }
+      );
+      setState({
+        telegramSessionSaved: true,
+      });
+    } catch (error: any) {
+      setState({
+        operationId: "",
+        error: error?.response?.data?.error?.message || "Something went wrong",
+      });
+    }
+    setState({
+      loading: false,
+    });
+  }, [state]);
+
+  return (
+    <Stack
+      alignItems="stretch"
+      justifyContent="center"
+      sx={{
+        flexDirection: {
+          xs: "column",
+          sm: "column",
+          md: "row",
+          lg: "row",
+          xl: "row",
+        },
+        flexWrap: {
+          xs: "wrap",
+          sm: "wrap",
+          md: "nowrap",
+          lg: "nowrap",
+          xl: "nowrap",
+        },
+        minHeight: "100vh",
+      }}
+    >
+      <Stack
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        flexWrap="nowrap"
         sx={{
-          margin: "32px auto 24px",
-          textAlign: "center",
+          display: {
+            xs: telegramSessionSaved ? "none" : "flex",
+            sm: telegramSessionSaved ? "none" : "flex",
+            md: "flex",
+            lg: "flex",
+            xl: "flex",
+          },
+
+          backgroundColor: "#E5F4FC",
+          flex: 1,
+          padding: {
+            xs: "40px 24px",
+            sm: "40px 24px",
+            md: "40px",
+            lg: "40px",
+            xl: "40px",
+          },
         }}
       >
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="48" height="48" rx="24" fill="#00B674" />
-          <path
-            d="M19.8003 33.4251C19.466 33.4253 19.1349 33.3595 18.826 33.2314C18.5171 33.1034 18.2365 32.9157 18.0003 32.6791L12.5583 27.2391C12.2771 26.9578 12.1191 26.5764 12.1191 26.1786C12.1191 25.7809 12.2771 25.3994 12.5583 25.1181C12.8396 24.8369 13.2211 24.679 13.6188 24.679C14.0166 24.679 14.398 24.8369 14.6793 25.1181L19.8003 30.2391L33.3483 16.6911C33.6296 16.4099 34.0111 16.252 34.4088 16.252C34.8066 16.252 35.188 16.4099 35.4693 16.6911C35.7505 16.9724 35.9085 17.3539 35.9085 17.7516C35.9085 18.1494 35.7505 18.5308 35.4693 18.8121L21.6003 32.6791C21.3641 32.9157 21.0835 33.1034 20.7746 33.2314C20.4658 33.3595 20.1347 33.4253 19.8003 33.4251Z"
-            fill="white"
-          />
-        </svg>
-      </Box>
-      <Title>Account Successfully Connected!</Title>
-      <Subtitle>
-        You can close this page and return to the{" "}
-        <a
-          style={{ color: "var(--tg-theme-link-color, #2481cc)" }}
-          href="https://telegram.me/grinderyAIBot"
-        >
-          Telegram app
-        </a>
-        .
-      </Subtitle>
-      <BulletPoints
-        items={[
-          "Send Crypto: Via contact names, not wallet addresses.",
-          "Invite & Earn: Spot unjoined network members and earn rewards.",
-          "Get Alerts: For new joiners and instantly trade tokens.",
-          "And More: Explore additional features!",
-        ]}
-      />
-      <Typography
-        color="hint"
-        variant="sm"
-        sx={{ margin: "24px 0", textAlign: "center", fontWeight: 300 }}
+        <ConnectTelegramDescription />
+      </Stack>
+      <Stack
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        flexWrap="nowrap"
+        sx={{
+          backgroundColor: "#fff",
+          flex: 1,
+          padding: {
+            xs: "40px 24px",
+            sm: "40px 24px",
+            md: "40px",
+            lg: "40px",
+            xl: "40px",
+          },
+        }}
       >
-        Your data is securely transmitted, encrypted, and stored. We collect
-        data only with your explicit consent and won’t message anyone without
-        your approval. You can disconnect Grindery anytime from your Telegram
-        client under “devices.”
-      </Typography>
-    </Box>
-  ) : (
-    <TelegramAuth />
+        {telegramSessionSaved ? (
+          <ConnectTelegramSuccess />
+        ) : (
+          <ConnectTelegramForm
+            state={state}
+            handleInputChange={handleInputChange}
+            submitPhoneAndPassword={submitPhoneAndPassword}
+            submitPhoneCode={submitPhoneCode}
+          />
+        )}
+      </Stack>
+    </Stack>
   );
 };
 
