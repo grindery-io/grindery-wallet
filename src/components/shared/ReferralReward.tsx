@@ -26,7 +26,7 @@ const ReferralReward = ({ reward, onClick }: Props) => {
     state: { user, activity: activities },
   } = useAppContext();
 
-  const activity = activities.find(
+  const activity = activities?.find(
     (act) => act.transactionHash === reward.parentTransactionHash
   );
 
