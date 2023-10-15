@@ -1,41 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import TableRow from "../shared/TableRow";
-import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
+import { TelegramUserActivity } from "../../types/Telegram";
 import moment from "moment";
 import TransactionIcon from "../icons/TransactionIcon";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
-import { TRANSACTION_STATUS } from "../../constants";
+import { BOT_API_URL, TRANSACTION_STATUS } from "../../constants";
+import axios from "axios";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards, activity, user, devMode },
+    state: { activity, user, devMode },
   } = useAppContext();
   const { id } = useParams();
 
-  const item = activity.find((item) => item._id === id);
+  const [item, setItem] = useState<TelegramUserActivity | null>(
+    activity.find(
+      (item) =>
+        item?._id === id || item?.transactionHash === id || item?.TxId === id
+    ) || null
+  );
+
   const { user: contact } = useAppUser(
     (item?.recipientTgId !== user?.userTelegramID
       ? item?.recipientTgId
       : item?.senderTgId) || ""
   );
 
-  const hasReferralReward =
-    contact.isInvited &&
-    (rewards.received.find(
+  const hasReferralReward = false;
+  /*contact.isInvited &&
+    (rewards?.received?.find(
       (reward: TelegramUserReward) =>
         reward.parentTransactionHash === item?.transactionHash
     )?._id ||
-      rewards.pending.find(
+      rewards?.pending?.find(
         (reward: TelegramUserActivity) =>
           reward.transactionHash === item?.transactionHash
-      )?._id);
+      )?._id);*/
 
   const referralRewardStatus = contact.isGrinderyUser ? "Received" : "Pending";
 
@@ -51,6 +64,33 @@ const ActivityPage = () => {
         return "Unknown";
     }
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (item) {
+      return;
+    }
+    axios
+      .get(`${BOT_API_URL}/v2/activity/${id}`, {
+        signal: controller.signal,
+        headers: {
+          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+        },
+      })
+
+      .then((res) => {
+        if (res?.data) {
+          setItem(res.data || null);
+        }
+      })
+      .catch((err) => {
+        //
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [item, id]);
 
   return item ? (
     <>
@@ -81,22 +121,24 @@ const ActivityPage = () => {
           <TableRow
             first
             label={`Tokens ${
-              item.recipientTgId !== user?.userTelegramID ? "sent" : "received"
+              item?.recipientTgId !== user?.userTelegramID ? "sent" : "received"
             } `}
             value={
               <span
                 style={{
                   color:
                     devMode.features?.COLORED_NUMBERS &&
-                    item.recipientTgId === user?.userTelegramID
+                    item?.recipientTgId === user?.userTelegramID
                       ? "var(--gr-theme-success-color)"
                       : "inherit",
                 }}
               >
                 {devMode.features?.COLORED_NUMBERS && (
-                  <>{item.recipientTgId !== user?.userTelegramID ? "-" : "+"}</>
+                  <>
+                    {item?.recipientTgId !== user?.userTelegramID ? "-" : "+"}
+                  </>
                 )}
-                {item.tokenAmount}
+                {item?.tokenAmount}
               </span>
             }
             icon={
@@ -111,7 +153,7 @@ const ActivityPage = () => {
 
           <TableRow
             label={
-              item.recipientTgId !== user?.userTelegramID
+              item?.recipientTgId !== user?.userTelegramID
                 ? "Recipient"
                 : "Sender"
             }
@@ -124,16 +166,16 @@ const ActivityPage = () => {
 
           <TableRow
             label="Transaction sent date"
-            value={moment(item.dateAdded).fromNow()}
+            value={moment(item?.dateAdded).fromNow()}
           />
-          {item.status && (
+          {item?.status && (
             <TableRow
               label="Transaction status"
-              value={renderItemStatus(item.status)}
+              value={renderItemStatus(item?.status)}
             />
           )}
 
-          {item.transactionHash && (
+          {item?.transactionHash && (
             <TableRow
               label="Transaction hash"
               value={
@@ -143,21 +185,21 @@ const ActivityPage = () => {
                     color: "var(--tg-theme-link-color, #2481cc)",
                   }}
                 >
-                  {item.transactionHash.substring(0, 6) +
+                  {item?.transactionHash.substring(0, 6) +
                     "..." +
-                    item.transactionHash.substring(
-                      item.transactionHash.length - 4
+                    item?.transactionHash.substring(
+                      item?.transactionHash.length - 4
                     )}
                 </span>
               }
               onValueClick={() => {
                 if (window.Telegram?.WebApp?.openLink) {
                   window.Telegram.WebApp.openLink(
-                    `https://polygonscan.com/tx/${item.transactionHash}`
+                    `https://polygonscan.com/tx/${item?.transactionHash}`
                   );
                 } else {
                   window.open(
-                    `https://polygonscan.com/tx/${item.transactionHash}`,
+                    `https://polygonscan.com/tx/${item?.transactionHash}`,
                     "_blank"
                   );
                 }
@@ -260,7 +302,15 @@ const ActivityPage = () => {
         </Button>
       </Box>
     </>
-  ) : null;
+  ) : (
+    <Box sx={{ textAlign: "center", margin: "50px" }}>
+      <CircularProgress
+        style={{
+          color: "var(--tg-theme-button-color, #2481cc)",
+        }}
+      />
+    </Box>
+  );
 };
 
 export default ActivityPage;
