@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { STORAGE_KEYS } from "../../constants";
+import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 
 /**
  * @description Interface for the LeaderboardEntry object representing a single entry in the leaderboard
@@ -21,11 +22,24 @@ export type LeaderboardState = {
 };
 
 /**
+ * @description Interface for the RewardsState object representing the state of the user rewards
+ */
+export type RewardsState = {
+  docs: TelegramUserReward[] | TelegramUserActivity[];
+  total: number;
+  loading: boolean;
+  filter: string;
+  find?: object[];
+  savedDate?: string;
+};
+
+/**
  * @description Interface for the AppState object representing the state of the app
  */
 interface AppState {
   error: string;
   leaderboard: LeaderboardState;
+  rewards: RewardsState;
 }
 
 const initialState: AppState = {
@@ -38,6 +52,13 @@ const initialState: AppState = {
     sort: "txCount",
     order: "desc",
     savedDate: localStorage.getItem(STORAGE_KEYS.LEADERBOARD_SAVED) || "",
+  },
+  rewards: {
+    docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.REWARDS) || "[]"),
+    total: 0,
+    loading: true,
+    filter: "received",
+    savedDate: localStorage.getItem(STORAGE_KEYS.REWARDS_SAVED) || "",
   },
 };
 
@@ -72,6 +93,29 @@ const appSlice = createSlice({
      */
     addLeaderboardDocs(state, action: PayloadAction<LeaderboardEntry[]>) {
       state.leaderboard.docs = [...state.leaderboard.docs, ...action.payload];
+    },
+    /**
+     * @description Reducer to set the rewards state
+     */
+    setRewards(state, action: PayloadAction<Partial<RewardsState>>) {
+      state.rewards = {
+        ...state.rewards,
+        ...action.payload,
+      };
+    },
+    /**
+     * @description Reducer to add reward docs to the rewards state
+     */
+    addRewardDocs(
+      state,
+      action: PayloadAction<TelegramUserReward[] | TelegramUserActivity[]>
+    ) {
+      state.rewards = {
+        ...state.rewards,
+        docs: [...state.rewards.docs, ...action.payload] as Draft<
+          TelegramUserReward[] | TelegramUserActivity[]
+        >,
+      };
     },
   },
 });

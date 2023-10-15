@@ -6,13 +6,19 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import { BOT_API_URL, EXPERIMENTAL_FEATURES } from "../constants";
+import { BOT_API_URL, EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../constants";
 import {
   TelegramUserActivity,
   TelegramUserContact,
   TelegramUserReward,
 } from "../types/Telegram";
 import { UserProps } from "../types/User";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../store";
 
 type StateProps = {
   user: UserProps | null;
@@ -27,7 +33,7 @@ type StateProps = {
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
   contactsFilters: string[];
-  rewardsFilters: string[];
+  rewardsFilter: string;
   activityFilters: string[];
   activityLoading: boolean;
   activityTotal: number;
@@ -77,19 +83,14 @@ const defaultContext = {
     activity: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]"),
     contactsLoading: true,
     contactsFilters: [],
-    rewardsFilters: [],
+    rewardsFilter: "received",
     activityFilters: [],
     activityLoading: true,
     activityTotal: JSON.parse(
       localStorage.getItem("gr_wallet_activity") || "[]"
     ).length,
     activitySkip: 0,
-    rewards: localStorage.getItem("gr_wallet_rewards")
-      ? JSON.parse(localStorage.getItem("gr_wallet_rewards") || "[]")
-      : {
-          received: [],
-          pending: [],
-        },
+    rewards: JSON.parse(localStorage.getItem("gr_wallet_rewards") || "[]"),
     rewardsLoading: true,
     bannerShown: true,
     communityFilters: [],
@@ -121,6 +122,10 @@ const defaultContext = {
 export const AppContext = createContext<ContextProps>(defaultContext);
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
+  const dispatch = useAppDispatch();
+  const {
+    rewards: { find, filter },
+  } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
     (state: StateProps, newState: Partial<StateProps>) => ({
@@ -220,36 +225,44 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
     }
-    setState({
-      rewardsLoading: true,
-    });
+    dispatch(
+      appStoreActions.setRewards({
+        loading: true,
+      })
+    );
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/rewards`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
-      const rewards = {
-        pending: (res.data?.pending || []).sort(
-          (a: TelegramUserActivity, b: TelegramUserActivity) =>
-            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-        ),
-        received: (res.data?.received || []).sort(
-          (a: TelegramUserReward, b: TelegramUserReward) =>
-            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-        ),
-      };
-      setState({
-        rewards,
-      });
-      localStorage.setItem(`gr_wallet_rewards`, JSON.stringify(rewards));
+      const res = await axios.get(
+        `${BOT_API_URL}/v2/rewards/${
+          filter || "received"
+        }?limit=15&find=${JSON.stringify(find || [])}`,
+        {
+          headers: {
+            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+          },
+        }
+      );
+      dispatch(
+        appStoreActions.setRewards({
+          docs: res.data?.docs || [],
+          total: res.data?.total || 0,
+        })
+      );
+      if (!filter || filter === "received") {
+        localStorage.setItem(
+          STORAGE_KEYS.REWARDS,
+          JSON.stringify(res.data?.docs)
+        );
+        localStorage.setItem(STORAGE_KEYS.REWARDS_SAVED, new Date().toString());
+      }
     } catch (error) {
       console.error("getTgRewards error", error);
     }
-    setState({
-      rewardsLoading: false,
-    });
-  }, []);
+    dispatch(
+      appStoreActions.setRewards({
+        loading: false,
+      })
+    );
+  }, [find, filter, dispatch]);
 
   const getTgContacts = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData || !state.user?.telegramSession) {

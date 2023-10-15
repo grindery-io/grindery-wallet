@@ -95,6 +95,8 @@ export const TRANSACTION_STATUS = {
 export const STORAGE_KEYS = {
   LEADERBOARD: "gr_wallet_leaderboard",
   LEADERBOARD_SAVED: "gr_wallet_leaderboard_saved",
+  REWARDS: "gr_wallet_rewards",
+  REWARDS_SAVED: "gr_wallet_rewards_saved",
 };
 
 /* 

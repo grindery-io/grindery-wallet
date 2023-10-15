@@ -8,16 +8,23 @@ import moment from "moment";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
 import { Box, Button, Stack } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
+import { TelegramUserReward } from "../../types/Telegram";
 
 const RewardPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { rewards, activity: activities, user },
+    state: { activity: activities, user },
   } = useAppContext();
+  const {
+    rewards: { docs },
+  } = useAppSelector(selectAppStore);
   const { id } = useParams();
 
-  const item = rewards.received.find((item) => item._id === id);
+  const item = (docs as TelegramUserReward[]).find(
+    (item: TelegramUserReward) => id && item._id && item._id === id
+  );
 
   const activity = activities.find(
     (a) => a.transactionHash === item?.parentTransactionHash

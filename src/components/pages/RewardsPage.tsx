@@ -1,103 +1,109 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import useAppContext from "../../hooks/useAppContext";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
-import { Box, Typography } from "@mui/material";
-import { FixedSizeList as List } from "react-window";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Reward from "../shared/Reward";
 import { useNavigate } from "react-router";
 import PendingReward from "../shared/PendingReward";
 import ReferralReward from "../shared/ReferralReward";
-import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import ReferralBanner from "../shared/ReferralBanner";
+import { debounce } from "lodash";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
+import { BOT_API_URL } from "../../constants";
+import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 
 const RewardsPage = () => {
-  const { height } = useWindowDimensions();
+  const navigate = useNavigate();
 
+  const dispatch = useAppDispatch();
   const {
-    state: { rewards, rewardsFilters },
-    setState,
-  } = useAppContext();
+    rewards: { total, find, docs: data, filter, loading },
+  } = useAppSelector(selectAppStore);
 
-  const applyFilters = (d: TelegramUserActivity | TelegramUserReward) => {
-    let res = false;
-    if (
-      rewardsFilters.includes("pending") &&
-      !(d as TelegramUserReward).responsePath
-    ) {
-      res = true;
-    }
-    if (
-      rewardsFilters.includes("received") &&
-      (d as TelegramUserReward).responsePath
-    ) {
-      res = true;
-    }
-
-    return res;
-  };
-
-  const data = [...rewards.received, ...rewards.pending]
-    .sort((a: any, b: any) => Date.parse(b.dateAdded) - Date.parse(a.dateAdded))
-    .filter((d) => (rewardsFilters.length > 0 ? applyFilters(d) : true));
   const [search, setSearch] = useState("");
 
   const options: Filter[] = [
     {
       key: "pending",
       label: "Eligible for reward",
-      value: rewardsFilters.includes("pending"),
-      type: "checkbox",
-      isActive: rewardsFilters.includes("pending"),
+      value: filter === "pending",
+      type: "radio",
+      isActive: filter === "pending",
       onChange: (value) => {
-        setState({
-          rewardsFilters: value
-            ? [...rewardsFilters, "pending"]
-            : rewardsFilters.filter((filter) => filter !== "pending"),
-        });
+        dispatch(
+          appStoreActions.setRewards({
+            filter: value.toString() || "",
+          })
+        );
       },
-      count: [...rewards.received, ...rewards.pending].filter(
-        (d) => !(d as TelegramUserReward).responsePath
-      ).length,
     },
     {
       key: "received",
       label: "Rewards received",
-      value: rewardsFilters.includes("received"),
-      type: "checkbox",
-      isActive: rewardsFilters.includes("received"),
+      value: filter === "received",
+      type: "radio",
+      isActive: filter === "received",
       onChange: (value) => {
-        setState({
-          rewardsFilters: value
-            ? [...rewardsFilters, "received"]
-            : rewardsFilters.filter((filter) => filter !== "received"),
-        });
+        dispatch(
+          appStoreActions.setRewards({
+            filter: value.toString() || "",
+          })
+        );
       },
-      count: [...rewards.received, ...rewards.pending].filter(
-        (d) => (d as TelegramUserReward).responsePath
-      ).length,
     },
   ];
 
+  const request = debounce((value) => {
+    dispatch(
+      appStoreActions.setRewards({
+        find: value
+          ? [
+              {
+                $or: [
+                  {
+                    transactionHash: { $regex: value, $options: "i" },
+                  },
+                ],
+              },
+            ]
+          : [],
+      })
+    );
+  }, 1200);
+
+  const debouncedSearchChange = useCallback(
+    (value: string) => request(value),
+    [request]
+  );
+
   return (
     <>
-      <Box sx={{ width: "100%", padding: "0" }}>
+      <Box sx={{ width: "100%", padding: "0", boxSizing: "border-box" }}>
         <SearchBox
           placeholder="Rewards"
           value={search}
           onChange={(e: string) => {
+            debouncedSearchChange(e);
             setSearch(e);
           }}
           filters={options}
+          hideCount
+          //hideBadge
         />
         <Box sx={{ textAlign: "left" }}>
           <>
-            {rewards.received.length > 0 ? (
+            {data.length > 0 ? (
               <Box
                 sx={{
                   "& > div": {
-                    padding: "0 0 10px",
+                    padding: "0 0 20px",
                     boxSizing: "border-box",
                     "& > div": {
                       padding: "0 0 10px",
@@ -106,23 +112,112 @@ const RewardsPage = () => {
                   },
                 }}
               >
-                <List
-                  height={height - 120}
-                  itemCount={data.length}
-                  itemSize={68}
-                  width="100%"
-                  itemData={data}
-                >
-                  {ReceivedRewardRenderer}
-                </List>
+                <Box>
+                  <InfiniteScroll
+                    dataLength={data.length}
+                    next={async () => {
+                      try {
+                        const res = await axios.get(
+                          `${BOT_API_URL}/v2/rewards/${
+                            filter || "received"
+                          }?limit=15&skip=${data.length}&find=${JSON.stringify(
+                            find || []
+                          )}`,
+                          {
+                            headers: {
+                              Authorization:
+                                "Bearer " + window.Telegram?.WebApp?.initData,
+                            },
+                          }
+                        );
+                        dispatch(
+                          appStoreActions.addRewardDocs(res.data?.docs || [])
+                        );
+                        dispatch(
+                          appStoreActions.setRewards({
+                            total: res.data?.total || 0,
+                          })
+                        );
+                      } catch (error) {
+                        console.error("get more activity error: ", error);
+                      }
+                    }}
+                    hasMore={data.length < total}
+                    loader={
+                      <Box sx={{ textAlign: "center", marginTop: "16px" }}>
+                        <CircularProgress
+                          size="20px"
+                          style={{
+                            color: "var(--tg-theme-button-color, #2481cc)",
+                          }}
+                        />
+                      </Box>
+                    }
+                  >
+                    {data.map(
+                      (row: TelegramUserActivity | TelegramUserReward) => (
+                        <React.Fragment key={row._id}>
+                          {(row as TelegramUserReward).responsePath ? (
+                            <>
+                              {!(row as TelegramUserReward)
+                                .parentTransactionHash ? (
+                                <Reward
+                                  reward={row as TelegramUserReward}
+                                  key={row._id}
+                                  onClick={() => {
+                                    navigate(`/rewards/${row._id}`);
+                                  }}
+                                />
+                              ) : (
+                                <ReferralReward
+                                  reward={row as TelegramUserReward}
+                                  key={row._id}
+                                  onClick={() => {
+                                    navigate(`/rewards/${row._id}`);
+                                  }}
+                                />
+                              )}
+                            </>
+                          ) : (
+                            <PendingReward
+                              activity={row as TelegramUserActivity}
+                              key={row._id}
+                              onClick={() => {
+                                navigate(`/activities/${row._id}`);
+                              }}
+                            />
+                          )}
+                        </React.Fragment>
+                      )
+                    )}
+                  </InfiniteScroll>
+                </Box>
               </Box>
             ) : (
-              <Typography
-                sx={{ margin: "50px 20px", textAlign: "center" }}
-                color="hint"
-              >
-                You have no rewards.
-              </Typography>
+              <>
+                {loading ? (
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      margin: "50px 20px",
+                    }}
+                  >
+                    <CircularProgress
+                      sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
+                    />
+                  </Box>
+                ) : (
+                  <Typography
+                    sx={{
+                      margin: "50px 20px",
+                      textAlign: "center",
+                    }}
+                    color="hint"
+                  >
+                    You have no rewards.
+                  </Typography>
+                )}
+              </>
             )}
           </>
         </Box>
@@ -130,51 +225,6 @@ const RewardsPage = () => {
       <ReferralBanner />
       <BottomNavigation />
     </>
-  );
-};
-
-const ReceivedRewardRenderer = ({
-  data,
-  index,
-  style,
-}: {
-  data: any;
-  index: number;
-  style: any;
-}) => {
-  const navigate = useNavigate();
-  return (
-    <Box sx={style}>
-      {data[index].responsePath ? (
-        <>
-          {!data[index].parentTransactionHash ? (
-            <Reward
-              reward={data[index]}
-              key={data[index]._id}
-              onClick={() => {
-                navigate(`/rewards/${data[index]._id}`);
-              }}
-            />
-          ) : (
-            <ReferralReward
-              reward={data[index]}
-              key={data[index]._id}
-              onClick={() => {
-                navigate(`/rewards/${data[index]._id}`);
-              }}
-            />
-          )}
-        </>
-      ) : (
-        <PendingReward
-          activity={data[index]}
-          key={data[index]._id}
-          onClick={() => {
-            navigate(`/activities/${data[index]._id}`);
-          }}
-        />
-      )}
-    </Box>
   );
 };
 

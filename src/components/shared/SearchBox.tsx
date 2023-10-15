@@ -9,6 +9,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Radio,
   SxProps,
 } from "@mui/material";
 import { ICONS } from "../../constants";
@@ -24,7 +25,7 @@ export type Filter = {
   label: string;
   value: string | number | boolean;
   isActive: boolean;
-  type: "checkbox";
+  type: "checkbox" | "radio";
   onChange: (value: string | number | boolean) => void;
   count?: number;
 };
@@ -36,6 +37,7 @@ type Props = {
   sx?: SxProps | React.CSSProperties;
   filters?: Filter[];
   hideCount?: boolean;
+  hideBadge?: boolean;
 };
 
 const SearchBox = ({
@@ -44,6 +46,7 @@ const SearchBox = ({
   sx,
   filters,
   hideCount,
+  hideBadge,
   onChange,
 }: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -134,7 +137,9 @@ const SearchBox = ({
           }
           color="error"
           invisible={
-            !filters || filters.filter((filter) => filter.isActive).length < 1
+            hideBadge ||
+            !filters ||
+            filters.filter((filter) => filter.isActive).length < 1
           }
           overlap="circular"
         >
@@ -199,6 +204,46 @@ const SearchBox = ({
           filters.length > 0 &&
           filters.map((filter) => {
             switch (filter.type) {
+              case "radio":
+                return (
+                  <MenuItem
+                    sx={{
+                      minHeight: "auto",
+                    }}
+                    key={filter.key}
+                    onClick={() => {
+                      filter.onChange(filter.key);
+                    }}
+                  >
+                    <Radio
+                      name="filter"
+                      size="small"
+                      checked={filter.value as boolean}
+                      sx={{
+                        padding: "4px",
+                        color: "var(--tg-theme-button-color, #2481cc)",
+                        "&.Mui-checked": {
+                          color: "var(--tg-theme-button-color, #2481cc)",
+                        },
+                      }}
+                    />
+                    <ListItemText
+                      primary={filter.label}
+                      sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                    />
+                    {!hideCount && filter.count && (
+                      <span
+                        style={{
+                          marginLeft: "20px",
+                          fontSize: "14px",
+                          color: "var(--tg-theme-hint-color, #999999)",
+                        }}
+                      >
+                        ({filter.count})
+                      </span>
+                    )}
+                  </MenuItem>
+                );
               default:
                 return (
                   <MenuItem
