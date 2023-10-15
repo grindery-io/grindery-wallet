@@ -53,7 +53,7 @@ const BoardPage = () => {
     dispatch(appStoreActions.setLeaderboard({ loading: true }));
     try {
       const res = await axios.get(
-        `${BOT_API_URL}/v1/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
+        `${BOT_API_URL}/v1/leaderboard?limit=15&page=${page}&sortBy=${sort}&order=${order}`
       );
       const items = res.data?.items || [];
       if (page === 1) {
