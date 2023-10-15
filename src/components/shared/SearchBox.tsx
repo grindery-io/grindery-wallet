@@ -35,9 +35,17 @@ type Props = {
   placeholder?: string;
   sx?: SxProps | React.CSSProperties;
   filters?: Filter[];
+  hideCount?: boolean;
 };
 
-const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
+const SearchBox = ({
+  value,
+  placeholder,
+  sx,
+  filters,
+  hideCount,
+  onChange,
+}: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -217,7 +225,7 @@ const SearchBox = ({ value, placeholder, sx, filters, onChange }: Props) => {
                       primary={filter.label}
                       sx={{ color: "var(--tg-theme-text-color, #000000)" }}
                     />
-                    {filter.count && (
+                    {!hideCount && filter.count && (
                       <span
                         style={{
                           marginLeft: "20px",

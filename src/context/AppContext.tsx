@@ -30,6 +30,9 @@ type StateProps = {
   rewardsFilters: string[];
   activityFilters: string[];
   activityLoading: boolean;
+  activityTotal: number;
+  activitySkip: number;
+  activityFind?: any[];
   rewards: {
     received: TelegramUserReward[];
     pending: TelegramUserActivity[];
@@ -79,6 +82,11 @@ const defaultContext = {
     rewardsFilters: [],
     activityFilters: [],
     activityLoading: true,
+    activityTotal: (localStorage.getItem("gr_wallet_activity")
+      ? JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
+      : []
+    ).length,
+    activitySkip: 0,
     rewards: localStorage.getItem("gr_wallet_rewards")
       ? JSON.parse(localStorage.getItem("gr_wallet_rewards") || "[]")
       : {
@@ -169,25 +177,39 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       activityLoading: true,
     });
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/activity`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
+      const find = [...(state.activityFind || [])];
+      const filters: any = {
+        $or: [],
+      };
+      if (state.activityFilters.includes("received")) {
+        filters["$or"].push({
+          recipientTgId: state.user?.userTelegramID,
+        });
+      }
+      if (state.activityFilters.includes("sent")) {
+        filters["$or"].push({
+          senderTgId: state.user?.userTelegramID,
+        });
+      }
+      if (filters["$or"].length > 0) {
+        find.push(filters);
+      }
+
+      const res = await axios.get(
+        `${BOT_API_URL}/v2/activity?limit=15&find=${JSON.stringify(find)}`,
+        {
+          headers: {
+            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+          },
+        }
+      );
       setState({
-        activity: (res.data || []).sort(
-          (a: TelegramUserActivity, b: TelegramUserActivity) =>
-            Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-        ),
+        activity: res.data?.docs || [],
+        activityTotal: res.data?.total || 0,
       });
       localStorage.setItem(
         `gr_wallet_activity`,
-        JSON.stringify(
-          (res.data || []).sort(
-            (a: TelegramUserActivity, b: TelegramUserActivity) =>
-              Date.parse(b.dateAdded) - Date.parse(a.dateAdded)
-          )
-        )
+        JSON.stringify(res.data || [])
       );
     } catch (error) {
       console.error("getTgActivity error", error);
@@ -195,7 +217,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     setState({
       activityLoading: false,
     });
-  }, []);
+  }, [state.activityFind, state.user, state.activityFilters]);
 
   const getTgRewards = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {

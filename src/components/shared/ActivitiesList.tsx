@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { FixedSizeList as List } from "react-window";
 import Activity from "../shared/Activity";
 import { useNavigate } from "react-router";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import { TelegramUserActivity } from "../../types/Telegram";
 import LeaderboardBanner from "./LeaderboardBanner";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
+import { BOT_API_URL } from "../../constants";
+import { debounce } from "lodash";
 
 const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
   const { height } = useWindowDimensions();
   const navigate = useNavigate();
 
   const {
-    state: { user, activity, activityFilters, devMode },
+    state: {
+      user,
+      activity,
+      activityFilters,
+      devMode,
+      activityTotal,
+      activityFind,
+    },
     setState,
   } = useAppContext();
   const [search, setSearch] = useState("");
 
-  const applyFilters = (act: TelegramUserActivity) => {
+  /*const applyFilters = (act: TelegramUserActivity) => {
     let res = false;
     if (
       activityFilters.includes("sent") &&
@@ -35,22 +46,9 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
     }
 
     return res;
-  };
+  };*/
 
-  const data = activity
-    ?.filter(
-      (act: TelegramUserActivity) =>
-        !search ||
-        (act.tokenSymbol &&
-          act.tokenSymbol.toLowerCase().includes(search.toLowerCase())) ||
-        (act.senderName &&
-          act.senderName.toLowerCase().includes(search.toLowerCase())) ||
-        (act.senderWallet &&
-          act.senderWallet.toLowerCase().includes(search.toLowerCase())) ||
-        (act.recipientWallet &&
-          act.recipientWallet.toLowerCase().includes(search.toLowerCase()))
-    )
-    .filter((act) => (activityFilters.length > 0 ? applyFilters(act) : true));
+  const data = activity;
 
   const options: Filter[] = [
     {
@@ -88,15 +86,52 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
     },
   ];
 
+  const request = debounce((value) => {
+    const newState: any = {
+      activityFind: value
+        ? [
+            {
+              $or: [
+                {
+                  recipientWallet: { $regex: value, $options: "i" },
+                },
+                {
+                  senderWallet: { $regex: value, $options: "i" },
+                },
+                {
+                  transactionHash: { $regex: value, $options: "i" },
+                },
+                {
+                  senderName: { $regex: value, $options: "i" },
+                },
+                {
+                  tokenAmount: { $regex: value, $options: "i" },
+                },
+              ],
+            },
+          ]
+        : [],
+    };
+
+    setState(newState);
+  }, 1200);
+
+  const debouncedSearchChange = useCallback(
+    (value: string) => request(value),
+    [request]
+  );
+
   return (
     <Box sx={{ width: "100%", padding: "0", boxSizing: "border-box" }}>
       <SearchBox
         placeholder="Activities"
         value={search}
         onChange={(e: string) => {
+          debouncedSearchChange(e);
           setSearch(e);
         }}
         filters={options}
+        hideCount
       />
       <Box sx={{ textAlign: "left" }}>
         <>
@@ -125,7 +160,59 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
                 </List>
               ) : (
                 <Box>
-                  <Box>
+                  <InfiniteScroll
+                    dataLength={data.length}
+                    next={async () => {
+                      try {
+                        const find = [...(activityFind || [])];
+                        const filters: any = {
+                          $or: [],
+                        };
+                        if (activityFilters.includes("received")) {
+                          filters["$or"].push({
+                            recipientTgId: user?.userTelegramID,
+                          });
+                        }
+                        if (activityFilters.includes("sent")) {
+                          filters["$or"].push({
+                            senderTgId: user?.userTelegramID,
+                          });
+                        }
+                        if (filters["$or"].length > 0) {
+                          find.push(filters);
+                        }
+                        const res = await axios.get(
+                          `${BOT_API_URL}/v2/activity?limit=15&skip=${
+                            data.length
+                          }&find=${JSON.stringify(find)}`,
+                          {
+                            headers: {
+                              Authorization:
+                                "Bearer " + window.Telegram?.WebApp?.initData,
+                            },
+                          }
+                        );
+                        setState({
+                          activity: [...activity, ...(res.data?.docs || [])],
+                          activityTotal: res.data?.total || 0,
+                        });
+                      } catch (error) {
+                        console.error("get more activity error: ", error);
+                      }
+                    }}
+                    hasMore={data.length < activityTotal}
+                    loader={
+                      <Box sx={{ textAlign: "center", marginTop: "16px" }}>
+                        <CircularProgress
+                          size="20px"
+                          style={{
+                            color: "var(--tg-theme-button-color, #2481cc)",
+                          }}
+                        />
+                      </Box>
+                    }
+                    //scrollableTarget="history-orders-list"
+                  >
                     {data.map((act: TelegramUserActivity) => (
                       <Activity
                         activity={act}
@@ -135,7 +222,7 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
                         }}
                       />
                     ))}
-                  </Box>
+                  </InfiniteScroll>
                 </Box>
               )}
             </Box>
