@@ -74,17 +74,14 @@ const defaultContext = {
     error: "",
     sessionLoading: true,
     activeTab: "tokens",
-    activity: localStorage.getItem("gr_wallet_activity")
-      ? JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
-      : [],
+    activity: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]"),
     contactsLoading: true,
     contactsFilters: [],
     rewardsFilters: [],
     activityFilters: [],
     activityLoading: true,
-    activityTotal: (localStorage.getItem("gr_wallet_activity")
-      ? JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
-      : []
+    activityTotal: JSON.parse(
+      localStorage.getItem("gr_wallet_activity") || "[]"
     ).length,
     activitySkip: 0,
     rewards: localStorage.getItem("gr_wallet_rewards")
@@ -209,7 +206,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       });
       localStorage.setItem(
         `gr_wallet_activity`,
-        JSON.stringify(res.data || [])
+        JSON.stringify(res.data?.docs || [])
       );
     } catch (error) {
       console.error("getTgActivity error", error);
