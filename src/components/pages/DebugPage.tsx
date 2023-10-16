@@ -20,6 +20,7 @@ import Address from "../shared/Address";
 import { EXPERIMENTAL_FEATURES } from "../../constants";
 import getLocalStorageSize from "../../utils/getLocalStorageSize";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -39,9 +40,10 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 
 const DebugPage = () => {
   useBackButton();
+  const { user } = useAppSelector(selectAppStore);
   const {
     setState,
-    state: { devMode, user },
+    state: { devMode },
   } = useAppContext();
   const [cache, setCache] = useState<string>(getLocalStorageSize());
   return (

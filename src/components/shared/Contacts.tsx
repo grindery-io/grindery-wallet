@@ -1,8 +1,8 @@
 import React from "react";
-import useAppContext from "../../hooks/useAppContext";
 import TelegramContacts from "./TelegramContacts";
 import { TelegramUserContact } from "../../types/Telegram";
 import { Box } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const Contacts = ({
   onContactClick,
@@ -19,9 +19,7 @@ const Contacts = ({
   onSelectCancel?: () => void;
   onSelectConfirm?: () => void;
 }) => {
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
 
   return (
     <Box sx={{ textAlign: "center", width: "100%" }}>

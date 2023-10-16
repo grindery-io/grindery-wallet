@@ -16,9 +16,10 @@ const RewardPage = () => {
   const navigate = useNavigate();
   useBackButton();
   const {
-    state: { activity: activities, user },
+    state: { activity: activities },
   } = useAppContext();
   const {
+    user,
     rewards: { docs },
   } = useAppSelector(selectAppStore);
   const { id } = useParams();

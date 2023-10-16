@@ -1,19 +1,17 @@
 import React from "react";
-import useAppContext from "../../../hooks/useAppContext";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import { Box, ListItemAvatar } from "@mui/material";
 import useAppUser from "../../../hooks/useAppUser";
 import UserAvatar from "../UserAvatar";
 import { ActivityProps } from "./Activity";
+import { selectAppStore, useAppSelector } from "../../../store";
 
 /**
  * Single activity list item avatar
  */
 const ActivityAvatar = ({ activity }: ActivityProps) => {
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
 
   const isSender = user?.userTelegramID === activity.senderTgId;
 

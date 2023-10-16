@@ -1,18 +1,16 @@
 import React from "react";
 import moment from "moment";
-import useAppContext from "../../../hooks/useAppContext";
 import { ListItemText } from "@mui/material";
 import useAppUser from "../../../hooks/useAppUser";
 import { ActivityProps } from "./Activity";
+import { selectAppStore, useAppSelector } from "../../../store";
 
 /**
  * Single activity list item text
  */
 const ActivityText = (props: ActivityProps) => {
   const { activity } = props;
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
 
   const secondaryUserId =
     user?.userTelegramID === activity.senderTgId

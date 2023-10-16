@@ -14,6 +14,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 type Props = {
   reward: TelegramUserReward;
@@ -22,8 +23,9 @@ type Props = {
 };
 
 const ReferralReward = ({ reward, onClick }: Props) => {
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, activity: activities },
+    state: { activity: activities },
   } = useAppContext();
 
   const activity = activities?.find(

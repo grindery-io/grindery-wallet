@@ -90,6 +90,7 @@ export const TRANSACTION_STATUS = {
   PENDING: "pending",
   SUCCESS: "success",
   FAILURE: "failure",
+  PENDING_HASH: "pending_hash",
 };
 
 export const STORAGE_KEYS = {

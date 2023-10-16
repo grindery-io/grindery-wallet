@@ -1,7 +1,7 @@
 import React from "react";
-import useAppContext from "../../hooks/useAppContext";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { Box } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 type Props = {
   avatar?: boolean;
@@ -9,9 +9,8 @@ type Props = {
 };
 
 const Address = ({ avatar = true, border = true }: Props) => {
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
+
   const address = user?.patchwallet;
 
   return address ? (

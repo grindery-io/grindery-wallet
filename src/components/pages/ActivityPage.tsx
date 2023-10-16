@@ -17,12 +17,14 @@ import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
 import { BOT_API_URL, TRANSACTION_STATUS } from "../../constants";
 import axios from "axios";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
   useBackButton();
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { activity, user, devMode },
+    state: { activity, devMode },
   } = useAppContext();
   const { id } = useParams();
 
@@ -55,6 +57,8 @@ const ActivityPage = () => {
   const renderItemStatus = (status: string) => {
     switch (status) {
       case TRANSACTION_STATUS.PENDING:
+        return "Pending";
+      case TRANSACTION_STATUS.PENDING_HASH:
         return "Pending";
       case TRANSACTION_STATUS.SUCCESS:
         return "Completed";

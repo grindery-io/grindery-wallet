@@ -3,10 +3,12 @@ import { Stack, Typography } from "@mui/material";
 import moment from "moment";
 import { TOKENS } from "../../constants";
 import useAppContext from "../../hooks/useAppContext";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const LeaderFixed = () => {
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, balance, stats },
+    state: { balance, stats },
   } = useAppContext();
 
   return (

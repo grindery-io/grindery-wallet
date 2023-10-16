@@ -12,41 +12,17 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
 import { debounce } from "lodash";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
   const { height } = useWindowDimensions();
   const navigate = useNavigate();
-
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: {
-      user,
-      activity,
-      activityFilters,
-      devMode,
-      activityTotal,
-      activityFind,
-    },
+    state: { activity, activityFilters, devMode, activityTotal, activityFind },
     setState,
   } = useAppContext();
   const [search, setSearch] = useState("");
-
-  /*const applyFilters = (act: TelegramUserActivity) => {
-    let res = false;
-    if (
-      activityFilters.includes("sent") &&
-      act.senderTgId === user?.userTelegramID
-    ) {
-      res = true;
-    }
-    if (
-      activityFilters.includes("received") &&
-      act.recipientTgId === user?.userTelegramID
-    ) {
-      res = true;
-    }
-
-    return res;
-  };*/
 
   const data = activity;
 

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Banner from "./Banner";
-import useAppContext from "../../hooks/useAppContext";
 import { ButtonBase, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const LeaderboardBanner = () => {
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
+
   const [visible, setVisible] = useState(true);
   const navigate = useNavigate();
 

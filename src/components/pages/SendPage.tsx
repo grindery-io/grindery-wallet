@@ -21,10 +21,12 @@ import Subtitle from "../shared/Subtitle";
 import SendRecepient from "../shared/SendRecepient";
 import ContactsSelectBanner from "../shared/ContactsSelectBanner";
 import SendMessage from "../shared/SendMessage";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const SendPage = () => {
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { contacts, user, devMode },
+    state: { contacts, devMode },
   } = useAppContext();
   const [connecting, setConnecting] = useState(false);
   const [status, setStatus] = useState<string>("waiting_user_input");

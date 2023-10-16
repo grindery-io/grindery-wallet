@@ -5,10 +5,12 @@ import { formatBalance } from "../../utils/formatBalance";
 import moment from "moment";
 import RefreshIcon from "../icons/RefreshIcon";
 import { useNavigate } from "react-router";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const Balance = () => {
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, balance, balanceCached, balanceUpdated, balanceLoading },
+    state: { balance, balanceCached, balanceUpdated, balanceLoading },
     getBalance,
   } = useAppContext();
   const navigate = useNavigate();

@@ -1,12 +1,14 @@
 import React from "react";
 import Banner from "./Banner";
-import useAppContext from "../../hooks/useAppContext";
 import { BOT_URL } from "../../constants";
 import { Box } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
+import useAppContext from "../../hooks/useAppContext";
 
 const ReferralBanner = () => {
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, bannerShown },
+    state: { bannerShown },
     setState,
   } = useAppContext();
   return (

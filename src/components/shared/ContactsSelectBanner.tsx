@@ -1,7 +1,7 @@
 import React from "react";
 import Banner from "./Banner";
-import useAppContext from "../../hooks/useAppContext";
 import { Box } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const ContactsSelectBanner = ({
   visible,
@@ -10,9 +10,8 @@ const ContactsSelectBanner = ({
   visible: boolean;
   onClose: () => void;
 }) => {
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
+
   return user && user.telegramSession ? (
     <Banner visible={visible} onClose={onClose} sx={{ bottom: "20px" }}>
       <Box

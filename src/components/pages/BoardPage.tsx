@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import useBackButton from "../../hooks/useBackButton";
-import useAppContext from "../../hooks/useAppContext";
 import Leader from "../shared/Leader";
 import LeaderFixed from "../shared/LeaderFixed";
 import SortIcon from "@mui/icons-material/Sort";
@@ -31,12 +30,11 @@ import RefreshIcon from "../icons/RefreshIcon";
 const BoardPage = () => {
   useBackButton();
   const {
+    user,
     leaderboard: { page, total, loading, sort, order, docs, savedDate },
   } = useAppSelector(selectAppStore);
   const dispatch = useAppDispatch();
-  const {
-    state: { user },
-  } = useAppContext();
+
   const leaderboard = docs;
 
   const id = user?.userTelegramID || "";

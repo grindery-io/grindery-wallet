@@ -21,7 +21,6 @@ import {
 } from "../store";
 
 type StateProps = {
-  user: UserProps | null;
   loading: boolean;
   error: string;
   activeTab: string;
@@ -75,7 +74,6 @@ type AppContextProps = {
 
 const defaultContext = {
   state: {
-    user: null,
     loading: false,
     error: "",
     sessionLoading: true,
@@ -125,6 +123,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   const dispatch = useAppDispatch();
   const {
     rewards: { find, filter },
+    user,
   } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
@@ -146,16 +145,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       });
 
       if (res?.data?._id) {
-        setState({
-          user: res.data,
-        });
+        dispatch(appStoreActions.setUser(res.data));
       }
     } catch (error) {
-      setState({
-        user: null,
-      });
+      dispatch(appStoreActions.setUser(null));
     }
-  }, []);
+  }, [dispatch]);
 
   const getStats = useCallback(async () => {
     try {
@@ -185,12 +180,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       };
       if (state.activityFilters.includes("received")) {
         filters["$or"].push({
-          recipientTgId: state.user?.userTelegramID,
+          recipientTgId: user?.userTelegramID,
         });
       }
       if (state.activityFilters.includes("sent")) {
         filters["$or"].push({
-          senderTgId: state.user?.userTelegramID,
+          senderTgId: user?.userTelegramID,
         });
       }
       if (filters["$or"].length > 0) {
@@ -219,7 +214,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     setState({
       activityLoading: false,
     });
-  }, [state.activityFind, state.user, state.activityFilters]);
+  }, [state.activityFind, user, state.activityFilters]);
 
   const getTgRewards = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
@@ -265,7 +260,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [find, filter, dispatch]);
 
   const getTgContacts = useCallback(async () => {
-    if (!window.Telegram?.WebApp?.initData || !state.user?.telegramSession) {
+    if (!window.Telegram?.WebApp?.initData || !user?.telegramSession) {
       return;
     }
     setState({
@@ -286,34 +281,38 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
     } catch (error) {
       console.error("getTgContacts error", error);
+      dispatch(
+        appStoreActions.setUser(
+          user?._id
+            ? ({
+                ...user,
+                telegramSession: "",
+              } as UserProps)
+            : null
+        )
+      );
       setState({
         contacts: [],
-        user: state.user?._id
-          ? {
-              ...state.user,
-              telegramSession: "",
-            }
-          : null,
       });
     }
     setState({
       contactsLoading: false,
     });
-  }, [state.user]);
+  }, [user, dispatch]);
 
   const getBalance = useCallback(
     async (a?: boolean) => {
-      if (!state.user?.patchwallet) {
+      if (!user?.patchwallet) {
         return;
       }
       setState({
         balanceLoading: !a ? false : true,
       });
       // get balance here
-      const userId = state.user.userTelegramID;
+      const userId = user.userTelegramID;
       try {
         const res = await axios.post(`${BOT_API_URL}/v1/balance/`, {
-          userAddress: state.user.patchwallet,
+          userAddress: user.patchwallet,
           contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
           chainId: "matic",
         });
@@ -339,7 +338,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         localStorage.setItem(`grindery_${userId}_balance`, "0");
       }
     },
-    [state.user]
+    [user]
   );
 
   const getConfig = useCallback(async () => {
@@ -365,27 +364,27 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, []);
 
   useEffect(() => {
-    if (state.user?.telegramSession) {
+    if (user?.telegramSession) {
       let script = document.createElement("script");
       script.type = "text/javascript";
       script.src = "/telegram.js";
       document.head.appendChild(script);
     }
-  }, [state.user?.telegramSession]);
+  }, [user?.telegramSession]);
 
   useEffect(() => {
-    if (!state.user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
-      setState({
-        user: {
+    if (!user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
+      dispatch(
+        appStoreActions.setUser({
           _id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "",
           userTelegramID:
             window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "",
           userHandle:
             window.Telegram?.WebApp?.initDataUnsafe?.user?.username || "",
-        },
-      });
+        })
+      );
     }
-  }, [state.user]);
+  }, [user, dispatch]);
 
   useEffect(() => {
     getMe();
@@ -412,21 +411,20 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getTgContacts]);
 
   useEffect(() => {
-    if (state.user?.userTelegramID && typeof state.balance === "undefined") {
+    if (user?.userTelegramID && typeof state.balance === "undefined") {
       setState({
         balance: parseFloat(
-          localStorage.getItem(
-            `grindery_${state.user?.userTelegramID}_balance`
-          ) || "0"
+          localStorage.getItem(`grindery_${user?.userTelegramID}_balance`) ||
+            "0"
         ),
         balanceCached: true,
         balanceUpdated:
           localStorage.getItem(
-            `grindery_${state.user?.userTelegramID}_balance_updated`
+            `grindery_${user?.userTelegramID}_balance_updated`
           ) || "",
       });
     }
-  }, [state.user, state.balance]);
+  }, [user, state.balance]);
 
   useEffect(() => {
     if (state.devMode.enabled || state.devMode.features?.LEADERBOARD) {
@@ -439,7 +437,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       !state.devMode.features?.CONTACT_PHOTOS ||
       !state.contacts ||
       state.contacts.length < 1 ||
-      !state.user?.telegramSession ||
+      !user?.telegramSession ||
       !window.telegram
     ) {
       return;
@@ -448,7 +446,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     const { TelegramClient } = window.telegram;
     const { StringSession } = window.telegram.sessions;
     const client = new TelegramClient(
-      new StringSession(state.user?.telegramSession || ""),
+      new StringSession(user?.telegramSession || ""),
       Number(process.env.REACT_APP_TELEGRAM_API_ID),
       process.env.REACT_APP_TELEGRAM_API_HASH || "",
       {
@@ -511,7 +509,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [
     state.devMode.features?.CONTACT_PHOTOS,
     state.contacts,
-    state.user?.telegramSession,
+    user?.telegramSession,
   ]);
 
   useEffect(() => {

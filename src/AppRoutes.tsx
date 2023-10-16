@@ -14,10 +14,12 @@ import RewardsPage from "./components/pages/RewardsPage";
 import CommunityPage from "./components/pages/CommunityPage";
 import DebugPage from "./components/pages/DebugPage";
 import BoardPage from "./components/pages/BoardPage";
+import { selectAppStore, useAppSelector } from "./store";
 
 const AppRoutes = () => {
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, config },
+    state: { config },
   } = useAppContext();
 
   return user && config ? (

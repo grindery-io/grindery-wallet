@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import useAppContext from "../../hooks/useAppContext";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import { TelegramUserActivity } from "../../types/Telegram";
@@ -14,6 +13,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 type Props = {
   activity: TelegramUserActivity;
@@ -21,10 +21,8 @@ type Props = {
   onAvatarClick?: () => void;
 };
 
-const PendingReward = ({ activity, onClick, onAvatarClick }: Props) => {
-  const {
-    state: { user },
-  } = useAppContext();
+const PendingReward = ({ activity, onClick }: Props) => {
+  const { user } = useAppSelector(selectAppStore);
 
   const secondaryUserId =
     user?.userTelegramID === activity.senderTgId

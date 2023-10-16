@@ -1,13 +1,12 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import useAppContext from "../../hooks/useAppContext";
 import { ICONS } from "../../constants";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const SendButton = () => {
-  const {
-    state: { user },
-  } = useAppContext();
+  const { user } = useAppSelector(selectAppStore);
+
   let navigate = useNavigate();
   return (
     <Box sx={{ width: "100%", padding: "0 16px" }}>

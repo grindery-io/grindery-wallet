@@ -12,6 +12,7 @@ import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { TelegramUserContact } from "../../types/Telegram";
 import SearchBox, { Filter } from "./SearchBox";
+import { selectAppStore, useAppSelector } from "../../store";
 
 type Props = {
   onContactClick: (contact: TelegramUserContact) => void;
@@ -29,8 +30,9 @@ const TelegramContacts = ({
   onConfirm,
 }: Props) => {
   const { height } = useWindowDimensions();
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, contacts, contactsLoading, contactsFilters },
+    state: { contacts, contactsLoading, contactsFilters },
     setState,
   } = useAppContext();
   const [search, setSearch] = useState("");

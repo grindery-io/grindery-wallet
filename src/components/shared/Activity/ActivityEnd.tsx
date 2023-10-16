@@ -3,14 +3,16 @@ import useAppContext from "../../../hooks/useAppContext";
 import { formatBalance } from "../../../utils/formatBalance";
 import { Stack, Typography } from "@mui/material";
 import { ActivityProps } from "./Activity";
+import { selectAppStore, useAppSelector } from "../../../store";
 
 /**
  * Single activity list item end component
  */
 const ActivityEnd = (props: ActivityProps) => {
   const { activity } = props;
+  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { user, devMode },
+    state: { devMode },
   } = useAppContext();
 
   const { formatted } = formatBalance(parseFloat(activity.tokenAmount));
