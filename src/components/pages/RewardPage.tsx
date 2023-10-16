@@ -10,6 +10,7 @@ import UserAvatar from "../shared/UserAvatar";
 import { Box, Button, Stack } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../store";
 import { TelegramUserReward } from "../../types/Telegram";
+import { TRANSACTION_STATUS } from "../../constants";
 
 const RewardPage = () => {
   const navigate = useNavigate();
@@ -35,6 +36,19 @@ const RewardPage = () => {
       ? activity?.recipientTgId
       : activity?.senderTgId) || ""
   );
+
+  const renderItemStatus = (status: string) => {
+    switch (status) {
+      case TRANSACTION_STATUS.PENDING:
+        return "Pending";
+      case TRANSACTION_STATUS.SUCCESS:
+        return "Completed";
+      case TRANSACTION_STATUS.FAILURE:
+        return "Failed";
+      default:
+        return "Unknown";
+    }
+  };
 
   return item ? (
     <>
@@ -150,6 +164,12 @@ const RewardPage = () => {
             label="Reward received"
             value={moment(item.dateAdded).fromNow()}
           />
+          {item?.status && (
+            <TableRow
+              label="Transaction status"
+              value={renderItemStatus(item?.status)}
+            />
+          )}
           {item.transactionHash && (
             <TableRow
               label="Transaction hash"
