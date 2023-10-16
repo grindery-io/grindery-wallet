@@ -95,46 +95,6 @@ const useAppUser = (userId: string) => {
     };
   }, [userId, user]);
 
-  /*useEffect(() => {
-    const controller = new AbortController();
-    if (
-      !avatar &&
-      user &&
-      ((user as TelegramUserContact)?.username ||
-        (user as TelegramUser)?.userName)
-    ) {
-      axios
-        .get(
-          `${BOT_API_URL}/v1/user/photo?username=${
-            (user as TelegramUserContact)?.username ||
-            (user as TelegramUser)?.userHandle
-          }`,
-          {
-            signal: controller.signal,
-            headers: {
-              Authorization: `Bearer ${
-                window.Telegram?.WebApp?.initData || ""
-              }`,
-            },
-          }
-        )
-        .then((res) => {
-          setAvatar(res.data.photo || "");
-          localStorage.setItem(
-            "gr_wallet_contact_photo_" + userId,
-            res.data.photo || "null"
-          );
-        })
-        .catch((err) => {
-          setAvatar("");
-        });
-    }
-
-    return () => {
-      controller.abort();
-    };
-  }, [userId, user, avatar]);*/
-
   useEffect(() => {
     if (photo) {
       setAvatar(photo);
