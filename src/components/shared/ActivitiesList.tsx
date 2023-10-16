@@ -3,7 +3,7 @@ import useAppContext from "../../hooks/useAppContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { FixedSizeList as List } from "react-window";
-import Activity from "../shared/Activity";
+import Activity from "./Activity/Activity";
 import { useNavigate } from "react-router";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import { TelegramUserActivity } from "../../types/Telegram";

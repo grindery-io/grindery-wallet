@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { BOT_API_URL, ICONS, MAX_WIDTH } from "../../constants";
-import Activity from "../shared/Activity";
+import Activity from "../shared/Activity/Activity";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
@@ -128,15 +128,7 @@ const ContactPage = () => {
               >
                 <Typography color="hint">Activity</Typography>
               </Box>
-              {/*activities.map((activity) => (
-                <Activity
-                  key={activity._id}
-                  activity={activity}
-                  onClick={() => {
-                    navigate(`/activities/${activity._id}`);
-                  }}
-                />
-                ))*/}
+
               <InfiniteScroll
                 dataLength={activities.length}
                 next={async () => {
