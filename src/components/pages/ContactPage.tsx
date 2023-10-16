@@ -97,7 +97,7 @@ const ContactPage = () => {
           {!activitiesLoading && activities.length < 1 && (
             <Typography
               sx={{
-                margin: "50px 20px 80px",
+                margin: "16px 16px 80px",
                 textAlign: "center",
               }}
               color="hint"
