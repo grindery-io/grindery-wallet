@@ -26,6 +26,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../store";
+import RefreshIcon from "../icons/RefreshIcon";
 
 const BoardPage = () => {
   useBackButton();
@@ -64,18 +65,15 @@ const BoardPage = () => {
       dispatch(
         appStoreActions.setLeaderboard({
           total: res.data?.total || 0,
+          savedDate: new Date().toString(),
         })
       );
+
       if (page === 1 && sort === "txCount" && order === "desc") {
         localStorage.setItem(STORAGE_KEYS.LEADERBOARD, JSON.stringify(items));
         localStorage.setItem(
           STORAGE_KEYS.LEADERBOARD_SAVED,
           new Date().toString()
-        );
-        dispatch(
-          appStoreActions.setLeaderboard({
-            savedDate: new Date().toString(),
-          })
         );
       }
     } catch (error) {
@@ -112,14 +110,55 @@ const BoardPage = () => {
       >
         <Box>
           <Typography variant="md">Leaderboard</Typography>
-          {savedDate && (
-            <Typography variant="xs" color="hint">
-              Updated {moment(savedDate).fromNow()}
-            </Typography>
-          )}
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-start"
+            gap="4px"
+            flexWrap="nowrap"
+          >
+            {savedDate && (
+              <Typography variant="xs" color="hint">
+                Updated {moment(savedDate).fromNow()}
+              </Typography>
+            )}
+            {savedDate && (
+              <>
+                <IconButton
+                  onClick={() => {
+                    dispatch(
+                      appStoreActions.setLeaderboard({
+                        page: 1,
+                      })
+                    );
+                  }}
+                  disabled={loading}
+                  sx={{
+                    padding: 0,
+                    margin: 0,
+                    color: "var(--tg-theme-button-color, #2481cc)",
+                    "&:disabled": {
+                      color: "var(--tg-theme-hint-color, #999999)",
+                    },
+                    "& svg": {
+                      WebkitAnimation: "spin 0.75s linear infinite",
+                      MozAnimation: "spin 0.75s linear infinite",
+                      animation: "spin 0.75s linear infinite",
+                      animationPlayState: loading ? "running" : "paused",
+                      width: "14px",
+                      height: "14px",
+                      display: "block",
+                    },
+                  }}
+                >
+                  <RefreshIcon />
+                </IconButton>
+              </>
+            )}
+          </Stack>
         </Box>
         <IconButton
-          disabled={leaderboard.length < 1}
+          disabled={loading || leaderboard.length < 1}
           sx={{
             padding: "0px",
             color: "var(--tg-theme-button-color, #2481cc)",
@@ -292,6 +331,7 @@ const BoardPage = () => {
               }}
             >
               <CircularProgress
+                size="20px"
                 sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
               />
             </Box>
