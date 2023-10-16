@@ -167,6 +167,28 @@ const DebugPage = () => {
                 <Divider />
               </>
             )}
+            {process.env.REACT_APP_TELEGRAM_API_ID && (
+              <>
+                <ListItem>
+                  <ListItemText
+                    primary="Telegram Client API ID"
+                    sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+                  />
+                  <ListItemSecondaryAction>
+                    <ListItemText
+                      secondary={process.env.REACT_APP_TELEGRAM_API_ID}
+                      sx={{
+                        color: "var(--tg-theme-hint-color, #999999)",
+                        "& .MuiListItemText-secondary": {
+                          color: "var(--tg-theme-hint-color, #999999)",
+                        },
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+              </>
+            )}
 
             <>
               <ListItem>
