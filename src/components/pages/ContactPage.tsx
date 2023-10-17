@@ -94,24 +94,26 @@ const ContactPage = () => {
             </Box>
           )}
 
-          {!activitiesLoading && activities.length < 1 && (
-            <Typography
-              sx={{
-                margin: "16px 16px 80px",
-                textAlign: "center",
-              }}
-              color="hint"
-            >
-              Invite your friends and earn rewards
-              <br />
-              <br />
-              Send tokens to {contact.name} and then follow the instructions
-              provided by the GrinderyAI bot
-              <br />
-              <br />
-              <span style={{ fontSize: "22px" }}>👇</span>
-            </Typography>
-          )}
+          {!activitiesLoading &&
+            activities.length < 1 &&
+            !contact.isGrinderyUser && (
+              <Typography
+                sx={{
+                  margin: "16px 16px 80px",
+                  textAlign: "center",
+                }}
+                color="hint"
+              >
+                Invite your friends and earn rewards
+                <br />
+                <br />
+                Send tokens to {contact.name} and then follow the instructions
+                provided by the GrinderyAI bot
+                <br />
+                <br />
+                <span style={{ fontSize: "22px" }}>👇</span>
+              </Typography>
+            )}
 
           {!activitiesLoading && activities && activities.length > 0 && (
             <Box sx={{ width: "100%", paddingBottom: "76px" }}>
