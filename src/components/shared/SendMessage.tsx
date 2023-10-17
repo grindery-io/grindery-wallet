@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, FormHelperText, InputBase, Stack } from "@mui/material";
 import { TelegramUserContact } from "../../types/Telegram";
-import useAppContext from "../../hooks/useAppContext";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const SendMessage = ({
   message,
@@ -12,12 +12,11 @@ const SendMessage = ({
   onChange: (value: string) => void;
   recepient?: TelegramUserContact | TelegramUserContact[];
 }) => {
-  const {
-    state: { devMode },
-  } = useAppContext();
+  const { debug } = useAppSelector(selectAppStore);
+
   return !Array.isArray(recepient) &&
-    devMode.enabled &&
-    devMode.features?.SEND_MESSAGE ? (
+    debug.enabled &&
+    debug.features?.SEND_MESSAGE ? (
     <Stack
       alignItems="center"
       useFlexGap

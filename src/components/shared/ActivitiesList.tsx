@@ -17,9 +17,9 @@ import { selectAppStore, useAppSelector } from "../../store";
 const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
   const { height } = useWindowDimensions();
   const navigate = useNavigate();
-  const { user } = useAppSelector(selectAppStore);
+  const { user, debug } = useAppSelector(selectAppStore);
   const {
-    state: { activity, activityFilters, devMode, activityTotal, activityFind },
+    state: { activity, activityFilters, activityTotal, activityFind },
     setState,
   } = useAppContext();
   const [search, setSearch] = useState("");
@@ -215,9 +215,7 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
           )}
         </>
       </Box>
-      {devMode.enabled && devMode.features?.LEADERBOARD && (
-        <LeaderboardBanner />
-      )}
+      {debug.enabled && debug.features?.LEADERBOARD && <LeaderboardBanner />}
     </Box>
   );
 };

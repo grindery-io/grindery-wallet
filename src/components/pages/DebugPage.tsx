@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useBackButton from "../../hooks/useBackButton";
-import useAppContext from "../../hooks/useAppContext";
 import {
   Box,
   Divider,
@@ -20,7 +19,12 @@ import Address from "../shared/Address";
 import { EXPERIMENTAL_FEATURES } from "../../constants";
 import getLocalStorageSize from "../../utils/getLocalStorageSize";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { selectAppStore, useAppSelector } from "../../store";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -40,11 +44,9 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 
 const DebugPage = () => {
   useBackButton();
-  const { user } = useAppSelector(selectAppStore);
-  const {
-    setState,
-    state: { devMode },
-  } = useAppContext();
+  const dispatch = useAppDispatch();
+  const { user, debug } = useAppSelector(selectAppStore);
+
   const [cache, setCache] = useState<string>(getLocalStorageSize());
   return (
     <Box sx={{ width: "100%", padding: "16px 0" }}>
@@ -72,14 +74,14 @@ const DebugPage = () => {
           />
           <ListItemSecondaryAction>
             <StyledSwitch
-              checked={devMode.enabled}
+              checked={debug.enabled}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setState({
-                  devMode: {
-                    ...devMode,
+                dispatch(
+                  appStoreActions.setDebug({
                     enabled: event.target.checked,
-                  },
-                });
+                  })
+                );
+
                 localStorage.setItem(
                   "grindery_wallet_dev_mode",
                   event.target.checked ? "true" : "false"
@@ -88,7 +90,7 @@ const DebugPage = () => {
             />
           </ListItemSecondaryAction>
         </ListItem>
-        {!devMode.enabled && (
+        {!debug.enabled && (
           <Box sx={{ margin: "32px 20px", textAlign: "center" }}>
             <Typography variant="title">🛠️</Typography>
             <Typography color="hint" variant="sm" sx={{ marginTop: "8px" }}>
@@ -97,7 +99,7 @@ const DebugPage = () => {
             </Typography>
           </Box>
         )}
-        {devMode.enabled && (
+        {debug.enabled && (
           <>
             <Divider />
             <ListSubheader
@@ -398,19 +400,15 @@ const DebugPage = () => {
                     />
                     <ListItemSecondaryAction>
                       <StyledSwitch
-                        checked={devMode.features?.[key]}
+                        checked={debug.features?.[key]}
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>
                         ) => {
-                          setState({
-                            devMode: {
-                              ...devMode,
-                              features: {
-                                ...devMode.features,
-                                [key]: event.target.checked,
-                              },
-                            },
-                          });
+                          dispatch(
+                            appStoreActions.setDebugFeatures({
+                              [key]: event.target.checked,
+                            })
+                          );
                           localStorage.setItem(
                             `grindery_wallet_features_${key}`,
                             event.target.checked ? "true" : "false"

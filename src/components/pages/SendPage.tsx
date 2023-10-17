@@ -24,9 +24,9 @@ import SendMessage from "../shared/SendMessage";
 import { selectAppStore, useAppSelector } from "../../store";
 
 const SendPage = () => {
-  const { user } = useAppSelector(selectAppStore);
+  const { user, debug } = useAppSelector(selectAppStore);
   const {
-    state: { contacts, devMode },
+    state: { contacts },
   } = useAppContext();
   const [connecting, setConnecting] = useState(false);
   const [status, setStatus] = useState<string>("waiting_user_input");
@@ -256,7 +256,7 @@ const SendPage = () => {
               }
             />
 
-            {devMode.features?.BATCH_SENDING && (
+            {debug.features?.BATCH_SENDING && (
               <ContactsSelectBanner
                 onClose={() => {
                   setBanner(false);

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "./UserAvatar";
-import useAppContext from "../../hooks/useAppContext";
+import { selectAppStore, useAppSelector } from "../../store";
 
 type Props = {
   contact: TelegramUserContact;
@@ -29,9 +29,7 @@ const TelegramContact = ({
   onContactClick,
   onContactPress,
 }: Props) => {
-  const {
-    state: { devMode },
-  } = useAppContext();
+  const { debug } = useAppSelector(selectAppStore);
   const { user } = useAppUser(contact.id);
   const bind = useLongPress(() => {
     if (typeof onContactPress !== "undefined") {
@@ -68,7 +66,7 @@ const TelegramContact = ({
           }, 150);
         }}
         {...(typeof onContactPress !== "undefined" &&
-        devMode.features?.BATCH_SENDING
+        debug.features?.BATCH_SENDING
           ? bind()
           : {})}
       >

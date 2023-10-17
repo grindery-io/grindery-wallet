@@ -22,9 +22,9 @@ import { selectAppStore, useAppSelector } from "../../store";
 const ActivityPage = () => {
   const navigate = useNavigate();
   useBackButton();
-  const { user } = useAppSelector(selectAppStore);
+  const { user, debug } = useAppSelector(selectAppStore);
   const {
-    state: { activity, devMode },
+    state: { activity },
   } = useAppContext();
   const { id } = useParams();
 
@@ -131,13 +131,13 @@ const ActivityPage = () => {
               <span
                 style={{
                   color:
-                    devMode.features?.COLORED_NUMBERS &&
+                    debug.features?.COLORED_NUMBERS &&
                     item?.recipientTgId === user?.userTelegramID
                       ? "var(--gr-theme-success-color)"
                       : "inherit",
                 }}
               >
-                {devMode.features?.COLORED_NUMBERS && (
+                {debug.features?.COLORED_NUMBERS && (
                   <>
                     {item?.recipientTgId !== user?.userTelegramID ? "-" : "+"}
                   </>

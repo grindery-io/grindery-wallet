@@ -1,5 +1,4 @@
 import React from "react";
-import useAppContext from "../../../hooks/useAppContext";
 import { formatBalance } from "../../../utils/formatBalance";
 import { Stack, Typography } from "@mui/material";
 import { ActivityProps } from "./Activity";
@@ -10,14 +9,11 @@ import { selectAppStore, useAppSelector } from "../../../store";
  */
 const ActivityEnd = (props: ActivityProps) => {
   const { activity } = props;
-  const { user } = useAppSelector(selectAppStore);
-  const {
-    state: { devMode },
-  } = useAppContext();
+  const { user, debug } = useAppSelector(selectAppStore);
 
   const { formatted } = formatBalance(parseFloat(activity.tokenAmount));
 
-  const coloredNumbersEnabled = devMode.features?.COLORED_NUMBERS;
+  const coloredNumbersEnabled = debug.features?.COLORED_NUMBERS;
 
   return (
     <Stack

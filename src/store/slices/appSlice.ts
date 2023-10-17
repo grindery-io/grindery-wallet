@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { STORAGE_KEYS } from "../../constants";
+import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import { UserProps } from "../../types/User";
 
@@ -40,9 +40,20 @@ export type RewardsState = {
 export type UserState = UserProps | null;
 
 /**
+ * Interface for the DebugState object representing the state of the debug mode
+ */
+export type DebugState = {
+  enabled: boolean;
+  features?: {
+    [key: string]: boolean;
+  };
+};
+
+/**
  * Interface for the AppState object representing the state of the app
  */
 interface AppState {
+  debug: DebugState;
   error: string;
   leaderboard: LeaderboardState;
   rewards: RewardsState;
@@ -50,6 +61,15 @@ interface AppState {
 }
 
 const initialState: AppState = {
+  debug: {
+    enabled: localStorage.getItem("grindery_wallet_dev_mode") === "true",
+    features: Object.fromEntries(
+      Object.keys(EXPERIMENTAL_FEATURES).map((key) => [
+        key,
+        localStorage.getItem(`grindery_wallet_features_${key}`) === "true",
+      ])
+    ),
+  },
   error: "",
   leaderboard: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.LEADERBOARD) || "[]"),
@@ -130,6 +150,24 @@ const appSlice = createSlice({
      */
     setUser(state, action: PayloadAction<UserState>) {
       state.user = action.payload;
+    },
+    /**
+     * Reducer to set the debug state
+     */
+    setDebug(state, action: PayloadAction<Partial<DebugState>>) {
+      state.debug = {
+        ...state.debug,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the debug features state
+     */
+    setDebugFeatures(state, action: PayloadAction<{ [key: string]: boolean }>) {
+      state.debug.features = {
+        ...state.debug.features,
+        ...action.payload,
+      };
     },
   },
 });

@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import { BOT_API_URL, EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../constants";
+import { BOT_API_URL, STORAGE_KEYS } from "../constants";
 import {
   TelegramUserActivity,
   TelegramUserContact,
@@ -46,12 +46,6 @@ type StateProps = {
   bannerShown: boolean;
   config?: any;
   communityFilters: string[];
-  devMode: {
-    enabled: boolean;
-    features?: {
-      [key: string]: boolean;
-    };
-  };
   tokensTab: number;
   stats?: any;
 };
@@ -95,15 +89,6 @@ const defaultContext = {
     config: localStorage.getItem("grindery_wallet_config")
       ? JSON.parse(localStorage.getItem("grindery_wallet_config") || "[]")
       : undefined,
-    devMode: {
-      enabled: localStorage.getItem("grindery_wallet_dev_mode") === "true",
-      features: Object.fromEntries(
-        Object.keys(EXPERIMENTAL_FEATURES).map((key) => [
-          key,
-          localStorage.getItem(`grindery_wallet_features_${key}`) === "true",
-        ])
-      ),
-    },
     tokensTab: 0,
     contacts: localStorage.getItem("gr_wallet_contacts")
       ? JSON.parse(localStorage.getItem("gr_wallet_contacts") || "[]")
@@ -124,6 +109,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   const {
     rewards: { find, filter },
     user,
+    debug,
   } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
@@ -427,14 +413,14 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [user, state.balance]);
 
   useEffect(() => {
-    if (state.devMode.enabled || state.devMode.features?.LEADERBOARD) {
+    if (debug.enabled || debug.features?.LEADERBOARD) {
       getStats();
     }
-  }, [state.devMode.enabled, state.devMode.features, getStats]);
+  }, [debug.enabled, debug.features, getStats]);
 
   const getPhotos = useCallback(async () => {
     if (
-      !state.devMode.features?.CONTACT_PHOTOS ||
+      !debug.features?.CONTACT_PHOTOS ||
       !state.contacts ||
       state.contacts.length < 1 ||
       !user?.telegramSession ||
@@ -506,15 +492,21 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       }));
     }
     await client.disconnect();
-  }, [
-    state.devMode.features?.CONTACT_PHOTOS,
-    state.contacts,
-    user?.telegramSession,
-  ]);
+  }, [debug.features?.CONTACT_PHOTOS, state.contacts, user?.telegramSession]);
 
   useEffect(() => {
     getPhotos();
   }, [getPhotos]);
+
+  useEffect(() => {
+    if (debug.enabled && debug.features?.CONTACT_PHOTOS) {
+      const ws = new WebSocket("wss://ws.postman-echo.com/raw");
+      ws.onopen = (event) => {
+        console.log("WebSocket Client Connected");
+        ws.send(JSON.stringify(event));
+      };
+    }
+  }, [debug.features?.CONTACT_PHOTOS, debug.enabled]);
 
   if (window.origin.includes("localhost")) {
     console.log("state", state);
