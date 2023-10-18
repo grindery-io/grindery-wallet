@@ -341,7 +341,14 @@ const SendPage = () => {
                     textAlign: "center",
                   }}
                 >
-                  <Title>Server error. Please, try again.</Title>
+                  <Title>Server error. Please, try again later.</Title>
+                  <Typography
+                    color="hint"
+                    variant="sm"
+                    sx={{ marginBottom: "20px" }}
+                  >
+                    Wait for at least 10 seconds before making a new attempt.
+                  </Typography>
                   <Button
                     onClick={() => {
                       setStatus("waiting_user_input");
