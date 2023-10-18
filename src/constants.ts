@@ -98,6 +98,13 @@ export const STORAGE_KEYS = {
   LEADERBOARD_SAVED: "gr_wallet_leaderboard_saved",
   REWARDS: "gr_wallet_rewards",
   REWARDS_SAVED: "gr_wallet_rewards_saved",
+  APPS: "gr_wallet_apps",
+  APPS_UPDATED: "gr_wallet_apps_updated",
+  COMMUNITY: "gr_wallet_community",
+  COMMUNITY_UPDATED: "gr_wallet_community_updated",
+  CONFIG: "gr_wallet_config",
+  DEBUG: "gr_wallet_debug",
+  EXPERIMENTAL_FEATURES: "grindery_wallet_features_{{key}}",
 };
 
 /* 

@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import SendPage from "./components/pages/SendPage";
 import TokensPage from "./components/pages/TokensPage";
 import ContactsPage from "./components/pages/ContactsPage";
-import useAppContext from "./hooks/useAppContext";
 import { Box, CircularProgress } from "@mui/material";
 import ContactPage from "./components/pages/ContactPage";
 import ActivitiesPage from "./components/pages/ActivitiesPage";
@@ -18,11 +17,8 @@ import { selectAppStore, useAppSelector } from "./store";
 
 const AppRoutes = () => {
   const { user } = useAppSelector(selectAppStore);
-  const {
-    state: { config },
-  } = useAppContext();
 
-  return user && config ? (
+  return user ? (
     <Routes>
       <Route path="/" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />

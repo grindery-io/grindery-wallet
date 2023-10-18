@@ -3,32 +3,33 @@ import BottomNavigation from "../shared/BottomNavigation";
 import { Box, Typography } from "@mui/material";
 import Community from "../shared/Community";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import useAppContext from "../../hooks/useAppContext";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import { FixedSizeList as List } from "react-window";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const AppsPage = () => {
   const { height } = useWindowDimensions();
-  const {
-    state: { config, communityFilters },
-    setState,
-  } = useAppContext();
+  const dispatch = useAppDispatch();
+  const { apps } = useAppSelector(selectAppStore);
 
   const [search, setSearch] = useState("");
 
-  const uniqueCategories = config
-    ?.filter(
-      (c: any) => c.fields.Type === "App" && c.fields.Status === "Published"
-    )
-    .map((c: any) => c.fields.Category)
-    .filter((v: any, i: any, a: any) => a.indexOf(v) === i);
+  const uniqueCategories =
+    (apps?.items || [])
+      .map((c: any) => c.fields.Category)
+      .filter((v: any, i: any, a: any) => a.indexOf(v) === i) || [];
 
   const applyFilters = (c: any) => {
     let res = false;
     for (let i = 0; i < uniqueCategories.length; i++) {
       if (
         c.fields.Category === uniqueCategories[i] &&
-        communityFilters.includes(uniqueCategories[i])
+        apps?.filters?.includes(uniqueCategories[i])
       ) {
         res = true;
       }
@@ -38,38 +39,34 @@ const AppsPage = () => {
   };
 
   const data = (
-    config
-      ?.filter(
-        (c: any) => c.fields.Type === "App" && c.fields.Status === "Published"
-      )
-      .filter(
-        (c: any) =>
-          c.fields.Title?.toLowerCase().includes(search.toLowerCase()) ||
-          c.fields.Description?.toLowerCase().includes(search.toLowerCase()) ||
-          c.fields.Link?.toLowerCase().includes(search.toLowerCase())
-      ) || []
-  ).filter((c: any) => (communityFilters.length > 0 ? applyFilters(c) : true));
+    (apps?.items || []).filter(
+      (c: any) =>
+        c.fields.Title?.toLowerCase().includes(search.toLowerCase()) ||
+        c.fields.Description?.toLowerCase().includes(search.toLowerCase()) ||
+        c.fields.Link?.toLowerCase().includes(search.toLowerCase())
+    ) || []
+  ).filter((c: any) =>
+    (apps?.filters || []).length > 0 ? applyFilters(c) : true
+  );
 
   const options: Filter[] = uniqueCategories.map((category: any) => ({
     key: category,
     label: category,
-    value: communityFilters.includes(category),
+    value: (apps?.filters || [])?.includes(category),
     type: "checkbox",
-    isActive: communityFilters.includes(category),
+    isActive: (apps?.filters || [])?.includes(category),
     onChange: (value: any) => {
-      setState({
-        communityFilters: value
-          ? [...communityFilters, category]
-          : communityFilters.filter((filter) => filter !== category),
-      });
+      dispatch(
+        appStoreActions.setApps({
+          filters: value
+            ? [...(apps?.filters || []), category]
+            : (apps?.filters || []).filter((filter) => filter !== category),
+        })
+      );
     },
     count:
-      config?.filter(
-        (c: any) =>
-          c.fields.Type === "App" &&
-          c.fields.Status === "Published" &&
-          c.fields.Category === category
-      ).length || 0,
+      apps?.items?.filter((c: any) => c.fields.Category === category).length ||
+      0,
   }));
 
   return (

@@ -2,82 +2,41 @@ import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
-import { UserProps } from "../../types/User";
-
-/**
- * Interface for the LeaderboardEntry object representing a single entry in the leaderboard
- */
-export type LeaderboardEntry = any;
-
-/**
- * Interface for the LeaderboardState object representing the state of the leaderboard
- */
-export type LeaderboardState = {
-  docs: LeaderboardEntry[];
-  total: number;
-  page: number;
-  loading: boolean;
-  sort: string;
-  order: string;
-  savedDate?: string;
-};
-
-/**
- * Interface for the RewardsState object representing the state of the user rewards
- */
-export type RewardsState = {
-  docs: TelegramUserReward[] | TelegramUserActivity[];
-  total: number;
-  loading: boolean;
-  filter: string;
-  find?: object[];
-  savedDate?: string;
-};
-
-/**
- * Interface for the UserState object representing the state of the current user
- */
-export type UserState = UserProps | null;
-
-/**
- * Interface for the DebugState object representing the state of the debug mode
- */
-export type DebugState = {
-  enabled: boolean;
-  features?: {
-    [key: string]: boolean;
-  };
-};
-
-/**
- * Interface for the BalanceState object representing the state of the user balance
- */
-export type BalanceState = {
-  value?: number;
-  cached?: boolean;
-  loading?: boolean;
-  updated?: string;
-};
-
-/**
- * Interface for the AppState object representing the state of the app
- */
-interface AppState {
-  balance: BalanceState;
-  debug: DebugState;
-  leaderboard: LeaderboardState;
-  rewards: RewardsState;
-  user: UserState;
-}
+import {
+  AppState,
+  AppsState,
+  BalanceState,
+  CommunityState,
+  DebugState,
+  LeaderboardEntry,
+  LeaderboardState,
+  RewardsState,
+  UserState,
+} from "../../types/State";
 
 const initialState: AppState = {
+  apps: {
+    items: JSON.parse(localStorage.getItem(STORAGE_KEYS.APPS) || "[]"),
+    loading: true,
+    updated: localStorage.getItem(STORAGE_KEYS.APPS_UPDATED) || "",
+  },
   balance: {},
+  community: {
+    items: JSON.parse(localStorage.getItem(STORAGE_KEYS.COMMUNITY) || "[]"),
+    loading: true,
+    updated: localStorage.getItem(STORAGE_KEYS.COMMUNITY_UPDATED) || "",
+  },
+  config: localStorage.getItem(STORAGE_KEYS.CONFIG)
+    ? JSON.parse(localStorage.getItem(STORAGE_KEYS.CONFIG) || "[]")
+    : undefined,
   debug: {
-    enabled: localStorage.getItem("grindery_wallet_dev_mode") === "true",
+    enabled: localStorage.getItem(STORAGE_KEYS.DEBUG) === "true",
     features: Object.fromEntries(
       Object.keys(EXPERIMENTAL_FEATURES).map((key) => [
         key,
-        localStorage.getItem(`grindery_wallet_features_${key}`) === "true",
+        localStorage.getItem(
+          STORAGE_KEYS.EXPERIMENTAL_FEATURES.replace("{{key}}", key)
+        ) === "true",
       ])
     ),
   },
@@ -179,6 +138,34 @@ const appSlice = createSlice({
     setBalance(state, action: PayloadAction<Partial<BalanceState>>) {
       state.balance = {
         ...state.balance,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the config state
+     */
+    setConfig(state, action: PayloadAction<any>) {
+      state.config = {
+        ...state.config,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the community state
+     */
+    setCommunity(state, action: PayloadAction<Partial<CommunityState>>) {
+      // @ts-ignore
+      state.community = {
+        ...(state.community || {}),
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the apps state
+     */
+    setApps(state, action: PayloadAction<Partial<AppsState>>) {
+      state.apps = {
+        ...state.apps,
         ...action.payload,
       };
     },

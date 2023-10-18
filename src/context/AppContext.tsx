@@ -27,7 +27,6 @@ type StateProps = {
   activitySkip: number;
   activityFind?: any[];
   bannerShown: boolean;
-  config?: any;
   communityFilters: string[];
   tokensTab: number;
   stats?: any;
@@ -63,9 +62,6 @@ const defaultContext = {
     activitySkip: 0,
     bannerShown: true,
     communityFilters: [],
-    config: localStorage.getItem("grindery_wallet_config")
-      ? JSON.parse(localStorage.getItem("grindery_wallet_config") || "[]")
-      : undefined,
     tokensTab: 0,
     contacts: localStorage.getItem("gr_wallet_contacts")
       ? JSON.parse(localStorage.getItem("gr_wallet_contacts") || "[]")
@@ -317,7 +313,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     [user, dispatch]
   );
 
-  const getConfig = useCallback(async () => {
+  const getDynamicData = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
     }
@@ -327,17 +323,39 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
       });
-      setState({
-        config: res.data?.config || [],
-      });
-      localStorage.setItem(
-        "grindery_wallet_config",
-        JSON.stringify(res.data?.config || [])
+      const community = res.data?.config?.filter(
+        (c: any) =>
+          c.fields.Type === "Community" && c.fields.Status === "Published"
       );
+      const apps = res.data?.config?.filter(
+        (c: any) => c.fields.Type === "App" && c.fields.Status === "Published"
+      );
+      const updated = new Date().toISOString();
+      dispatch(
+        appStoreActions.setCommunity({
+          items: community,
+          loading: false,
+          updated: updated,
+        })
+      );
+      dispatch(
+        appStoreActions.setApps({
+          items: apps,
+          loading: false,
+          updated: updated,
+        })
+      );
+      localStorage.setItem(
+        STORAGE_KEYS.COMMUNITY,
+        JSON.stringify(community || [])
+      );
+      localStorage.setItem(STORAGE_KEYS.COMMUNITY_UPDATED, updated);
+      localStorage.setItem(STORAGE_KEYS.APPS, JSON.stringify(apps || []));
+      localStorage.setItem(STORAGE_KEYS.APPS_UPDATED, updated);
     } catch (error) {
-      console.error("getConfig error", error);
+      console.error("getDynamicData error", error);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (user?.telegramSession) {
@@ -367,8 +385,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getMe]);
 
   useEffect(() => {
-    getConfig();
-  }, [getConfig]);
+    getDynamicData();
+  }, [getDynamicData]);
 
   useEffect(() => {
     getBalance(true);

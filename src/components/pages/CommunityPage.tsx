@@ -5,22 +5,21 @@ import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import SearchBox, { Filter } from "../shared/SearchBox";
 import Community from "../shared/Community";
-import useAppContext from "../../hooks/useAppContext";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const CommunityPage = () => {
   const { height } = useWindowDimensions();
-  const {
-    state: { config, communityFilters },
-    setState,
-  } = useAppContext();
+  const dispatch = useAppDispatch();
+  const { community } = useAppSelector(selectAppStore);
 
   const [search, setSearch] = useState("");
 
-  const uniqueCategories = config
-    ?.filter(
-      (c: any) =>
-        c.fields.Type === "Community" && c.fields.Status === "Published"
-    )
+  const uniqueCategories = (community?.items || [])
     .map((c: any) => c.fields.Category)
     .filter((v: any, i: any, a: any) => a.indexOf(v) === i);
 
@@ -29,7 +28,7 @@ const CommunityPage = () => {
     for (let i = 0; i < uniqueCategories.length; i++) {
       if (
         c.fields.Category === uniqueCategories[i] &&
-        communityFilters.includes(uniqueCategories[i])
+        (community?.filters || []).includes(uniqueCategories[i])
       ) {
         res = true;
       }
@@ -39,38 +38,36 @@ const CommunityPage = () => {
   };
 
   const data = (
-    config
-      ?.filter(
-        (c: any) =>
-          c.fields.Type === "Community" && c.fields.Status === "Published"
-      )
-      .filter(
-        (c: any) =>
-          c.fields.Title?.toLowerCase().includes(search.toLowerCase()) ||
-          c.fields.Description?.toLowerCase().includes(search.toLowerCase()) ||
-          c.fields.Link?.toLowerCase().includes(search.toLowerCase())
-      ) || []
-  ).filter((c: any) => (communityFilters.length > 0 ? applyFilters(c) : true));
+    (community?.items || []).filter(
+      (c: any) =>
+        c.fields.Title?.toLowerCase().includes(search.toLowerCase()) ||
+        c.fields.Description?.toLowerCase().includes(search.toLowerCase()) ||
+        c.fields.Link?.toLowerCase().includes(search.toLowerCase())
+    ) || []
+  ).filter((c: any) =>
+    (community?.filters || []).length > 0 ? applyFilters(c) : true
+  );
 
   const options: Filter[] = uniqueCategories.map((category: any) => ({
     key: category,
     label: category,
-    value: communityFilters.includes(category),
+    value: (community?.filters || []).includes(category),
     type: "checkbox",
-    isActive: communityFilters.includes(category),
+    isActive: (community?.filters || []).includes(category),
     onChange: (value: any) => {
-      setState({
-        communityFilters: value
-          ? [...communityFilters, category]
-          : communityFilters.filter((filter) => filter !== category),
-      });
+      dispatch(
+        appStoreActions.setCommunity({
+          filters: value
+            ? [...(community?.filters || []), category]
+            : (community?.filters || []).filter(
+                (filter) => filter !== category
+              ),
+        })
+      );
     },
     count:
-      config?.filter(
-        (c: any) =>
-          c.fields.Type === "Community" &&
-          c.fields.Status === "Published" &&
-          c.fields.Category === category
+      (community?.items || [])?.filter(
+        (c: any) => c.fields.Category === category
       ).length || 0,
   }));
 
