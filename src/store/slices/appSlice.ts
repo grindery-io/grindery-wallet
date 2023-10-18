@@ -65,7 +65,6 @@ export type BalanceState = {
 interface AppState {
   balance: BalanceState;
   debug: DebugState;
-  error: string;
   leaderboard: LeaderboardState;
   rewards: RewardsState;
   user: UserState;
@@ -82,7 +81,6 @@ const initialState: AppState = {
       ])
     ),
   },
-  error: "",
   leaderboard: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.LEADERBOARD) || "[]"),
     total: 0,
@@ -107,12 +105,6 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    /**
-     * Reducer to set the error state
-     */
-    setError(state, action: PayloadAction<string>) {
-      state.error = action.payload;
-    },
     /**
      * Reducer to set the leaderboard state
      */

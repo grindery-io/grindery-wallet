@@ -17,8 +17,6 @@ import {
 } from "../store";
 
 type StateProps = {
-  loading: boolean;
-  error: string;
   contacts?: TelegramUserContact[];
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
@@ -53,8 +51,6 @@ type AppContextProps = {
 
 const defaultContext = {
   state: {
-    loading: false,
-    error: "",
     sessionLoading: true,
     activity: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]"),
     contactsLoading: true,
