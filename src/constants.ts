@@ -105,6 +105,10 @@ export const STORAGE_KEYS = {
   CONFIG: "gr_wallet_config",
   DEBUG: "gr_wallet_debug",
   EXPERIMENTAL_FEATURES: "grindery_wallet_features_{{key}}",
+  CONTACTS: "gr_wallet_contacts",
+  CONTACTS_UPDATED: "gr_wallet_contacts_updated",
+  APP_USER: "gr_wallet_app_user_{{id}}",
+  CONTACT_PHOTO: "gr_wallet_contact_photo_{{id}}",
 };
 
 /* 

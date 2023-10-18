@@ -11,6 +11,7 @@ import {
   LeaderboardEntry,
   LeaderboardState,
   RewardsState,
+  StatsState,
   UserState,
 } from "../../types/State";
 
@@ -26,9 +27,14 @@ const initialState: AppState = {
     loading: true,
     updated: localStorage.getItem(STORAGE_KEYS.COMMUNITY_UPDATED) || "",
   },
-  config: localStorage.getItem(STORAGE_KEYS.CONFIG)
-    ? JSON.parse(localStorage.getItem(STORAGE_KEYS.CONFIG) || "[]")
-    : undefined,
+  contacts: {
+    items: localStorage.getItem(STORAGE_KEYS.CONTACTS)
+      ? JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTACTS) || "[]")
+      : undefined,
+    loading: true,
+    filters: [],
+    updated: localStorage.getItem(STORAGE_KEYS.CONTACTS_UPDATED) || undefined,
+  },
   debug: {
     enabled: localStorage.getItem(STORAGE_KEYS.DEBUG) === "true",
     features: Object.fromEntries(
@@ -56,6 +62,8 @@ const initialState: AppState = {
     filter: "received",
     savedDate: localStorage.getItem(STORAGE_KEYS.REWARDS_SAVED) || "",
   },
+  stats: {},
+  tokensTab: 0,
   user: null,
 };
 
@@ -142,15 +150,6 @@ const appSlice = createSlice({
       };
     },
     /**
-     * Reducer to set the config state
-     */
-    setConfig(state, action: PayloadAction<any>) {
-      state.config = {
-        ...state.config,
-        ...action.payload,
-      };
-    },
-    /**
      * Reducer to set the community state
      */
     setCommunity(state, action: PayloadAction<Partial<CommunityState>>) {
@@ -166,6 +165,30 @@ const appSlice = createSlice({
     setApps(state, action: PayloadAction<Partial<AppsState>>) {
       state.apps = {
         ...state.apps,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the user stats state
+     */
+    setStats(state, action: PayloadAction<Partial<StatsState>>) {
+      state.stats = {
+        ...state.stats,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the tokens tab state
+     */
+    setTokensTab(state, action: PayloadAction<number>) {
+      state.tokensTab = action.payload;
+    },
+    /**
+     * Reducer to set the contacts state
+     */
+    setContacts(state, action: PayloadAction<any>) {
+      state.contacts = {
+        ...state.contacts,
         ...action.payload,
       };
     },

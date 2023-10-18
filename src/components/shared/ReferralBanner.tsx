@@ -1,24 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Banner from "./Banner";
 import { BOT_URL } from "../../constants";
 import { Box } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../store";
-import useAppContext from "../../hooks/useAppContext";
 
 const ReferralBanner = () => {
   const { user } = useAppSelector(selectAppStore);
-  const {
-    state: { bannerShown },
-    setState,
-  } = useAppContext();
+  const [visible, setVisible] = useState(true);
+
   return (
     <Banner
-      visible={Boolean(user?.userTelegramID) && bannerShown}
+      visible={Boolean(user?.userTelegramID) && visible}
       onClose={() => {
-        setState({
-          bannerShown: false,
-        });
-        localStorage.setItem("gr_wallet_banner_referral_closed", "true");
+        setVisible(false);
       }}
     >
       <Box

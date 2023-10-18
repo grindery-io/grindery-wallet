@@ -68,6 +68,28 @@ export type CommunityState = {
 };
 
 /**
+ * Interface for the ContactsState object representing the state of the user contacts
+ */
+export type ContactsState = {
+  /**
+   * Array of contacts
+   */
+  items?: any[];
+  /**
+   * Whether the contacts are loading
+   */
+  loading?: boolean;
+  /**
+   * When the contacts were last updated
+   */
+  updated?: string;
+  /**
+   * Array of filter keys
+   */
+  filters?: string[];
+};
+
+/**
  * Interface for the ConfigState object representing the state of app configuration
  */
 export type ConfigState = {};
@@ -119,6 +141,16 @@ export type RewardsState = {
 };
 
 /**
+ * Interface for the StatsState object representing the state of the user stats
+ */
+export type StatsState = {
+  sentTransactions?: number;
+  rewards?: number;
+  receivedTransactions?: number;
+  referrals?: number;
+};
+
+/**
  * Interface for the UserState object representing the state of the current user
  */
 export type UserState = UserProps | null;
@@ -130,9 +162,11 @@ export type AppState = {
   apps?: AppsState;
   balance: BalanceState;
   community?: CommunityState;
-  config: any;
+  contacts: ContactsState;
   debug: DebugState;
   leaderboard: LeaderboardState;
   rewards: RewardsState;
+  stats: StatsState;
+  tokensTab: number;
   user: UserState;
 };

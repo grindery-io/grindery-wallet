@@ -10,7 +10,6 @@ import {
 import { useNavigate, useParams } from "react-router";
 import Contacts from "../shared/Contacts";
 import SelectToken from "../shared/SelectToken";
-import useAppContext from "../../hooks/useAppContext";
 import SendButtonsGroup from "../shared/SendButtonsGroup";
 import SendAmount from "../shared/SendAmount";
 import { TelegramUserContact } from "../../types/Telegram";
@@ -24,10 +23,12 @@ import SendMessage from "../shared/SendMessage";
 import { selectAppStore, useAppSelector } from "../../store";
 
 const SendPage = () => {
-  const { user, debug } = useAppSelector(selectAppStore);
   const {
-    state: { contacts },
-  } = useAppContext();
+    user,
+    debug,
+    contacts: { items: contacts },
+  } = useAppSelector(selectAppStore);
+
   const [connecting, setConnecting] = useState(false);
   const [status, setStatus] = useState<string>("waiting_user_input");
 

@@ -2,18 +2,19 @@ import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import TokensList from "./TokensList";
 import ActivitiesList from "./ActivitiesList";
-import useAppContext from "../../hooks/useAppContext";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const TokensTabs = () => {
-  const {
-    state: { tokensTab },
-    setState,
-  } = useAppContext();
+  const dispatch = useAppDispatch();
+  const { tokensTab } = useAppSelector(selectAppStore);
 
   const handleTabChange = (event: React.SyntheticEvent, newTab: number) => {
-    setState({
-      tokensTab: newTab,
-    });
+    dispatch(appStoreActions.setTokensTab(newTab));
   };
 
   return (

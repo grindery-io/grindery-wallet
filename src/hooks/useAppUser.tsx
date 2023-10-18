@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAppContext from "./useAppContext";
 import { TelegramUser, TelegramUserContact } from "../types/Telegram";
-import { BOT_API_URL } from "../constants";
+import { BOT_API_URL, STORAGE_KEYS } from "../constants";
 import { getUserName } from "../utils/getUserName";
+import { selectAppStore, useAppSelector } from "../store";
 
 export type AppUser = {
   id: string;
@@ -18,10 +19,12 @@ export type AppUser = {
 
 const useAppUser = (userId: string) => {
   const {
-    state: { contacts },
-    photos,
-  } = useAppContext();
-  const cachedUser = localStorage.getItem(`gr_wallet_app_user_${userId}`);
+    contacts: { items: contacts },
+  } = useAppSelector(selectAppStore);
+  const { photos } = useAppContext();
+  const cachedUser = localStorage.getItem(
+    STORAGE_KEYS.APP_USER.replace("{{id}}", userId)
+  );
 
   const photo = photos?.[userId];
 
@@ -34,9 +37,15 @@ const useAppUser = (userId: string) => {
   );
 
   const [avatar, setAvatar] = useState(
-    Boolean(localStorage.getItem("gr_wallet_contact_photo_" + userId)) &&
-      localStorage.getItem("gr_wallet_contact_photo_" + userId) !== "null"
-      ? localStorage.getItem("gr_wallet_contact_photo_" + userId) || ""
+    Boolean(
+      localStorage.getItem(STORAGE_KEYS.CONTACT_PHOTO.replace("{{id}}", userId))
+    ) &&
+      localStorage.getItem(
+        STORAGE_KEYS.CONTACT_PHOTO.replace("{{id}}", userId)
+      ) !== "null"
+      ? localStorage.getItem(
+          STORAGE_KEYS.CONTACT_PHOTO.replace("{{id}}", userId)
+        ) || ""
       : photo || ""
   );
 

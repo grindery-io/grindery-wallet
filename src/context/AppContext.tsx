@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
-import { TelegramUserActivity, TelegramUserContact } from "../types/Telegram";
+import { TelegramUserActivity } from "../types/Telegram";
 import { UserProps } from "../types/User";
 import {
   appStoreActions,
@@ -17,19 +17,12 @@ import {
 } from "../store";
 
 type StateProps = {
-  contacts?: TelegramUserContact[];
   activity: TelegramUserActivity[];
-  contactsLoading: boolean;
-  contactsFilters: string[];
   activityFilters: string[];
   activityLoading: boolean;
   activityTotal: number;
   activitySkip: number;
   activityFind?: any[];
-  bannerShown: boolean;
-  communityFilters: string[];
-  tokensTab: number;
-  stats?: any;
 };
 
 // Context props
@@ -52,20 +45,12 @@ const defaultContext = {
   state: {
     sessionLoading: true,
     activity: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]"),
-    contactsLoading: true,
-    contactsFilters: [],
     activityFilters: [],
     activityLoading: true,
     activityTotal: JSON.parse(
       localStorage.getItem("gr_wallet_activity") || "[]"
     ).length,
     activitySkip: 0,
-    bannerShown: true,
-    communityFilters: [],
-    tokensTab: 0,
-    contacts: localStorage.getItem("gr_wallet_contacts")
-      ? JSON.parse(localStorage.getItem("gr_wallet_contacts") || "[]")
-      : undefined,
   },
   setState: () => {},
   getBalance: () => {},
@@ -84,6 +69,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     user,
     debug,
     balance,
+    contacts,
   } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
@@ -119,12 +105,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
         },
       });
-
-      setState({
-        stats: res.data,
-      });
+      dispatch(appStoreActions.setStats(res.data));
     } catch (error) {}
-  }, []);
+  }, [dispatch]);
 
   const getTgActivity = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
@@ -223,20 +206,25 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (!window.Telegram?.WebApp?.initData || !user?.telegramSession) {
       return;
     }
-    setState({
-      contactsLoading: true,
-    });
+    dispatch(
+      appStoreActions.setContacts({
+        loading: true,
+      })
+    );
+
     try {
       const res = await axios.get(`${BOT_API_URL}/v1/contacts`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
       });
-      setState({
-        contacts: res.data || [],
-      });
+      dispatch(
+        appStoreActions.setContacts({
+          contacts: res?.data || [],
+        })
+      );
       localStorage.setItem(
-        `gr_wallet_contacts`,
+        STORAGE_KEYS.CONTACTS,
         JSON.stringify(res.data || [])
       );
     } catch (error) {
@@ -251,13 +239,17 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             : null
         )
       );
-      setState({
-        contacts: [],
-      });
+      dispatch(
+        appStoreActions.setContacts({
+          contacts: [],
+        })
+      );
     }
-    setState({
-      contactsLoading: false,
-    });
+    dispatch(
+      appStoreActions.setContacts({
+        loading: false,
+      })
+    );
   }, [user, dispatch]);
 
   const getBalance = useCallback(
@@ -431,8 +423,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   const getPhotos = useCallback(async () => {
     if (
       !debug.features?.CONTACT_PHOTOS ||
-      !state.contacts ||
-      state.contacts.length < 1 ||
+      (contacts?.items || []).length < 1 ||
       !user?.telegramSession ||
       !window.telegram
     ) {
@@ -456,7 +447,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       return;
     }
 
-    for (const contact of state.contacts.filter((c) => c.id && c.username)) {
+    for (const contact of (contacts?.items || []).filter(
+      (c) => c.id && c.username
+    )) {
       const cachedPhoto = localStorage.getItem(
         "gr_wallet_contact_photo_" + contact.id
       );
@@ -502,7 +495,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       }));
     }
     await client.disconnect();
-  }, [debug.features?.CONTACT_PHOTOS, state.contacts, user?.telegramSession]);
+  }, [debug.features?.CONTACT_PHOTOS, contacts?.items, user?.telegramSession]);
 
   useEffect(() => {
     getPhotos();
