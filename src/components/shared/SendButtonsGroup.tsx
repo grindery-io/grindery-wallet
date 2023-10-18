@@ -75,37 +75,35 @@ const SendButtonsGroup = ({
         disabled={status === "sending" || !input.amount || !input.recipient}
         size="large"
         onClick={() => {
-          setTimeout(() => {
-            if (window.Telegram?.WebApp?.showConfirm) {
-              window.Telegram?.WebApp?.showConfirm(
-                "You are going to send " +
-                  (Array.isArray(input.recipient)
-                    ? (
-                        parseFloat(input.amount) * input.recipient.length
-                      ).toString()
-                    : input.amount) +
-                  " G1 tokens. This action can not be undone. Are you sure?",
-                (confirmed: boolean) => {
-                  if (confirmed) {
-                    sendTokens();
-                  }
+          if (window.Telegram?.WebApp?.showConfirm) {
+            window.Telegram?.WebApp?.showConfirm(
+              "You are going to send " +
+                (Array.isArray(input.recipient)
+                  ? (
+                      parseFloat(input.amount) * input.recipient.length
+                    ).toString()
+                  : input.amount) +
+                " G1 tokens. This action can not be undone. Are you sure?",
+              (confirmed: boolean) => {
+                if (confirmed) {
+                  sendTokens();
                 }
-              );
-            } else {
-              const confirmed = window.confirm(
-                "You are going to send " +
-                  (Array.isArray(input.recipient)
-                    ? (
-                        parseFloat(input.amount) * input.recipient.length
-                      ).toString()
-                    : input.amount) +
-                  " G1 tokens. This action can not be undone. Are you sure?"
-              );
-              if (confirmed) {
-                sendTokens();
               }
+            );
+          } else {
+            const confirmed = window.confirm(
+              "You are going to send " +
+                (Array.isArray(input.recipient)
+                  ? (
+                      parseFloat(input.amount) * input.recipient.length
+                    ).toString()
+                  : input.amount) +
+                " G1 tokens. This action can not be undone. Are you sure?"
+            );
+            if (confirmed) {
+              sendTokens();
             }
-          }, 250);
+          }
         }}
       >
         {status === "sending" ? "Sending..." : "Send"}
