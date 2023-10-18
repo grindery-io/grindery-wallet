@@ -275,7 +275,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           chainId: "matic",
         });
         if (res?.data?.balanceEther) {
-          const date = new Date().toISOString();
+          const date = new Date().toString();
           dispatch(
             appStoreActions.setBalance({
               value: parseFloat(res.data.balanceEther),
@@ -330,7 +330,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       const apps = res.data?.config?.filter(
         (c: any) => c.fields.Type === "App" && c.fields.Status === "Published"
       );
-      const updated = new Date().toISOString();
+      const updated = new Date().toString();
       dispatch(
         appStoreActions.setCommunity({
           items: community,
