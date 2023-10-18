@@ -19,8 +19,12 @@ const SendButtonsGroup = ({
   setStatus: (status: string) => void;
 }) => {
   let navigate = useNavigate();
+  const [countFailed, setCountFailed] = React.useState(0);
 
   const sendTokens = async () => {
+    if (countFailed > 3) {
+      return;
+    }
     setStatus("sending");
     try {
       const res = await axios.post(
@@ -45,6 +49,7 @@ const SendButtonsGroup = ({
       }
     } catch (error) {
       console.error("send tokens error", error);
+      setCountFailed(countFailed + 1);
       setStatus("error");
     }
   };
@@ -72,7 +77,12 @@ const SendButtonsGroup = ({
 
       <Button
         fullWidth
-        disabled={status === "sending" || !input.amount || !input.recipient}
+        disabled={
+          status === "sending" ||
+          !input.amount ||
+          !input.recipient ||
+          countFailed > 3
+        }
         size="large"
         onClick={() => {
           if (window.Telegram?.WebApp?.showConfirm) {
@@ -106,7 +116,11 @@ const SendButtonsGroup = ({
           }
         }}
       >
-        {status === "sending" ? "Sending..." : "Send"}
+        {countFailed > 3
+          ? "Try later..."
+          : status === "sending"
+          ? "Sending..."
+          : "Send"}
       </Button>
     </Stack>
   );
