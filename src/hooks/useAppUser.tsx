@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import useAppContext from "./useAppContext";
 import { TelegramUser, TelegramUserContact } from "../types/Telegram";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
 import { getUserName } from "../utils/getUserName";
@@ -20,8 +19,8 @@ export type AppUser = {
 const useAppUser = (userId: string) => {
   const {
     contacts: { items: contacts },
+    photos,
   } = useAppSelector(selectAppStore);
-  const { photos } = useAppContext();
   const cachedUser = localStorage.getItem(
     STORAGE_KEYS.APP_USER.replace("{{id}}", userId)
   );
@@ -89,7 +88,7 @@ const useAppUser = (userId: string) => {
           if (res.data._id) {
             setUser(res.data);
             localStorage.setItem(
-              `gr_wallet_app_user_${userId}`,
+              STORAGE_KEYS.APP_USER.replace("{{id}}", userId),
               JSON.stringify(res.data)
             );
           }

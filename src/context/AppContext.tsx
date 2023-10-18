@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useEffect,
   useReducer,
-  useState,
 } from "react";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
 import { TelegramUserActivity } from "../types/Telegram";
@@ -28,12 +27,8 @@ type StateProps = {
 // Context props
 type ContextProps = {
   state: StateProps;
-  photos?: { [key: string]: string };
   setState: (newState: Partial<StateProps>) => void;
   getBalance: (a?: boolean) => void;
-  getTgActivity: () => void;
-  getTgRewards: () => void;
-  getTgContacts: () => void;
 };
 
 // Context provider props
@@ -54,9 +49,6 @@ const defaultContext = {
   },
   setState: () => {},
   getBalance: () => {},
-  getTgActivity: () => {},
-  getTgRewards: () => {},
-  getTgContacts: () => {},
 };
 
 // Init context
@@ -71,7 +63,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     balance,
     contacts,
   } = useAppSelector(selectAppStore);
-  const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
     (state: StateProps, newState: Partial<StateProps>) => ({
       ...state,
@@ -220,7 +211,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       });
       dispatch(
         appStoreActions.setContacts({
-          contacts: res?.data || [],
+          items: res?.data || [],
         })
       );
       localStorage.setItem(
@@ -277,10 +268,13 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             })
           );
           localStorage.setItem(
-            `grindery_${userId}_balance`,
+            STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
             res.data.balanceEther
           );
-          localStorage.setItem(`grindery_${userId}_balance_updated`, date);
+          localStorage.setItem(
+            STORAGE_KEYS.BALANCE_UPDATED.replace("{{id}}", userId || ""),
+            date
+          );
         } else {
           dispatch(
             appStoreActions.setBalance({
@@ -289,7 +283,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
               loading: false,
             })
           );
-          localStorage.setItem(`grindery_${userId}_balance`, "0");
+          localStorage.setItem(
+            STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
+            "0"
+          );
         }
       } catch (error) {
         dispatch(
@@ -299,7 +296,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             loading: false,
           })
         );
-        localStorage.setItem(`grindery_${userId}_balance`, "0");
+        localStorage.setItem(
+          STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
+          "0"
+        );
       }
     },
     [user, dispatch]
@@ -454,20 +454,22 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         "gr_wallet_contact_photo_" + contact.id
       );
       if (cachedPhoto) {
-        setPhotos((_photos) => ({
-          ..._photos,
-          [contact.id]: cachedPhoto,
-        }));
+        dispatch(
+          appStoreActions.setPhotos({
+            [contact.id]: cachedPhoto,
+          })
+        );
         continue;
       }
 
       const photo = await client.downloadProfilePhoto(contact.username);
 
       if (!photo) {
-        setPhotos((_photos) => ({
-          ..._photos,
-          [contact.id]: "null",
-        }));
+        dispatch(
+          appStoreActions.setPhotos({
+            [contact.id]: "null",
+          })
+        );
         continue;
       }
 
@@ -476,10 +478,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
 
       if (!base64Photo) {
-        setPhotos((_photos) => ({
-          ..._photos,
-          [contact.id]: "null",
-        }));
+        dispatch(
+          appStoreActions.setPhotos({
+            [contact.id]: "null",
+          })
+        );
+
         continue;
       }
 
@@ -489,13 +493,19 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         "gr_wallet_contact_photo_" + contact.id,
         base64PhotoUrl || "null"
       );
-      setPhotos((_photos) => ({
-        ..._photos,
-        [contact.id]: base64PhotoUrl || "null",
-      }));
+      dispatch(
+        appStoreActions.setPhotos({
+          [contact.id]: base64PhotoUrl || "null",
+        })
+      );
     }
     await client.disconnect();
-  }, [debug.features?.CONTACT_PHOTOS, contacts?.items, user?.telegramSession]);
+  }, [
+    debug.features?.CONTACT_PHOTOS,
+    contacts?.items,
+    user?.telegramSession,
+    dispatch,
+  ]);
 
   useEffect(() => {
     getPhotos();
@@ -519,12 +529,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         state,
-        photos,
         setState,
         getBalance,
-        getTgActivity,
-        getTgRewards,
-        getTgContacts,
       }}
     >
       {children}

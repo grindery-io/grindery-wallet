@@ -10,16 +10,11 @@ import { selectAppStore, useAppSelector } from "../../store";
 const Balance = () => {
   const {
     user,
-    balance: {
-      value: balance,
-      cached: balanceCached,
-      updated: balanceUpdated,
-      loading: balanceLoading,
-    },
+    balance: { value, cached, updated, loading },
   } = useAppSelector(selectAppStore);
   const { getBalance } = useAppContext();
   const navigate = useNavigate();
-  const { full } = formatBalance(balance);
+  const { full } = formatBalance(value);
   const [clicked, setClicked] = useState(0);
 
   useEffect(() => {
@@ -57,7 +52,7 @@ const Balance = () => {
             sx={{
               textAlign: "center",
               margin: "30px 0 26px",
-              opacity: balanceCached ? 0.6 : 1,
+              opacity: cached ? 0.6 : 1,
             }}
           >
             <Typography
@@ -76,7 +71,7 @@ const Balance = () => {
             <Typography component="span" variant="md">
               G1
             </Typography>
-            {balanceUpdated && (
+            {updated && (
               <Typography
                 variant="xs"
                 component="div"
@@ -96,10 +91,9 @@ const Balance = () => {
                   component="span"
                   sx={{ fontWeight: "inherit" }}
                 >
-                  Updated {moment(balanceUpdated).fromNow()}.{" "}
+                  Updated {moment(updated).fromNow()}.{" "}
                 </Typography>
-                {moment(balanceUpdated) <
-                  moment(new Date()).add(-1, "minute") && (
+                {moment(updated) < moment(new Date()).add(-1, "minute") && (
                   <button
                     onClick={() => {
                       getBalance(true);
@@ -110,7 +104,7 @@ const Balance = () => {
                       padding: "0",
                       margin: 0,
                       boxShadow: "none",
-                      color: balanceLoading
+                      color: loading
                         ? "var(--tg-theme-hint-color, #999999)"
                         : "var(--tg-theme-link-color, #2481cc)",
                       cursor: "pointer",
@@ -128,17 +122,17 @@ const Balance = () => {
                       color="hint"
                       sx={{
                         fontWeight: "inherit",
-                        color: balanceLoading
+                        color: loading
                           ? "var(--tg-theme-hint-color, #999999)"
                           : "var(--tg-theme-link-color, #2481cc)",
                       }}
                     >
-                      Refresh{balanceLoading && "ing"}
+                      Refresh{loading && "ing"}
                     </Typography>
                     <Box
                       component="span"
                       sx={{
-                        color: balanceLoading
+                        color: loading
                           ? "var(--tg-theme-hint-color, #999999)"
                           : "var(--tg-theme-link-color, #2481cc)",
                         padding: 0,
@@ -146,9 +140,7 @@ const Balance = () => {
                           WebkitAnimation: "spin 0.75s linear infinite",
                           MozAnimation: "spin 0.75s linear infinite",
                           animation: "spin 0.75s linear infinite",
-                          animationPlayState: balanceLoading
-                            ? "running"
-                            : "paused",
+                          animationPlayState: loading ? "running" : "paused",
                           width: "20px",
                           height: "20px",
                           display: "block",
@@ -157,7 +149,7 @@ const Balance = () => {
                     >
                       <RefreshIcon
                         sx={{
-                          color: balanceLoading
+                          color: loading
                             ? "var(--tg-theme-hint-color, #999999)"
                             : "var(--tg-theme-link-color, #2481cc)",
                         }}

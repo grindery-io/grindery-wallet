@@ -129,6 +129,13 @@ export type LeaderboardState = {
 };
 
 /**
+ * Interface for the PhotosState object representing the state of the user contacts photos
+ */
+export type PhotosState = {
+  [key: string]: string;
+};
+
+/**
  * Interface for the RewardsState object representing the state of the user rewards
  */
 export type RewardsState = {
@@ -165,6 +172,7 @@ export type AppState = {
   contacts: ContactsState;
   debug: DebugState;
   leaderboard: LeaderboardState;
+  photos: PhotosState;
   rewards: RewardsState;
   stats: StatsState;
   tokensTab: number;

@@ -35,33 +35,24 @@ const TelegramContacts = ({
 }: Props) => {
   const { height } = useWindowDimensions();
   const dispatch = useAppDispatch();
-  const {
-    user,
-    contacts: {
-      items: contacts,
-      loading: contactsLoading,
-      filters: contactsFilters,
-    },
-  } = useAppSelector(selectAppStore);
+  const { user, contacts } = useAppSelector(selectAppStore);
+  const { items, loading, filters } = contacts || {};
   const [search, setSearch] = useState("");
 
   const applyFilters = (contact: TelegramUserContact) => {
     let res = false;
     if (
-      (contactsFilters || []).includes("invited") &&
+      (filters || []).includes("invited") &&
       contact.isInvited &&
       !contact.isGrinderyUser
     ) {
       res = true;
     }
-    if (
-      (contactsFilters || []).includes("has-wallet") &&
-      contact.isGrinderyUser
-    ) {
+    if ((filters || []).includes("has-wallet") && contact.isGrinderyUser) {
       res = true;
     }
     if (
-      (contactsFilters || []).includes("not-invited") &&
+      (filters || []).includes("not-invited") &&
       !contact.isGrinderyUser &&
       !contact.isInvited
     ) {
@@ -71,7 +62,7 @@ const TelegramContacts = ({
     return res;
   };
 
-  const data = contacts
+  const data = items
     ?.filter(
       (contact: any) =>
         !search ||
@@ -90,28 +81,26 @@ const TelegramContacts = ({
     )
     .filter((contact) => contact.id !== user?.userTelegramID)
     .filter((contact) =>
-      (contactsFilters || []).length > 0 ? applyFilters(contact) : true
+      (filters || []).length > 0 ? applyFilters(contact) : true
     );
 
   const options: Filter[] = [
     {
       key: "invited",
       label: "Invited Contacts",
-      value: (contactsFilters || []).includes("invited"),
+      value: (filters || []).includes("invited"),
       type: "checkbox",
-      isActive: (contactsFilters || []).includes("invited"),
+      isActive: (filters || []).includes("invited"),
       onChange: (value) => {
         dispatch(
           appStoreActions.setContacts({
             filters: value
-              ? [...(contactsFilters || []), "invited"]
-              : (contactsFilters || []).filter(
-                  (filter) => filter !== "invited"
-                ),
+              ? [...(filters || []), "invited"]
+              : (filters || []).filter((filter) => filter !== "invited"),
           })
         );
       },
-      count: contacts
+      count: items
         ?.filter((contact) => contact.id !== user?.userTelegramID)
         .filter((contact) => contact.isInvited && !contact.isGrinderyUser)
         .length,
@@ -119,21 +108,19 @@ const TelegramContacts = ({
     {
       key: "not-invited",
       label: "Not invited Contacts",
-      value: (contactsFilters || []).includes("not-invited"),
+      value: (filters || []).includes("not-invited"),
       type: "checkbox",
-      isActive: (contactsFilters || []).includes("not-invited"),
+      isActive: (filters || []).includes("not-invited"),
       onChange: (value) => {
         dispatch(
           appStoreActions.setContacts({
             filters: value
-              ? [...(contactsFilters || []), "not-invited"]
-              : (contactsFilters || []).filter(
-                  (filter) => filter !== "not-invited"
-                ),
+              ? [...(filters || []), "not-invited"]
+              : (filters || []).filter((filter) => filter !== "not-invited"),
           })
         );
       },
-      count: contacts
+      count: items
         ?.filter((contact) => contact.id !== user?.userTelegramID)
         .filter((contact) => !contact.isInvited && !contact.isGrinderyUser)
         .length,
@@ -141,21 +128,19 @@ const TelegramContacts = ({
     {
       key: "has-wallet",
       label: "Contacts with wallets",
-      value: (contactsFilters || []).includes("has-wallet"),
+      value: (filters || []).includes("has-wallet"),
       type: "checkbox",
-      isActive: (contactsFilters || []).includes("has-wallet"),
+      isActive: (filters || []).includes("has-wallet"),
       onChange: (value) => {
         dispatch(
           appStoreActions.setContacts({
             filters: value
-              ? [...(contactsFilters || []), "has-wallet"]
-              : (contactsFilters || []).filter(
-                  (filter) => filter !== "has-wallet"
-                ),
+              ? [...(filters || []), "has-wallet"]
+              : (filters || []).filter((filter) => filter !== "has-wallet"),
           })
         );
       },
-      count: contacts
+      count: items
         ?.filter((contact) => contact.id !== user?.userTelegramID)
         .filter((contact) => contact.isGrinderyUser).length,
     },
@@ -200,7 +185,7 @@ const TelegramContacts = ({
         filters={options}
       />
 
-      {contacts && contacts.length > 0 ? (
+      {items && items.length > 0 ? (
         <>
           <Box
             sx={{
@@ -297,7 +282,7 @@ const TelegramContacts = ({
               </Stack>
             )}
         </>
-      ) : contactsLoading ? (
+      ) : loading ? (
         <Box sx={{ margin: "50px", textAlign: "center" }}>
           <CircularProgress
             sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
