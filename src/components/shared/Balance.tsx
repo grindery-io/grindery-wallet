@@ -8,11 +8,16 @@ import { useNavigate } from "react-router";
 import { selectAppStore, useAppSelector } from "../../store";
 
 const Balance = () => {
-  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { balance, balanceCached, balanceUpdated, balanceLoading },
-    getBalance,
-  } = useAppContext();
+    user,
+    balance: {
+      value: balance,
+      cached: balanceCached,
+      updated: balanceUpdated,
+      loading: balanceLoading,
+    },
+  } = useAppSelector(selectAppStore);
+  const { getBalance } = useAppContext();
   const navigate = useNavigate();
   const { full } = formatBalance(balance);
   const [clicked, setClicked] = useState(0);

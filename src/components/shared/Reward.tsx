@@ -47,7 +47,13 @@ const Reward = ({
       >
         <ListItemText
           sx={{ margin: 0 }}
-          primary={reward.message}
+          primary={
+            reward.message || (
+              <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+                No message
+              </span>
+            )
+          }
           primaryTypographyProps={{
             variant: "xs",
             sx: {

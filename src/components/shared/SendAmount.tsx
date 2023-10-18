@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, InputBase, Stack } from "@mui/material";
-import useAppContext from "../../hooks/useAppContext";
 import { TelegramUserContact } from "../../types/Telegram";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const SendAmount = ({
   amount,
@@ -13,8 +13,9 @@ const SendAmount = ({
   recepient?: TelegramUserContact | TelegramUserContact[];
 }) => {
   const {
-    state: { balance },
-  } = useAppContext();
+    balance: { value: balance },
+  } = useAppSelector(selectAppStore);
+
   return (
     <Stack
       alignItems="center"

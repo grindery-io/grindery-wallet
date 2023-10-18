@@ -50,9 +50,20 @@ export type DebugState = {
 };
 
 /**
+ * Interface for the BalanceState object representing the state of the user balance
+ */
+export type BalanceState = {
+  value?: number;
+  cached?: boolean;
+  loading?: boolean;
+  updated?: string;
+};
+
+/**
  * Interface for the AppState object representing the state of the app
  */
 interface AppState {
+  balance: BalanceState;
   debug: DebugState;
   error: string;
   leaderboard: LeaderboardState;
@@ -61,6 +72,7 @@ interface AppState {
 }
 
 const initialState: AppState = {
+  balance: {},
   debug: {
     enabled: localStorage.getItem("grindery_wallet_dev_mode") === "true",
     features: Object.fromEntries(
@@ -166,6 +178,15 @@ const appSlice = createSlice({
     setDebugFeatures(state, action: PayloadAction<{ [key: string]: boolean }>) {
       state.debug.features = {
         ...state.debug.features,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the balance state
+     */
+    setBalance(state, action: PayloadAction<Partial<BalanceState>>) {
+      state.balance = {
+        ...state.balance,
         ...action.payload,
       };
     },

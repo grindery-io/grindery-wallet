@@ -25,10 +25,6 @@ type StateProps = {
   error: string;
   activeTab: string;
   contacts?: TelegramUserContact[];
-  balance?: number;
-  balanceCached?: boolean;
-  balanceLoading?: boolean;
-  balanceUpdated?: string;
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
   contactsFilters: string[];
@@ -110,6 +106,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     rewards: { find, filter },
     user,
     debug,
+    balance,
   } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
@@ -291,9 +288,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       if (!user?.patchwallet) {
         return;
       }
-      setState({
-        balanceLoading: !a ? false : true,
-      });
+      dispatch(appStoreActions.setBalance({ loading: !a ? false : true }));
       // get balance here
       const userId = user.userTelegramID;
       try {
@@ -304,27 +299,41 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         });
         if (res?.data?.balanceEther) {
           const date = new Date().toISOString();
-          setState({
-            balance: parseFloat(res.data.balanceEther),
-            balanceCached: false,
-            balanceLoading: false,
-            balanceUpdated: date,
-          });
+          dispatch(
+            appStoreActions.setBalance({
+              value: parseFloat(res.data.balanceEther),
+              cached: false,
+              loading: false,
+              updated: date,
+            })
+          );
           localStorage.setItem(
             `grindery_${userId}_balance`,
             res.data.balanceEther
           );
           localStorage.setItem(`grindery_${userId}_balance_updated`, date);
         } else {
-          setState({ balance: 0, balanceCached: false, balanceLoading: false });
+          dispatch(
+            appStoreActions.setBalance({
+              value: 0,
+              cached: false,
+              loading: false,
+            })
+          );
           localStorage.setItem(`grindery_${userId}_balance`, "0");
         }
       } catch (error) {
-        setState({ balance: 0, balanceCached: false, balanceLoading: false });
+        dispatch(
+          appStoreActions.setBalance({
+            value: 0,
+            cached: false,
+            loading: false,
+          })
+        );
         localStorage.setItem(`grindery_${userId}_balance`, "0");
       }
     },
-    [user]
+    [user, dispatch]
   );
 
   const getConfig = useCallback(async () => {
@@ -397,20 +406,22 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getTgContacts]);
 
   useEffect(() => {
-    if (user?.userTelegramID && typeof state.balance === "undefined") {
-      setState({
-        balance: parseFloat(
-          localStorage.getItem(`grindery_${user?.userTelegramID}_balance`) ||
-            "0"
-        ),
-        balanceCached: true,
-        balanceUpdated:
-          localStorage.getItem(
-            `grindery_${user?.userTelegramID}_balance_updated`
-          ) || "",
-      });
+    if (user?.userTelegramID && typeof balance.value === "undefined") {
+      dispatch(
+        appStoreActions.setBalance({
+          value: parseFloat(
+            localStorage.getItem(`grindery_${user?.userTelegramID}_balance`) ||
+              "0"
+          ),
+          cached: true,
+          updated:
+            localStorage.getItem(
+              `grindery_${user?.userTelegramID}_balance_updated`
+            ) || "",
+        })
+      );
     }
-  }, [user, state.balance]);
+  }, [user, balance, dispatch]);
 
   useEffect(() => {
     if (debug.enabled || debug.features?.LEADERBOARD) {

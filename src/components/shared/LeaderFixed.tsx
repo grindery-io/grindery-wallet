@@ -6,9 +6,12 @@ import useAppContext from "../../hooks/useAppContext";
 import { selectAppStore, useAppSelector } from "../../store";
 
 const LeaderFixed = () => {
-  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { balance, stats },
+    user,
+    balance: { value: balance },
+  } = useAppSelector(selectAppStore);
+  const {
+    state: { stats },
   } = useAppContext();
 
   return (

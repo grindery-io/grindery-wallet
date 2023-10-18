@@ -1,12 +1,13 @@
 import React from "react";
 import { TOKENS } from "../../constants";
-import useAppContext from "../../hooks/useAppContext";
 import { Typography } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const TokensList = () => {
   const {
-    state: { balance },
-  } = useAppContext();
+    balance: { value: balance },
+  } = useAppSelector(selectAppStore);
+
   return (
     <ul
       style={{

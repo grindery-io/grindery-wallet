@@ -124,7 +124,17 @@ const RewardPage = () => {
             width: "100%",
           }}
         >
-          <TableRow first label="Reward type" value={item.message} />
+          <TableRow
+            first
+            label="Reward type"
+            value={
+              item.message || (
+                <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
+                  No message
+                </span>
+              )
+            }
+          />
           <TableRow
             label="Reward amount"
             value={item.amount}

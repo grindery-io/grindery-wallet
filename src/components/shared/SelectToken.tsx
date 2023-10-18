@@ -1,13 +1,13 @@
 import React from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import useAppContext from "../../hooks/useAppContext";
 import { TOKENS } from "../../constants";
 import { Box, Stack, Typography } from "@mui/material";
+import { selectAppStore, useAppSelector } from "../../store";
 
 const SelectToken = () => {
   const {
-    state: { balance },
-  } = useAppContext();
+    balance: { value: balance },
+  } = useAppSelector(selectAppStore);
   return (
     <Stack
       direction="row"
