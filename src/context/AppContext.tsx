@@ -7,11 +7,7 @@ import React, {
   useState,
 } from "react";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
-import {
-  TelegramUserActivity,
-  TelegramUserContact,
-  TelegramUserReward,
-} from "../types/Telegram";
+import { TelegramUserActivity, TelegramUserContact } from "../types/Telegram";
 import { UserProps } from "../types/User";
 import {
   appStoreActions,
@@ -23,22 +19,15 @@ import {
 type StateProps = {
   loading: boolean;
   error: string;
-  activeTab: string;
   contacts?: TelegramUserContact[];
   activity: TelegramUserActivity[];
   contactsLoading: boolean;
   contactsFilters: string[];
-  rewardsFilter: string;
   activityFilters: string[];
   activityLoading: boolean;
   activityTotal: number;
   activitySkip: number;
   activityFind?: any[];
-  rewards: {
-    received: TelegramUserReward[];
-    pending: TelegramUserActivity[];
-  };
-  rewardsLoading: boolean;
   bannerShown: boolean;
   config?: any;
   communityFilters: string[];
@@ -67,19 +56,15 @@ const defaultContext = {
     loading: false,
     error: "",
     sessionLoading: true,
-    activeTab: "tokens",
     activity: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]"),
     contactsLoading: true,
     contactsFilters: [],
-    rewardsFilter: "received",
     activityFilters: [],
     activityLoading: true,
     activityTotal: JSON.parse(
       localStorage.getItem("gr_wallet_activity") || "[]"
     ).length,
     activitySkip: 0,
-    rewards: JSON.parse(localStorage.getItem("gr_wallet_rewards") || "[]"),
-    rewardsLoading: true,
     bannerShown: true,
     communityFilters: [],
     config: localStorage.getItem("grindery_wallet_config")
