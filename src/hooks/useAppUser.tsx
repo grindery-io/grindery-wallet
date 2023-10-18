@@ -4,6 +4,7 @@ import { TelegramUser, TelegramUserContact } from "../types/Telegram";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
 import { getUserName } from "../utils/getUserName";
 import { selectAppStore, useAppSelector } from "../store";
+import useAppContext from "./useAppContext";
 
 export type AppUser = {
   id: string;
@@ -19,11 +20,11 @@ export type AppUser = {
 const useAppUser = (userId: string) => {
   const {
     contacts: { items: contacts },
-    photos,
   } = useAppSelector(selectAppStore);
   const cachedUser = localStorage.getItem(
     STORAGE_KEYS.APP_USER.replace("{{id}}", userId)
   );
+  const { photos } = useAppContext();
 
   const photo = photos?.[userId];
 

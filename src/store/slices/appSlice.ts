@@ -55,7 +55,7 @@ const initialState: AppState = {
     order: "desc",
     savedDate: localStorage.getItem(STORAGE_KEYS.LEADERBOARD_SAVED) || "",
   },
-  photos: {},
+
   rewards: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.REWARDS) || "[]"),
     total: 0,
@@ -190,15 +190,6 @@ const appSlice = createSlice({
     setContacts(state, action: PayloadAction<any>) {
       state.contacts = {
         ...state.contacts,
-        ...action.payload,
-      };
-    },
-    /**
-     * Reducer to set the photos state
-     */
-    setPhotos(state, action: PayloadAction<any>) {
-      state.photos = {
-        ...state.photos,
         ...action.payload,
       };
     },

@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import appPackage from "../../../package.json";
 import Address from "../shared/Address";
-import { EXPERIMENTAL_FEATURES } from "../../constants";
+import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
 import getLocalStorageSize from "../../utils/getLocalStorageSize";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
@@ -83,7 +83,7 @@ const DebugPage = () => {
                 );
 
                 localStorage.setItem(
-                  "grindery_wallet_dev_mode",
+                  STORAGE_KEYS.DEBUG,
                   event.target.checked ? "true" : "false"
                 );
               }}
@@ -410,7 +410,10 @@ const DebugPage = () => {
                             })
                           );
                           localStorage.setItem(
-                            `grindery_wallet_features_${key}`,
+                            STORAGE_KEYS.EXPERIMENTAL_FEATURES.replace(
+                              "{{key}}",
+                              key
+                            ),
                             event.target.checked ? "true" : "false"
                           );
                         }}

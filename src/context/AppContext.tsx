@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useReducer,
+  useState,
 } from "react";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
 import { TelegramUserActivity } from "../types/Telegram";
@@ -27,6 +28,7 @@ type StateProps = {
 // Context props
 type ContextProps = {
   state: StateProps;
+  photos?: { [key: string]: string };
   setState: (newState: Partial<StateProps>) => void;
   getBalance: (a?: boolean) => void;
 };
@@ -63,6 +65,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     balance,
     contacts,
   } = useAppSelector(selectAppStore);
+  const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [state, setState] = useReducer(
     (state: StateProps, newState: Partial<StateProps>) => ({
       ...state,
@@ -232,7 +235,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
       dispatch(
         appStoreActions.setContacts({
-          contacts: [],
+          items: [],
         })
       );
     }
@@ -401,13 +404,17 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       dispatch(
         appStoreActions.setBalance({
           value: parseFloat(
-            localStorage.getItem(`grindery_${user?.userTelegramID}_balance`) ||
-              "0"
+            localStorage.getItem(
+              STORAGE_KEYS.BALANCE.replace("{{id}}", user?.userTelegramID || "")
+            ) || "0"
           ),
           cached: true,
           updated:
             localStorage.getItem(
-              `grindery_${user?.userTelegramID}_balance_updated`
+              STORAGE_KEYS.BALANCE_UPDATED.replace(
+                "{{id}}",
+                user?.userTelegramID || ""
+              )
             ) || "",
         })
       );
@@ -451,25 +458,23 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       (c) => c.id && c.username
     )) {
       const cachedPhoto = localStorage.getItem(
-        "gr_wallet_contact_photo_" + contact.id
+        STORAGE_KEYS.CONTACT_PHOTO.replace("{{id}}", contact.id)
       );
       if (cachedPhoto) {
-        dispatch(
-          appStoreActions.setPhotos({
-            [contact.id]: cachedPhoto,
-          })
-        );
+        setPhotos((_photos) => ({
+          ..._photos,
+          [contact.id]: cachedPhoto,
+        }));
         continue;
       }
 
       const photo = await client.downloadProfilePhoto(contact.username);
 
       if (!photo) {
-        dispatch(
-          appStoreActions.setPhotos({
-            [contact.id]: "null",
-          })
-        );
+        setPhotos((_photos) => ({
+          ..._photos,
+          [contact.id]: "null",
+        }));
         continue;
       }
 
@@ -478,48 +483,30 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
 
       if (!base64Photo) {
-        dispatch(
-          appStoreActions.setPhotos({
-            [contact.id]: "null",
-          })
-        );
-
+        setPhotos((_photos) => ({
+          ..._photos,
+          [contact.id]: "null",
+        }));
         continue;
       }
 
       const base64PhotoUrl = `data:image/png;base64,${base64Photo}`;
 
       localStorage.setItem(
-        "gr_wallet_contact_photo_" + contact.id,
+        STORAGE_KEYS.CONTACT_PHOTO.replace("{{id}}", contact.id),
         base64PhotoUrl || "null"
       );
-      dispatch(
-        appStoreActions.setPhotos({
-          [contact.id]: base64PhotoUrl || "null",
-        })
-      );
+      setPhotos((_photos) => ({
+        ..._photos,
+        [contact.id]: base64PhotoUrl || "null",
+      }));
     }
     await client.disconnect();
-  }, [
-    debug.features?.CONTACT_PHOTOS,
-    contacts?.items,
-    user?.telegramSession,
-    dispatch,
-  ]);
+  }, [debug.features?.CONTACT_PHOTOS, contacts?.items, user?.telegramSession]);
 
   useEffect(() => {
     getPhotos();
   }, [getPhotos]);
-
-  useEffect(() => {
-    if (debug.enabled && debug.features?.CONTACT_PHOTOS) {
-      const ws = new WebSocket("wss://ws.postman-echo.com/raw");
-      ws.onopen = (event) => {
-        console.log("WebSocket Client Connected");
-        ws.send(JSON.stringify(event));
-      };
-    }
-  }, [debug.features?.CONTACT_PHOTOS, debug.enabled]);
 
   if (window.origin.includes("localhost")) {
     console.log("state", state);
@@ -529,6 +516,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         state,
+        photos,
         setState,
         getBalance,
       }}
