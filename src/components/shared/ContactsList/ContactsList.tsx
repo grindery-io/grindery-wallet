@@ -11,16 +11,46 @@ import SearchBox, { Filter } from "../SearchBox";
 import ContactsListEmpty from "./ContactsListEmpty";
 import ContactsListLoading from "./ContactsListLoading";
 import ContactsListItems from "./ContactsListItems";
+import { createFilterOption } from "../../../utils/createFilterOption";
 
+/**
+ * Contacts list props
+ */
 export type ContactsListProps = {
+  /**
+   * Contact click handler
+   * @param contact - Telegram user contact
+   */
   onContactClick: (contact: TelegramUserContact) => void;
+  /**
+   * Array of selected contacts
+   */
   selected?: TelegramUserContact[];
+  /**
+   * Contact select handler
+   * @param contact - Telegram user contact
+   */
   onSelect?: (contact: TelegramUserContact) => void;
+  /**
+   * Contacts access denied placholder
+   */
   placeholder?: React.ReactNode;
+  /**
+   * Cancel selection button click handler
+   */
   onSelectCancel?: () => void;
+  /**
+   * Confirm selection button click handler
+   */
   onSelectConfirm?: () => void;
 };
 
+/**
+ * Contacts list component
+ * @since 0.3.15
+ * @param props - ContactsList props
+ * @returns React function component
+ */
 const ContactsList = (props: ContactsListProps) => {
   const { placeholder } = props;
   const { user, contacts } = useAppSelector(selectAppStore);
@@ -30,65 +60,39 @@ const ContactsList = (props: ContactsListProps) => {
   const [search, setSearch] = useState("");
 
   const options: Filter[] = [
-    {
-      key: "invited",
-      label: "Invited Contacts",
-      value: (filters || []).includes("invited"),
-      type: "checkbox",
-      isActive: (filters || []).includes("invited"),
-      onChange: (value) => {
-        dispatch(
-          appStoreActions.setContacts({
-            filters: value
-              ? [...(filters || []), "invited"]
-              : (filters || []).filter((filter) => filter !== "invited"),
-          })
-        );
-      },
-      count: items
-        ?.filter((contact) => contact.id !== user?.userTelegramID)
-        .filter((contact) => contact.isInvited && !contact.isGrinderyUser)
-        .length,
-    },
-    {
-      key: "not-invited",
-      label: "Not invited Contacts",
-      value: (filters || []).includes("not-invited"),
-      type: "checkbox",
-      isActive: (filters || []).includes("not-invited"),
-      onChange: (value) => {
-        dispatch(
-          appStoreActions.setContacts({
-            filters: value
-              ? [...(filters || []), "not-invited"]
-              : (filters || []).filter((filter) => filter !== "not-invited"),
-          })
-        );
-      },
-      count: items
-        ?.filter((contact) => contact.id !== user?.userTelegramID)
-        .filter((contact) => !contact.isInvited && !contact.isGrinderyUser)
-        .length,
-    },
-    {
-      key: "has-wallet",
-      label: "Contacts with wallets",
-      value: (filters || []).includes("has-wallet"),
-      type: "checkbox",
-      isActive: (filters || []).includes("has-wallet"),
-      onChange: (value) => {
-        dispatch(
-          appStoreActions.setContacts({
-            filters: value
-              ? [...(filters || []), "has-wallet"]
-              : (filters || []).filter((filter) => filter !== "has-wallet"),
-          })
-        );
-      },
-      count: items
-        ?.filter((contact) => contact.id !== user?.userTelegramID)
-        .filter((contact) => contact.isGrinderyUser).length,
-    },
+    createFilterOption(
+      "invited",
+      "Invited Contacts",
+      "checkbox",
+      "invited",
+      items || [],
+      filters,
+      user,
+      dispatch,
+      appStoreActions
+    ),
+    createFilterOption(
+      "not-invited",
+      "Not invited Contacts",
+      "checkbox",
+      "not-invited",
+      items || [],
+      filters,
+      user,
+      dispatch,
+      appStoreActions
+    ),
+    createFilterOption(
+      "has-wallet",
+      "Contacts with wallets",
+      "checkbox",
+      "has-wallet",
+      items || [],
+      filters,
+      user,
+      dispatch,
+      appStoreActions
+    ),
   ];
 
   return (
