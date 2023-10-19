@@ -29,7 +29,7 @@ const ContactPage = () => {
   useEffect(() => {
     const controller = new AbortController();
     axios
-      .get(`${BOT_API_URL}/v2/userActivity/${id}?limit=15`, {
+      .get(`${BOT_API_URL}/v2/activity/user/${id}?limit=15`, {
         signal: controller.signal,
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
@@ -136,7 +136,7 @@ const ContactPage = () => {
                 next={async () => {
                   try {
                     const res = await axios.get(
-                      `${BOT_API_URL}/v2/userActivity/${id}?limit=15&skip=${activities.length}`,
+                      `${BOT_API_URL}/v2/activity/user/${id}?limit=15&skip=${activities.length}`,
                       {
                         headers: {
                           Authorization:
