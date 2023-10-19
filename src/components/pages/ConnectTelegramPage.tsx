@@ -74,7 +74,7 @@ const ConnectTelegramPage = () => {
     });
     try {
       const res = await axios.post(
-        `${BOT_API_URL}/v1/init`,
+        `${BOT_API_URL}/v2/auth/init`,
         {
           phone: state.input.phone,
           password: state.input.password,
@@ -112,7 +112,7 @@ const ConnectTelegramPage = () => {
     });
     try {
       await axios.post(
-        `${BOT_API_URL}/v1/callback`,
+        `${BOT_API_URL}/v2/auth/callback`,
         {
           operationId: state.operationId,
           code: state.input.code,

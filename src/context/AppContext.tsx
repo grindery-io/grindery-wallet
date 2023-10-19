@@ -41,7 +41,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getMe = useCallback(async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/me`, {
+      const res = await axios.get(`${BOT_API_URL}/v2/me`, {
         headers: {
           Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
         },
@@ -57,7 +57,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getStats = useCallback(async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/stats`, {
+      const res = await axios.get(`${BOT_API_URL}/v2/stats`, {
         headers: {
           Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
         },
@@ -177,7 +177,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     );
 
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/contacts`, {
+      const res = await axios.get(`${BOT_API_URL}/v2/contacts`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },
@@ -225,7 +225,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       // get balance here
       const userId = user.userTelegramID;
       try {
-        const res = await axios.post(`${BOT_API_URL}/v1/balance/`, {
+        const res = await axios.post(`${BOT_API_URL}/v2/balance/`, {
           userAddress: user.patchwallet,
           contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
           chainId: "matic",
@@ -283,7 +283,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       return;
     }
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/config`, {
+      const res = await axios.get(`${BOT_API_URL}/v2/config`, {
         headers: {
           Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
         },

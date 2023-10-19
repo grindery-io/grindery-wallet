@@ -79,7 +79,7 @@ const useAppUser = (userId: string) => {
     const controller = new AbortController();
     if (userId && !user) {
       axios
-        .get(`${BOT_API_URL}/v1/user?id=${userId}`, {
+        .get(`${BOT_API_URL}/v2/user?id=${userId}`, {
           signal: controller.signal,
           headers: {
             Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,

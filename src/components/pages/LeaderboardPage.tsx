@@ -40,7 +40,7 @@ const LeaderboardPage = () => {
     setState({ loading: true });
     try {
       const res = await axios.get(
-        `${BOT_API_URL}/v1/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
+        `${BOT_API_URL}/v2/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
       );
       const items = res.data?.items || [];
       setLeaderboard((_leaderboard) =>
@@ -55,7 +55,7 @@ const LeaderboardPage = () => {
 
   const getMe = async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v1/me`, {
+      const res = await axios.get(`${BOT_API_URL}/v2/me`, {
         headers: {
           Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
         },

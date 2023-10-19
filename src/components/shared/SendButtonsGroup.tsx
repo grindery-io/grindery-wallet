@@ -28,7 +28,7 @@ const SendButtonsGroup = ({
     setStatus("sending");
     try {
       const res = await axios.post(
-        `${BOT_API_URL}/v1/send`,
+        `${BOT_API_URL}/v2/send`,
         {
           recipientTgId: Array.isArray(input.recipient)
             ? input.recipient.map((contact) => contact.id)
