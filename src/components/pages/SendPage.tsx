@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
-import Contacts from "../shared/Contacts";
 import SelectToken from "../shared/SelectToken";
 import SendButtonsGroup from "../shared/SendButtonsGroup";
 import SendAmount from "../shared/SendAmount";
@@ -21,6 +20,7 @@ import SendRecepient from "../shared/SendRecepient";
 import ContactsSelectBanner from "../shared/ContactsSelectBanner";
 import SendMessage from "../shared/SendMessage";
 import { selectAppStore, useAppSelector } from "../../store";
+import ContactsList from "../shared/ContactsList/ContactsList";
 
 const SendPage = () => {
   const {
@@ -125,7 +125,7 @@ const SendPage = () => {
         </Box>
         {!input.recipient ? (
           <>
-            <Contacts
+            <ContactsList
               onContactClick={(contact) => {
                 navigate(`/send/${contact.id}`);
                 setInput({

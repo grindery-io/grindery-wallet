@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import BottomNavigation from "../shared/BottomNavigation";
 import { useNavigate } from "react-router";
-import Contacts from "../shared/Contacts";
 import BulletPoints from "../shared/BulletPoints";
 import Title from "../shared/Title";
 import { Box, Button } from "@mui/material";
+import ContactsList from "../shared/ContactsList/ContactsList";
 
 const ContactsPage = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const ContactsPage = () => {
 
   return (
     <>
-      <Contacts
+      <ContactsList
         onContactClick={(contact) => {
           navigate(`/contacts/${contact.id}`);
         }}
