@@ -23,6 +23,7 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user, debug, activity } = useAppSelector(selectAppStore);
+  console.log("activity", activity);
   const { items, filters, total, find: activityFind } = activity;
   const [search, setSearch] = useState("");
 
@@ -150,12 +151,12 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
                         const filters: any = {
                           $or: [],
                         };
-                        if (filters.includes("received")) {
+                        if (filters["$or"].includes("received")) {
                           filters["$or"].push({
                             recipientTgId: user?.userTelegramID,
                           });
                         }
-                        if (filters.includes("sent")) {
+                        if (filters["$or"].includes("sent")) {
                           filters["$or"].push({
                             senderTgId: user?.userTelegramID,
                           });
