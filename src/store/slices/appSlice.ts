@@ -16,6 +16,14 @@ import {
 } from "../../types/State";
 
 const initialState: AppState = {
+  activity: {
+    items: JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITY) || "[]"),
+    filters: [],
+    loading: true,
+    total: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
+      .length,
+    skip: 0,
+  },
   apps: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.APPS) || "[]"),
     loading: true,
@@ -190,6 +198,15 @@ const appSlice = createSlice({
     setContacts(state, action: PayloadAction<any>) {
       state.contacts = {
         ...state.contacts,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the activity state
+     */
+    setActivity(state, action: PayloadAction<any>) {
+      state.activity = {
+        ...state.activity,
         ...action.payload,
       };
     },

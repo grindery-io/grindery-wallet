@@ -1,5 +1,4 @@
 import React from "react";
-import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import Title from "../shared/Title";
@@ -15,12 +14,11 @@ import { TRANSACTION_STATUS } from "../../constants";
 const RewardPage = () => {
   const navigate = useNavigate();
   useBackButton();
-  const {
-    state: { activity: activities },
-  } = useAppContext();
+
   const {
     user,
     rewards: { docs },
+    activity: { items: activities },
   } = useAppSelector(selectAppStore);
   const { id } = useParams();
 

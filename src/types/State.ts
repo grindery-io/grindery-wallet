@@ -2,6 +2,18 @@ import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
 
 /**
+ * Interface for the ActivityState object representing the state of the user activity
+ */
+export type ActivityState = {
+  items: TelegramUserActivity[];
+  filters: string[];
+  loading: boolean;
+  total: number;
+  skip: number;
+  find?: any[];
+};
+
+/**
  * Interface for the AppsState object representing the state of the grindery apps
  */
 export type AppsState = {
@@ -159,6 +171,7 @@ export type UserState = UserProps | null;
  * Interface for the AppState object representing the state of the app
  */
 export type AppState = {
+  activity: ActivityState;
   apps?: AppsState;
   balance: BalanceState;
   community?: CommunityState;

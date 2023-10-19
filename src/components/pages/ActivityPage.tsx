@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useAppContext from "../../hooks/useAppContext";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import TableRow from "../shared/TableRow";
@@ -22,14 +21,16 @@ import { selectAppStore, useAppSelector } from "../../store";
 const ActivityPage = () => {
   const navigate = useNavigate();
   useBackButton();
-  const { user, debug } = useAppSelector(selectAppStore);
   const {
-    state: { activity },
-  } = useAppContext();
+    user,
+    debug,
+    activity: { items },
+  } = useAppSelector(selectAppStore);
+
   const { id } = useParams();
 
   const [item, setItem] = useState<TelegramUserActivity | null>(
-    activity.find(
+    items.find(
       (item) =>
         item?._id === id || item?.transactionHash === id || item?.TxId === id
     ) || null

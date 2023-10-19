@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import useAppContext from "../../hooks/useAppContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { FixedSizeList as List } from "react-window";
@@ -12,84 +11,91 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
 import { debounce } from "lodash";
-import { selectAppStore, useAppSelector } from "../../store";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
   const { height } = useWindowDimensions();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user, debug } = useAppSelector(selectAppStore);
-  const {
-    state: { activity, activityFilters, activityTotal, activityFind },
-    setState,
-  } = useAppContext();
+  const { user, debug, activity } = useAppSelector(selectAppStore);
+  const { items, filters, total, find: activityFind } = activity;
   const [search, setSearch] = useState("");
 
-  const data = activity;
+  const data = items;
 
   const options: Filter[] = [
     {
       key: "sent",
       label: "Sent",
-      value: activityFilters.includes("sent"),
+      value: filters.includes("sent"),
       type: "checkbox",
-      isActive: activityFilters.includes("sent"),
+      isActive: filters.includes("sent"),
       onChange: (value) => {
-        setState({
-          activityFilters: value
-            ? [...activityFilters, "sent"]
-            : activityFilters.filter((filter) => filter !== "sent"),
-        });
+        dispatch(
+          appStoreActions.setActivity({
+            filters: value
+              ? [...filters, "sent"]
+              : filters.filter((filter: any) => filter !== "sent"),
+          })
+        );
       },
-      count: activity?.filter((act) => act.senderTgId === user?.userTelegramID)
+      count: items?.filter((act) => act.senderTgId === user?.userTelegramID)
         .length,
     },
     {
       key: "received",
       label: "Received",
-      value: activityFilters.includes("received"),
+      value: filters.includes("received"),
       type: "checkbox",
-      isActive: activityFilters.includes("received"),
+      isActive: filters.includes("received"),
       onChange: (value) => {
-        setState({
-          activityFilters: value
-            ? [...activityFilters, "received"]
-            : activityFilters.filter((filter) => filter !== "received"),
-        });
+        dispatch(
+          appStoreActions.setActivity({
+            filters: value
+              ? [...filters, "received"]
+              : filters.filter((filter: any) => filter !== "received"),
+          })
+        );
       },
-      count: activity?.filter(
-        (act) => act.recipientTgId === user?.userTelegramID
+      count: items?.filter(
+        (act: any) => act.recipientTgId === user?.userTelegramID
       ).length,
     },
   ];
 
   const request = debounce((value) => {
-    const newState: any = {
-      activityFind: value
-        ? [
-            {
-              $or: [
-                {
-                  recipientWallet: { $regex: value, $options: "i" },
-                },
-                {
-                  senderWallet: { $regex: value, $options: "i" },
-                },
-                {
-                  transactionHash: { $regex: value, $options: "i" },
-                },
-                {
-                  senderName: { $regex: value, $options: "i" },
-                },
-                {
-                  tokenAmount: { $regex: value, $options: "i" },
-                },
-              ],
-            },
-          ]
-        : [],
-    };
-
-    setState(newState);
+    dispatch(
+      appStoreActions.setActivity({
+        find: value
+          ? [
+              {
+                $or: [
+                  {
+                    recipientWallet: { $regex: value, $options: "i" },
+                  },
+                  {
+                    senderWallet: { $regex: value, $options: "i" },
+                  },
+                  {
+                    transactionHash: { $regex: value, $options: "i" },
+                  },
+                  {
+                    senderName: { $regex: value, $options: "i" },
+                  },
+                  {
+                    tokenAmount: { $regex: value, $options: "i" },
+                  },
+                ],
+              },
+            ]
+          : [],
+      })
+    );
   }, 1200);
 
   const debouncedSearchChange = useCallback(
@@ -111,7 +117,7 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
       />
       <Box sx={{ textAlign: "left" }}>
         <>
-          {activity && activity.length > 0 ? (
+          {items && items.length > 0 ? (
             <Box
               sx={{
                 "& > div": {
@@ -144,12 +150,12 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
                         const filters: any = {
                           $or: [],
                         };
-                        if (activityFilters.includes("received")) {
+                        if (filters.includes("received")) {
                           filters["$or"].push({
                             recipientTgId: user?.userTelegramID,
                           });
                         }
-                        if (activityFilters.includes("sent")) {
+                        if (filters.includes("sent")) {
                           filters["$or"].push({
                             senderTgId: user?.userTelegramID,
                           });
@@ -168,15 +174,17 @@ const ActivitiesList = ({ virtualized = true }: { virtualized?: boolean }) => {
                             },
                           }
                         );
-                        setState({
-                          activity: [...activity, ...(res.data?.docs || [])],
-                          activityTotal: res.data?.total || 0,
-                        });
+                        dispatch(
+                          appStoreActions.setActivity({
+                            items: [...items, ...(res.data?.docs || [])],
+                            total: res.data?.total || 0,
+                          })
+                        );
                       } catch (error) {
                         console.error("get more activity error: ", error);
                       }
                     }}
-                    hasMore={data.length < activityTotal}
+                    hasMore={data.length < total}
                     loader={
                       <Box sx={{ textAlign: "center", marginTop: "16px" }}>
                         <CircularProgress

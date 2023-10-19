@@ -111,6 +111,7 @@ export const STORAGE_KEYS = {
   CONTACT_PHOTO: "gr_wallet_contact_photo_{{id}}",
   BALANCE: "gr_wallet_balance_{{id}}",
   BALANCE_UPDATED: "gr_wallet_balance_updated_{{id}}",
+  ACTIVITY: "gr_wallet_activity",
 };
 
 /* 

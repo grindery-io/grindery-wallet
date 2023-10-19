@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import useAppContext from "../../hooks/useAppContext";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import { TelegramUserReward } from "../../types/Telegram";
@@ -23,10 +22,11 @@ type Props = {
 };
 
 const ReferralReward = ({ reward, onClick }: Props) => {
-  const { user } = useAppSelector(selectAppStore);
   const {
-    state: { activity: activities },
-  } = useAppContext();
+    user,
+    activity: { items },
+  } = useAppSelector(selectAppStore);
+  const activities = items;
 
   const activity = activities?.find(
     (act) => act.transactionHash === reward.parentTransactionHash

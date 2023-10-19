@@ -1,13 +1,6 @@
 import axios from "axios";
-import React, {
-  createContext,
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { BOT_API_URL, STORAGE_KEYS } from "../constants";
-import { TelegramUserActivity } from "../types/Telegram";
 import { UserProps } from "../types/User";
 import {
   appStoreActions,
@@ -16,20 +9,9 @@ import {
   useAppSelector,
 } from "../store";
 
-type StateProps = {
-  activity: TelegramUserActivity[];
-  activityFilters: string[];
-  activityLoading: boolean;
-  activityTotal: number;
-  activitySkip: number;
-  activityFind?: any[];
-};
-
 // Context props
 type ContextProps = {
-  state: StateProps;
   photos?: { [key: string]: string };
-  setState: (newState: Partial<StateProps>) => void;
   getBalance: (a?: boolean) => void;
 };
 
@@ -39,17 +21,6 @@ type AppContextProps = {
 };
 
 const defaultContext = {
-  state: {
-    sessionLoading: true,
-    activity: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]"),
-    activityFilters: [],
-    activityLoading: true,
-    activityTotal: JSON.parse(
-      localStorage.getItem("gr_wallet_activity") || "[]"
-    ).length,
-    activitySkip: 0,
-  },
-  setState: () => {},
   getBalance: () => {},
 };
 
@@ -64,17 +35,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     debug,
     balance,
     contacts,
+    activity,
   } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
-  const [state, setState] = useReducer(
-    (state: StateProps, newState: Partial<StateProps>) => ({
-      ...state,
-      ...newState,
-    }),
-    {
-      ...defaultContext.state,
-    }
-  );
 
   const getMe = useCallback(async () => {
     try {
@@ -107,20 +70,23 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
     }
-    setState({
-      activityLoading: true,
-    });
+    dispatch(
+      appStoreActions.setActivity({
+        loading: true,
+      })
+    );
+
     try {
-      const find = [...(state.activityFind || [])];
+      const find = [...(activity.find || [])];
       const filters: any = {
         $or: [],
       };
-      if (state.activityFilters.includes("received")) {
+      if (activity.filters.includes("received")) {
         filters["$or"].push({
           recipientTgId: user?.userTelegramID,
         });
       }
-      if (state.activityFilters.includes("sent")) {
+      if (activity.filters.includes("sent")) {
         filters["$or"].push({
           senderTgId: user?.userTelegramID,
         });
@@ -137,21 +103,25 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           },
         }
       );
-      setState({
-        activity: res.data?.docs || [],
-        activityTotal: res.data?.total || 0,
-      });
+      dispatch(
+        appStoreActions.setActivity({
+          items: res.data?.docs || [],
+          total: res.data?.total || 0,
+        })
+      );
       localStorage.setItem(
-        `gr_wallet_activity`,
+        STORAGE_KEYS.ACTIVITY,
         JSON.stringify(res.data?.docs || [])
       );
     } catch (error) {
       console.error("getTgActivity error", error);
     }
-    setState({
-      activityLoading: false,
-    });
-  }, [state.activityFind, user, state.activityFilters]);
+    dispatch(
+      appStoreActions.setActivity({
+        loading: false,
+      })
+    );
+  }, [activity.filters, user, activity.find, dispatch]);
 
   const getTgRewards = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
@@ -508,16 +478,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     getPhotos();
   }, [getPhotos]);
 
-  if (window.origin.includes("localhost")) {
-    console.log("state", state);
-  }
-
   return (
     <AppContext.Provider
       value={{
-        state,
         photos,
-        setState,
         getBalance,
       }}
     >
