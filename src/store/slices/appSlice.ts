@@ -20,7 +20,7 @@ const initialState: AppState = {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITY) || "[]"),
     filters: [],
     loading: true,
-    total: JSON.parse(localStorage.getItem("gr_wallet_activity") || "[]")
+    total: JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITY) || "[]")
       .length,
     skip: 0,
   },

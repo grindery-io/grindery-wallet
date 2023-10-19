@@ -5,11 +5,29 @@ import { UserProps } from "./User";
  * Interface for the ActivityState object representing the state of the user activity
  */
 export type ActivityState = {
+  /**
+   * Array of activity items
+   */
   items: TelegramUserActivity[];
+  /**
+   * Array of filter keys
+   */
   filters: string[];
+  /**
+   * Whether the activity is loading
+   */
   loading: boolean;
+  /**
+   * Total number of activities
+   */
   total: number;
+  /**
+   * Skip N activities
+   */
   skip: number;
+  /**
+   * Array of mongodb query objects
+   */
   find?: any[];
 };
 
@@ -131,12 +149,33 @@ export type LeaderboardEntry = any;
  * Interface for the LeaderboardState object representing the state of the leaderboard
  */
 export type LeaderboardState = {
+  /**
+   * Array of leaderboard entries
+   */
   docs: LeaderboardEntry[];
+  /**
+   * Total number of entries
+   */
   total: number;
+  /**
+   * Current page
+   */
   page: number;
+  /**
+   * Whether the leaderboard is loading
+   */
   loading: boolean;
+  /**
+   * Sort key
+   */
   sort: string;
+  /**
+   * Sort order
+   */
   order: string;
+  /**
+   * Saved date
+   */
   savedDate?: string;
 };
 
@@ -144,11 +183,29 @@ export type LeaderboardState = {
  * Interface for the RewardsState object representing the state of the user rewards
  */
 export type RewardsState = {
+  /**
+   * Array of reward items
+   */
   docs: TelegramUserReward[] | TelegramUserActivity[];
+  /**
+   * Total number of rewards
+   */
   total: number;
+  /**
+   * Whether the rewards are loading
+   */
   loading: boolean;
+  /**
+   * Rewards filter
+   */
   filter: string;
+  /**
+   * Array of mongodb query objects
+   */
   find?: object[];
+  /**
+   * Saved date
+   */
   savedDate?: string;
 };
 
@@ -156,9 +213,21 @@ export type RewardsState = {
  * Interface for the StatsState object representing the state of the user stats
  */
 export type StatsState = {
+  /**
+   * Number of sent transactions
+   */
   sentTransactions?: number;
+  /**
+   * Number of rewards
+   */
   rewards?: number;
+  /**
+   * Number of received transactions
+   */
   receivedTransactions?: number;
+  /**
+   * Number of referrals
+   */
   referrals?: number;
 };
 
@@ -171,15 +240,48 @@ export type UserState = UserProps | null;
  * Interface for the AppState object representing the state of the app
  */
 export type AppState = {
+  /**
+   * User activivity state
+   */
   activity: ActivityState;
+  /**
+   * Apps list state
+   */
   apps?: AppsState;
+  /**
+   * User balance state
+   */
   balance: BalanceState;
+  /**
+   * Community list state
+   */
   community?: CommunityState;
+  /**
+   * Contacts list state
+   */
   contacts: ContactsState;
+  /**
+   * App debug mode state
+   */
   debug: DebugState;
+  /**
+   * Leaderboard list state
+   */
   leaderboard: LeaderboardState;
+  /**
+   * Rewards list state
+   */
   rewards: RewardsState;
+  /**
+   * User stats state
+   */
   stats: StatsState;
+  /**
+   * Active tab on tokens page
+   */
   tokensTab: number;
+  /**
+   * Current user state
+   */
   user: UserState;
 };
