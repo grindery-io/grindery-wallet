@@ -114,6 +114,28 @@ export const STORAGE_KEYS = {
   ACTIVITY: "gr_wallet_activity",
 };
 
+export const BOTTOM_TABS = [
+  {
+    label: "Tokens",
+    path: "/",
+  },
+  {
+    label: "Contacts",
+    path: "/contacts",
+  },
+  {
+    label: "Rewards",
+    path: "/rewards",
+  },
+  {
+    label: "Apps",
+    path: "/apps",
+  },
+  {
+    label: "Community",
+    path: "/community",
+  },
+];
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)
