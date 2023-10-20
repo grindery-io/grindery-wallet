@@ -24,8 +24,10 @@ const ContactDetails = ({ contact }: { contact: AppUser }) => {
 };
 
 const ContactDetailsAvatarStyles = {
-  marginTop: "20px",
+  margin: "20px auto 0",
   position: "relative",
+  width: "130px",
+  height: "130px",
 };
 const ContactDetailsAvatarBadgeStyles = {
   position: "absolute",
