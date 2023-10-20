@@ -1,12 +1,9 @@
 import React from "react";
-import { Box, IconButton, SxProps, Typography } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Box, SxProps, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { SendStatus } from "../../../types/State";
-import CloseIcon from "../../icons/CloseIcon";
 
 const SendTokensHeader = () => {
-  const navigate = useNavigate();
   const {
     user,
     send: { status, input },
@@ -23,17 +20,6 @@ const SendTokensHeader = () => {
           ? `Send${!input.recipient ? " to" : ""}`
           : ""}
       </Typography>
-
-      {status !== SendStatus.SENDING && (
-        <IconButton
-          sx={SendTokensHeaderCloseButtonStyles}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      )}
     </Box>
   );
 };
@@ -46,13 +32,6 @@ const SendTokensHeaderStyles = {
   position: "relative",
   padding: "0 16px",
   boxSizing: "border-box",
-} as SxProps;
-
-const SendTokensHeaderCloseButtonStyles = {
-  position: "absolute",
-  right: "16px",
-  top: "-4px",
-  color: "var(--tg-theme-text-color, #000000)",
 } as SxProps;
 
 export default SendTokensHeader;
