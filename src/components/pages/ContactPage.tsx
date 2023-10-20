@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { BOT_API_URL, ICONS, MAX_WIDTH } from "../../constants";
-import Activity from "../shared/Activity/Activity";
+import Activity from "../shared/ActivityListItem/ActivityListItem";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";

@@ -1,6 +1,6 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import ActivitiesList from "../shared/ActivitiesList";
+import ActivitiesList from "../shared/ActivitiesList/ActivitiesList";
 
 const ActivitiesPage = () => {
   return (

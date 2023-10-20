@@ -2,13 +2,13 @@ import React from "react";
 import moment from "moment";
 import { ListItemText } from "@mui/material";
 import useAppUser from "../../../hooks/useAppUser";
-import { ActivityProps } from "./Activity";
 import { selectAppStore, useAppSelector } from "../../../store";
+import { ActivityListItemProps } from "./ActivityListItem";
 
 /**
  * Single activity list item text
  */
-const ActivityText = (props: ActivityProps) => {
+const ActivityListItemText = (props: ActivityListItemProps) => {
   const { activity } = props;
   const { user } = useAppSelector(selectAppStore);
 
@@ -63,4 +63,4 @@ const secondaryTypographyStyles = {
   overflow: "hidden",
 };
 
-export default ActivityText;
+export default ActivityListItemText;

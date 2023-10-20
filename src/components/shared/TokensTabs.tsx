@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import TokensList from "./TokensList";
-import ActivitiesList from "./ActivitiesList";
 import {
   appStoreActions,
   selectAppStore,
   useAppDispatch,
   useAppSelector,
 } from "../../store";
+import ActivitiesList from "./ActivitiesList/ActivitiesList";
 
 const TokensTabs = () => {
   const dispatch = useAppDispatch();
@@ -66,7 +66,7 @@ const TokensTabs = () => {
           </Typography>
         </Box>
       )}
-      {tokensTab === 2 && <ActivitiesList virtualized={false} />}
+      {tokensTab === 2 && <ActivitiesList />}
     </Box>
   );
 };

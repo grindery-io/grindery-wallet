@@ -4,13 +4,13 @@ import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import { Box, ListItemAvatar } from "@mui/material";
 import useAppUser from "../../../hooks/useAppUser";
 import UserAvatar from "../UserAvatar";
-import { ActivityProps } from "./Activity";
 import { selectAppStore, useAppSelector } from "../../../store";
+import { ActivityListItemProps } from "./ActivityListItem";
 
 /**
  * Single activity list item avatar
  */
-const ActivityAvatar = ({ activity }: ActivityProps) => {
+const ActivityListItemAvatar = ({ activity }: ActivityListItemProps) => {
   const { user } = useAppSelector(selectAppStore);
 
   const isSender = user?.userTelegramID === activity.senderTgId;
@@ -56,4 +56,4 @@ const AvatarIconStyles = {
   fontSize: "12px",
 };
 
-export default ActivityAvatar;
+export default ActivityListItemAvatar;

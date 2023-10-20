@@ -1,14 +1,14 @@
 import React from "react";
 import { TelegramUserActivity } from "../../../types/Telegram";
 import { ListItem, ListItemButton } from "@mui/material";
-import ActivityAvatar from "./ActivityAvatar";
-import ActivityText from "./ActivityText";
-import ActivityEnd from "./ActivityEnd";
+import ActivityListItemText from "./ActivityListItemText";
+import ActivityListItemAvatar from "./ActivityListItemAvatar";
+import ActivityListItemEnd from "./ActivityListItemEnd";
 
 /**
  * Single activity list item component properties
  */
-export type ActivityProps = {
+export type ActivityListItemProps = {
   /**
    * Telegram user activity
    */
@@ -26,7 +26,7 @@ export type ActivityProps = {
 /**
  * Single activity list item
  */
-const Activity = (props: ActivityProps) => {
+const ActivityListItem = (props: ActivityListItemProps) => {
   const { activity, onClick } = props;
 
   /**
@@ -54,9 +54,9 @@ const Activity = (props: ActivityProps) => {
   return (
     <ListItem sx={ListItemStyles}>
       <ListItemButton sx={{ padding: "10px" }} onClick={handleClick}>
-        <ActivityAvatar {...props} />
-        <ActivityText {...props} />
-        <ActivityEnd {...props} />
+        <ActivityListItemAvatar {...props} />
+        <ActivityListItemText {...props} />
+        <ActivityListItemEnd {...props} />
       </ListItemButton>
     </ListItem>
   );
@@ -75,4 +75,4 @@ const ListItemStyles = {
   overflow: "hidden",
 };
 
-export default Activity;
+export default ActivityListItem;

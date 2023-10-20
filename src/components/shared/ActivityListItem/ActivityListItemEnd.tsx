@@ -1,13 +1,13 @@
 import React from "react";
 import { formatBalance } from "../../../utils/formatBalance";
 import { Stack, Typography } from "@mui/material";
-import { ActivityProps } from "./Activity";
 import { selectAppStore, useAppSelector } from "../../../store";
+import { ActivityListItemProps } from "./ActivityListItem";
 
 /**
  * Single activity list item end component
  */
-const ActivityEnd = (props: ActivityProps) => {
+const ActivityListItemEnd = (props: ActivityListItemProps) => {
   const { activity } = props;
   const { user, debug } = useAppSelector(selectAppStore);
 
@@ -50,4 +50,4 @@ const ActivityEnd = (props: ActivityProps) => {
   );
 };
 
-export default ActivityEnd;
+export default ActivityListItemEnd;
