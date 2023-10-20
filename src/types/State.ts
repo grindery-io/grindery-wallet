@@ -1,8 +1,4 @@
-import {
-  TelegramUserActivity,
-  TelegramUserContact,
-  TelegramUserReward,
-} from "./Telegram";
+import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
 
 /**

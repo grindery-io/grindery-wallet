@@ -7,6 +7,7 @@ import SendTokensSendingMessage from "./SendTokensSendingMessage";
 import SendTokensError from "./SendTokensError";
 import SendTokensRecipientInput from "./SendTokensRecipientInput";
 import SendTokensInput from "./SendTokensInput";
+import { SendStatus } from "../../../types/State";
 
 const SendTokens = () => {
   const { send } = useAppSelector(selectAppStore);
@@ -20,10 +21,10 @@ const SendTokens = () => {
           <SendTokensRecipientInput />
         ) : (
           <Box sx={SendTokensContentStyles}>
-            {status === "sent" && <SendTokensSentMessage />}
-            {status === "sending" && <SendTokensSendingMessage />}
-            {status === "error" && <SendTokensError />}
-            {status === "waiting_user_input" && <SendTokensInput />}
+            {status === SendStatus.SENT && <SendTokensSentMessage />}
+            {status === SendStatus.SENDING && <SendTokensSendingMessage />}
+            {status === SendStatus.ERROR && <SendTokensError />}
+            {status === SendStatus.WAITING && <SendTokensInput />}
           </Box>
         )}
       </Box>
