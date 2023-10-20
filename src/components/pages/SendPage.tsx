@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { appStoreActions, useAppDispatch } from "../../store";
 import SendTokens from "../shared/SendTokens/SendTokens";
 import { SendStatus } from "../../types/State";
-import { CircularProgress, Stack } from "@mui/material";
+import Loading from "../shared/Loading";
 
 const SendPage = () => {
   useBackButton();
@@ -30,22 +30,7 @@ const SendPage = () => {
     }, 500);
   }, [recipientId, dispatch]);
 
-  return !loading ? (
-    <SendTokens />
-  ) : (
-    <Stack
-      sx={{
-        margin: "20px 20px",
-        flex: 1,
-      }}
-      alignItems="center"
-      justifyContent="center"
-    >
-      <CircularProgress
-        style={{ color: "var(--tg-theme-button-color, #2481cc)" }}
-      />
-    </Stack>
-  );
+  return !loading ? <SendTokens /> : <Loading />;
 };
 
 export default SendPage;

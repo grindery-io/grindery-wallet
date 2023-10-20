@@ -1,12 +1,12 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
+import { SendStatus } from "../../../types/State";
 import SendTokensHeader from "./SendTokensHeader";
 import SendTokensSentMessage from "./SendTokensSentMessage";
-import SendTokensSendingMessage from "./SendTokensSendingMessage";
+import SendTokensSending from "./SendTokensSending";
 import SendTokensError from "./SendTokensError";
 import SendTokensRecipientInput from "./SendTokensRecipientInput";
-import { SendStatus } from "../../../types/State";
 import SendTokensInput from "./SendTokensInput/SendTokensInput";
 
 const SendTokens = () => {
@@ -22,7 +22,7 @@ const SendTokens = () => {
         ) : (
           <Box sx={SendTokensContentStyles}>
             {status === SendStatus.SENT && <SendTokensSentMessage />}
-            {status === SendStatus.SENDING && <SendTokensSendingMessage />}
+            {status === SendStatus.SENDING && <SendTokensSending />}
             {status === SendStatus.ERROR && <SendTokensError />}
             {status === SendStatus.WAITING && <SendTokensInput />}
           </Box>

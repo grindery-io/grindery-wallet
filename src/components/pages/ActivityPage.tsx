@@ -5,18 +5,13 @@ import TableRow from "../shared/TableRow";
 import { TelegramUserActivity } from "../../types/Telegram";
 import moment from "moment";
 import TransactionIcon from "../icons/TransactionIcon";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import useAppUser from "../../hooks/useAppUser";
 import UserAvatar from "../shared/UserAvatar";
 import { BOT_API_URL, TRANSACTION_STATUS } from "../../constants";
 import axios from "axios";
 import { selectAppStore, useAppSelector } from "../../store";
+import Loading from "../shared/Loading";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -308,13 +303,7 @@ const ActivityPage = () => {
       </Box>
     </>
   ) : (
-    <Box sx={{ textAlign: "center", margin: "50px" }}>
-      <CircularProgress
-        style={{
-          color: "var(--tg-theme-button-color, #2481cc)",
-        }}
-      />
-    </Box>
+    <Loading />
   );
 };
 
