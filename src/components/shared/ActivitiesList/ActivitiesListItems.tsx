@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { TelegramUserActivity } from "../../../types/Telegram";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -75,6 +75,57 @@ const ActivitiesListItems = () => {
               }}
             />
           </Box>
+        }
+        refreshFunction={async () => {
+          try {
+            const find = [...(activityFind || [])];
+            const filters: any = {
+              $or: [],
+            };
+            if (filters["$or"].includes("received")) {
+              filters["$or"].push({
+                recipientTgId: user?.userTelegramID,
+              });
+            }
+            if (filters["$or"].includes("sent")) {
+              filters["$or"].push({
+                senderTgId: user?.userTelegramID,
+              });
+            }
+            if (filters["$or"].length > 0) {
+              find.push(filters);
+            }
+            const res = await axios.get(
+              `${BOT_API_URL}/v2/activity?limit=15&skip=0&find=${JSON.stringify(
+                find
+              )}`,
+              {
+                headers: {
+                  Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+                },
+              }
+            );
+            dispatch(
+              appStoreActions.setActivity({
+                items: [...(res.data?.docs || [])],
+                total: res.data?.total || 0,
+              })
+            );
+          } catch (error) {
+            console.error("get more activity error: ", error);
+          }
+        }}
+        pullDownToRefresh
+        pullDownToRefreshThreshold={100}
+        pullDownToRefreshContent={
+          <Typography textAlign="center" color="hint" pb="20px" variant="sm">
+            &#8595; Pull down to refresh
+          </Typography>
+        }
+        releaseToRefreshContent={
+          <Typography textAlign="center" color="hint" pb="20px" variant="sm">
+            &#8593; Release to refresh
+          </Typography>
         }
       >
         {data.map((act: TelegramUserActivity) => (
