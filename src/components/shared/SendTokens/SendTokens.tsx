@@ -6,8 +6,8 @@ import SendTokensSentMessage from "./SendTokensSentMessage";
 import SendTokensSendingMessage from "./SendTokensSendingMessage";
 import SendTokensError from "./SendTokensError";
 import SendTokensRecipientInput from "./SendTokensRecipientInput";
-import SendTokensInput from "./SendTokensInput";
 import { SendStatus } from "../../../types/State";
+import SendTokensInput from "./SendTokensInput/SendTokensInput";
 
 const SendTokens = () => {
   const { send } = useAppSelector(selectAppStore);

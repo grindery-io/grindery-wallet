@@ -1,23 +1,24 @@
 import React from "react";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { TelegramUserContact } from "../../types/Telegram";
-import useAppUser from "../../hooks/useAppUser";
-import UserAvatar from "./UserAvatar";
+import useAppUser from "../../../../hooks/useAppUser";
+import UserAvatar from "../../UserAvatar";
+import { selectAppStore, useAppSelector } from "../../../../store";
 
-const SendRecepient = ({
-  recepient,
+const SendTokensInputRecipient = ({
+  recipient,
   onClear,
 }: {
-  recepient: TelegramUserContact | TelegramUserContact[];
+  recipient: string | string[] | null;
   onClear: () => void;
 }) => {
-  const isSingle = !Array.isArray(recepient) || recepient.length === 1;
-  const contact = isSingle
-    ? Array.isArray(recepient)
-      ? recepient[0]
-      : recepient
-    : null;
+  const { contacts } = useAppSelector(selectAppStore);
+
+  const contact = Array.isArray(recipient)
+    ? contacts.items?.filter((c: any) => recipient.includes(c.id))
+    : contacts.items?.find((c: any) => c.id === recipient);
+  const isSingle = !Array.isArray(recipient) || recipient.length === 1;
+
   const { user } = useAppUser(contact?.id || "");
   return (
     <Stack
@@ -46,7 +47,7 @@ const SendRecepient = ({
               {user.username ? ` | @${user.username}` : ""}
             </>
           ) : (
-            <>{Array.isArray(recepient) ? recepient.length : 0} contacts</>
+            <>{Array.isArray(recipient) ? recipient.length : 0} contacts</>
           )}
         </Typography>
       </Box>
@@ -63,4 +64,4 @@ const SendRecepient = ({
   );
 };
 
-export default SendRecepient;
+export default SendTokensInputRecipient;

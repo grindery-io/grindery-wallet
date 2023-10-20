@@ -1,16 +1,15 @@
 import React from "react";
 import { Box, FormHelperText, InputBase, Stack } from "@mui/material";
-import { TelegramUserContact } from "../../types/Telegram";
-import { selectAppStore, useAppSelector } from "../../store";
+import { selectAppStore, useAppSelector } from "../../../../store";
 
-const SendMessage = ({
+const SendTokensInputMessage = ({
   message,
   onChange,
   recepient,
 }: {
   message: string;
   onChange: (value: string) => void;
-  recepient?: TelegramUserContact | TelegramUserContact[];
+  recepient?: string | string[] | null;
 }) => {
   const { debug } = useAppSelector(selectAppStore);
 
@@ -65,4 +64,4 @@ const SendMessage = ({
   ) : null;
 };
 
-export default SendMessage;
+export default SendTokensInputMessage;

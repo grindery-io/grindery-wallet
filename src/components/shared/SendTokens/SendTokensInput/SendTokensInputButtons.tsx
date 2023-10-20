@@ -2,10 +2,10 @@ import React from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { BOT_API_URL } from "../../constants";
-import { SendStatus } from "../../types/State";
+import { BOT_API_URL } from "../../../../constants";
+import { SendStatus } from "../../../../types/State";
 
-const SendButtonsGroup = ({
+const SendTokensInputButtons = ({
   input,
   status,
   setStatus,
@@ -127,4 +127,4 @@ const SendButtonsGroup = ({
   );
 };
 
-export default SendButtonsGroup;
+export default SendTokensInputButtons;

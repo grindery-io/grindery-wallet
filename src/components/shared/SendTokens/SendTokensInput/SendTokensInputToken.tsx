@@ -1,10 +1,10 @@
 import React from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { TOKENS } from "../../constants";
+import { TOKENS } from "../../../../constants";
 import { Box, Stack, Typography } from "@mui/material";
-import { selectAppStore, useAppSelector } from "../../store";
+import { selectAppStore, useAppSelector } from "../../../../store";
 
-const SelectToken = () => {
+const SendTokensInputToken = () => {
   const {
     balance: { value: balance },
   } = useAppSelector(selectAppStore);
@@ -55,4 +55,4 @@ const SelectToken = () => {
   );
 };
 
-export default SelectToken;
+export default SendTokensInputToken;

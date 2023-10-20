@@ -1,16 +1,15 @@
 import React from "react";
 import { Box, Button, InputBase, Stack } from "@mui/material";
-import { TelegramUserContact } from "../../types/Telegram";
-import { selectAppStore, useAppSelector } from "../../store";
+import { selectAppStore, useAppSelector } from "../../../../store";
 
-const SendAmount = ({
+const SendTokensInputAmount = ({
   amount,
   onChange,
   recepient,
 }: {
   amount: string;
   onChange: (value: string) => void;
-  recepient?: TelegramUserContact | TelegramUserContact[];
+  recepient?: string | string[] | null;
 }) => {
   const {
     balance: { value: balance },
@@ -117,4 +116,4 @@ const SendAmount = ({
   );
 };
 
-export default SendAmount;
+export default SendTokensInputAmount;
