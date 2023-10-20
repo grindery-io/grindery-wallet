@@ -10,8 +10,8 @@ const ContactsPage = () => {
   return (
     <>
       <ContactsList
-        onContactClick={(contact) => {
-          navigate(`/contacts/${contact.id}`);
+        onContactClick={(id) => {
+          navigate(`/contacts/${id}`);
         }}
         placeholder={<ContactsPagePlaceholder />}
       />

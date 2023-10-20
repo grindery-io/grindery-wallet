@@ -202,7 +202,7 @@ const ContactPage = () => {
               fullWidth
               onClick={() => {
                 setTimeout(() => {
-                  navigate(`/send/${id}`);
+                  navigate(`/send?id=${id}`);
                 }, 150);
               }}
               sx={{

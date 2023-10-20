@@ -10,8 +10,8 @@ import ContactListItemEnd from "./ContactListItemEnd";
 export type ContactProps = {
   contact: TelegramUserContact;
   selected?: boolean;
-  onContactClick: (contact: TelegramUserContact) => void;
-  onContactPress?: (contact: TelegramUserContact) => void;
+  onContactClick: (id: string) => void;
+  onContactPress?: (id: string) => void;
 };
 
 const ContactListItem = (props: ContactProps) => {
@@ -19,7 +19,7 @@ const ContactListItem = (props: ContactProps) => {
   const { debug } = useAppSelector(selectAppStore);
   const bind = useLongPress(() => {
     if (typeof onContactPress !== "undefined") {
-      onContactPress(contact);
+      onContactPress(contact.id);
     }
   });
 
@@ -44,7 +44,7 @@ const ContactListItem = (props: ContactProps) => {
         }}
         onClick={() => {
           setTimeout(() => {
-            onContactClick(contact);
+            onContactClick(contact.id);
           }, 150);
         }}
         {...(typeof onContactPress !== "undefined" &&

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { TelegramUserContact } from "../../../types/Telegram";
 import { Box } from "@mui/material";
 import {
   appStoreActions,
@@ -21,16 +20,16 @@ export type ContactsListProps = {
    * Contact click handler
    * @param contact - Telegram user contact
    */
-  onContactClick: (contact: TelegramUserContact) => void;
+  onContactClick: (id: string) => void;
   /**
-   * Array of selected contacts
+   * Array of selected contacts ids
    */
-  selected?: TelegramUserContact[];
+  selected?: string[];
   /**
    * Contact select handler
    * @param contact - Telegram user contact
    */
-  onSelect?: (contact: TelegramUserContact) => void;
+  onSelect?: (contactId: string) => void;
   /**
    * Contacts access denied placholder
    */

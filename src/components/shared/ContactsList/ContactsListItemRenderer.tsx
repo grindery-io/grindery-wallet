@@ -21,9 +21,7 @@ const ContactsListItemRenderer = ({
     <Box sx={style} key={data[index].id}>
       <ContactListItem
         contact={data[index]}
-        selected={selected
-          ?.map((contact) => contact.id)
-          .includes(data[index].id)}
+        selected={(selected || []).includes(data[index].id)}
         onContactClick={
           Boolean(selected && selected.length > 0) &&
           typeof onSelect !== "undefined"

@@ -1,4 +1,8 @@
-import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
+import {
+  TelegramUserActivity,
+  TelegramUserContact,
+  TelegramUserReward,
+} from "./Telegram";
 import { UserProps } from "./User";
 
 /**
@@ -209,6 +213,26 @@ export type RewardsState = {
   savedDate?: string;
 };
 
+export enum SendStatus {
+  WAITING = "waiting_user_input",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+/**
+ * Interface for the SendState object representing the state of the send page
+ */
+export type SendState = {
+  input: {
+    amount: string;
+    recipient: string | string[] | null;
+    message: string;
+  };
+  status: SendStatus;
+  selectedContacts: string[];
+};
+
 /**
  * Interface for the StatsState object representing the state of the user stats
  */
@@ -272,6 +296,10 @@ export type AppState = {
    * Rewards list state
    */
   rewards: RewardsState;
+  /**
+   * Send state
+   */
+  send: SendState;
   /**
    * User stats state
    */

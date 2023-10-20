@@ -65,10 +65,11 @@ const SendAmount = ({
           placeholder="0"
           type="number"
           inputProps={{
-            min: 0,
+            min: 1,
             sx: {
               color: "var(--tg-theme-text-color, #000000)",
             },
+            step: 1,
           }}
         />
         {Array.isArray(recepient) && (

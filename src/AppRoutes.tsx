@@ -28,7 +28,6 @@ const AppRoutes = () => {
       <Route path="/apps" element={<AppsPage />} />
       <Route path="/community" element={<CommunityPage />} />
       <Route path="/send" element={<SendPage />} />
-      <Route path="/send/:id" element={<SendPage />} />
       <Route path="/board" element={<BoardPage />} />
       <Route path="/debug" element={<DebugPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />

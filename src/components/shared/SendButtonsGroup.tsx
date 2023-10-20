@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
-import { TelegramUserContact } from "../../types/Telegram";
 import axios from "axios";
 import { BOT_API_URL } from "../../constants";
+import { SendStatus } from "../../types/State";
 
 const SendButtonsGroup = ({
   input,
@@ -12,27 +12,28 @@ const SendButtonsGroup = ({
 }: {
   input: {
     amount: string;
-    recipient: TelegramUserContact | TelegramUserContact[] | null;
+    recipient: string | string[] | null;
     message: string;
   };
   status: string;
-  setStatus: (status: string) => void;
+  setStatus: (status: SendStatus) => void;
 }) => {
   let navigate = useNavigate();
   const [countFailed, setCountFailed] = React.useState(0);
-
   const sendTokens = async () => {
+    if (!/^\d+$/.test(input.amount) || parseInt(input.amount) <= 0) {
+      setStatus(SendStatus.ERROR);
+      return;
+    }
     if (countFailed > 3) {
       return;
     }
-    setStatus("sending");
+    setStatus(SendStatus.SENDING);
     try {
       const res = await axios.post(
         `${BOT_API_URL}/v2/send`,
         {
-          recipientTgId: Array.isArray(input.recipient)
-            ? input.recipient.map((contact) => contact.id)
-            : input.recipient?.id,
+          recipientTgId: input.recipient,
           amount: input.amount,
           message: input.message || undefined,
         },
@@ -43,14 +44,14 @@ const SendButtonsGroup = ({
         }
       );
       if (res.data?.success) {
-        setStatus("sent");
+        setStatus(SendStatus.SENT);
       } else {
-        setStatus("error");
+        setStatus(SendStatus.ERROR);
       }
     } catch (error) {
       console.error("send tokens error", error);
       setCountFailed(countFailed + 1);
-      setStatus("error");
+      setStatus(SendStatus.ERROR);
     }
   };
 

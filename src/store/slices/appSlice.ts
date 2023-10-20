@@ -11,6 +11,7 @@ import {
   LeaderboardEntry,
   LeaderboardState,
   RewardsState,
+  SendStatus,
   StatsState,
   UserState,
 } from "../../types/State";
@@ -70,6 +71,15 @@ const initialState: AppState = {
     loading: true,
     filter: "received",
     savedDate: localStorage.getItem(STORAGE_KEYS.REWARDS_SAVED) || "",
+  },
+  send: {
+    input: {
+      amount: "",
+      recipient: null,
+      message: "",
+    },
+    status: SendStatus.WAITING,
+    selectedContacts: [],
   },
   stats: {},
   tokensTab: 0,
@@ -207,6 +217,15 @@ const appSlice = createSlice({
     setActivity(state, action: PayloadAction<any>) {
       state.activity = {
         ...state.activity,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the send state
+     */
+    setSend(state, action: PayloadAction<any>) {
+      state.send = {
+        ...state.send,
         ...action.payload,
       };
     },
