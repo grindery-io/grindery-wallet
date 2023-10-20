@@ -15,7 +15,6 @@ import {
   styled,
 } from "@mui/material";
 import appPackage from "../../../package.json";
-import Address from "../shared/Address";
 import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
 import getLocalStorageSize from "../../utils/getLocalStorageSize";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -25,6 +24,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../store";
+import UserAddress from "../shared/UserAddress";
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -367,7 +367,7 @@ const DebugPage = () => {
                     sx={{ color: "var(--tg-theme-text-color, #000000)" }}
                   />
                   <ListItemSecondaryAction>
-                    <Address border={false} avatar={false} />
+                    <UserAddress border={false} avatar={false} />
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />

@@ -23,40 +23,11 @@ const TokensTabs = () => {
         value={tokensTab}
         onChange={handleTabChange}
         variant="fullWidth"
-        sx={{
-          width: "calc(100% - 32px)",
-          boxSizing: "border-box",
-          borderTopLeftRadius: "12px",
-          borderTopRightRadius: "12px",
-          border: "none",
-          margin: "0 16px",
-          "& .MuiTabs-scroller": {
-            background: "var(--tg-theme-bg-color, #ffffff)",
-          },
-          "& .MuiTabs-indicator": {
-            display: "none",
-          },
-          "& .MuiTab-root": {
-            color: "var(--tg-theme-hint-color, #999999)",
-            fontSize: "14px",
-            fontFamily: "Geologica",
-            minWidth: "70px",
-            textTransform: "initial",
-            fontWeight: "normal",
-            borderBottom: "1px solid var(--gr-theme-divider-color)",
-            "&.Mui-selected": {
-              borderBottom: "1px solid var(--tg-theme-text-color, #000000)",
-              boxShadow:
-                "inset 0px -1px 0px var(--tg-theme-text-color, #000000)",
-              color: "var(--tg-theme-text-color, #000000)",
-              backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
-            },
-          },
-        }}
+        sx={TokensTabsStyles}
       >
-        <Tab label="Tokens" />
-        <Tab label="NFTs" />
-        <Tab label="Activity" />
+        <Tab label="Tokens" disableTouchRipple />
+        <Tab label="NFTs" disableTouchRipple />
+        <Tab label="Activity" disableTouchRipple />
       </Tabs>
       {tokensTab === 0 && <TokensList />}
       {tokensTab === 1 && (
@@ -69,6 +40,36 @@ const TokensTabs = () => {
       {tokensTab === 2 && <ActivitiesList />}
     </Box>
   );
+};
+
+const TokensTabsStyles = {
+  width: "calc(100% - 32px)",
+  boxSizing: "border-box",
+  borderTopLeftRadius: "12px",
+  borderTopRightRadius: "12px",
+  border: "none",
+  margin: "0 16px",
+  "& .MuiTabs-scroller": {
+    background: "var(--tg-theme-bg-color, #ffffff)",
+  },
+  "& .MuiTabs-indicator": {
+    display: "none",
+  },
+  "& .MuiTab-root": {
+    color: "var(--tg-theme-hint-color, #999999)",
+    fontSize: "14px",
+    fontFamily: "Geologica",
+    minWidth: "70px",
+    textTransform: "initial",
+    fontWeight: "normal",
+    borderBottom: "1px solid var(--gr-theme-divider-color)",
+    "&.Mui-selected": {
+      borderBottom: "1px solid var(--tg-theme-text-color, #000000)",
+      boxShadow: "inset 0px -1px 0px var(--tg-theme-text-color, #000000)",
+      color: "var(--tg-theme-text-color, #000000)",
+      backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+    },
+  },
 };
 
 export default TokensTabs;

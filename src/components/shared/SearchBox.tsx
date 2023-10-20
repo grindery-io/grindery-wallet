@@ -61,19 +61,7 @@ const SearchBox = ({
   return (
     <Box
       sx={{
-        padding: "16px 16px 6px",
-        backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
-        position: "sticky",
-        top: "0px",
-        width: "100%",
-        boxSizing: "border-box",
-        zIndex: 1,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        flexWrap: "nowrap",
-        gap: "8px",
+        ...SearchBoxStyles,
         ...(sx || {}),
       }}
     >
@@ -298,6 +286,22 @@ const SearchBox = ({
       </Menu>
     </Box>
   );
+};
+
+const SearchBoxStyles: React.CSSProperties = {
+  padding: "16px 16px 6px",
+  backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+  position: "sticky",
+  top: "0px",
+  width: "100%",
+  boxSizing: "border-box",
+  zIndex: 1,
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  flexWrap: "nowrap",
+  gap: "8px",
 };
 
 export default SearchBox;
