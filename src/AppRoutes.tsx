@@ -5,7 +5,6 @@ import TokensPage from "./components/pages/TokensPage";
 import ContactsPage from "./components/pages/ContactsPage";
 import { Box, CircularProgress } from "@mui/material";
 import ContactPage from "./components/pages/ContactPage";
-import ActivitiesPage from "./components/pages/ActivitiesPage";
 import AppsPage from "./components/pages/AppsPage";
 import ActivityPage from "./components/pages/ActivityPage";
 import RewardPage from "./components/pages/RewardPage";
@@ -23,7 +22,6 @@ const AppRoutes = () => {
       <Route path="/" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
       <Route path="/contacts/:id" element={<ContactPage />} />
-      <Route path="/activities" element={<ActivitiesPage />} />
       <Route path="/activities/:id" element={<ActivityPage />} />
       <Route path="/rewards" element={<RewardsPage />} />
       <Route path="/rewards/:id" element={<RewardPage />} />
