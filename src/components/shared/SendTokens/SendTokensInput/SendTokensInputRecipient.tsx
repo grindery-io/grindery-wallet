@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, IconButton, Stack, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, ButtonBase, Stack, Typography } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useAppUser from "../../../../hooks/useAppUser";
 import UserAvatar from "../../UserAvatar";
 import { selectAppStore, useAppSelector } from "../../../../store";
@@ -21,47 +21,63 @@ const SendTokensInputRecipient = ({
 
   const { user } = useAppUser(contact?.id || "");
   return (
-    <Stack
-      alignItems="center"
-      useFlexGap
-      direction="row"
-      sx={{
-        borderRadius: "10px",
-        border: "none",
-        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-        width: "100%",
-        padding: "10px 10px 10px 20px",
+    <ButtonBase
+      onClick={() => {
+        setTimeout(() => {
+          onClear();
+        }, 200);
       }}
-      spacing="16px"
+      sx={SendTokensInputRecipientStyles}
     >
-      {isSingle && <UserAvatar size={36} user={user} />}
+      <Stack
+        alignItems="center"
+        useFlexGap
+        direction="row"
+        spacing="16px"
+        sx={{ width: "100%" }}
+      >
+        {isSingle && <UserAvatar size={36} user={user} />}
 
-      <Box>
-        <Typography variant="sm" sx={{ lineHeight: 1.5 }}>
-          Recipient{!isSingle ? "s" : ""}
-        </Typography>
-        <Typography color="hint" variant="sm" sx={{ lineHeight: 1.5 }}>
-          {isSingle && contact ? (
-            <>
-              {user.name}
-              {user.username ? ` | @${user.username}` : ""}
-            </>
-          ) : (
-            <>{Array.isArray(recipient) ? recipient.length : 0} contacts</>
-          )}
-        </Typography>
-      </Box>
-      <Box sx={{ marginLeft: "auto" }}>
-        <IconButton onClick={onClear}>
-          <CloseIcon
+        <Box textAlign="left">
+          <Typography variant="sm" sx={{ lineHeight: 1.5 }}>
+            Recipient{!isSingle ? "s" : ""}
+          </Typography>
+          <Typography color="hint" variant="sm" sx={{ lineHeight: 1.5 }}>
+            {isSingle && contact ? (
+              <>
+                {user.name}
+                {user.username ? ` | @${user.username}` : ""}
+              </>
+            ) : (
+              <>{Array.isArray(recipient) ? recipient.length : 0} contacts</>
+            )}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            padding: "0 4px",
+            marginLeft: "auto",
+          }}
+        >
+          <ArrowDropDownIcon
             sx={{
+              display: "block",
               color: "var(--tg-theme-hint-color, #999999)",
             }}
           />
-        </IconButton>
-      </Box>
-    </Stack>
+        </Box>
+      </Stack>
+    </ButtonBase>
   );
+};
+
+const SendTokensInputRecipientStyles = {
+  width: "100%",
+  borderRadius: "10px",
+  border: "none",
+  background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+  padding: "10px 10px 10px 20px",
 };
 
 export default SendTokensInputRecipient;
