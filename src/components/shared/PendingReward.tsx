@@ -136,8 +136,9 @@ const PendingReward = ({ activity, onTextClick, onAvatarClick }: Props) => {
               }, 150);
             }}
             sx={{
-              padding: "2px 4px",
-              fontSize: "10px",
+              padding: "2px 8px",
+              fontSize: "12px",
+              fontWeight: "400",
               borderRadius: "4px",
             }}
           >

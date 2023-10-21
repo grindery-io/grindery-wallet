@@ -135,7 +135,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     try {
       const res = await axios.get(
         `${BOT_API_URL}/v2/rewards/${
-          filter || "received"
+          filter || "pending"
         }?limit=15&find=${JSON.stringify(find || [])}`,
         {
           headers: {
@@ -149,7 +149,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           total: res.data?.total || 0,
         })
       );
-      if (!filter || filter === "received") {
+      if (!filter || filter === "pending") {
         localStorage.setItem(
           STORAGE_KEYS.REWARDS,
           JSON.stringify(res.data?.docs)

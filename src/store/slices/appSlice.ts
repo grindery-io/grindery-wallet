@@ -69,7 +69,7 @@ const initialState: AppState = {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.REWARDS) || "[]"),
     total: 0,
     loading: true,
-    filter: "received",
+    filter: "pending",
     savedDate: localStorage.getItem(STORAGE_KEYS.REWARDS_SAVED) || "",
   },
   send: {
