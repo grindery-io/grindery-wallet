@@ -32,8 +32,6 @@ const PendingReward = ({ activity, onTextClick, onAvatarClick }: Props) => {
 
   const { user: secondaryUser } = useAppUser(secondaryUserId);
 
-  console.log("secondaryUser", secondaryUser);
-
   return (
     <ListItem
       sx={{
