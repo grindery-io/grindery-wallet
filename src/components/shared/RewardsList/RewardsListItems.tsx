@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router";
-import PendingReward from "../PendingReward";
 import {
   appStoreActions,
   selectAppStore,
@@ -16,6 +15,7 @@ import {
   TelegramUserReward,
 } from "../../../types/Telegram";
 import RewardListItem from "../RewardListItem/RewardListItem";
+import PendingRewardListItem from "../PendingRewardListItem/PendingRewardListItem";
 
 const RewardsListItems = () => {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const RewardsListItems = () => {
                   )}
                 </>
               ) : (
-                <PendingReward
+                <PendingRewardListItem
                   activity={row as TelegramUserActivity}
                   key={row._id}
                   onAvatarClick={() => {

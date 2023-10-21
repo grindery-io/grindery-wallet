@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Title from "./Title";
-import Subtitle from "./Subtitle";
-import BulletPoints from "./BulletPoints";
+import Title from "../Title";
+import Subtitle from "../Subtitle";
+import BulletPoints from "../BulletPoints";
 
 const ConnectTelegramSuccess = () => {
   return (

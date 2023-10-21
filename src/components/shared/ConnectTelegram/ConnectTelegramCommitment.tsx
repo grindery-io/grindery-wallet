@@ -1,5 +1,5 @@
 import React from "react";
-import BulletPoints from "./BulletPoints";
+import BulletPoints from "../BulletPoints";
 import { Box, Tooltip, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 

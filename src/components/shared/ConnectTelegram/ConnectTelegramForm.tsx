@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import AlertBox from "./AlertBox";
+import AlertBox from "../AlertBox";
 import { Button, Stack } from "@mui/material";
-import { ConnectTelegramPageStateProps } from "../pages/ConnectTelegramPage";
 import ConnectTelegramCommitment from "./ConnectTelegramCommitment";
+import { ConnectTelegramStateProps } from "./ConnectTelegram";
 
 const InputGroup = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const ConnectTelegramForm = ({
   submitPhoneAndPassword,
   submitPhoneCode,
 }: {
-  state: ConnectTelegramPageStateProps;
+  state: ConnectTelegramStateProps;
   handleInputChange: (name: string, value: string) => void;
   submitPhoneAndPassword: () => void;
   submitPhoneCode: () => void;

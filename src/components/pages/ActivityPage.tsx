@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { BOT_API_URL } from "../../constants";
@@ -10,6 +10,7 @@ import Activity from "../shared/Activity/Activity";
 
 const ActivityPage = () => {
   useBackButton();
+  const navigate = useNavigate();
   const {
     activity: { items },
   } = useAppSelector(selectAppStore);
@@ -42,13 +43,13 @@ const ActivityPage = () => {
         }
       })
       .catch((err) => {
-        //
+        navigate("/tokens");
       });
 
     return () => {
       controller.abort();
     };
-  }, [item, id]);
+  }, [item, id, navigate]);
 
   return item ? <Activity activity={item} /> : <Loading />;
 };

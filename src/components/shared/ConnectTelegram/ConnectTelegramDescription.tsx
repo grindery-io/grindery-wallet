@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import Title from "./Title";
-import BulletPoints from "./BulletPoints";
+import Title from "../Title";
+import BulletPoints from "../BulletPoints";
 
 type Props = {};
 
