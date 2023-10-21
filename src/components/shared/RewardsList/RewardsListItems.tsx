@@ -94,8 +94,15 @@ const RewardsListItems = () => {
                 <PendingReward
                   activity={row as TelegramUserActivity}
                   key={row._id}
-                  onClick={() => {
-                    navigate(`/activities/${row._id}`);
+                  onAvatarClick={() => {
+                    navigate(
+                      `/contacts/${(row as TelegramUserActivity).recipientTgId}`
+                    );
+                  }}
+                  onTextClick={() => {
+                    navigate(
+                      `/activities/${(row as TelegramUserActivity)._id}`
+                    );
                   }}
                 />
               )}
