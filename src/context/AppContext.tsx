@@ -471,7 +471,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         [contact.id]: base64PhotoUrl || "null",
       }));
     }
-    await client.disconnect();
+    await client.destroy();
   }, [debug.features?.CONTACT_PHOTOS, contacts?.items, user?.telegramSession]);
 
   useEffect(() => {
