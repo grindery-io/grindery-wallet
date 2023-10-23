@@ -18,7 +18,6 @@ import { getConfigRequest } from "../services/config";
 // Context props
 type ContextProps = {
   photos?: { [key: string]: string };
-  getBalance: (a?: boolean) => void;
 };
 
 // Context provider props
@@ -26,12 +25,8 @@ type AppContextProps = {
   children: React.ReactNode;
 };
 
-const defaultContext = {
-  getBalance: () => {},
-};
-
 // Init context
-export const AppContext = createContext<ContextProps>(defaultContext);
+export const AppContext = createContext<ContextProps>({});
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
   const dispatch = useAppDispatch();
@@ -65,6 +60,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (!window.Telegram?.WebApp?.initData) {
       return;
     }
+
     dispatch(
       appStoreActions.setActivity({
         loading: true,
@@ -90,18 +86,22 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         find.push(filters);
       }
 
-      const res = await getActivityRequest(find);
+      const res = await getActivityRequest(find, activity.skip);
 
       dispatch(
         appStoreActions.setActivity({
-          items: res.data?.docs || [],
           total: res.data?.total || 0,
         })
       );
-      localStorage.setItem(
-        STORAGE_KEYS.ACTIVITY,
-        JSON.stringify(res.data?.docs || [])
-      );
+      if (activity.skip === 0) {
+        dispatch(appStoreActions.setActivityItems(res.data?.docs || []));
+        localStorage.setItem(
+          STORAGE_KEYS.ACTIVITY,
+          JSON.stringify(res.data?.docs || [])
+        );
+      } else {
+        dispatch(appStoreActions.addActivityItems(res.data?.docs || []));
+      }
     } catch (error) {
       console.error("getTgActivity error", error);
     }
@@ -110,7 +110,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         loading: false,
       })
     );
-  }, [activity.filters, user, activity.find, dispatch]);
+  }, [activity.filters, user, activity.find, activity.skip, dispatch]);
 
   const getTgRewards = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
@@ -192,53 +192,43 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     );
   }, [user, dispatch]);
 
-  const getBalance = useCallback(
-    async (a?: boolean) => {
-      if (!user?.patchwallet) {
-        return;
-      }
-      dispatch(appStoreActions.setBalance({ loading: !a ? false : true }));
-      // get balance here
-      const userId = user.userTelegramID;
-      try {
-        const res = await getBalanceRequest(user.patchwallet);
-        if (res?.data?.balanceEther) {
-          const date = new Date().toString();
-          dispatch(
-            appStoreActions.setBalance({
-              value: parseFloat(res.data.balanceEther),
-              cached: false,
-              loading: false,
-              updated: date,
-            })
-          );
-          localStorage.setItem(
-            STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
-            res.data.balanceEther
-          );
-          localStorage.setItem(
-            STORAGE_KEYS.BALANCE_UPDATED.replace("{{id}}", userId || ""),
-            date
-          );
-        } else {
-          dispatch(
-            appStoreActions.setBalance({
-              value: 0,
-              cached: false,
-              loading: false,
-            })
-          );
-          localStorage.setItem(
-            STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
-            "0"
-          );
-        }
-      } catch (error) {
+  const getBalance = useCallback(async () => {
+    if (!user?.patchwallet) {
+      return;
+    }
+    if (!balance.shouldUpdate) {
+      return;
+    }
+    // get balance here
+    const userId = user.userTelegramID;
+    try {
+      const res = await getBalanceRequest(user.patchwallet);
+      if (res?.data?.balanceEther) {
+        const date = new Date().toString();
+        dispatch(
+          appStoreActions.setBalance({
+            value: parseFloat(res.data.balanceEther),
+            cached: false,
+            loading: false,
+            updated: date,
+            shouldUpdate: false,
+          })
+        );
+        localStorage.setItem(
+          STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
+          res.data.balanceEther
+        );
+        localStorage.setItem(
+          STORAGE_KEYS.BALANCE_UPDATED.replace("{{id}}", userId || ""),
+          date
+        );
+      } else {
         dispatch(
           appStoreActions.setBalance({
             value: 0,
             cached: false,
             loading: false,
+            shouldUpdate: false,
           })
         );
         localStorage.setItem(
@@ -246,9 +236,21 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           "0"
         );
       }
-    },
-    [user, dispatch]
-  );
+    } catch (error) {
+      dispatch(
+        appStoreActions.setBalance({
+          value: 0,
+          cached: false,
+          loading: false,
+          shouldUpdate: false,
+        })
+      );
+      localStorage.setItem(
+        STORAGE_KEYS.BALANCE.replace("{{id}}", userId || ""),
+        "0"
+      );
+    }
+  }, [user, balance.shouldUpdate, dispatch]);
 
   const getDynamicData = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData) {
@@ -322,7 +324,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getDynamicData]);
 
   useEffect(() => {
-    getBalance(true);
+    getBalance();
   }, [getBalance]);
 
   useEffect(() => {
@@ -450,7 +452,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         photos,
-        getBalance,
       }}
     >
       {children}

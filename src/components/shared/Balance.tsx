@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import useAppContext from "../../hooks/useAppContext";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { formatBalance } from "../../utils/formatBalance";
 import moment from "moment";
 import RefreshIcon from "../icons/RefreshIcon";
 import { useNavigate } from "react-router";
-import { selectAppStore, useAppSelector } from "../../store";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const Balance = () => {
+  const dispatch = useAppDispatch();
   const {
     user,
     balance: { value, cached, updated, loading },
   } = useAppSelector(selectAppStore);
-  const { getBalance } = useAppContext();
   const navigate = useNavigate();
   const { full } = formatBalance(value);
   const [clicked, setClicked] = useState(0);
@@ -96,7 +100,12 @@ const Balance = () => {
                 {moment(updated) < moment(new Date()).add(-1, "minute") && (
                   <button
                     onClick={() => {
-                      getBalance(true);
+                      dispatch(
+                        appStoreActions.setBalance({
+                          loading: true,
+                          shouldUpdate: true,
+                        })
+                      );
                     }}
                     style={{
                       background: "none",

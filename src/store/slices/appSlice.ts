@@ -30,7 +30,7 @@ const initialState: AppState = {
     loading: true,
     updated: localStorage.getItem(STORAGE_KEYS.APPS_UPDATED) || "",
   },
-  balance: {},
+  balance: { shouldUpdate: true, loading: true },
   community: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.COMMUNITY) || "[]"),
     loading: true,
@@ -219,6 +219,18 @@ const appSlice = createSlice({
         ...state.activity,
         ...action.payload,
       };
+    },
+    /**
+     * Reducer to set the activity items state
+     */
+    setActivityItems(state, action: PayloadAction<any[]>) {
+      state.activity.items = action.payload;
+    },
+    /**
+     * Reducer to add the activity items to the state
+     */
+    addActivityItems(state, action: PayloadAction<any[]>) {
+      state.activity.items = [...state.activity.items, ...action.payload];
     },
     /**
      * Reducer to set the send state

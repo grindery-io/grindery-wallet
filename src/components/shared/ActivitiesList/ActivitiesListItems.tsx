@@ -10,14 +10,13 @@ import {
   useAppSelector,
 } from "../../../store";
 import ActivityListItem from "../ActivityListItem/ActivityListItem";
-import { getActivityRequest } from "../../../services/activity";
 
 const ActivitiesListItems = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user, activity } = useAppSelector(selectAppStore);
+  const { activity } = useAppSelector(selectAppStore);
 
-  const { items, total, find: activityFind } = activity;
+  const { items, total } = activity;
 
   const data = items;
 
@@ -25,35 +24,12 @@ const ActivitiesListItems = () => {
     <Box sx={ActivitiesListItemsStyles}>
       <InfiniteScroll
         dataLength={data.length}
-        next={async () => {
-          try {
-            const find = [...(activityFind || [])];
-            const filters: any = {
-              $or: [],
-            };
-            if (filters["$or"].includes("received")) {
-              filters["$or"].push({
-                recipientTgId: user?.userTelegramID,
-              });
-            }
-            if (filters["$or"].includes("sent")) {
-              filters["$or"].push({
-                senderTgId: user?.userTelegramID,
-              });
-            }
-            if (filters["$or"].length > 0) {
-              find.push(filters);
-            }
-            const res = await getActivityRequest(find, data.length);
-            dispatch(
-              appStoreActions.setActivity({
-                items: [...items, ...(res.data?.docs || [])],
-                total: res.data?.total || 0,
-              })
-            );
-          } catch (error) {
-            console.error("get more activity error: ", error);
-          }
+        next={() => {
+          dispatch(
+            appStoreActions.setActivity({
+              skip: data.length,
+            })
+          );
         }}
         hasMore={data.length < total}
         loader={

@@ -70,6 +70,10 @@ export type BalanceState = {
    */
   loading?: boolean;
   /**
+   * Whether the balance is should be updated
+   */
+  shouldUpdate: boolean;
+  /**
    * When the balance was last updated
    */
   updated?: string;
