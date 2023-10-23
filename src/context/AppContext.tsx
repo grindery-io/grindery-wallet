@@ -386,10 +386,17 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       {
         connectionRetries: 5,
         maxConcurrentDownloads: 1,
+        useWSS:
+          process.env.REACT_APP_ENV === "development" ||
+          process.env.REACT_APP_ENV === "test"
+            ? false
+            : true,
       }
     );
 
     await client.connect();
+    console.log("client", client);
+
     if (!client.connected) {
       return;
     }
