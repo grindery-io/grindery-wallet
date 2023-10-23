@@ -3,8 +3,6 @@ import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router";
 import { TelegramUserActivity } from "../../../types/Telegram";
 import InfiniteScroll from "react-infinite-scroll-component";
-import axios from "axios";
-import { BOT_API_URL } from "../../../constants";
 import {
   appStoreActions,
   selectAppStore,
@@ -12,6 +10,7 @@ import {
   useAppSelector,
 } from "../../../store";
 import ActivityListItem from "../ActivityListItem/ActivityListItem";
+import { getActivityRequest } from "../../../services/activity";
 
 const ActivitiesListItems = () => {
   const dispatch = useAppDispatch();
@@ -45,16 +44,7 @@ const ActivitiesListItems = () => {
             if (filters["$or"].length > 0) {
               find.push(filters);
             }
-            const res = await axios.get(
-              `${BOT_API_URL}/v2/activity?limit=15&skip=${
-                data.length
-              }&find=${JSON.stringify(find)}`,
-              {
-                headers: {
-                  Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-                },
-              }
-            );
+            const res = await getActivityRequest(find, data.length);
             dispatch(
               appStoreActions.setActivity({
                 items: [...items, ...(res.data?.docs || [])],

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import moment from "moment";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
+import { getBalanceRequest } from "../../services/balance";
 
 const LeaderRow = ({
   leader,
@@ -17,19 +16,12 @@ const LeaderRow = ({
 
   useEffect(() => {
     const controller = new AbortController();
-    axios
-      .post(
-        `${BOT_API_URL}/v2/balance/`,
-        {
-          userAddress: leader.user?.patchwallet,
-          contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-          chainId: "matic",
-        },
-        {
-          signal: controller.signal,
-        }
-      )
-
+    getBalanceRequest(
+      leader.user?.patchwallet,
+      undefined,
+      undefined,
+      controller
+    )
       .then((res) => {
         if (res?.data?.balanceEther) {
           setBalance(

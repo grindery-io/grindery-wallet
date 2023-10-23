@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { BOT_API_URL, STORAGE_KEYS } from "../../constants";
+import { STORAGE_KEYS } from "../../constants";
 import {
   Box,
   Button,
@@ -26,6 +25,7 @@ import {
   useAppSelector,
 } from "../../store";
 import RefreshIcon from "../icons/RefreshIcon";
+import { getLeaderboardRequest } from "../../services/leaderboard";
 
 const BoardPage = () => {
   useBackButton();
@@ -51,9 +51,7 @@ const BoardPage = () => {
   const getLeaderboard = useCallback(async () => {
     dispatch(appStoreActions.setLeaderboard({ loading: true }));
     try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v2/leaderboard?limit=15&page=${page}&sortBy=${sort}&order=${order}`
-      );
+      const res = await getLeaderboardRequest(page, sort, order);
       const items = res.data?.items || [];
       if (page === 1) {
         dispatch(appStoreActions.setLeaderboardDocs(items));

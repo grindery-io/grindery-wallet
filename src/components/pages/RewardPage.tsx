@@ -5,8 +5,7 @@ import { selectAppStore, useAppSelector } from "../../store";
 import { TelegramUserReward } from "../../types/Telegram";
 import Reward from "../shared/Reward/Reward";
 import Loading from "../shared/Loading";
-import axios from "axios";
-import { BOT_API_URL } from "../../constants";
+import { getSingleRewardRequest } from "../../services/rewards";
 
 const RewardPage = () => {
   useBackButton();
@@ -24,23 +23,14 @@ const RewardPage = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (item) {
+    if (item || !id) {
       return;
     }
-    axios
-      .get(`${BOT_API_URL}/v2/rewards/${id}`, {
-        signal: controller.signal,
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      })
-
+    getSingleRewardRequest(id, controller)
       .then((res) => {
-        if (res?.data) {
-          setItem(res.data || null);
-        }
+        setItem(res.data || null);
       })
-      .catch((err) => {
+      .catch(() => {
         navigate("/rewards");
       });
 

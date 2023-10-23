@@ -1,9 +1,8 @@
 import React from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
-import axios from "axios";
-import { BOT_API_URL } from "../../../../constants";
 import { SendStatus } from "../../../../types/State";
+import { sendTokensRequest } from "../../../../services/send";
 
 const SendTokensInputButtons = ({
   input,
@@ -25,23 +24,18 @@ const SendTokensInputButtons = ({
       setStatus(SendStatus.ERROR);
       return;
     }
+    if (!input.recipient) {
+      return;
+    }
     if (countFailed > 3) {
       return;
     }
     setStatus(SendStatus.SENDING);
     try {
-      const res = await axios.post(
-        `${BOT_API_URL}/v2/send`,
-        {
-          recipientTgId: input.recipient,
-          amount: input.amount,
-          message: input.message || undefined,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-          },
-        }
+      const res = await sendTokensRequest(
+        input.recipient,
+        input.amount,
+        input.message
       );
       if (res.data?.success) {
         setStatus(SendStatus.SENT);

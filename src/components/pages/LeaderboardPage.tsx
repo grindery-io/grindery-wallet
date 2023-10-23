@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useReducer } from "react";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { BOT_API_URL } from "../../constants";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import useBackButton from "../../hooks/useBackButton";
 import LeaderRow from "../shared/LeaderRow";
 import LeaderboardSortButton from "../shared/LeaderboardSortButton";
+import { getMeRequest } from "../../services/me";
+import { getLeaderboardRequest } from "../../services/leaderboard";
 
 type StateProps = {
   me: any;
@@ -39,9 +39,7 @@ const LeaderboardPage = () => {
   const getLeaderboard = useCallback(async () => {
     setState({ loading: true });
     try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v2/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
-      );
+      const res = await getLeaderboardRequest(page, sort, order);
       const items = res.data?.items || [];
       setLeaderboard((_leaderboard) =>
         page === 1 ? items : [..._leaderboard, ...items]
@@ -55,11 +53,7 @@ const LeaderboardPage = () => {
 
   const getMe = async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v2/me`, {
-        headers: {
-          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-        },
-      });
+      const res = await getMeRequest();
 
       setState({ me: res?.data || null });
     } catch (error) {

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { TelegramUserActivity } from "../../../types/Telegram";
-import { BOT_API_URL } from "../../../constants";
 import ActivityListItem from "../ActivityListItem/ActivityListItem";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { AppUser } from "../../../hooks/useAppUser";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { getUserActivityRequest } from "../../../services/activity";
 
 const ContactActivities = ({ contact }: { contact: AppUser }) => {
   const navigate = useNavigate();
@@ -17,14 +16,7 @@ const ContactActivities = ({ contact }: { contact: AppUser }) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    axios
-      .get(`${BOT_API_URL}/v2/activity/user/${contact.id}?limit=15`, {
-        signal: controller.signal,
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      })
-
+    getUserActivityRequest(contact.id, 0, controller)
       .then((res) => {
         setActivities(res.data?.docs || []);
         setActivitiesTotal(res.data?.total || 0);
@@ -93,15 +85,11 @@ const ContactActivities = ({ contact }: { contact: AppUser }) => {
             dataLength={activities.length}
             next={async () => {
               try {
-                const res = await axios.get(
-                  `${BOT_API_URL}/v2/activity/user/${contact.id}?limit=15&skip=${activities.length}`,
-                  {
-                    headers: {
-                      Authorization:
-                        "Bearer " + window.Telegram?.WebApp?.initData,
-                    },
-                  }
+                const res = await getUserActivityRequest(
+                  contact.id,
+                  activities.length
                 );
+
                 setActivities((_activities) => [
                   ..._activities,
                   ...(res.data?.docs || []),

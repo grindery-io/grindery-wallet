@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { BOT_API_URL, STORAGE_KEYS } from "../constants";
+import { STORAGE_KEYS } from "../constants";
 import { UserProps } from "../types/User";
 import {
   appStoreActions,
@@ -8,6 +7,13 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../store";
+import { getMeRequest } from "../services/me";
+import { getStatsRequest } from "../services/stats";
+import { getActivityRequest } from "../services/activity";
+import { getRewardsRequest } from "../services/rewards";
+import { getContactsRequest } from "../services/contacts";
+import { getBalanceRequest } from "../services/balance";
+import { getConfigRequest } from "../services/config";
 
 // Context props
 type ContextProps = {
@@ -41,15 +47,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getMe = useCallback(async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v2/me`, {
-        headers: {
-          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-        },
-      });
-
-      if (res?.data?._id) {
-        dispatch(appStoreActions.setUser(res.data));
-      }
+      const res = await getMeRequest();
+      dispatch(appStoreActions.setUser(res?.data || null));
     } catch (error) {
       dispatch(appStoreActions.setUser(null));
     }
@@ -57,11 +56,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getStats = useCallback(async () => {
     try {
-      const res = await axios.get(`${BOT_API_URL}/v2/stats`, {
-        headers: {
-          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-        },
-      });
+      const res = await getStatsRequest();
       dispatch(appStoreActions.setStats(res.data));
     } catch (error) {}
   }, [dispatch]);
@@ -95,14 +90,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         find.push(filters);
       }
 
-      const res = await axios.get(
-        `${BOT_API_URL}/v2/activity?limit=15&find=${JSON.stringify(find)}`,
-        {
-          headers: {
-            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-          },
-        }
-      );
+      const res = await getActivityRequest(find);
+
       dispatch(
         appStoreActions.setActivity({
           items: res.data?.docs || [],
@@ -133,16 +122,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       })
     );
     try {
-      const res = await axios.get(
-        `${BOT_API_URL}/v2/rewards/${
-          filter || "pending"
-        }?limit=15&find=${JSON.stringify(find || [])}`,
-        {
-          headers: {
-            Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-          },
-        }
-      );
+      const res = await getRewardsRequest(filter, find);
       dispatch(
         appStoreActions.setRewards({
           docs: res.data?.docs || [],
@@ -177,11 +157,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     );
 
     try {
-      const res = await axios.get(`${BOT_API_URL}/v2/contacts`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
+      const res = await getContactsRequest();
       dispatch(
         appStoreActions.setContacts({
           items: res?.data || [],
@@ -225,11 +201,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       // get balance here
       const userId = user.userTelegramID;
       try {
-        const res = await axios.post(`${BOT_API_URL}/v2/balance/`, {
-          userAddress: user.patchwallet,
-          contractAddress: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-          chainId: "matic",
-        });
+        const res = await getBalanceRequest(user.patchwallet);
         if (res?.data?.balanceEther) {
           const date = new Date().toString();
           dispatch(
@@ -283,11 +255,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       return;
     }
     try {
-      const res = await axios.get(`${BOT_API_URL}/v2/config`, {
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      });
+      const res = await getConfigRequest();
       const community = res.data?.config?.filter(
         (c: any) =>
           c.fields.Type === "Community" && c.fields.Status === "Published"

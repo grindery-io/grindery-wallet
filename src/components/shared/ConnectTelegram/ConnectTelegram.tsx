@@ -1,11 +1,10 @@
 import React, { useCallback, useReducer } from "react";
 import { TelegramAuthUserInput } from "../../../types/Telegram";
-import { BOT_API_URL } from "../../../constants";
-import axios from "axios";
 import ConnectTelegramSuccess from "./ConnectTelegramSuccess";
 import { Stack } from "@mui/material";
 import ConnectTelegramDescription from "./ConnectTelegramDescription";
 import ConnectTelegramForm from "./ConnectTelegramForm";
+import { callbackAuthRequest, initAuthRequest } from "../../../services/auth";
 
 export type ConnectTelegramStateProps = {
   loading: boolean;
@@ -73,17 +72,9 @@ const ConnectTelegram = () => {
       loading: true,
     });
     try {
-      const res = await axios.post(
-        `${BOT_API_URL}/v2/auth/init`,
-        {
-          phone: state.input.phone,
-          password: state.input.password,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
+      const res = await initAuthRequest(
+        state.input.phone,
+        state.input.password
       );
       setState({
         operationId: res.data?.operationId || "",
@@ -111,18 +102,7 @@ const ConnectTelegram = () => {
       loading: true,
     });
     try {
-      await axios.post(
-        `${BOT_API_URL}/v2/auth/callback`,
-        {
-          operationId: state.operationId,
-          code: state.input.code,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        }
-      );
+      await callbackAuthRequest(state.operationId, state.input.code);
       setState({
         telegramSessionSaved: true,
       });

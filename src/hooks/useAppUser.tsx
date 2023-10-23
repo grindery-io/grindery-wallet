@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { TelegramUser, TelegramUserContact } from "../types/Telegram";
-import { BOT_API_URL, STORAGE_KEYS } from "../constants";
+import { STORAGE_KEYS } from "../constants";
 import { getUserName } from "../utils/getUserName";
 import { selectAppStore, useAppSelector } from "../store";
 import useAppContext from "./useAppContext";
+import { getUserRequest } from "../services/user";
 
 export type AppUser = {
   id: string;
@@ -78,13 +78,7 @@ const useAppUser = (userId: string) => {
   useEffect(() => {
     const controller = new AbortController();
     if (userId && !user) {
-      axios
-        .get(`${BOT_API_URL}/v2/user?id=${userId}`, {
-          signal: controller.signal,
-          headers: {
-            Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-          },
-        })
+      getUserRequest(userId, controller)
         .then((res) => {
           if (res.data._id) {
             setUser(res.data);

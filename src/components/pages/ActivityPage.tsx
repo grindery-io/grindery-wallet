@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import { TelegramUserActivity } from "../../types/Telegram";
-import { BOT_API_URL } from "../../constants";
-import axios from "axios";
 import { selectAppStore, useAppSelector } from "../../store";
 import Loading from "../shared/Loading";
 import Activity from "../shared/Activity/Activity";
+import { getSingleActivityRequest } from "../../services/activity";
 
 const ActivityPage = () => {
   useBackButton();
@@ -26,17 +25,10 @@ const ActivityPage = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (item) {
+    if (item || !id) {
       return;
     }
-    axios
-      .get(`${BOT_API_URL}/v2/activity/${id}`, {
-        signal: controller.signal,
-        headers: {
-          Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-        },
-      })
-
+    getSingleActivityRequest(id, controller)
       .then((res) => {
         if (res?.data) {
           setItem(res.data || null);

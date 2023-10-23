@@ -8,14 +8,13 @@ import {
   useAppSelector,
 } from "../../../store";
 import InfiniteScroll from "react-infinite-scroll-component";
-import axios from "axios";
-import { BOT_API_URL } from "../../../constants";
 import {
   TelegramUserActivity,
   TelegramUserReward,
 } from "../../../types/Telegram";
 import RewardListItem from "../RewardListItem/RewardListItem";
 import PendingRewardListItem from "../PendingRewardListItem/PendingRewardListItem";
+import { getRewardsRequest } from "../../../services/rewards";
 
 const RewardsListItems = () => {
   const navigate = useNavigate();
@@ -32,19 +31,8 @@ const RewardsListItems = () => {
           dataLength={data.length}
           next={async () => {
             try {
-              const res = await axios.get(
-                `${BOT_API_URL}/v2/rewards/${
-                  filter || "received"
-                }?limit=15&skip=${data.length}&find=${JSON.stringify(
-                  find || []
-                )}`,
-                {
-                  headers: {
-                    Authorization:
-                      "Bearer " + window.Telegram?.WebApp?.initData,
-                  },
-                }
-              );
+              const res = await getRewardsRequest(filter, find, data.length);
+
               dispatch(appStoreActions.addRewardDocs(res.data?.docs || []));
               dispatch(
                 appStoreActions.setRewards({
