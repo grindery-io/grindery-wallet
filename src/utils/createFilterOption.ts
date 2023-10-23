@@ -1,4 +1,4 @@
-import { Filter } from "../components/shared/SearchBox";
+import { Filter } from "../components/shared/SearchBox/SearchBox";
 import { UserState } from "../types/State";
 
 /**

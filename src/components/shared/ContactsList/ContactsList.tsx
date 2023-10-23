@@ -6,7 +6,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../store";
-import SearchBox, { Filter } from "../SearchBox";
+import SearchBox, { Filter } from "../SearchBox/SearchBox";
 import ContactsListEmpty from "./ContactsListEmpty";
 import ContactsListLoading from "./ContactsListLoading";
 import ContactsListItems from "./ContactsListItems";

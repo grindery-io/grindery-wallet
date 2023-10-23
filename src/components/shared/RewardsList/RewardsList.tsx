@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { Box } from "@mui/material";
-import SearchBox, { Filter } from "../../shared/SearchBox";
 import { debounce } from "lodash";
 import {
   appStoreActions,
@@ -11,6 +10,7 @@ import {
 import RewardsListEmpty from "./RewardsListEmpty";
 import RewardsListLoading from "./RewardsListLoading";
 import RewardsListItems from "./RewardsListItems";
+import SearchBox, { Filter } from "../SearchBox/SearchBox";
 
 const RewardsList = () => {
   const dispatch = useAppDispatch();

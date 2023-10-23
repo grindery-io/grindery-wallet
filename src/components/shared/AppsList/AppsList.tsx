@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import SearchBox, { Filter } from "../SearchBox";
+import SearchBox, { Filter } from "../SearchBox/SearchBox";
 import {
   appStoreActions,
   selectAppStore,

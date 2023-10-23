@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { Box } from "@mui/material";
-import SearchBox, { Filter } from "../../shared/SearchBox";
 import LeaderboardBanner from "../LeaderboardBanner";
 import { debounce } from "lodash";
 import {
@@ -11,6 +10,7 @@ import {
 } from "../../../store";
 import ActivitiesListEmpty from "./ActivitiesListEmpty";
 import ActivitiesListItems from "./ActivitiesListItems";
+import SearchBox, { Filter } from "../SearchBox/SearchBox";
 
 /**
  * Activities list component
@@ -36,6 +36,7 @@ const ActivitiesList = () => {
             filters: value
               ? [...filters, "sent"]
               : filters.filter((filter: any) => filter !== "sent"),
+            skip: 0,
           })
         );
       },
@@ -54,6 +55,7 @@ const ActivitiesList = () => {
             filters: value
               ? [...filters, "received"]
               : filters.filter((filter: any) => filter !== "received"),
+            skip: 0,
           })
         );
       },
@@ -89,6 +91,7 @@ const ActivitiesList = () => {
               },
             ]
           : [],
+        skip: 0,
       })
     );
   }, 1200);
