@@ -1,65 +1,8 @@
 import React, { useRef } from "react";
-import styled from "styled-components";
 import AlertBox from "../AlertBox";
-import { Button, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import ConnectTelegramCommitment from "./ConnectTelegramCommitment";
 import { ConnectTelegramStateProps } from "./ConnectTelegram";
-
-const InputGroup = styled.div`
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  gap: 4px;
-  transition: all 0.2s ease-in-out;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-
-  & label {
-    font-size: 14px;
-    line-height: 150%;
-    text-align: center;
-    font-family: "Geologica";
-    color: var(--tg-theme-text-color, #000000);
-    font-weight: bold;
-  }
-
-  & input {
-    width: 100%;
-    background: #f4f5f7;
-    border-radius: 6px;
-    padding: 7px 15px;
-    border: 1px solid #dcdcdc;
-    box-sizing: border-box;
-    min-height: 44px;
-    font-family: Geologica;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: #0b0d17;
-    text-align: center;
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-
-  & p {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 150%;
-    color: #0b0d17;
-    text-align: center;
-
-    &.error {
-      color: #ff5858;
-    }
-  }
-`;
 
 const ConnectTelegramForm = ({
   state,
@@ -93,7 +36,7 @@ const ConnectTelegramForm = ({
       useFlexGap
       sx={{ maxWidth: "328px", width: "100%", margin: "0 auto" }}
     >
-      <InputGroup>
+      <Box sx={InputGroupStyles}>
         <label>Phone number</label>
         <input
           ref={phoneInputRef}
@@ -128,9 +71,9 @@ const ConnectTelegramForm = ({
         >
           In the international format
         </span>
-      </InputGroup>
+      </Box>
 
-      <InputGroup>
+      <Box sx={InputGroupStyles}>
         <label>Password</label>
 
         <input
@@ -160,10 +103,11 @@ const ConnectTelegramForm = ({
             }
           }}
         />
-      </InputGroup>
+      </Box>
 
-      <InputGroup
-        style={{
+      <Box
+        sx={{
+          ...InputGroupStyles,
           height: operationId ? "109px" : "0px",
           marginTop: operationId ? "0" : "0px",
         }}
@@ -213,7 +157,7 @@ const ConnectTelegramForm = ({
           <br />
           You should receive an authorization code.
         </span>
-      </InputGroup>
+      </Box>
 
       {error && (
         <AlertBox color="error" style={{ marginTop: "0" }}>
@@ -261,6 +205,62 @@ const ConnectTelegramForm = ({
       <ConnectTelegramCommitment />
     </Stack>
   );
+};
+
+const InputGroupStyles = {
+  display: "flex",
+  alignItems: "stretch",
+  justifyContent: "flex-start",
+  flexWrap: "nowrap",
+  flexDirection: "column",
+  gap: "4px",
+  transition: "all 0.2s ease-in-out",
+  overflow: "hidden",
+  padding: 0,
+  margin: 0,
+  boxSizing: "border-box",
+
+  "& label": {
+    fontSize: "14px",
+    lineHeight: "150%",
+    textAlign: "center",
+    fontFamily: "Geologica",
+    color: "var(--tg-theme-text-color, #000000)",
+    fontWeight: "bold",
+  },
+
+  "& input": {
+    width: "100%",
+    background: "#f4f5f7",
+    borderRadius: "6px",
+    padding: "7px 15px",
+    border: "1px solid #dcdcdc",
+    boxSizing: "border-box",
+    minHeight: "44px",
+    fontFamily: "Geologica",
+    fontWeight: "400",
+    fontSize: "16px",
+    lineHeight: "150%",
+    color: "#0b0d17",
+    textAlign: "center",
+
+    "&:disabled": {
+      opacity: 0.5,
+      cursor: "not-allowed",
+    },
+  },
+
+  "& p": {
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "150%",
+    color: "#0b0d17",
+    textAlign: "center",
+
+    "&.error": {
+      color: "#ff5858",
+    },
+  },
 };
 
 export default ConnectTelegramForm;
