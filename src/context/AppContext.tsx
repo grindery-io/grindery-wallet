@@ -390,7 +390,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     );
 
     await client.connect();
-    console.log("client", client);
 
     if (!client.connected) {
       return;
