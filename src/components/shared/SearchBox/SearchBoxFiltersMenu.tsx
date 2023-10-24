@@ -36,7 +36,11 @@ const SearchBoxFiltersMenu = (props: SearchBoxFiltersMenuProps) => {
       {filters &&
         filters.length > 0 &&
         filters.map((filter) => (
-          <SearchBoxFiltersMenuItem {...props} filter={filter} />
+          <SearchBoxFiltersMenuItem
+            {...props}
+            filter={filter}
+            key={filter.key}
+          />
         ))}
       <Box sx={{ padding: "6px 16px" }}>
         <Button fullWidth variant="outlined" size="small" onClick={handleClose}>
