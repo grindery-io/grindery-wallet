@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { STORAGE_KEYS, TELEGRAM_SERVERS } from "../constants";
+import { STORAGE_KEYS } from "../constants";
 import { UserProps } from "../types/User";
 import {
   appStoreActions,
@@ -386,15 +386,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       {
         connectionRetries: 5,
         maxConcurrentDownloads: 1,
-        useWSS: false,
-        proxy: {
-          ip: TELEGRAM_SERVERS[3].ip,
-          port: TELEGRAM_SERVERS[3].port,
-          MTProxy: false,
-          secret: "00000000000000000000000000000000",
-          socksType: 5,
-          timeout: 2,
-        },
       }
     );
 
