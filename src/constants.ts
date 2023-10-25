@@ -136,6 +136,50 @@ export const BOTTOM_TABS = [
     path: "/community",
   },
 ];
+
+export const TELEGRAM_SERVERS = [
+  {
+    ip: "pluto.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "pluto-1.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "venus.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "venus-1.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "aurora.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "aurora-1.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "vesta.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "vesta-1.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "vesflorata.web.telegram.org",
+    port: 443,
+  },
+  {
+    ip: "flora-1.web.telegram.org",
+    port: 443,
+  },
+];
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)
