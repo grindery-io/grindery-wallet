@@ -386,6 +386,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       {
         connectionRetries: 5,
         maxConcurrentDownloads: 1,
+        useWSS: false,
         proxy: {
           ip: TELEGRAM_SERVERS[3].ip,
           port: TELEGRAM_SERVERS[3].port,
