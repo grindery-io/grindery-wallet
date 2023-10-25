@@ -7,7 +7,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../store";
-import DebugMenuListSubheader from "./DebugMenuListSubheader";
 import DebugMenuListItem from "./DebugMenuListItem";
 import StyledSwitch from "../StyledSwitch";
 
@@ -17,9 +16,7 @@ const DebugMenuListFeatures = () => {
 
   return (
     <>
-      <DebugMenuListSubheader label="Experimental features" />
-
-      {Object.keys(EXPERIMENTAL_FEATURES).map((key) => (
+      {Object.keys(EXPERIMENTAL_FEATURES).map((key, index) => (
         <React.Fragment key={key}>
           <DebugMenuListItem
             label={
@@ -42,7 +39,9 @@ const DebugMenuListFeatures = () => {
               />
             }
           />
-          <Divider />
+          {Object.keys(EXPERIMENTAL_FEATURES).length - 1 !== index && (
+            <Divider />
+          )}
         </React.Fragment>
       ))}
     </>

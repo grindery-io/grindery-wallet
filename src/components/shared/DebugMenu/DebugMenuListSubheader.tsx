@@ -14,10 +14,12 @@ const DebugMenuListSubheader = ({ label }: DebugMenuListSubheaderProps) => {
 };
 
 const DebugMenuListSubheaderStyles = {
-  marginTop: "30px",
-  backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+  margin: "20px 16px 10px",
   color: "var(--tg-theme-hint-color, #999999)",
   fontFamily: "Geologica",
+  position: "relative",
+  backgroundColor: "transparent",
+  lineHeight: 1.5,
 };
 
 export default DebugMenuListSubheader;

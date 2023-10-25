@@ -1,6 +1,5 @@
 import React from "react";
 import { Divider } from "@mui/material";
-import DebugMenuListSubheader from "./DebugMenuListSubheader";
 import DebugMenuListItemAppPackage from "./DebugMenuListItemAppPackage";
 import DebugMenuListItemAppVersion from "./DebugMenuListItemAppVersion";
 import DebugMenuListItemApiVersion from "./DebugMenuListItemApiVersion";
@@ -11,8 +10,6 @@ import DebugMenuListItemCache from "./DebugMenuListItemCache";
 const DebugMenuListApp = () => {
   return (
     <>
-      <Divider />
-      <DebugMenuListSubheader label="App info" />
       <DebugMenuListItemAppPackage />
       <Divider />
       <DebugMenuListItemAppVersion />
@@ -32,7 +29,6 @@ const DebugMenuListApp = () => {
       <DebugMenuListItemPlatform />
       <Divider />
       <DebugMenuListItemCache />
-      <Divider />
     </>
   );
 };

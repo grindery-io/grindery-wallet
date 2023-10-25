@@ -1,7 +1,6 @@
 import React from "react";
 import { Divider } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
-import DebugMenuListSubheader from "./DebugMenuListSubheader";
 import DebugMenuListItemUserId from "./DebugMenuListItemUserId";
 import DebugMenuListItemUserName from "./DebugMenuListItemUserName";
 import DebugMenuListItemTelegram from "./DebugMenuListItemTelegram";
@@ -12,7 +11,6 @@ const DebugMenuListUser = () => {
 
   return (
     <>
-      <DebugMenuListSubheader label="User info" />
       <DebugMenuListItemUserId />
       <Divider />
       {user?.userHandle && (
@@ -22,11 +20,11 @@ const DebugMenuListUser = () => {
         </>
       )}
       <DebugMenuListItemTelegram />
-      <Divider />
+
       {user?.patchwallet && (
         <>
-          <DebugMenuListItemUserAddress />
           <Divider />
+          <DebugMenuListItemUserAddress />
         </>
       )}
     </>
