@@ -18,6 +18,7 @@ const DebugMenuListItemMode = () => {
       label="Debug Mode"
       value={
         <StyledSwitch
+          edge="end"
           checked={debug.enabled}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             dispatch(

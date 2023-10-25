@@ -24,6 +24,7 @@ const DebugMenuListFeatures = () => {
             }
             value={
               <StyledSwitch
+                edge="end"
                 checked={debug.features?.[key]}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   dispatch(

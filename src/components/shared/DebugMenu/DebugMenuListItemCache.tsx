@@ -26,6 +26,8 @@ const DebugMenuListItemCache = () => {
             }}
           />
           <IconButton
+            edge="end"
+            sx={{ marginRight: "-8px !important" }}
             size="small"
             onClick={() => {
               if (window.Telegram?.WebApp?.showConfirm) {
