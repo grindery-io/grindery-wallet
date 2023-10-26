@@ -1,11 +1,32 @@
 import React from "react";
 import { Box, SxProps } from "@mui/material";
 import { AppUser } from "../../hooks/useAppUser";
+import { AVATAR_COLORS } from "../../constants";
+import { random } from "lodash";
 
 type Props = {
   user: AppUser;
   size?: number;
   sx?: SxProps | React.CSSProperties;
+};
+
+const getUserTypeId = (user: AppUser): number => {
+  for (let i = 0; i < 7; i++) {
+    if (user.id.startsWith(i.toString())) {
+      return i;
+    }
+  }
+  for (let i = 0; i < 7; i++) {
+    if (user.id.endsWith(i.toString())) {
+      return i;
+    }
+  }
+  for (let i = 0; i < 7; i++) {
+    if (user.id.includes(i.toString())) {
+      return i;
+    }
+  }
+  return random(0, 6);
 };
 
 const UserAvatar = ({ user, size, sx }: Props) => {
@@ -37,13 +58,14 @@ const UserAvatar = ({ user, size, sx }: Props) => {
           sx={{
             width: "100%",
             height: "100%",
-            backgroundColor: "var(--tg-theme-hint-color, #999999)",
-            color: "var(--tg-theme-bg-color, #ffffff)",
+            backgroundColor: AVATAR_COLORS[getUserTypeId(user)],
+            color: "#ffffff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: size ? `${size / 2}px` : "18px",
-            fontWeight: "bold",
+            fontWeight: "400",
+            textTransform: "uppercase",
           }}
         >
           {user.avatarText}

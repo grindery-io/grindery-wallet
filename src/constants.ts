@@ -180,6 +180,16 @@ export const TELEGRAM_SERVERS = [
   },
 ];
 
+export const AVATAR_COLORS: string[] = [
+  "#e36f74",
+  "#fca76f",
+  "#a693e9",
+  "#78ca5c",
+  "#6ac9cc",
+  "#50a2e9",
+  "#f078ae",
+];
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)
