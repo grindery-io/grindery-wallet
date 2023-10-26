@@ -4,6 +4,7 @@ import DebugMenu from "../shared/DebugMenu/DebugMenu";
 
 const DebugPage = () => {
   useBackButton();
+
   return <DebugMenu />;
 };
 

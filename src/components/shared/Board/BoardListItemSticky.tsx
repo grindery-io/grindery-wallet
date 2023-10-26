@@ -1,17 +1,35 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Stack, Typography } from "@mui/material";
 import moment from "moment";
 import { TOKENS } from "../../../constants";
-import { selectAppStore, useAppSelector } from "../../../store";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store";
 import UserAvatar from "./../UserAvatar";
 import useAppUser from "../../../hooks/useAppUser";
+import { getStatsRequest } from "../../../services/stats";
 
 const BoardListItemSticky = () => {
+  const dispatch = useAppDispatch();
   const {
     user,
     balance: { value: balance },
     stats,
   } = useAppSelector(selectAppStore);
+
+  const getStats = useCallback(async () => {
+    try {
+      const res = await getStatsRequest();
+      dispatch(appStoreActions.setStats(res.data));
+    } catch (error) {}
+  }, [dispatch]);
+
+  useEffect(() => {
+    getStats();
+  }, [getStats]);
 
   const { user: appUser } = useAppUser(user?.userTelegramID || "");
 
@@ -20,17 +38,7 @@ const BoardListItemSticky = () => {
       direction="column"
       alignItems="stretch"
       justifyContent="flex-start"
-      sx={{
-        background: "var(--tg-theme-secondary-bg-color, #efeff3)",
-        position: "sticky",
-        bottom: 0,
-        left: 0,
-        zIndex: 2,
-        border: "none",
-        borderRadius: 0,
-        margin: "0",
-        padding: "10px 27px",
-      }}
+      sx={BoardListItemStickyStyles}
     >
       <Stack
         direction="row"
@@ -111,6 +119,18 @@ const BoardListItemSticky = () => {
       </Stack>
     </Stack>
   );
+};
+
+const BoardListItemStickyStyles = {
+  background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+  position: "sticky",
+  bottom: 0,
+  left: 0,
+  zIndex: 2,
+  border: "none",
+  borderRadius: 0,
+  margin: "0",
+  padding: "10px 27px",
 };
 
 export default BoardListItemSticky;

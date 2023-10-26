@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import LeaderboardBanner from "../LeaderboardBanner";
 import { debounce } from "lodash";
@@ -11,6 +11,8 @@ import {
 import ActivitiesListEmpty from "./ActivitiesListEmpty";
 import ActivitiesListItems from "./ActivitiesListItems";
 import SearchBox, { Filter } from "../SearchBox/SearchBox";
+import { getActivityRequest } from "../../../services/activity";
+import { STORAGE_KEYS } from "../../../constants";
 
 /**
  * Activities list component
@@ -22,6 +24,62 @@ const ActivitiesList = () => {
   const { user, debug, activity } = useAppSelector(selectAppStore);
   const { items, filters } = activity;
   const [search, setSearch] = useState("");
+
+  const getTgActivity = useCallback(async () => {
+    if (!window.Telegram?.WebApp?.initData) {
+      return;
+    }
+
+    dispatch(
+      appStoreActions.setActivity({
+        loading: true,
+      })
+    );
+
+    try {
+      const find = [...(activity.find || [])];
+      const filters: any = {
+        $or: [],
+      };
+      if (activity.filters.includes("received")) {
+        filters["$or"].push({
+          recipientTgId: user?.userTelegramID,
+        });
+      }
+      if (activity.filters.includes("sent")) {
+        filters["$or"].push({
+          senderTgId: user?.userTelegramID,
+        });
+      }
+      if (filters["$or"].length > 0) {
+        find.push(filters);
+      }
+
+      const res = await getActivityRequest(find, activity.skip);
+
+      dispatch(
+        appStoreActions.setActivity({
+          total: res.data?.total || 0,
+        })
+      );
+      if (activity.skip === 0) {
+        dispatch(appStoreActions.setActivityItems(res.data?.docs || []));
+        localStorage.setItem(
+          STORAGE_KEYS.ACTIVITY,
+          JSON.stringify(res.data?.docs || [])
+        );
+      } else {
+        dispatch(appStoreActions.addActivityItems(res.data?.docs || []));
+      }
+    } catch (error) {
+      console.error("getTgActivity error", error);
+    }
+    dispatch(
+      appStoreActions.setActivity({
+        loading: false,
+      })
+    );
+  }, [activity.filters, user, activity.find, activity.skip, dispatch]);
 
   const options: Filter[] = [
     {
@@ -100,6 +158,20 @@ const ActivitiesList = () => {
     (value: string) => request(value),
     [request]
   );
+
+  useEffect(() => {
+    getTgActivity();
+  }, [getTgActivity, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(
+        appStoreActions.setActivity({
+          skip: 0,
+        })
+      );
+    };
+  }, [dispatch]);
 
   return (
     <Box sx={ActivitiesListStyles}>
