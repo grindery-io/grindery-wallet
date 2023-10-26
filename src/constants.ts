@@ -64,7 +64,7 @@ export const TOKENS = [
     symbol: "MATIC",
     name: "Polygon Matic",
     balance: "0",
-    icon: "https://polygonscan.com/images/svg/brands/matic.svg",
+    icon: "https://polygonscan.com/assets/poly/images/svg/logos/polygon-token.svg",
     disabled: true,
   },
   {
