@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import moment from "moment";
-import { getBalanceRequest } from "../../services/balance";
-import { TOKENS } from "../../constants";
-import UserAvatar from "./UserAvatar";
-import useAppUser from "../../hooks/useAppUser";
+import { getBalanceRequest } from "../../../services/balance";
+import { TOKENS } from "../../../constants";
+import UserAvatar from "./../UserAvatar";
+import useAppUser from "../../../hooks/useAppUser";
 
-const Leader = ({ leader, id }: { leader: any; id: any }) => {
+const BoardListItem = ({ leader, id }: { leader: any; id: any }) => {
   const [balance, setBalance] = useState("");
   const isMe = id && id === leader.user?.userTelegramID;
   const { user } = useAppUser(leader.user?.userTelegramID);
@@ -139,4 +139,4 @@ const Leader = ({ leader, id }: { leader: any; id: any }) => {
   );
 };
 
-export default Leader;
+export default BoardListItem;
