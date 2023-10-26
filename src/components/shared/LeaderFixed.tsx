@@ -3,6 +3,8 @@ import { Stack, Typography } from "@mui/material";
 import moment from "moment";
 import { TOKENS } from "../../constants";
 import { selectAppStore, useAppSelector } from "../../store";
+import UserAvatar from "./UserAvatar";
+import useAppUser from "../../hooks/useAppUser";
 
 const LeaderFixed = () => {
   const {
@@ -10,6 +12,8 @@ const LeaderFixed = () => {
     balance: { value: balance },
     stats,
   } = useAppSelector(selectAppStore);
+
+  const { user: appUser } = useAppUser(user?.userTelegramID || "");
 
   return (
     <Stack
@@ -32,9 +36,11 @@ const LeaderFixed = () => {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        spacing="12px"
+        spacing="4px"
+        useFlexGap
       >
-        <Typography variant="sm">
+        <UserAvatar user={appUser} size={20} />
+        <Typography variant="sm" sx={{ marginRight: "auto" }}>
           {(
             user?.userName ||
             user?.userHandle ||

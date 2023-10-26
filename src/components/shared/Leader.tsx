@@ -3,10 +3,13 @@ import { Stack, Typography } from "@mui/material";
 import moment from "moment";
 import { getBalanceRequest } from "../../services/balance";
 import { TOKENS } from "../../constants";
+import UserAvatar from "./UserAvatar";
+import useAppUser from "../../hooks/useAppUser";
 
 const Leader = ({ leader, id }: { leader: any; id: any }) => {
   const [balance, setBalance] = useState("");
   const isMe = id && id === leader.user?.userTelegramID;
+  const { user } = useAppUser(leader.user?.userTelegramID);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -57,9 +60,11 @@ const Leader = ({ leader, id }: { leader: any; id: any }) => {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        spacing="12px"
+        spacing="4px"
+        useFlexGap
       >
-        <Typography variant="sm">
+        <UserAvatar user={user} size={20} />
+        <Typography variant="sm" sx={{ marginRight: "auto" }}>
           {(
             leader.user?.userName ||
             leader.user?.userHandle ||
