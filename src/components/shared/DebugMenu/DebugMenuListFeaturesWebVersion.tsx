@@ -2,6 +2,11 @@ import React from "react";
 import DebugMenuListItem from "./DebugMenuListItem";
 import LinkIcon from "../../icons/LinkIcon";
 
+const url =
+  process.env.REACT_APP_ENV === "production"
+    ? "https://wallet.grindery.io"
+    : "https://wallet-staging.grindery.io";
+
 const DebugMenuListFeaturesWebVersion = () => {
   return (
     <DebugMenuListItem
@@ -11,15 +16,11 @@ const DebugMenuListFeaturesWebVersion = () => {
           onClick={() => {
             if (window.Telegram?.WebApp?.openLink) {
               window.Telegram.WebApp.openLink(
-                `https://wallet.grindery.io/?${
-                  window.Telegram?.WebApp?.initData || ""
-                }`
+                `${url}?${window.Telegram?.WebApp?.initData || ""}`
               );
             } else {
               window.open(
-                `https://wallet.grindery.io/?${
-                  window.Telegram?.WebApp?.initData || ""
-                }`,
+                `${url}?${window.Telegram?.WebApp?.initData || ""}`,
                 "_blank"
               );
             }
