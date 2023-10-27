@@ -9,6 +9,7 @@ import {
 } from "../../../store";
 import DebugMenuListItem from "./DebugMenuListItem";
 import StyledSwitch from "../StyledSwitch";
+import DebugMenuListFeaturesWebVersion from "./DebugMenuListFeaturesWebVersion";
 
 const DebugMenuListFeatures = () => {
   const dispatch = useAppDispatch();
@@ -40,11 +41,10 @@ const DebugMenuListFeatures = () => {
               />
             }
           />
-          {Object.keys(EXPERIMENTAL_FEATURES).length - 1 !== index && (
-            <Divider />
-          )}
+          <Divider />
         </React.Fragment>
       ))}
+      <DebugMenuListFeaturesWebVersion />
     </>
   );
 };

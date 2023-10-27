@@ -112,6 +112,7 @@ export const STORAGE_KEYS = {
   BALANCE: "gr_wallet_balance_{{id}}",
   BALANCE_UPDATED: "gr_wallet_balance_updated_{{id}}",
   ACTIVITY: "gr_wallet_activity",
+  INIT_DATA: "gr_wallet_init_data",
 };
 
 export const BOTTOM_TABS = [

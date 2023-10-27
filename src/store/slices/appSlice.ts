@@ -8,6 +8,7 @@ import {
   BalanceState,
   CommunityState,
   DebugState,
+  ErrorState,
   LeaderboardEntry,
   LeaderboardState,
   RewardsState,
@@ -55,6 +56,7 @@ const initialState: AppState = {
       ])
     ),
   },
+  error: null,
   leaderboard: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.LEADERBOARD) || "[]"),
     total: 0,
@@ -158,6 +160,18 @@ const appSlice = createSlice({
         ...state.debug.features,
         ...action.payload,
       };
+    },
+    /**
+     * Reducer to set the error state
+     */
+    setError(state, action: PayloadAction<Partial<ErrorState>>) {
+      state.error =
+        action.payload === null
+          ? null
+          : {
+              ...state.error,
+              ...action.payload,
+            };
     },
     /**
      * Reducer to set the balance state

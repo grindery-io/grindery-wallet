@@ -34,6 +34,13 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       dispatch(appStoreActions.setUser(res?.data || null));
     } catch (error) {
       dispatch(appStoreActions.setUser(null));
+      dispatch(
+        appStoreActions.setError({
+          type: "auth",
+          message: "You are not logged in.",
+          code: 401,
+        })
+      );
     }
   }, [dispatch]);
 

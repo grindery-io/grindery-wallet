@@ -145,6 +145,15 @@ export type DebugState = {
 };
 
 /**
+ * Interface for the ErrorState object representing the state of the app errors
+ */
+export type ErrorState = {
+  message?: string;
+  code?: number;
+  type?: string;
+} | null;
+
+/**
  * Interface for the LeaderboardEntry object representing a single entry in the leaderboard
  */
 export type LeaderboardEntry = any;
@@ -288,6 +297,10 @@ export type AppState = {
    * App debug mode state
    */
   debug: DebugState;
+  /**
+   * App error state
+   */
+  error: ErrorState;
   /**
    * Leaderboard list state
    */

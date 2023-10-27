@@ -9,6 +9,7 @@ import AppRoutes from "./AppRoutes";
 import LeaderboardPage from "./components/pages/LeaderboardPage";
 import { store } from "./store";
 import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
+import { STORAGE_KEYS } from "./constants";
 
 declare global {
   interface Window {
@@ -29,9 +30,14 @@ window.Telegram = window.Telegram?.WebApp?.initData
         initData:
           process.env.REACT_APP_DEV_KEY ||
           window.location.href?.split("?")?.[1] ||
+          localStorage.getItem(STORAGE_KEYS.INIT_DATA) ||
           "",
       },
     };
+
+if (window.Telegram.WebApp.initData) {
+  localStorage.setItem(STORAGE_KEYS.INIT_DATA, window.Telegram.WebApp.initData);
+}
 
 function App() {
   useEffect(() => {

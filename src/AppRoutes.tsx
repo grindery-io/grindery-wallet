@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import SendPage from "./components/pages/SendPage";
 import TokensPage from "./components/pages/TokensPage";
 import ContactsPage from "./components/pages/ContactsPage";
-import { Box, CircularProgress } from "@mui/material";
 import ContactPage from "./components/pages/ContactPage";
 import AppsPage from "./components/pages/AppsPage";
 import ActivityPage from "./components/pages/ActivityPage";
@@ -13,6 +12,7 @@ import CommunityPage from "./components/pages/CommunityPage";
 import DebugPage from "./components/pages/DebugPage";
 import BoardPage from "./components/pages/BoardPage";
 import { selectAppStore, useAppSelector } from "./store";
+import WelcomePage from "./components/pages/WelcomePage";
 
 const AppRoutes = () => {
   const { user } = useAppSelector(selectAppStore);
@@ -33,21 +33,7 @@ const AppRoutes = () => {
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   ) : (
-    <Box
-      sx={{
-        display: "flex",
-        flex: 1,
-        height: "100%",
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
-      <CircularProgress
-        sx={{ color: "var(--tg-theme-button-color, #2481cc)" }}
-      />
-    </Box>
+    <WelcomePage />
   );
 };
 
