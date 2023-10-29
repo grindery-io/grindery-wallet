@@ -3,6 +3,7 @@ import AlertBox from "../AlertBox";
 import { Box, Button, Stack } from "@mui/material";
 import ConnectTelegramCommitment from "./ConnectTelegramCommitment";
 import { ConnectTelegramStateProps } from "./ConnectTelegram";
+import { MuiTelInput } from "mui-tel-input";
 
 const ConnectTelegramForm = ({
   state,
@@ -38,22 +39,32 @@ const ConnectTelegramForm = ({
     >
       <Box sx={InputGroupStyles}>
         <label>Phone number</label>
-        <input
+        <MuiTelInput
+          onChange={(value) => {
+            handleInputChange("phone", value);
+          }}
           ref={phoneInputRef}
           name="phone"
           autoComplete="tel"
-          type="phone"
+          //type="phone"
           value={phone}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            handleInputChange("phone", event.target.value);
-          }}
           disabled={loading || Boolean(operationId)}
           placeholder="12345678901"
-          style={{
+          sx={{
             background: "var(--tg-theme-secondary-bg-color, #efeff3)",
             color: "var(--tg-theme-text-color, #000000)",
             border: "none",
+            borderRadius: "6px",
+
             outline: "none",
+            "& input": {
+              border: "none",
+              background: "var(--tg-theme-secondary-bg-color, #efeff3)",
+              textAlign: "left",
+            },
+            "& fieldset": {
+              border: "none",
+            },
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -113,6 +124,7 @@ const ConnectTelegramForm = ({
         }}
       >
         <label>Code</label>
+
         <input
           ref={codeInputRef}
           name="code"
