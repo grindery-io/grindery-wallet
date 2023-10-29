@@ -103,9 +103,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (!user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
       dispatch(
         appStoreActions.setUser({
-          _id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "",
+          _id:
+            window.Telegram?.WebApp?.initDataUnsafe?.user?.id?.toString() || "",
           userTelegramID:
-            window.Telegram?.WebApp?.initDataUnsafe?.user?.id || "",
+            window.Telegram?.WebApp?.initDataUnsafe?.user?.id?.toString() || "",
           userHandle:
             window.Telegram?.WebApp?.initDataUnsafe?.user?.username || "",
         })

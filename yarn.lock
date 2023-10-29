@@ -2118,6 +2118,27 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@twa-dev/mark42@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@twa-dev/mark42/-/mark42-0.0.38.tgz#ee0e33dcd6298962e04d7c8484222a963a0b2acd"
+  integrity sha512-p1Fbr78lrhXSQWsCIY/UoKJfUbiVfe1tDoHKebSY2/WNbZk/Xl6r/Knvk7lGTUz7m0Ky0DEmmnXMLx8Ohs4NWA==
+  dependencies:
+    "@babel/runtime" "^7.18.9"
+    "@twa-dev/sdk" "^6.7.1"
+    classnames "^2.3.1"
+
+"@twa-dev/sdk@^6.7.1":
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/@twa-dev/sdk/-/sdk-6.9.1.tgz#bebaf53b8350e87b8f80134f87c5921d4e15a517"
+  integrity sha512-R+3a/IRG97NFHS1PF+rj/F2n+cwsHtW1LWGVP0pzIzMK709oMy00qJPV0wxbS16hzcvcW9hPVNwHYTPMv4rrEQ==
+  dependencies:
+    "@twa-dev/types" "^6.9.0"
+
+"@twa-dev/types@^6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@twa-dev/types/-/types-6.9.0.tgz#5f978e63dcb8ec507ae2b035774ff568c5ebb69a"
+  integrity sha512-hBkIuJgVtkLAPPhKsNfgyBpgS+15spzUScy5jgpfPJPqXPaaUVDTaWHbeEUU+lUgHmryeQjWyz+UjS7987Pyaw==
+
 "@types/aria-query@^4.2.0":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-4.2.2.tgz#ed4e0ad92306a704f9fb132a0cfcf77486dbe2bc"
@@ -3439,6 +3460,11 @@ cjs-module-lexer@^1.0.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
+
+classnames@^2.3.1:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
+  integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
 clean-css@^5.2.2:
   version "5.3.1"
