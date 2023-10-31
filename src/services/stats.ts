@@ -8,3 +8,7 @@ export const getStatsRequest = async () => {
     },
   });
 };
+
+export const getAppStatsRequest = async () => {
+  return await axios.get(`${BOT_API_URL}/v2/stats/app`);
+};

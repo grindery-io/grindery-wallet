@@ -142,6 +142,25 @@ export type DebugState = {
   features?: {
     [key: string]: boolean;
   };
+  /**
+   * App stats
+   */
+  stats?: {
+    users: {
+      total: number;
+      new: {
+        hour: number;
+        day: number;
+      };
+      withContacts: {
+        total: number;
+        new: {
+          hour: number;
+          day: number;
+        };
+      };
+    };
+  };
 };
 
 /**

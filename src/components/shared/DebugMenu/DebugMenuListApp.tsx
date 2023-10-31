@@ -6,6 +6,7 @@ import DebugMenuListItemApiVersion from "./DebugMenuListItemApiVersion";
 import DebugMenuListItemAppId from "./DebugMenuListItemAppId";
 import DebugMenuListItemPlatform from "./DebugMenuListItemPlatform";
 import DebugMenuListItemCache from "./DebugMenuListItemCache";
+import DebugMenuListItemStats from "./DebugMenuListItemStats";
 
 const DebugMenuListApp = () => {
   return (
@@ -29,6 +30,8 @@ const DebugMenuListApp = () => {
       <DebugMenuListItemPlatform />
       <Divider />
       <DebugMenuListItemCache />
+      <Divider />
+      <DebugMenuListItemStats />
     </>
   );
 };

@@ -1,19 +1,26 @@
 import React from "react";
-import { ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material";
+import {
+  ListItem,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
+} from "@mui/material";
 
 type DebugMenuListItemProps = {
   label: string;
   value: React.ReactNode;
+  onClick?: () => void;
   onValueClick?: () => void;
 };
 
 const DebugMenuListItem = ({
   label,
   value,
+  onClick,
   onValueClick,
 }: DebugMenuListItemProps) => {
-  return (
-    <ListItem>
+  const renderContent = () => (
+    <>
       <ListItemText sx={DebugMenuListItemPrimaryTextStyles} primary={label} />
       <ListItemSecondaryAction onClick={onValueClick}>
         {typeof value === "string" ? (
@@ -29,6 +36,29 @@ const DebugMenuListItem = ({
           value
         )}
       </ListItemSecondaryAction>
+    </>
+  );
+
+  return (
+    <ListItem>
+      {onClick ? (
+        <ListItemButton
+          sx={{
+            position: "initial",
+            padding: 0,
+            "&:hover": {
+              background: "transparent",
+            },
+          }}
+          onClick={onClick}
+          disableRipple
+          disableTouchRipple
+        >
+          {renderContent()}
+        </ListItemButton>
+      ) : (
+        renderContent()
+      )}
     </ListItem>
   );
 };

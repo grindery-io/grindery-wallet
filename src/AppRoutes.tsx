@@ -13,6 +13,7 @@ import DebugPage from "./components/pages/DebugPage";
 import BoardPage from "./components/pages/BoardPage";
 import { selectAppStore, useAppSelector } from "./store";
 import WelcomePage from "./components/pages/WelcomePage";
+import StatsPage from "./components/pages/StatsPage";
 
 const AppRoutes = () => {
   const { user } = useAppSelector(selectAppStore);
@@ -30,6 +31,7 @@ const AppRoutes = () => {
       <Route path="/send" element={<SendPage />} />
       <Route path="/board" element={<BoardPage />} />
       <Route path="/debug" element={<DebugPage />} />
+      <Route path="/debug/stats" element={<StatsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   ) : (
