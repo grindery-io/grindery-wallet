@@ -20,7 +20,9 @@ const AppRoutes = () => {
 
   return user ? (
     <Routes>
-      <Route path="/" element={<TokensPage />} />
+      <Route path="/tokens" element={<TokensPage />} />
+      <Route path="/nfts" element={<TokensPage />} />
+      <Route path="/activities" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
       <Route path="/contacts/:id" element={<ContactPage />} />
       <Route path="/activities/:id" element={<ActivityPage />} />
@@ -32,7 +34,7 @@ const AppRoutes = () => {
       <Route path="/board" element={<BoardPage />} />
       <Route path="/debug" element={<DebugPage />} />
       <Route path="/debug/stats" element={<StatsPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>
   ) : (
     <WelcomePage />

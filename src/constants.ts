@@ -93,7 +93,7 @@ export const STORAGE_KEYS = {
 export const BOTTOM_TABS = [
   {
     label: "Tokens",
-    path: "/",
+    path: "/tokens",
   },
   {
     label: "Contacts",
@@ -110,6 +110,21 @@ export const BOTTOM_TABS = [
   {
     label: "Community",
     path: "/community",
+  },
+];
+
+export const TOKENS_TABS = [
+  {
+    label: "Tokens",
+    path: "/tokens",
+  },
+  {
+    label: "NFTs",
+    path: "/nfts",
+  },
+  {
+    label: "Activity",
+    path: "/activities",
   },
 ];
 

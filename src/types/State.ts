@@ -339,10 +339,6 @@ export type AppState = {
    */
   stats: StatsState;
   /**
-   * Active tab on tokens page
-   */
-  tokensTab: number;
-  /**
    * Current user state
    */
   user: UserState;

@@ -84,7 +84,6 @@ const initialState: AppState = {
     selectedContacts: [],
   },
   stats: {},
-  tokensTab: 0,
   user: null,
 };
 
@@ -209,12 +208,6 @@ const appSlice = createSlice({
         ...state.stats,
         ...action.payload,
       };
-    },
-    /**
-     * Reducer to set the tokens tab state
-     */
-    setTokensTab(state, action: PayloadAction<number>) {
-      state.tokensTab = action.payload;
     },
     /**
      * Reducer to set the contacts state

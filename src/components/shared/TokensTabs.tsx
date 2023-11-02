@@ -1,43 +1,39 @@
 import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import TokensList from "./TokensList";
-import {
-  appStoreActions,
-  selectAppStore,
-  useAppDispatch,
-  useAppSelector,
-} from "../../store";
 import ActivitiesList from "./ActivitiesList/ActivitiesList";
+import { useLocation, useNavigate } from "react-router";
+import { TOKENS_TABS } from "../../constants";
 
 const TokensTabs = () => {
-  const dispatch = useAppDispatch();
-  const { tokensTab } = useAppSelector(selectAppStore);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  const handleTabChange = (event: React.SyntheticEvent, newTab: number) => {
-    dispatch(appStoreActions.setTokensTab(newTab));
+  const handleTabChange = (_: React.SyntheticEvent, newTab: number) => {
+    navigate(TOKENS_TABS[newTab].path);
   };
 
   return (
     <Box sx={{ width: "100%", padding: "16px 0", boxSizing: "border-box" }}>
       <Tabs
-        value={tokensTab}
+        value={TOKENS_TABS.findIndex((tab) => tab.path === pathname)}
         onChange={handleTabChange}
         variant="fullWidth"
         sx={TokensTabsStyles}
       >
-        <Tab label="Tokens" disableTouchRipple />
-        <Tab label="NFTs" disableTouchRipple />
-        <Tab label="Activity" disableTouchRipple />
+        {TOKENS_TABS.map((tab) => (
+          <Tab label={tab.label} disableTouchRipple key={tab.path} />
+        ))}
       </Tabs>
-      {tokensTab === 0 && <TokensList />}
-      {tokensTab === 1 && (
+      {pathname === "/tokens" && <TokensList />}
+      {pathname === "/nfts" && (
         <Box sx={{ textAlign: "center", margin: "50px" }}>
           <Typography sx={{ color: "var(--tg-theme-hint-color, #999999)" }}>
             Coming soon
           </Typography>
         </Box>
       )}
-      {tokensTab === 2 && <ActivitiesList />}
+      {pathname === "/activities" && <ActivitiesList />}
     </Box>
   );
 };

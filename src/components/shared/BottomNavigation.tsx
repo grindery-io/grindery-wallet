@@ -14,9 +14,10 @@ const BottomNavigation = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const activeTab = location.pathname.includes("/activities")
-    ? "/activities"
-    : location.pathname;
+  const activeTab =
+    location.pathname === "/nfts" || location.pathname === "/activities"
+      ? "/tokens"
+      : location.pathname;
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTimeout(() => {
