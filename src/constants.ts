@@ -1,5 +1,3 @@
-export const WORKFLOW_ENGINE_URL = "https://orchestrator.grindery.org";
-
 export const BOT_API_URL =
   process.env.REACT_APP_ENV === "development"
     ? "http://localhost:3000"
@@ -8,13 +6,6 @@ export const BOT_API_URL =
     : "https://wallet-api-staging.grindery.io";
 
 export const MAX_WIDTH = "768px";
-
-export const SCREEN = {
-  TABLET: "768px",
-  TABLET_XL: "1024px",
-  DESKTOP: "1280px",
-  DESKTOP_XL: "1600px",
-};
 
 export const ICONS: { [key: string]: string } = {
   GRINDERY: "/images/icons/grindery.svg",
@@ -35,22 +26,6 @@ export const ICONS: { [key: string]: string } = {
   SOCIAL_TWITTER: "/images/icons/social-twitter.png",
   ARROW_OPEN: "/images/icons/arrow-open.svg",
   CONTACTS: "/images/icons/user-circle.svg",
-};
-
-export const WEB2_CONNECTORS_PATH =
-  "https://api.github.com/repos/grindery-io/grindery-nexus-schema-v2/contents/cds/web2";
-
-export const WEB3_CONNECTORS_PATH =
-  "https://api.github.com/repos/grindery-io/grindery-nexus-schema-v2/contents/cds/web3";
-
-export const IMAGES = {
-  WELCOME: "/images/welcome.png",
-  NOT_SUPOORTED: "/images/grindery-ping-not-supported.svg",
-  ENABLE_NOTIFICATIONS: "/images/grindery-ping-enable-notifications.svg",
-  ENABLE_NOTIFICATIONS_CHROME:
-    "/images/grindery-ping-enable-notifications-chrome.svg",
-  ENABLE_NOTIFICATIONS_FIREFOX:
-    "/images/grindery-ping-enable-notifications-firefox.svg",
 };
 
 export const TOKENS = [
