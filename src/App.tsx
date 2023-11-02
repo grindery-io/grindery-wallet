@@ -9,18 +9,14 @@ import AppRoutes from "./AppRoutes";
 import LeaderboardPage from "./components/pages/LeaderboardPage";
 import { store } from "./store";
 import ConnectTelegramPage from "./components/pages/ConnectTelegramPage";
+import { isDarkTheme } from "./utils/isDarkTheme";
 
 function App() {
   useEffect(() => {
     if (typeof window.Telegram?.WebApp?.expand !== "undefined") {
       window.Telegram.WebApp.expand();
     }
-    if (
-      (window.Telegram?.WebApp?.colorScheme &&
-        window.Telegram?.WebApp?.colorScheme === "dark") ||
-      process.env.REACT_APP_THEME === "dark" ||
-      window.location.href?.split("?")?.[1] === "theme=dark"
-    ) {
+    if (isDarkTheme()) {
       document.body.style.setProperty("--gr-theme-divider-color", "#393D47");
       document.body.style.setProperty(
         "--gr-theme-button-shadow-color",

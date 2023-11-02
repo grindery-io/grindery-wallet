@@ -151,12 +151,14 @@ export type DebugState = {
       new: {
         hour: number;
         day: number;
+        history?: { _id: string; count: number }[];
       };
       withContacts: {
         total: number;
         new: {
           hour: number;
           day: number;
+          history?: { _id: string; count: number }[];
         };
       };
     };

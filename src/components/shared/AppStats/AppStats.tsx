@@ -4,6 +4,7 @@ import AppStatsCardUsersTotal from "./AppStatsCardUsersTotal";
 import AppStatsCardUsersWithContactsTotal from "./AppStatsCardUsersWithContactsTotal";
 import AppStatsCardUsersNew from "./AppStatsCardUsersNew";
 import AppStatsCardUsersWithContactsNew from "./AppStatsCardUsersWithContactsNew";
+import AppStatsChart from "./AppStatsChart";
 
 const cards = [
   <AppStatsCardUsersTotal />,
@@ -28,6 +29,9 @@ const AppStats = () => {
           {card}
         </Box>
       ))}
+      <Box sx={{ width: "100%" }}>
+        <AppStatsChart />
+      </Box>
     </Stack>
   );
 };

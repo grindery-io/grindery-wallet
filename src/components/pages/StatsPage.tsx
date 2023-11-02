@@ -1,13 +1,22 @@
 import React, { useCallback, useEffect } from "react";
 import useBackButton from "../../hooks/useBackButton";
 import AppStats from "../shared/AppStats/AppStats";
-import { appStoreActions, useAppDispatch } from "../../store";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 import { getAppStatsRequest } from "../../services/stats";
+import Loading from "../shared/Loading";
 
 const StatsPage = () => {
   useBackButton();
 
   const dispatch = useAppDispatch();
+  const {
+    debug: { stats },
+  } = useAppSelector(selectAppStore);
 
   const getAppStats = useCallback(async () => {
     try {
@@ -26,7 +35,7 @@ const StatsPage = () => {
     getAppStats();
   }, [getAppStats]);
 
-  return <AppStats />;
+  return stats ? <AppStats /> : <Loading />;
 };
 
 export default StatsPage;
