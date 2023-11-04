@@ -45,7 +45,9 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
           setTokenBalance("0");
         });
     } else {
-      setTokenBalance(balance?.toLocaleString() || "0");
+      setTokenBalance(
+        token.symbol === "G1" ? balance?.toLocaleString() || "0" : "0"
+      );
     }
 
     return () => {
