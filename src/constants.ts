@@ -34,6 +34,7 @@ export const TOKENS = [
     name: "Grindery One",
     balance: "0",
     icon: "/images/g1-token-red.svg",
+    address: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
   },
   {
     symbol: "MATIC",
@@ -41,6 +42,7 @@ export const TOKENS = [
     balance: "0",
     icon: "https://polygonscan.com/assets/poly/images/svg/logos/polygon-token.svg",
     disabled: true,
+    address: "0x0",
   },
   {
     symbol: "USDC",
@@ -48,6 +50,7 @@ export const TOKENS = [
     balance: "0",
     icon: "https://polygonscan.com/token/images/centre-usdc_32.png",
     disabled: true,
+    address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
   },
 ];
 
@@ -88,6 +91,7 @@ export const STORAGE_KEYS = {
   BALANCE_UPDATED: "gr_wallet_balance_updated_{{id}}",
   ACTIVITY: "gr_wallet_activity",
   INIT_DATA: "gr_wallet_init_data",
+  TOKEN_BALANCE: "gr_wallet_token_balance_{{key}}",
 };
 
 export const BOTTOM_TABS = [

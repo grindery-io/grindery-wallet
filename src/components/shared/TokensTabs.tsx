@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import TokensList from "./TokensList";
 import ActivitiesList from "./ActivitiesList/ActivitiesList";
 import { useLocation, useNavigate } from "react-router";
 import { TOKENS_TABS } from "../../constants";
+import TokensList from "./TokensList/TokensList";
 
 const TokensTabs = () => {
   const { pathname } = useLocation();
