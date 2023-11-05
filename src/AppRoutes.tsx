@@ -14,6 +14,8 @@ import BoardPage from "./components/pages/BoardPage";
 import { selectAppStore, useAppSelector } from "./store";
 import WelcomePage from "./components/pages/WelcomePage";
 import StatsPage from "./components/pages/StatsPage";
+import TokenPage from "./components/pages/TokenPage";
+import TokensImportPage from "./components/pages/TokensImportPage";
 
 const AppRoutes = () => {
   const { user } = useAppSelector(selectAppStore);
@@ -21,6 +23,8 @@ const AppRoutes = () => {
   return user ? (
     <Routes>
       <Route path="/tokens" element={<TokensPage />} />
+      <Route path="/tokens/import" element={<TokensImportPage />} />
+      <Route path="/tokens/:id" element={<TokenPage />} />
       <Route path="/nfts" element={<TokensPage />} />
       <Route path="/activities" element={<TokensPage />} />
       <Route path="/contacts" element={<ContactsPage />} />

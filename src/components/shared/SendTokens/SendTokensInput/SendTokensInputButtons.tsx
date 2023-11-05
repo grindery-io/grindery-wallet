@@ -71,6 +71,7 @@ const SendTokensInputButtons = ({
       </Button>
 
       <Button
+        variant="contained"
         fullWidth
         disabled={
           status === "sending" ||

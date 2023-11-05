@@ -10,6 +10,7 @@ const ContactSendTokensButton = ({ contact }: { contact: AppUser }) => {
   return (
     <Box sx={ContactSendTokensButtonStyles}>
       <Button
+        variant="contained"
         startIcon={
           <img
             src={ICONS.ARROW_OPEN}

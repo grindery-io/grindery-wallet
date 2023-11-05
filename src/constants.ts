@@ -92,6 +92,7 @@ export const STORAGE_KEYS = {
   ACTIVITY: "gr_wallet_activity",
   INIT_DATA: "gr_wallet_init_data",
   TOKEN_BALANCE: "gr_wallet_token_balance_{{key}}",
+  TOKENS: "gr_wallet_tokens",
 };
 
 export const BOTTOM_TABS = [
@@ -172,6 +173,41 @@ export const TELEGRAM_SERVERS = [
   {
     ip: "flora-1.web.telegram.org",
     port: 443,
+  },
+];
+
+export const DEFAULT_TOKENS = [
+  {
+    id: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
+    chainId: 137,
+    name: "Grindery One",
+    symbol: "G1",
+    address: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
+    decimals: 18,
+    logoURI: "/images/g1-token-red.svg",
+    balance: 0,
+  },
+  {
+    id: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    chainId: 137,
+    name: "MATIC",
+    symbol: "MATIC",
+    address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    decimals: 18,
+    logoURI:
+      "https://metadata-service.herokuapp.com/api/token/137/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/icon",
+    balance: 0,
+  },
+  {
+    id: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    chainId: 137,
+    name: "USD Coin (PoS)",
+    symbol: "USDC_1",
+    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    decimals: 6,
+    logoURI:
+      "https://metadata-service.herokuapp.com/api/token/137/0x2791bca1f2de4661ed88a30c99a7a9449aa84174/icon",
+    balance: 0,
   },
 ];
 

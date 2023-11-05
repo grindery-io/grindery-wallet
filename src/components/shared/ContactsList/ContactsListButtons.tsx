@@ -36,6 +36,7 @@ const ContactsListButtons = (props: ContactsListProps) => {
         fullWidth
         size="large"
         sx={ContactsListButtonSendStyles}
+        variant="contained"
       >
         Send x {selected?.length || 0} contact
         {selected && selected?.length > 1 ? "s" : ""}

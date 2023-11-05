@@ -25,7 +25,12 @@ export const AppContext = createContext<ContextProps>({});
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
   const dispatch = useAppDispatch();
-  const { user, debug, contacts } = useAppSelector(selectAppStore);
+  const {
+    user,
+    debug,
+    contacts,
+    tokens: { items },
+  } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
 
   const getMe = useCallback(async () => {
@@ -203,6 +208,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   useEffect(() => {
     getPhotos();
   }, [getPhotos]);
+
+  useEffect(() => {
+    if (items && items.length > 0) {
+      localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(items));
+    }
+  }, [items]);
 
   return (
     <AppContext.Provider

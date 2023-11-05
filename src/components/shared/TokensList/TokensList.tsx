@@ -1,27 +1,32 @@
 import React from "react";
-import { TOKENS } from "../../../constants";
 import TokensListItem from "./TokensListItem";
+import { selectAppStore, useAppSelector } from "../../../store";
+import { Stack } from "@mui/material";
+import TokensListImportButton from "./TokensListImportButton";
 
 const TokensList = () => {
+  const {
+    tokens: { items },
+  } = useAppSelector(selectAppStore);
   return (
-    <ul style={TokensListStyles}>
-      {TOKENS.map((token) => (
-        <TokensListItem token={token} key={token.symbol} />
+    <Stack
+      direction="column"
+      alignItems="stretch"
+      justifyContent="flex-start"
+      style={TokensListStyles}
+      useFlexGap
+    >
+      {items.map((token) => (
+        <TokensListItem token={token} key={token.id} />
       ))}
-    </ul>
+      <TokensListImportButton />
+    </Stack>
   );
 };
 
 const TokensListStyles: React.CSSProperties = {
-  margin: "16px",
-  padding: 0,
-  display: "flex",
-  flexDirection: "column",
-  gap: "16px",
-  alignItems: "stretch",
-  justifyContent: "flex-start",
-  width: "calc(100% - 32px)",
-  flexWrap: "nowrap",
+  margin: "8px",
+  width: "calc(100% - 16px)",
 };
 
 export default TokensList;

@@ -121,6 +121,22 @@ const theme = createTheme({
             backgroundColor: "transparent",
           },
         },
+        textPrimary: {
+          color: "var(--tg-theme-button-color, #2481CC)",
+          backgroundColor: "transparent",
+          border: "1px solid transparent",
+          "&:hover": {
+            color: "var(--tg-theme-button-color, #2481CC)",
+            backgroundColor: "transparent",
+            border: "1px solid transparent",
+          },
+          "&:disabled": {
+            color: "var(--tg-theme-button-color, #2481CC)",
+            backgroundColor: "transparent",
+            border: "1px solid transparent",
+            opacity: 0.5,
+          },
+        },
         sizeSmall: {
           fontSize: "12px",
           padding: "8px 16px",

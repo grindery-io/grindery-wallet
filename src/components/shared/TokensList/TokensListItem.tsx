@@ -1,78 +1,117 @@
 import React, { useEffect } from "react";
-import { Typography } from "@mui/material";
-import { selectAppStore, useAppSelector } from "../../../store";
+import {
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store";
 import { getBalanceRequest } from "../../../services/balance";
-import { STORAGE_KEYS } from "../../../constants";
+import { Token } from "../../../types/State";
+import { useNavigate } from "react-router";
 
 type TokensListItemProps = {
-  token: {
-    symbol: string;
-    name: string;
-    balance: string;
-    icon: string;
-    address: string;
-    disabled?: boolean;
-  };
+  token: Token;
 };
 
 const TokensListItem = ({ token }: TokensListItemProps) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {
     user,
     balance: { value: balance },
   } = useAppSelector(selectAppStore);
 
-  const [tokenBalance, setTokenBalance] = React.useState<string>(
-    token.symbol === "G1"
-      ? balance?.toLocaleString() || "0"
-      : localStorage.getItem(
-          STORAGE_KEYS.TOKEN_BALANCE.replace("{{key}}", token.symbol)
-        ) || "0"
-  );
-
   useEffect(() => {
     const controller = new AbortController();
     if (token.symbol !== "G1" && user?.patchwallet) {
+      dispatch(
+        appStoreActions.setToken({
+          id: token.id,
+          loading: true,
+        })
+      );
       getBalanceRequest(user.patchwallet, token.address, "matic", controller)
         .then((res) => {
-          const value = res?.data?.balanceEther?.toLocaleString() || "0";
-          setTokenBalance(value);
-          localStorage.setItem(
-            STORAGE_KEYS.TOKEN_BALANCE.replace("{{key}}", token.symbol),
-            value
+          dispatch(
+            appStoreActions.setToken({
+              id: token.id,
+              balance: res?.data?.balanceEther || 0,
+              updated: new Date().toString(),
+              loading: false,
+              cached: false,
+            })
           );
         })
         .catch(() => {
-          setTokenBalance("0");
+          dispatch(
+            appStoreActions.setToken({
+              id: token.id,
+              loading: false,
+              cached: true,
+            })
+          );
         });
     } else {
-      setTokenBalance(
-        token.symbol === "G1" ? balance?.toLocaleString() || "0" : "0"
-      );
+      if (token.symbol === "G1") {
+        dispatch(
+          appStoreActions.setToken({
+            id: token.id,
+            balance: balance,
+            updated: new Date().toString(),
+            loading: false,
+            cached: false,
+          })
+        );
+      }
     }
 
     return () => {
       controller.abort();
     };
-  }, [token, user?.patchwallet, balance]);
+  }, [
+    token.id,
+    token.symbol,
+    token.address,
+    user?.patchwallet,
+    balance,
+    dispatch,
+  ]);
 
   return (
-    <li
+    <ListItem
       style={{
         ...TokensListItemStyles,
-        opacity: token.disabled ? 0.35 : 1,
       }}
     >
-      <img src={token.icon} alt="" style={TokensListItemImageStyles} />
-      <Typography>{token.name}</Typography>
-      <Typography ml="auto">
-        {tokenBalance} {token.symbol}
-      </Typography>
-    </li>
+      <ListItemButton
+        sx={{ padding: "8px", borderRadius: "8px" }}
+        onClick={() => {
+          navigate(`/tokens/${token.id}`);
+        }}
+      >
+        <ListItemAvatar sx={{ minWidth: "42px" }}>
+          <img src={token.logoURI} alt="" style={TokensListItemImageStyles} />
+        </ListItemAvatar>
+        <ListItemText primary={token.name} />
+        <ListItemSecondaryAction>
+          <Typography>
+            {(token.balance || 0).toLocaleString()} {token.symbol}
+          </Typography>
+        </ListItemSecondaryAction>
+      </ListItemButton>
+    </ListItem>
   );
 };
 
 const TokensListItemStyles: React.CSSProperties = {
-  listStyleType: "none",
   padding: 0,
   margin: 0,
   display: "flex",

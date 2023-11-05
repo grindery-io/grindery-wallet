@@ -18,6 +18,7 @@ const SendButton = () => {
             style={{ width: "16px", height: "16px", display: "block" }}
           />
         }
+        variant="contained"
         fullWidth
         disabled={!user?.patchwallet}
         onClick={() => {

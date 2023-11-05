@@ -285,6 +285,31 @@ export type StatsState = {
   referrals?: number;
 };
 
+export type Token = {
+  id: string;
+  chainId: number;
+  name: string;
+  symbol: string;
+  address: string;
+  decimals: number;
+  logoURI: string;
+  balance?: number;
+  cached?: boolean;
+  loading?: boolean;
+  shouldUpdate?: boolean;
+  updated?: string;
+};
+
+/**
+ * Interface for the TokensState object representing the state of the tokens
+ */
+export type TokensState = {
+  /**
+   * Array of tokens
+   */
+  items: Token[];
+};
+
 /**
  * Interface for the UserState object representing the state of the current user
  */
@@ -338,6 +363,10 @@ export type AppState = {
    * User stats state
    */
   stats: StatsState;
+  /**
+   * Tokens state
+   */
+  tokens: TokensState;
   /**
    * Current user state
    */

@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
+import {
+  DEFAULT_TOKENS,
+  EXPERIMENTAL_FEATURES,
+  STORAGE_KEYS,
+} from "../../constants";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import {
   AppState,
@@ -84,6 +88,12 @@ const initialState: AppState = {
     selectedContacts: [],
   },
   stats: {},
+  tokens: {
+    items: JSON.parse(
+      localStorage.getItem(STORAGE_KEYS.TOKENS) ||
+        JSON.stringify(DEFAULT_TOKENS)
+    ),
+  },
   user: null,
 };
 
@@ -247,6 +257,23 @@ const appSlice = createSlice({
         ...state.send,
         ...action.payload,
       };
+    },
+    /**
+     * Reducer to set the tokens state
+     */
+    setTokens(state, action: PayloadAction<any>) {
+      state.tokens = {
+        ...state.tokens,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the single token state
+     */
+    setToken(state, action: PayloadAction<any>) {
+      state.tokens.items = state.tokens.items.map((token: any) =>
+        token.id === action.payload.id ? { ...token, ...action.payload } : token
+      );
     },
   },
 });
