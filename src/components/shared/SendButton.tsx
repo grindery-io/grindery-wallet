@@ -22,9 +22,7 @@ const SendButton = () => {
         fullWidth
         disabled={!user?.patchwallet}
         onClick={() => {
-          setTimeout(() => {
-            navigate("/send");
-          }, 250);
+          navigate("/send");
         }}
       >
         Send tokens

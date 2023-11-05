@@ -23,9 +23,7 @@ const SendTokensInputRecipient = ({
   return (
     <ButtonBase
       onClick={() => {
-        setTimeout(() => {
-          onClear();
-        }, 200);
+        onClear();
       }}
       sx={SendTokensInputRecipientStyles}
     >

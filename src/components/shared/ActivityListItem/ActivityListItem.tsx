@@ -33,22 +33,20 @@ const ActivityListItem = (props: ActivityListItemProps) => {
    * Handle activity item click
    */
   const handleClick = () => {
-    setTimeout(() => {
-      if (typeof onClick !== "undefined") {
-        onClick();
+    if (typeof onClick !== "undefined") {
+      onClick();
+    } else {
+      if (window.Telegram?.WebApp?.openLink) {
+        window.Telegram.WebApp.openLink(
+          `https://polygonscan.com/tx/${activity.transactionHash}`
+        );
       } else {
-        if (window.Telegram?.WebApp?.openLink) {
-          window.Telegram.WebApp.openLink(
-            `https://polygonscan.com/tx/${activity.transactionHash}`
-          );
-        } else {
-          window.open(
-            `https://polygonscan.com/tx/${activity.transactionHash}`,
-            "_blank"
-          );
-        }
+        window.open(
+          `https://polygonscan.com/tx/${activity.transactionHash}`,
+          "_blank"
+        );
       }
-    }, 150);
+    }
   };
 
   return (

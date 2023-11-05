@@ -60,9 +60,7 @@ const SendTokensInputButtons = ({
       <Button
         variant="outlined"
         onClick={() => {
-          setTimeout(() => {
-            navigate(-1);
-          }, 150);
+          navigate(-1);
         }}
         size="large"
         fullWidth

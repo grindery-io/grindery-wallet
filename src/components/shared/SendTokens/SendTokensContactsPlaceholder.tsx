@@ -60,21 +60,20 @@ const SendTokensContactsPlaceholder = () => {
         disabled={connecting}
         onClick={() => {
           setConnecting(true);
-          setTimeout(() => {
-            if (window.Telegram?.WebApp?.openLink) {
-              window.Telegram.WebApp.openLink(
-                `${
-                  window.location.protocol + "//" + window.location.host
-                }/connect/telegram?${window.Telegram?.WebApp?.initData || ""}`
-              );
-            } else {
-              window.open(
-                `${
-                  window.location.protocol + "//" + window.location.host
-                }/connect/telegram?${window.Telegram?.WebApp?.initData || ""}`
-              );
-            }
-          }, 500);
+
+          if (window.Telegram?.WebApp?.openLink) {
+            window.Telegram.WebApp.openLink(
+              `${
+                window.location.protocol + "//" + window.location.host
+              }/connect/telegram?${window.Telegram?.WebApp?.initData || ""}`
+            );
+          } else {
+            window.open(
+              `${
+                window.location.protocol + "//" + window.location.host
+              }/connect/telegram?${window.Telegram?.WebApp?.initData || ""}`
+            );
+          }
         }}
       >
         Grant Access

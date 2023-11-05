@@ -20,9 +20,7 @@ const ContactSendTokensButton = ({ contact }: { contact: AppUser }) => {
         }
         fullWidth
         onClick={() => {
-          setTimeout(() => {
-            navigate(`/send?id=${contact.id}`);
-          }, 150);
+          navigate(`/send?id=${contact.id}`);
         }}
         sx={{
           boxShadow: "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",

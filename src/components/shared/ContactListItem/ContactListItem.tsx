@@ -43,9 +43,7 @@ const ContactListItem = (props: ContactProps) => {
           userSelect: typeof onContactPress !== "undefined" ? "none" : "auto",
         }}
         onClick={() => {
-          setTimeout(() => {
-            onContactClick(contact.id);
-          }, 150);
+          onContactClick(contact.id);
         }}
         {...(typeof onContactPress !== "undefined" &&
         debug.features?.BATCH_SENDING

@@ -23,9 +23,7 @@ const LeaderboardBanner = () => {
           color: "var(--tg-theme-link-color, #2481cc)",
         }}
         onClick={() => {
-          setTimeout(() => {
-            navigate("/board");
-          }, 250);
+          navigate("/board");
         }}
       >
         <svg
@@ -67,9 +65,7 @@ const LeaderboardBanner = () => {
           flexWrap: "nowrap",
         }}
         onClick={() => {
-          setTimeout(() => {
-            navigate("/board");
-          }, 250);
+          navigate("/board");
         }}
       >
         <Typography

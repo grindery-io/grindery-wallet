@@ -20,9 +20,7 @@ const BottomNavigation = () => {
       : location.pathname;
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setTimeout(() => {
-      navigate(newValue);
-    }, 150);
+    navigate(newValue);
   };
 
   const renderIcon = (label: string) => {

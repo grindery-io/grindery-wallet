@@ -24,15 +24,13 @@ const PendingRewardListItemEnd = (props: PendingRewardListItemProps) => {
   const { user: secondaryUser } = useAppUser(secondaryUserId);
 
   const onFollowupClick = () => {
-    setTimeout(() => {
-      if (typeof window.Telegram?.WebApp?.openTelegramLink !== "undefined") {
-        window.Telegram?.WebApp?.openTelegramLink(
-          "https://t.me/" + secondaryUser.username
-        );
-      } else {
-        window.open("https://t.me/" + secondaryUser.username, "_blank");
-      }
-    }, 150);
+    if (typeof window.Telegram?.WebApp?.openTelegramLink !== "undefined") {
+      window.Telegram?.WebApp?.openTelegramLink(
+        "https://t.me/" + secondaryUser.username
+      );
+    } else {
+      window.open("https://t.me/" + secondaryUser.username, "_blank");
+    }
   };
 
   return (

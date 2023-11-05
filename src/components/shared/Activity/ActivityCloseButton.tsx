@@ -11,9 +11,7 @@ const ActivityCloseButton = () => {
       fullWidth
       variant="outlined"
       onClick={() => {
-        setTimeout(() => {
-          navigate(-1);
-        }, 250);
+        navigate(-1);
       }}
     >
       Close

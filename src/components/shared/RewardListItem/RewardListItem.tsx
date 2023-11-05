@@ -15,22 +15,20 @@ const RewardListItem = (props: RewardListItemProps) => {
   const { reward, type = "default", onClick } = props;
 
   const handleClick = () => {
-    setTimeout(() => {
-      if (typeof onClick !== "undefined") {
-        onClick();
+    if (typeof onClick !== "undefined") {
+      onClick();
+    } else {
+      if (window.Telegram?.WebApp?.openLink) {
+        window.Telegram.WebApp.openLink(
+          `https://polygonscan.com/tx/${reward.transactionHash}`
+        );
       } else {
-        if (window.Telegram?.WebApp?.openLink) {
-          window.Telegram.WebApp.openLink(
-            `https://polygonscan.com/tx/${reward.transactionHash}`
-          );
-        } else {
-          window.open(
-            `https://polygonscan.com/tx/${reward.transactionHash}`,
-            "_blank"
-          );
-        }
+        window.open(
+          `https://polygonscan.com/tx/${reward.transactionHash}`,
+          "_blank"
+        );
       }
-    }, 150);
+    }
   };
 
   return (

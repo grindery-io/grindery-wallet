@@ -39,30 +39,26 @@ const SendTokensRecipientInput = () => {
           );
         }}
         onSelectConfirm={() => {
-          setTimeout(() => {
-            dispatch(
-              appStoreActions.setSend({
-                input: {
-                  ...input,
-                  recipient:
-                    selectedContacts.length > 1
-                      ? selectedContacts
-                      : selectedContacts[0],
-                },
+          dispatch(
+            appStoreActions.setSend({
+              input: {
+                ...input,
+                recipient:
+                  selectedContacts.length > 1
+                    ? selectedContacts
+                    : selectedContacts[0],
+              },
 
-                selectedContacts: [],
-              })
-            );
-          }, 100);
+              selectedContacts: [],
+            })
+          );
         }}
         onSelectCancel={() => {
-          setTimeout(() => {
-            dispatch(
-              appStoreActions.setSend({
-                selectedContacts: [],
-              })
-            );
-          }, 100);
+          dispatch(
+            appStoreActions.setSend({
+              selectedContacts: [],
+            })
+          );
         }}
         placeholder={<SendTokensContactsPlaceholder />}
       />

@@ -11,9 +11,7 @@ const ContactsListButtons = (props: ContactsListProps) => {
         onClick={
           onSelectCancel
             ? () => {
-                setTimeout(() => {
-                  onSelectCancel();
-                }, 150);
+                onSelectCancel();
               }
             : undefined
         }
@@ -27,9 +25,7 @@ const ContactsListButtons = (props: ContactsListProps) => {
         onClick={
           onSelectConfirm
             ? () => {
-                setTimeout(() => {
-                  onSelectConfirm();
-                }, 150);
+                onSelectConfirm();
               }
             : undefined
         }

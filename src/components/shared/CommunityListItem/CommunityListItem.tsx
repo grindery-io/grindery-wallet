@@ -28,16 +28,14 @@ const CommunityListItem = (props: CommunityListItemProps) => {
         onClick={
           Link
             ? () => {
-                setTimeout(() => {
-                  if (
-                    typeof window.Telegram?.WebApp?.openTelegramLink !==
-                    "undefined"
-                  ) {
-                    window.Telegram?.WebApp?.openTelegramLink(Link);
-                  } else {
-                    window.open(Link, "_blank");
-                  }
-                }, 150);
+                if (
+                  typeof window.Telegram?.WebApp?.openTelegramLink !==
+                  "undefined"
+                ) {
+                  window.Telegram?.WebApp?.openTelegramLink(Link);
+                } else {
+                  window.open(Link, "_blank");
+                }
               }
             : undefined
         }
