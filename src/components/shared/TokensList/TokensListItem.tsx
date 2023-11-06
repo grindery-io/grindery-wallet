@@ -126,6 +126,7 @@ const TokensListItemImageStyles: React.CSSProperties = {
   width: "32px",
   height: "32px",
   display: "block",
+  borderRadius: "50%",
 };
 
 export default TokensListItem;

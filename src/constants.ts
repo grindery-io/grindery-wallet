@@ -15,7 +15,7 @@ export const ICONS: { [key: string]: string } = {
   CHECKBOX_CHECKED: "/images/icons/checkbox-checked.svg",
   CHECKBOX_EMPTY: "/images/icons/checkbox-empty.svg",
   WALLET: "/images/icons/wallet.svg",
-  CLOSE: "images/icons/cross-circle.svg",
+  CLOSE: "/images/icons/cross-circle.svg",
   COPY: "/images/icons/copy.svg",
   FLOW_LOGO: "/images/icons/flow-logo.png",
   ACCOUNT: "/images/icons/account.svg",

@@ -19,6 +19,7 @@ const TokenHeader = ({ token }: TokenProps) => {
             height: "48px",
             display: "block",
             margin: "0 auto",
+            borderRadius: "50%",
           }}
         />
       </Box>
