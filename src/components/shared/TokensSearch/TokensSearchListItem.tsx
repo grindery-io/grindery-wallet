@@ -14,6 +14,7 @@ import {
   useAppSelector,
 } from "../../../store";
 import { useNavigate } from "react-router";
+import TokenIcon from "../TokenIcon";
 
 const TokensSearchListItem = ({ token }: { token: Token }) => {
   const navigate = useNavigate();
@@ -40,17 +41,7 @@ const TokensSearchListItem = ({ token }: { token: Token }) => {
         }}
       >
         <ListItemAvatar sx={TokensSearchListItemAvatarStyles}>
-          <object
-            data={token.logoURI}
-            type="image/png"
-            style={{ borderRadius: "50%", width: "36px", height: "36px" }}
-          >
-            <img
-              src="https://polygonscan.com/assets/poly/images/svg/empty-token.svg"
-              style={{ width: "36px", height: "36px" }}
-              alt=""
-            />
-          </object>
+          <TokenIcon url={token.logoURI} size={36} />
         </ListItemAvatar>
         <ListItemText
           sx={TokensSearchListItemTextStyles}
@@ -108,7 +99,7 @@ const TokensSearchListItemAvatarStyles = {
 };
 
 const TokensSearchListItemTextStyles = {
-  margin: "0 10px 0 0",
+  margin: "0 90px 0 0",
 };
 
 const TokensSearchListItemTextPrimaryTypographyStyles = {

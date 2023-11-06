@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { debounce } from "lodash";
 import SearchBox from "../SearchBox/SearchBox";
 import { Token } from "../../../types/State";
 import { searchTokensRequest } from "../../../services/tokens";
@@ -12,24 +11,20 @@ const TokensSearch = () => {
   const {
     tokens: { items: stateItems },
   } = useAppSelector(selectAppStore);
-  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
-  const [items, setItems] = useState<Token[]>();
-  /*
-  DEFAULT_TOKENS_RESULTS.filter(
-      (item: Token) =>
-        !stateItems.find(
-          (stateItem: Token) =>
-            stateItem.id.toLowerCase() === item.id.toLowerCase()
-        )
-    )
-    */
+  const [items, setItems] = useState<Token[]>([]);
+  const data = items.filter(
+    (item) =>
+      item.symbol.toLowerCase().includes(search.toLowerCase()) ||
+      item.name.toLowerCase().includes(search.toLowerCase()) ||
+      item.address.toLowerCase().includes(search.toLowerCase())
+  );
   const [loading, setLoading] = useState(false);
 
-  const searchTokens = useCallback(async () => {
+  const getTokens = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await searchTokensRequest(search);
+      const res = await searchTokensRequest();
       setItems(
         (res.data || []).filter(
           (item: Token) =>
@@ -40,38 +35,28 @@ const TokensSearch = () => {
         )
       );
     } catch (error) {
-      console.error("getTgActivity error", error);
+      console.error("getTokens error", error);
       setItems([]);
     }
     setLoading(false);
-  }, [search, stateItems]);
-
-  const request = debounce((value) => {
-    setSearch(value);
-  }, 1200);
-
-  const debouncedSearchChange = useCallback(
-    (value: string) => request(value),
-    [request]
-  );
+  }, [stateItems]);
 
   useEffect(() => {
-    searchTokens();
-  }, [searchTokens]);
+    getTokens();
+  }, [getTokens]);
 
   return (
     <Box sx={TokensSearchStyles}>
       <SearchBox
         placeholder="Search tokens"
-        value={searchInput}
+        value={search}
         onChange={(e: string) => {
-          debouncedSearchChange(e);
-          setSearchInput(e);
+          setSearch(e);
         }}
       />
 
-      {items && items.length > 0 ? (
-        <TokensSearchList items={items} loading={loading} />
+      {data && data.length > 0 ? (
+        <TokensSearchList items={data} loading={loading} />
       ) : (
         <TokensSearchPlaceholder loading={loading} />
       )}

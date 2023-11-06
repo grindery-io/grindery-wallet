@@ -211,6 +211,9 @@ export const DEFAULT_TOKENS = [
   },
 ];
 
+export const DEFAULT_TOKEN_ICON_URL =
+  "https://polygonscan.com/assets/poly/images/svg/empty-token.svg";
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)

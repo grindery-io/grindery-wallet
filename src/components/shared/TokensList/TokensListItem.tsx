@@ -16,6 +16,7 @@ import {
 import { getBalanceRequest } from "../../../services/balance";
 import { Token } from "../../../types/State";
 import { useNavigate } from "react-router";
+import TokenIcon from "../TokenIcon";
 
 type TokensListItemProps = {
   token: Token;
@@ -98,19 +99,15 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
         }}
       >
         <ListItemAvatar sx={{ minWidth: "42px" }}>
-          <object
-            data={token.logoURI}
-            type="image/png"
-            style={TokensListItemImageStyles}
-          >
-            <img
-              src="https://polygonscan.com/assets/poly/images/svg/empty-token.svg"
-              style={TokensListItemImageStyles}
-              alt=""
-            />
-          </object>
+          <TokenIcon url={token.logoURI} size={32} />
         </ListItemAvatar>
-        <ListItemText primary={token.name} />
+        <ListItemText
+          primary={token.name}
+          sx={{ marginRight: "100px" }}
+          primaryTypographyProps={{
+            sx: TokensListItemTextPrimaryTypographyStyles,
+          }}
+        />
         <ListItemSecondaryAction>
           <Typography>
             {(token.balance || 0).toLocaleString()} {token.symbol}
@@ -132,11 +129,13 @@ const TokensListItemStyles: React.CSSProperties = {
   gap: "8px",
 };
 
-const TokensListItemImageStyles: React.CSSProperties = {
-  width: "32px",
-  height: "32px",
-  display: "block",
-  borderRadius: "50%",
+const TokensListItemTextPrimaryTypographyStyles = {
+  lineHeight: 1.5,
+  display: "-webkit-box",
+  maxWidth: "100%",
+  WebkitLineClamp: 1,
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
 };
 
 export default TokensListItem;

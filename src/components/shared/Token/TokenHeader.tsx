@@ -1,6 +1,7 @@
 import React from "react";
 import { TokenProps } from "./Token";
 import { Box, Typography } from "@mui/material";
+import TokenIcon from "../TokenIcon";
 
 const TokenHeader = ({ token }: TokenProps) => {
   return (
@@ -11,29 +12,7 @@ const TokenHeader = ({ token }: TokenProps) => {
           textAlign: "center",
         }}
       >
-        <object
-          data={token.logoURI}
-          type="image/png"
-          style={{
-            width: "48px",
-            height: "48px",
-            display: "block",
-            margin: "0 auto",
-            borderRadius: "50%",
-          }}
-        >
-          <img
-            src="https://polygonscan.com/assets/poly/images/svg/empty-token.svg"
-            style={{
-              width: "48px",
-              height: "48px",
-              display: "block",
-              margin: "0 auto",
-              borderRadius: "50%",
-            }}
-            alt=""
-          />
-        </object>
+        <TokenIcon url={token.logoURI} size={48} sx={{ margin: "0 auto" }} />
       </Box>
       <Typography
         variant="title"
