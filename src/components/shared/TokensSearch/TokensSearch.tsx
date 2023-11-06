@@ -58,7 +58,6 @@ const TokensSearch = () => {
   useEffect(() => {
     searchTokens();
   }, [searchTokens]);
-  console.log("stateItems", stateItems);
 
   return (
     <Box sx={TokensSearchStyles}>

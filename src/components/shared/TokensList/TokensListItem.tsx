@@ -98,7 +98,17 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
         }}
       >
         <ListItemAvatar sx={{ minWidth: "42px" }}>
-          <img src={token.logoURI} alt="" style={TokensListItemImageStyles} />
+          <object
+            data={token.logoURI}
+            type="image/png"
+            style={TokensListItemImageStyles}
+          >
+            <img
+              src="https://polygonscan.com/assets/poly/images/svg/empty-token.svg"
+              style={TokensListItemImageStyles}
+              alt=""
+            />
+          </object>
         </ListItemAvatar>
         <ListItemText primary={token.name} />
         <ListItemSecondaryAction>

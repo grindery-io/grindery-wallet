@@ -11,9 +11,9 @@ const TokenHeader = ({ token }: TokenProps) => {
           textAlign: "center",
         }}
       >
-        <img
-          src={token.logoURI}
-          alt=""
+        <object
+          data={token.logoURI}
+          type="image/png"
           style={{
             width: "48px",
             height: "48px",
@@ -21,7 +21,19 @@ const TokenHeader = ({ token }: TokenProps) => {
             margin: "0 auto",
             borderRadius: "50%",
           }}
-        />
+        >
+          <img
+            src="https://polygonscan.com/assets/poly/images/svg/empty-token.svg"
+            style={{
+              width: "48px",
+              height: "48px",
+              display: "block",
+              margin: "0 auto",
+              borderRadius: "50%",
+            }}
+            alt=""
+          />
+        </object>
       </Box>
       <Typography
         variant="title"
