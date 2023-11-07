@@ -13,9 +13,9 @@ const PendingRewardListItemText = (props: PendingRewardListItemProps) => {
       ? activity.recipientTgId
       : activity.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId);
+  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
 
-  return (
+  return secondaryUser?.name ? (
     <ListItemText
       onClick={onTextClick ? onTextClick : undefined}
       sx={{ margin: 0 }}
@@ -31,7 +31,7 @@ const PendingRewardListItemText = (props: PendingRewardListItemProps) => {
         sx: PendingRewardListItemTextSecondaryTypographyStyles,
       }}
     />
-  );
+  ) : null;
 };
 
 const PendingRewardListItemTextPrimaryTypographyStyles = {

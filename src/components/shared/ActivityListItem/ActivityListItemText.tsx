@@ -17,7 +17,7 @@ const ActivityListItemText = (props: ActivityListItemProps) => {
       ? activity.recipientTgId
       : activity.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId);
+  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
 
   return (
     <ListItemText

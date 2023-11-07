@@ -18,7 +18,7 @@ const PendingRewardListItemAvatar = ({
       ? activity.recipientTgId
       : activity.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId);
+  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
 
   return (
     <ListItemAvatar

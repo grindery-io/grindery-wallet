@@ -21,7 +21,7 @@ const PendingRewardListItemEnd = (props: PendingRewardListItemProps) => {
       ? activity.recipientTgId
       : activity.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId);
+  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
 
   const onFollowupClick = () => {
     if (typeof window.Telegram?.WebApp?.openTelegramLink !== "undefined") {

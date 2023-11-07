@@ -21,7 +21,7 @@ export type TelegramUserActivity = {
   senderTgId: string;
   senderWallet: string;
   senderName: string;
-  recipientTgId: string;
+  recipientTgId: string | null;
   recipientWallet: string;
   tokenAmount: string;
   transactionHash?: string;

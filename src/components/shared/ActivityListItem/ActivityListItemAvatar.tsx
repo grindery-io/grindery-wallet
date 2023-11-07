@@ -19,7 +19,7 @@ const ActivityListItemAvatar = ({ activity }: ActivityListItemProps) => {
     ? activity.recipientTgId
     : activity.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId);
+  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
 
   return (
     <ListItemAvatar sx={ListItemAvatarStyles}>
