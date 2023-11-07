@@ -200,11 +200,11 @@ export const DEFAULT_TOKENS = [
     balance: 0,
   },
   {
-    id: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    id: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
     chainId: 137,
-    name: "USD Coin (PoS)",
-    symbol: "USDC_1",
-    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    name: "Native USD Coin (PoS)",
+    symbol: "USDC",
+    address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
     decimals: 6,
     logoURI:
       "https://metadata-service.herokuapp.com/api/token/137/0x2791bca1f2de4661ed88a30c99a7a9449aa84174/icon",

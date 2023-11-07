@@ -17,6 +17,7 @@ import { getBalanceRequest } from "../../../services/balance";
 import { Token } from "../../../types/State";
 import { useNavigate } from "react-router";
 import TokenIcon from "../TokenIcon";
+import { formatBalance } from "../../../utils/formatBalance";
 
 type TokensListItemProps = {
   token: Token;
@@ -44,7 +45,7 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
           dispatch(
             appStoreActions.setToken({
               id: token.id,
-              balance: res?.data?.balanceEther || 0,
+              balance: parseFloat(res?.data?.balanceEther) || 0,
               updated: new Date().toString(),
               loading: false,
               cached: false,
@@ -102,16 +103,14 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
           <TokenIcon url={token.logoURI} size={32} />
         </ListItemAvatar>
         <ListItemText
-          primary={token.name}
+          primary={token.symbol}
           sx={{ marginRight: "100px" }}
           primaryTypographyProps={{
             sx: TokensListItemTextPrimaryTypographyStyles,
           }}
         />
         <ListItemSecondaryAction>
-          <Typography>
-            {(token.balance || 0).toLocaleString()} {token.symbol}
-          </Typography>
+          <Typography>{formatBalance(token.balance || 0).formatted}</Typography>
         </ListItemSecondaryAction>
       </ListItemButton>
     </ListItem>

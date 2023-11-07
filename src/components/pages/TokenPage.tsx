@@ -38,7 +38,7 @@ const TokenPage = () => {
           dispatch(
             appStoreActions.setToken({
               id: item?.id,
-              balance: res?.data?.balanceEther || 0,
+              balance: parseFloat(res?.data?.balanceEther) || 0,
               updated: new Date().toString(),
               loading: false,
               cached: false,
