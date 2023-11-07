@@ -62,6 +62,7 @@ export const EXPERIMENTAL_FEATURES = {
   COLORED_NUMBERS: "Tokens amount colored",
   LEADERBOARD: "Leaderboard",
   CONTACT_PHOTOS: "Contact photos",
+  SWAP: "Tokens swap",
 };
 
 export const TRANSACTION_STATUS = {
@@ -213,6 +214,8 @@ export const DEFAULT_TOKENS = [
 
 export const DEFAULT_TOKEN_ICON_URL =
   "https://polygonscan.com/assets/poly/images/svg/empty-token.svg";
+
+export const MAIN_TOKEN_ADDRESS = "0xe36BD65609c08Cd17b53520293523CF4560533d0";
 
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)

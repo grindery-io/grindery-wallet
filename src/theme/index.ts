@@ -4,6 +4,7 @@ import severity from "./severity";
 import typography from "./typography";
 import MuiTooltip from "./components/MuiTooltip";
 import MuiDivider from "./components/MuiDivider";
+import { red } from "@mui/material/colors";
 
 declare module "@mui/material/styles" {
   interface Theme {}
@@ -119,6 +120,22 @@ const theme = createTheme({
           "&:disabled": {
             color: "var(--tg-theme-button-color, #2481CC)",
             backgroundColor: "transparent",
+          },
+        },
+        outlinedError: {
+          color: red[500],
+          backgroundColor: "transparent",
+          border: `1px solid ${red[500]}`,
+          "&:hover": {
+            color: red[500],
+            backgroundColor: "transparent",
+            border: `1px solid ${red[500]}`,
+          },
+          "&:disabled": {
+            color: red[500],
+            backgroundColor: "transparent",
+            border: `1px solid ${red[500]}`,
+            opacity: 0.5,
           },
         },
         textPrimary: {
