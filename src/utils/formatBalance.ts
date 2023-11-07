@@ -1,9 +1,10 @@
-export const formatBalance = (balance: number = 0) => {
+export const formatBalance = (balance: number | string = 0) => {
+  const balanceNumber = parseFloat(balance.toString());
   return {
     formatted: parseFloat(
-      (balance || 0).toFixed(2).replace(/[.,]00$/, "")
+      (balanceNumber || 0).toFixed(2).replace(/[.,]00$/, "")
     ).toLocaleString(),
-    full: balance,
-    hasHiddenPart: balance.toString().split(".")?.[1]?.length > 2,
+    full: balanceNumber,
+    hasHiddenPart: balanceNumber.toString().split(".")?.[1]?.length > 2,
   };
 };
