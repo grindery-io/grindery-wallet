@@ -1,14 +1,14 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
-import SendButton from "../shared/SendButton";
 import TokensTabs from "../shared/TokensTabs";
 import Balance from "../shared/Balance/Balance";
+import ActionButtonsGroup from "../shared/ActionButtonsGroup/ActionButtonsGroup";
 
 const TokensPage = () => {
   return (
     <>
       <Balance />
-      <SendButton />
+      <ActionButtonsGroup />
       <TokensTabs />
       <BottomNavigation />
     </>

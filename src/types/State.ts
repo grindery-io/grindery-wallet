@@ -1,3 +1,4 @@
+import { SwapRoute } from "./SwapRoute";
 import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
 
@@ -285,6 +286,27 @@ export type StatsState = {
   referrals?: number;
 };
 
+export enum SwapStatus {
+  WAITING = "waiting_user_input",
+  LOADING = "loading",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+/**
+ * Interface for the SwapState object representing the state of the swap page
+ */
+export type SwapState = {
+  input: {
+    tokenIn: string;
+    amountIn: string;
+    tokenOut: string;
+  };
+  status: SwapStatus;
+  route: SwapRoute | null;
+};
+
 export type Token = {
   id: string;
   chainId: number;
@@ -363,6 +385,10 @@ export type AppState = {
    * User stats state
    */
   stats: StatsState;
+  /**
+   * Swap state
+   */
+  swap: SwapState;
   /**
    * Tokens state
    */

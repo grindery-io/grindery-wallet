@@ -16,8 +16,11 @@ import {
   LeaderboardEntry,
   LeaderboardState,
   RewardsState,
+  SendState,
   SendStatus,
   StatsState,
+  SwapState,
+  SwapStatus,
   UserState,
 } from "../../types/State";
 
@@ -88,6 +91,15 @@ const initialState: AppState = {
     selectedContacts: [],
   },
   stats: {},
+  swap: {
+    input: {
+      tokenIn: "",
+      amountIn: "",
+      tokenOut: "",
+    },
+    status: SwapStatus.WAITING,
+    route: null,
+  },
   tokens: {
     items: JSON.parse(
       localStorage.getItem(STORAGE_KEYS.TOKENS) ||
@@ -252,9 +264,18 @@ const appSlice = createSlice({
     /**
      * Reducer to set the send state
      */
-    setSend(state, action: PayloadAction<any>) {
+    setSend(state, action: PayloadAction<Partial<SendState>>) {
       state.send = {
         ...state.send,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the swap state
+     */
+    setSwap(state, action: PayloadAction<Partial<SwapState>>) {
+      state.swap = {
+        ...state.swap,
         ...action.payload,
       };
     },

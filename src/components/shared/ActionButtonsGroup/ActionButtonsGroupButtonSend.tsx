@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import { ICONS } from "../../constants";
-import { selectAppStore, useAppSelector } from "../../store";
+import { ICONS } from "../../../constants";
+import { selectAppStore, useAppSelector } from "../../../store";
 
-const SendButton = () => {
+const ActionButtonsGroupButtonSend = ({ label }: { label?: string }) => {
   const { user } = useAppSelector(selectAppStore);
 
   let navigate = useNavigate();
@@ -24,9 +24,9 @@ const SendButton = () => {
         navigate("/send");
       }}
     >
-      Send tokens
+      {label || "Send tokens"}
     </Button>
   );
 };
 
-export default SendButton;
+export default ActionButtonsGroupButtonSend;

@@ -1,32 +1,28 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import { ICONS } from "../../constants";
-import { selectAppStore, useAppSelector } from "../../store";
+import { selectAppStore, useAppSelector } from "../../../store";
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
 
-const SendButton = () => {
+const ActionButtonsGroupButtonSwap = ({ label }: { label?: string }) => {
   const { user } = useAppSelector(selectAppStore);
 
   let navigate = useNavigate();
   return (
     <Button
       startIcon={
-        <img
-          src={ICONS.ARROW_OPEN}
-          alt=""
-          style={{ width: "16px", height: "16px", display: "block" }}
-        />
+        <SyncAltIcon sx={{ width: "20px", height: "20px", display: "block" }} />
       }
       variant="contained"
       fullWidth
       disabled={!user?.patchwallet}
       onClick={() => {
-        navigate("/send");
+        navigate("/swap");
       }}
     >
-      Send tokens
+      {label || "Swap tokens"}
     </Button>
   );
 };
 
-export default SendButton;
+export default ActionButtonsGroupButtonSwap;

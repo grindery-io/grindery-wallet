@@ -16,9 +16,13 @@ import WelcomePage from "./components/pages/WelcomePage";
 import StatsPage from "./components/pages/StatsPage";
 import TokenPage from "./components/pages/TokenPage";
 import TokensImportPage from "./components/pages/TokensImportPage";
+import SwapPage from "./components/pages/SwapPage";
 
 const AppRoutes = () => {
-  const { user } = useAppSelector(selectAppStore);
+  const {
+    user,
+    debug: { features },
+  } = useAppSelector(selectAppStore);
 
   return user ? (
     <Routes>
@@ -38,6 +42,7 @@ const AppRoutes = () => {
       <Route path="/board" element={<BoardPage />} />
       <Route path="/debug" element={<DebugPage />} />
       <Route path="/debug/stats" element={<StatsPage />} />
+      {features?.SWAP && <Route path="/swap" element={<SwapPage />} />}
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>
   ) : (
