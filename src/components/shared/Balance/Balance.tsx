@@ -118,7 +118,7 @@ const BalanceStyles = {
   width: "100%",
   padding: "16px 16px 12px",
   textAlign: "center",
-  margin: "30px 0 26px",
+  margin: "8px 0 0",
 };
 
 export default Balance;

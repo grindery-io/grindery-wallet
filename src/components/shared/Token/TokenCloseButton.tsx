@@ -9,7 +9,7 @@ const TokenCloseButton = () => {
     <Button
       sx={{ marginTop: "16px" }}
       fullWidth
-      variant="contained"
+      variant="outlined"
       onClick={() => {
         navigate(-1);
       }}

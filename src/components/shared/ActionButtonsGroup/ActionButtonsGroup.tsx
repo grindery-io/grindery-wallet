@@ -18,7 +18,7 @@ const ActionButtonsGroup = () => {
       useFlexGap
       spacing="16px"
       sx={{
-        padding: "16px",
+        padding: "0 16px",
         width: "100%",
       }}
     >

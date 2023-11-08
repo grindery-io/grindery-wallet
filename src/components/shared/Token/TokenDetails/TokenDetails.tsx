@@ -6,6 +6,7 @@ import TokenDetailsBalance from "./TokenDetailsBalance";
 import TokenDetailsChain from "./TokenDetailsChain";
 import TokenDetailsAddress from "./TokenDetailsAddress";
 import TokenDetailsDecimals from "./TokenDetailsDecimals";
+import TokenDetailsPrice from "./TokenDetailsPrice";
 
 const TokenDetails = (props: TokenProps) => {
   return (
@@ -19,6 +20,7 @@ const TokenDetails = (props: TokenProps) => {
       <TokenDetailsChain {...props} />
       <TokenDetailsAddress {...props} />
       <TokenDetailsDecimals {...props} />
+      <TokenDetailsPrice {...props} />
     </Stack>
   );
 };

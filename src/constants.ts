@@ -63,6 +63,7 @@ export const EXPERIMENTAL_FEATURES = {
   LEADERBOARD: "Leaderboard",
   CONTACT_PHOTOS: "Contact photos",
   SWAP: "Tokens swap",
+  TOKEN_PRICE: "Token prices in USD",
 };
 
 export const TRANSACTION_STATUS = {

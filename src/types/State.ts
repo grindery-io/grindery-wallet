@@ -322,6 +322,9 @@ export type Token = {
   loading?: boolean;
   shouldUpdate?: boolean;
   updated?: string;
+  price?: number;
+  priceLoading?: boolean;
+  priceUpdated?: string;
 };
 
 /**

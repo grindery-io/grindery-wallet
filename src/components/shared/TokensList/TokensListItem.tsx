@@ -18,6 +18,7 @@ import { Token } from "../../../types/State";
 import { useNavigate } from "react-router";
 import TokenIcon from "../TokenIcon";
 import { formatBalance } from "../../../utils/formatBalance";
+import { getTokensPriceRequest } from "../../../services/tokens";
 
 type TokensListItemProps = {
   token: Token;
@@ -31,6 +32,7 @@ const TokensListItem = ({ token, passive, onClick }: TokensListItemProps) => {
   const {
     user,
     balance: { value: balance },
+    debug: { features },
   } = useAppSelector(selectAppStore);
 
   useEffect(() => {
@@ -90,6 +92,67 @@ const TokensListItem = ({ token, passive, onClick }: TokensListItemProps) => {
     dispatch,
   ]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    if (!user?.patchwallet || passive || !features?.TOKEN_PRICE) {
+      return;
+    }
+    if (token.symbol !== "G1") {
+      dispatch(
+        appStoreActions.setToken({
+          id: token.id,
+          priceLoading: true,
+        })
+      );
+      getTokensPriceRequest(token.symbol, controller)
+        .then((res) => {
+          dispatch(
+            appStoreActions.setToken({
+              id: token.id,
+              priceLoading: false,
+              price:
+                res.data?.data?.[token.symbol]?.[0]?.quote?.USD?.price || 0,
+              priceUpdated:
+                res.data?.data?.[token.symbol]?.[0]?.quote?.USD?.last_updated ||
+                new Date().toString(),
+            })
+          );
+        })
+        .catch(() => {
+          dispatch(
+            appStoreActions.setToken({
+              id: token.id,
+              priceLoading: false,
+            })
+          );
+        });
+    } else {
+      if (token.symbol === "G1") {
+        dispatch(
+          appStoreActions.setToken({
+            id: token.id,
+            price: 0,
+            priceLoading: false,
+            priceUpdated: new Date().toString(),
+          })
+        );
+      }
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [
+    token.id,
+    token.symbol,
+    token.address,
+    user?.patchwallet,
+    balance,
+    passive,
+    features?.TOKEN_PRICE,
+    dispatch,
+  ]);
+
   return (
     <ListItem
       style={{
@@ -117,7 +180,18 @@ const TokensListItem = ({ token, passive, onClick }: TokensListItemProps) => {
           }}
         />
         <ListItemSecondaryAction>
-          <Typography>{formatBalance(token.balance || 0).formatted}</Typography>
+          <Typography textAlign="right" sx={{ whiteSpace: "nowrap" }}>
+            {formatBalance(token.balance || 0).formatted}
+          </Typography>
+          {features?.TOKEN_PRICE && (
+            <Typography variant="xs" color="hint" textAlign="right">
+              {
+                formatBalance((token.price || 0) * (token.balance || 0))
+                  .formatted
+              }{" "}
+              USD
+            </Typography>
+          )}
         </ListItemSecondaryAction>
       </ListItemButton>
     </ListItem>

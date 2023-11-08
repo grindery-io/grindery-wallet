@@ -7,6 +7,8 @@ import { selectAppStore, useAppSelector } from "../../../store";
 const BalanceValue = () => {
   const {
     balance: { value },
+    debug: { features },
+    tokens: { items },
   } = useAppSelector(selectAppStore);
   const navigate = useNavigate();
   const { full } = formatBalance(value);
@@ -41,10 +43,15 @@ const BalanceValue = () => {
           userSelect: "none",
         }}
       >
-        {full.toLocaleString()}{" "}
+        {features?.TOKEN_PRICE
+          ? items
+              .map((token) => (token.price || 0) * (token.balance || 0))
+              .reduce((partialSum, a) => partialSum + a, 0)
+              .toLocaleString()
+          : full.toLocaleString()}{" "}
       </Typography>
       <Typography component="span" variant="md">
-        G1
+        {features?.TOKEN_PRICE ? "USD" : "G1"}
       </Typography>
     </Box>
   );

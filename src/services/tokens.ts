@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BOT_API_URL } from "../constants";
 
 export const searchTokensRequest = async (
   search?: string,
@@ -13,4 +14,16 @@ export const searchTokensRequest = async (
       signal: controller?.signal,
     }
   );
+};
+
+export const getTokensPriceRequest = async (
+  symbol?: string,
+  controller?: AbortController
+) => {
+  return await axios.get(`${BOT_API_URL}/v2/tokens/price?symbol=${symbol}`, {
+    signal: controller?.signal,
+    headers: {
+      Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+    },
+  });
 };
