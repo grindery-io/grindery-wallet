@@ -20,8 +20,9 @@ const SwapPage = () => {
   const [searchParams] = useSearchParams();
   const tokenIn = searchParams.get("id");
   const [loading, setLoading] = useState(true);
-  const address1 = items?.[1]?.address;
-  const address2 = items?.[2]?.address;
+  const address1 = items?.[1]?.address || items?.[0]?.address;
+  const address2 =
+    items?.[2]?.address || items?.[1]?.address || items?.[0]?.address;
 
   useEffect(() => {
     dispatch(

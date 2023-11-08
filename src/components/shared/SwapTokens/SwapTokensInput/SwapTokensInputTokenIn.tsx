@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Button,
@@ -20,9 +20,12 @@ import {
 } from "../../../../store";
 import TokenIcon from "../../TokenIcon";
 import TokensListItem from "../../TokensList/TokensListItem";
-import { MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import SearchBox from "../../SearchBox/SearchBox";
 import { TransitionProps } from "@mui/material/transitions";
+import { Token } from "../../../../types/State";
+import { FixedSizeList as List } from "react-window";
+import useWindowDimensions from "../../../../hooks/useWindowDimensions";
+import { debounce } from "lodash";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -33,15 +36,15 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const SwapTokensInputTokenIn = () => {
+const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
+  const { height } = useWindowDimensions();
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const {
     swap: { input },
-    tokens,
   } = useAppSelector(selectAppStore);
   const [open, setOpen] = useState(false);
-  const selectedToken = tokens.items.find(
+  const selectedToken = allTokens.find(
     (token) => token.address === input.tokenIn
   );
 
@@ -53,6 +56,22 @@ const SwapTokensInputTokenIn = () => {
     setOpen(false);
   };
 
+  const request = debounce((value) => {
+    dispatch(
+      appStoreActions.setSwap({
+        input: {
+          ...input,
+          amountIn: value,
+        },
+      })
+    );
+  }, 1200);
+
+  const debouncedSearchChange = useCallback(
+    (value: string) => request(value),
+    [request]
+  );
+
   return (
     <Stack
       direction="row"
@@ -61,7 +80,7 @@ const SwapTokensInputTokenIn = () => {
       spacing="16px"
       useFlexGap
       sx={{
-        padding: "10px 20px",
+        padding: "10px 10px 10px 20px",
         width: "100%",
         borderRadius: "10px",
         backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
@@ -74,7 +93,11 @@ const SwapTokensInputTokenIn = () => {
           color="primary"
           startIcon={
             selectedToken ? (
-              <TokenIcon url={selectedToken.logoURI} size={20} />
+              <TokenIcon
+                url={selectedToken.logoURI}
+                size={20}
+                key={selectedToken.id}
+              />
             ) : undefined
           }
           endIcon={<ArrowDropDownIcon />}
@@ -127,33 +150,50 @@ const SwapTokensInputTokenIn = () => {
           <Divider sx={{ marginLeft: 0 }} />
           <DialogContent
             sx={{
-              padding: "12px 8px",
+              padding: "0",
             }}
           >
-            {tokens.items
-              .filter((token) => token.address !== MAIN_TOKEN_ADDRESS)
-              .filter((token) => token.address !== input.tokenOut)
-              .filter((token) =>
-                token.symbol.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((token) => (
-                <TokensListItem
-                  key={token.address}
-                  passive
-                  token={token}
-                  onClick={() => {
-                    dispatch(
-                      appStoreActions.setSwap({
-                        input: {
-                          ...input,
-                          tokenIn: token.address,
-                        },
-                      })
-                    );
-                    handleClose();
-                  }}
-                />
-              ))}
+            <List
+              height={height - 66}
+              itemCount={
+                (allTokens || [])
+                  .filter((token) =>
+                    token.symbol.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .filter((token) => token.address !== input.tokenOut).length
+              }
+              itemSize={48}
+              width="100%"
+              itemData={(allTokens || [])
+                .filter((token) =>
+                  token.symbol.toLowerCase().includes(search.toLowerCase())
+                )
+                .filter((token) => token.address !== input.tokenOut)}
+            >
+              {(itemProps: { data: any; index: number; style: any }) => (
+                <Box
+                  sx={{ ...itemProps.style, padding: "0 8px" }}
+                  key={itemProps.data[itemProps.index].id}
+                >
+                  <TokensListItem
+                    key={itemProps.data[itemProps.index].address}
+                    passive
+                    token={itemProps.data[itemProps.index]}
+                    onClick={() => {
+                      dispatch(
+                        appStoreActions.setSwap({
+                          input: {
+                            ...input,
+                            tokenIn: itemProps.data[itemProps.index].address,
+                          },
+                        })
+                      );
+                      handleClose();
+                    }}
+                  />
+                </Box>
+              )}
+            </List>
           </DialogContent>
         </Dialog>
         <Typography
@@ -165,7 +205,7 @@ const SwapTokensInputTokenIn = () => {
         </Typography>
       </Box>
       <Stack
-        sx={{ marginLeft: "auto" }}
+        sx={{ marginLeft: "auto", flex: 1 }}
         direction="row"
         alignItems="center"
         justifyContent="flex-end"
@@ -173,6 +213,7 @@ const SwapTokensInputTokenIn = () => {
       >
         <InputBase
           sx={{
+            width: "100%",
             "& input": {
               textAlign: "right",
               fontSize: "24px",
@@ -182,6 +223,7 @@ const SwapTokensInputTokenIn = () => {
           inputProps={{
             type: "number",
             min: 0,
+            max: 100,
             sx: {
               padding: 0,
               color: "var(--tg-theme-text-color, #000000)",
@@ -189,16 +231,9 @@ const SwapTokensInputTokenIn = () => {
             name: "amountIn",
           }}
           placeholder="0"
-          value={input.amountIn}
+          //value={input.amountIn}
           onChange={(e) => {
-            dispatch(
-              appStoreActions.setSwap({
-                input: {
-                  ...input,
-                  amountIn: e.target.value,
-                },
-              })
-            );
+            debouncedSearchChange(e.target.value);
           }}
         />
       </Stack>
