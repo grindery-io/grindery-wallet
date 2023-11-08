@@ -90,6 +90,7 @@ const SwapTokensInputTokenIn = () => {
               width: "80%",
               maxHeight: height - 100,
               background: "var(--tg-theme-bg-color, #ffffff)",
+              border: "1px solid var(--gr-theme-divider-color)",
             },
           }}
           open={open}
