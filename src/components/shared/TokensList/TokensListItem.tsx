@@ -21,9 +21,11 @@ import { formatBalance } from "../../../utils/formatBalance";
 
 type TokensListItemProps = {
   token: Token;
+  onClick?: () => void;
+  passive?: boolean;
 };
 
-const TokensListItem = ({ token }: TokensListItemProps) => {
+const TokensListItem = ({ token, passive, onClick }: TokensListItemProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
@@ -33,7 +35,7 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (token.symbol !== "G1" && user?.patchwallet) {
+    if (token.symbol !== "G1" && user?.patchwallet && !passive) {
       dispatch(
         appStoreActions.setToken({
           id: token.id,
@@ -84,6 +86,7 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
     token.address,
     user?.patchwallet,
     balance,
+    passive,
     dispatch,
   ]);
 
@@ -95,9 +98,13 @@ const TokensListItem = ({ token }: TokensListItemProps) => {
     >
       <ListItemButton
         sx={{ padding: "8px", borderRadius: "8px" }}
-        onClick={() => {
-          navigate(`/tokens/${token.id}`);
-        }}
+        onClick={
+          typeof onClick !== "undefined"
+            ? onClick
+            : () => {
+                navigate(`/tokens/${token.id}`);
+              }
+        }
       >
         <ListItemAvatar sx={{ minWidth: "42px" }}>
           <TokenIcon url={token.logoURI} size={32} />

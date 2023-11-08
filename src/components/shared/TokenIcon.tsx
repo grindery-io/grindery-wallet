@@ -33,6 +33,8 @@ const TokenIcon = ({ url, size = 36, sx }: Props) => {
           opacity: 0,
           position: "absolute",
           visibility: "hidden",
+          width: "10px",
+          height: "10px",
         }}
         alt=""
         onLoad={() => {

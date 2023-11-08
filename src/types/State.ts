@@ -294,15 +294,17 @@ export enum SwapStatus {
   SENT = "sent",
 }
 
+export type SwapStateInput = {
+  tokenIn: string;
+  amountIn: string;
+  tokenOut: string;
+};
+
 /**
  * Interface for the SwapState object representing the state of the swap page
  */
 export type SwapState = {
-  input: {
-    tokenIn: string;
-    amountIn: string;
-    tokenOut: string;
-  };
+  input: SwapStateInput;
   status: SwapStatus;
   route: SwapRoute | null;
 };
