@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Divider,
   InputBase,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
@@ -19,12 +20,20 @@ import {
 } from "../../../../store";
 import TokenIcon from "../../TokenIcon";
 import TokensListItem from "../../TokensList/TokensListItem";
-import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 import { MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import SearchBox from "../../SearchBox/SearchBox";
+import { TransitionProps } from "@mui/material/transitions";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const SwapTokensInputTokenOut = () => {
-  const { height } = useWindowDimensions();
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const {
@@ -84,13 +93,15 @@ const SwapTokensInputTokenOut = () => {
           {selectedToken?.symbol || "Select a token"}
         </Button>
         <Dialog
+          TransitionComponent={Transition}
+          fullScreen
           sx={{
             "& .MuiDialog-paper": {
-              borderRadius: "10px",
-              width: "80%",
-              maxHeight: height - 100,
+              borderRadius: "0px",
+              //width: "80%",
+              //maxHeight: height - 100,
               background: "var(--tg-theme-bg-color, #ffffff)",
-              border: "1px solid var(--gr-theme-divider-color)",
+              //border: "1px solid var(--gr-theme-divider-color)",
             },
           }}
           open={open}
