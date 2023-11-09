@@ -10,6 +10,8 @@ type Props = {
 };
 
 const UserAvatar = ({ user, size, sx }: Props) => {
+  console.log("user", user);
+
   return (
     <Box
       sx={{
@@ -35,8 +37,8 @@ const UserAvatar = ({ user, size, sx }: Props) => {
         />
       ) : (
         <InitialsAvatar
-          entityId={parseInt(user.id)}
-          entityName={user.name}
+          entityId={user?.id === "null" ? 101 : parseInt(user?.id || "101")}
+          entityName={user?.name || "Unknown user"}
           theme="apple"
           size={size || 36}
           style={{ fontWeight: "400" }}
