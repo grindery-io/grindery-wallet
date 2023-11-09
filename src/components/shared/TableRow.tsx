@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack, SxProps, Typography } from "@mui/material";
 
 type Props = {
   label?: string | React.ReactNode;
@@ -7,9 +7,10 @@ type Props = {
   icon?: string | React.ReactNode;
   first?: boolean;
   onValueClick?: () => void;
+  sx?: SxProps | React.CSSProperties;
 };
 
-const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
+const TableRow = ({ label, value, icon, first, sx, onValueClick }: Props) => {
   return (
     <Stack
       direction="row"
@@ -19,6 +20,7 @@ const TableRow = ({ label, value, icon, first, onValueClick }: Props) => {
       sx={{
         padding: "10px 16px",
         borderTop: !first ? "1px solid var(--gr-theme-divider-color)" : "none",
+        ...(sx || {}),
       }}
     >
       <Typography sx={{ lineHeight: "125%" }} variant="xs" color="hint">
