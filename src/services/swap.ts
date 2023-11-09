@@ -16,3 +16,27 @@ export const getSwapRoutesRequest = async (
     }
   );
 };
+
+export type SwapTokenRequestParams = {
+  to: string;
+  data: string;
+  value: string;
+  tokenIn: string;
+  amountIn: string;
+  tokenOut: string;
+  amountOut: string;
+  gas?: string;
+  priceImpact?: string;
+};
+
+export const swapTokensRequest = async (
+  params: SwapTokenRequestParams,
+  controller?: AbortController
+) => {
+  return await axios.post(`${BOT_API_URL}/v2/swap`, params, {
+    signal: controller?.signal,
+    headers: {
+      Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+    },
+  });
+};

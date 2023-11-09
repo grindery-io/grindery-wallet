@@ -50,6 +50,9 @@ const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
     (token) => token.address === input.tokenIn
   );
 
+  const notEnoughBalance =
+    parseFloat(input.amountIn) > (selectedToken?.balance || 0);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -205,6 +208,11 @@ const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
         >
           Balance: {selectedToken?.balance || 0}
         </Typography>
+        {notEnoughBalance && (
+          <Typography variant="xs" color="error" mt="4px">
+            Not enough {selectedToken?.symbol || "balance"}
+          </Typography>
+        )}
       </Box>
       <Stack
         sx={{ marginLeft: "auto", flex: 1 }}
@@ -232,7 +240,6 @@ const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
             name: "amountIn",
           }}
           placeholder="0"
-          //value={input.amountIn}
           onChange={(e) => {
             debouncedSearchChange(e.target.value);
           }}
