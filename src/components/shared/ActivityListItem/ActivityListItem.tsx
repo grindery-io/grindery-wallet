@@ -49,7 +49,11 @@ const ActivityListItem = (props: ActivityListItemProps) => {
     }
   };
 
-  return activity && activity.recipientTgId && activity.senderTgId ? (
+  return activity &&
+    activity.recipientTgId &&
+    activity.senderTgId &&
+    activity.recipientTgId !== "null" &&
+    activity.senderTgId !== "null" ? (
     <ListItem sx={ListItemStyles}>
       <ListItemButton sx={{ padding: "10px" }} onClick={handleClick}>
         <ActivityListItemAvatar {...props} />
