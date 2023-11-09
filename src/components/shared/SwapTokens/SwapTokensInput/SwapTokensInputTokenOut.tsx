@@ -25,6 +25,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { SwapStatus, Token } from "../../../../types/State";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../../../hooks/useWindowDimensions";
+import { formatBalance } from "../../../../utils/formatBalance";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -39,7 +40,10 @@ const SwapTokensInputTokenOut = ({ allTokens }: { allTokens: Token[] }) => {
   const { height } = useWindowDimensions();
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
-  const { swap } = useAppSelector(selectAppStore);
+  const {
+    swap,
+    debug: { features },
+  } = useAppSelector(selectAppStore);
   const { input } = swap;
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
@@ -187,10 +191,9 @@ const SwapTokensInputTokenOut = ({ allTokens }: { allTokens: Token[] }) => {
       </Box>
       <Stack
         sx={{ marginLeft: "auto", flex: 1 }}
-        direction="row"
-        alignItems="center"
-        justifyContent="flex-end"
-        spacing="10px"
+        direction="column"
+        alignItems="flex-end"
+        justifyContent="center"
       >
         <InputBase
           sx={{
@@ -218,6 +221,18 @@ const SwapTokensInputTokenOut = ({ allTokens }: { allTokens: Token[] }) => {
           ).toString()}
           readOnly
         />
+        {features?.TOKEN_PRICE && (
+          <Typography variant="xs" color="hint">
+            {
+              formatBalance(
+                (selectedToken?.price || 0) *
+                  (parseFloat(swap.route?.amountOut || "0") /
+                    Math.pow(10, selectedToken?.decimals || 18) || 0)
+              ).formatted
+            }{" "}
+            USD
+          </Typography>
+        )}
       </Stack>
     </Stack>
   );

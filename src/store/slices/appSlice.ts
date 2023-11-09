@@ -23,6 +23,7 @@ import {
   SwapStatus,
   UserState,
 } from "../../types/State";
+import { fixTokens } from "../../utils/fixTokens";
 
 const initialState: AppState = {
   activity: {
@@ -104,7 +105,7 @@ const initialState: AppState = {
     items: JSON.parse(
       localStorage.getItem(STORAGE_KEYS.TOKENS) ||
         JSON.stringify(DEFAULT_TOKENS)
-    ),
+    ).map(fixTokens),
   },
   user: null,
 };

@@ -26,6 +26,7 @@ import { Token } from "../../../../types/State";
 import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 import { debounce } from "lodash";
+import { formatBalance } from "../../../../utils/formatBalance";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -42,6 +43,7 @@ const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
   const dispatch = useAppDispatch();
   const {
     swap: { input },
+    debug: { features },
   } = useAppSelector(selectAppStore);
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
@@ -206,10 +208,9 @@ const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
       </Box>
       <Stack
         sx={{ marginLeft: "auto", flex: 1 }}
-        direction="row"
-        alignItems="center"
-        justifyContent="flex-end"
-        spacing="10px"
+        direction="column"
+        alignItems="flex-end"
+        justifyContent="center"
       >
         <InputBase
           sx={{
@@ -236,6 +237,16 @@ const SwapTokensInputTokenIn = ({ allTokens }: { allTokens: Token[] }) => {
             debouncedSearchChange(e.target.value);
           }}
         />
+        {features?.TOKEN_PRICE && (
+          <Typography variant="xs" color="hint">
+            {
+              formatBalance(
+                (selectedToken?.price || 0) * (parseFloat(input.amountIn) || 0)
+              ).formatted
+            }{" "}
+            USD
+          </Typography>
+        )}
       </Stack>
     </Stack>
   );

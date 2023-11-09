@@ -44,10 +44,11 @@ const BalanceValue = () => {
         }}
       >
         {features?.TOKEN_PRICE
-          ? items
-              .map((token) => (token.price || 0) * (token.balance || 0))
-              .reduce((partialSum, a) => partialSum + a, 0)
-              .toLocaleString()
+          ? formatBalance(
+              items
+                .map((token) => (token.price || 0) * (token.balance || 0))
+                .reduce((partialSum, a) => partialSum + a, 0)
+            ).formatted
           : full.toLocaleString()}{" "}
       </Typography>
       <Typography component="span" variant="md">

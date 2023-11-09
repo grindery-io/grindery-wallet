@@ -76,7 +76,7 @@ const SwapTokensInputButtons = ({ allTokens }: { allTokens: Token[] }) => {
         color="hint"
         variant="xs"
         textAlign="center"
-        margin="8px 0 0px"
+        margin="10px 0 0px"
       >
         Powered by{" "}
         <a href="https://www.enso.finance/" target="_blank" rel="noreferrer">

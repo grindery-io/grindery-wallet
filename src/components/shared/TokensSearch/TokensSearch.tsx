@@ -6,6 +6,7 @@ import { searchTokensRequest } from "../../../services/tokens";
 import TokensSearchList from "./TokensSearchList";
 import TokensSearchPlaceholder from "./TokensSearchPlaceholder";
 import { selectAppStore, useAppSelector } from "../../../store";
+import { fixTokens } from "../../../utils/fixTokens";
 
 const TokensSearch = () => {
   const {
@@ -26,13 +27,15 @@ const TokensSearch = () => {
     try {
       const res = await searchTokensRequest();
       setItems(
-        (res.data || []).filter(
-          (item: Token) =>
-            !stateItems.find(
-              (stateItem: Token) =>
-                stateItem.id.toLowerCase() === item.id.toLowerCase()
-            )
-        )
+        (res.data || [])
+          .filter(
+            (item: Token) =>
+              !stateItems.find(
+                (stateItem: Token) =>
+                  stateItem.id.toLowerCase() === item.id.toLowerCase()
+              )
+          )
+          .map(fixTokens)
       );
     } catch (error) {
       console.error("getTokens error", error);

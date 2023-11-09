@@ -15,6 +15,7 @@ import SwapTokensSending from "./SwapTokensSending";
 import { getSwapRoutesRequest } from "../../../services/swap";
 import { searchTokensRequest } from "../../../services/tokens";
 import { MAIN_TOKEN_ADDRESS } from "../../../constants";
+import { fixTokens } from "../../../utils/fixTokens";
 
 const SwapTokens = () => {
   const dispatch = useAppDispatch();
@@ -77,13 +78,15 @@ const SwapTokens = () => {
     const controller = new AbortController();
     searchTokensRequest("", controller).then((res) => {
       setEnsoTokens(
-        (res.data || []).filter(
-          (item: Token) =>
-            !tokens.items.find(
-              (stateItem: Token) =>
-                stateItem.id.toLowerCase() === item.id.toLowerCase()
-            )
-        )
+        (res.data || [])
+          .filter(
+            (item: Token) =>
+              !tokens.items.find(
+                (stateItem: Token) =>
+                  stateItem.id.toLowerCase() === item.id.toLowerCase()
+              )
+          )
+          .map(fixTokens)
       );
     });
     return () => {
