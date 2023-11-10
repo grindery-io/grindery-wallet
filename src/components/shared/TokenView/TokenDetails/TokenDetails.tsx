@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import { TokenProps } from "../Token";
 import TokenDetailsSymbol from "./TokenDetailsSymbol";
 import TokenDetailsBalance from "./TokenDetailsBalance";
 import TokenDetailsChain from "./TokenDetailsChain";
@@ -8,19 +7,19 @@ import TokenDetailsAddress from "./TokenDetailsAddress";
 import TokenDetailsDecimals from "./TokenDetailsDecimals";
 import TokenDetailsPrice from "./TokenDetailsPrice";
 
-const TokenDetails = (props: TokenProps) => {
+const TokenDetails = () => {
   return (
     <Stack
       alignItems="stretch"
       justifyContent="flex-start"
       sx={TokenDetailsStyles}
     >
-      <TokenDetailsBalance {...props} />
-      <TokenDetailsSymbol {...props} />
-      <TokenDetailsChain {...props} />
-      <TokenDetailsAddress {...props} />
-      <TokenDetailsDecimals {...props} />
-      <TokenDetailsPrice {...props} />
+      <TokenDetailsBalance />
+      <TokenDetailsSymbol />
+      <TokenDetailsChain />
+      <TokenDetailsAddress />
+      <TokenDetailsDecimals />
+      <TokenDetailsPrice />
     </Stack>
   );
 };

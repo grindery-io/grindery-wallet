@@ -7,9 +7,9 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../store";
-import { TokenProps } from "./Token";
+import { TokenViewProps } from "./TokenView";
 
-const TokenRemoveButton = ({ token }: TokenProps) => {
+const TokenRemoveButton = ({ token }: TokenViewProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {

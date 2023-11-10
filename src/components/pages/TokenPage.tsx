@@ -8,8 +8,8 @@ import {
   useAppSelector,
 } from "../../store";
 import Loading from "../shared/Loading";
-import Token from "../shared/Token/Token";
 import { getBalanceRequest } from "../../services/balance";
+import TokenView from "../shared/TokenView/TokenView";
 
 const TokenPage = () => {
   useBackButton();
@@ -80,7 +80,7 @@ const TokenPage = () => {
     dispatch,
   ]);
 
-  return item ? <Token token={item} /> : <Loading />;
+  return item ? <TokenView token={item} /> : <Loading />;
 };
 
 export default TokenPage;

@@ -1,9 +1,9 @@
 import React from "react";
-import { TokenProps } from "./Token";
 import { Box, Typography } from "@mui/material";
-import TokenIcon from "../TokenIcon";
+import TokenIcon from "../Token/TokenIcon";
+import TokenName from "../Token/TokenName";
 
-const TokenHeader = ({ token }: TokenProps) => {
+const TokenHeader = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <Box
@@ -12,13 +12,13 @@ const TokenHeader = ({ token }: TokenProps) => {
           textAlign: "center",
         }}
       >
-        <TokenIcon url={token.logoURI} size={48} sx={{ margin: "0 auto" }} />
+        <TokenIcon size={48} sx={{ margin: "0 auto" }} />
       </Box>
       <Typography
         variant="title"
         sx={{ textAlign: "center", marginBottom: "16px" }}
       >
-        {token.name}
+        <TokenName />
       </Typography>
     </Box>
   );

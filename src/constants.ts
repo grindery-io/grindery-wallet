@@ -221,6 +221,13 @@ export const MAIN_TOKEN_ADDRESS = "0xe36BD65609c08Cd17b53520293523CF4560533d0";
 export const USDCE_TOKEN_ADDRESS = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
 export const USDC_TOKEN_ADDRESS = "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359";
 
+export const BLOCKCHAIN_NAMES: {
+  [chain: string]: string;
+} = {
+  "137": "Polygon",
+  "1": "Ethereum",
+};
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)

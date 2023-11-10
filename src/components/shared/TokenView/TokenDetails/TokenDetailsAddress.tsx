@@ -1,11 +1,14 @@
 import React from "react";
 import TableRow from "../../TableRow";
 import LinkIcon from "../../../icons/LinkIcon";
-import { TokenProps } from "../Token";
+import TokenAddress from "../../Token/TokenAddress/TokenAddress";
+import { useToken } from "../../Token/Token";
 
-const TokenDetailsAddress = ({ token }: TokenProps) => {
-  return token.address !== "0x0" &&
-    token.address !== "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ? (
+const TokenDetailsAddress = () => {
+  const { address } = useToken();
+
+  return address !== "0x0" &&
+    address !== "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ? (
     <TableRow
       label="Contract address"
       value={
@@ -15,21 +18,16 @@ const TokenDetailsAddress = ({ token }: TokenProps) => {
             color: "var(--tg-theme-link-color, #2481cc)",
           }}
         >
-          {token.address.substring(0, 6) +
-            "..." +
-            token.address.substring(token.address.length - 4)}
+          <TokenAddress format="short" />
         </span>
       }
       onValueClick={() => {
         if (window.Telegram?.WebApp?.openLink) {
           window.Telegram.WebApp.openLink(
-            `https://polygonscan.com/token/${token.address}`
+            `https://polygonscan.com/token/${address}`
           );
         } else {
-          window.open(
-            `https://polygonscan.com/token/${token.address}`,
-            "_blank"
-          );
+          window.open(`https://polygonscan.com/token/${address}`, "_blank");
         }
       }}
       icon={

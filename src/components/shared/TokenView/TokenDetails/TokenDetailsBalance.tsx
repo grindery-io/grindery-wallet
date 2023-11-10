@@ -1,13 +1,13 @@
 import React from "react";
 import TableRow from "../../TableRow";
-import { TokenProps } from "../Token";
+import TokenBalance from "../../Token/TokenBalance/TokenBalance";
 
-const TokenDetailsBalance = ({ token }: TokenProps) => {
+const TokenDetailsBalance = () => {
   return (
     <TableRow
       first
       label="Balance"
-      value={(token.balance || 0).toLocaleString()}
+      value={<TokenBalance format="eth" sx={{ fontWeight: "bold" }} />}
     />
   );
 };
