@@ -20,3 +20,12 @@ export const getBalanceRequest = async (
     }
   );
 };
+
+export const getFullBalanceRequest = async (controller?: AbortController) => {
+  return await axios.get(`${BOT_API_URL}/v2/balance/`, {
+    signal: controller?.signal,
+    headers: {
+      Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+    },
+  });
+};

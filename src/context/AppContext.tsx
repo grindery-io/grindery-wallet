@@ -9,6 +9,7 @@ import {
 } from "../store";
 import { getMeRequest } from "../services/me";
 import { getContactsRequest } from "../services/contacts";
+import { getFullBalanceRequest } from "../services/balance";
 
 // Context props
 type ContextProps = {
@@ -214,6 +215,23 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(items));
     }
   }, [items]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (user?.userTelegramID) {
+      getFullBalanceRequest(controller)
+        .then((res) => {
+          console.log("balance", res.data);
+        })
+        .catch((error) => {
+          //
+        });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [user?.userTelegramID]);
 
   return (
     <AppContext.Provider
