@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { mockedToken } from "../../../utils/mockedToken";
 
 /**
  * @description Token full name / title
@@ -66,14 +67,7 @@ export type TokenContextProps = {
 };
 
 export const TokenContext = createContext<TokenType>({
-  name: "Grindery One",
-  symbol: "G1",
-  decimals: 18,
-  address: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-  icon: "/images/g1-token-red.svg",
-  chain: "137",
-  balance: "0",
-  price: "0",
+  ...mockedToken,
 });
 
 /**
