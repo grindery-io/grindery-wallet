@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosPromise, AxiosResponse } from "axios";
 import { BOT_API_URL } from "../constants";
 
 export const getBalanceRequest = async (
@@ -21,8 +21,14 @@ export const getBalanceRequest = async (
   );
 };
 
+/**
+ *
+ * @todo: fix response type
+ */
 export const getFullBalanceRequest = async (controller?: AbortController) => {
-  return await axios.get(`${BOT_API_URL}/v2/balance/`, {
+  return await axios.get<{
+    success: true;
+  }>(`${BOT_API_URL}/v2/balance/`, {
     signal: controller?.signal,
     headers: {
       Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
