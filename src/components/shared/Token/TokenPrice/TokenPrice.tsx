@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, SxProps } from "@mui/material";
-import { useToken } from "./Token";
+import { useToken } from "../Token";
 
 export type TokenPriceFormat = "default" | "full" | "short" | "$";
 
@@ -9,7 +9,7 @@ export type TokenPriceProps = {
   sx?: SxProps | React.CSSProperties;
 };
 
-const formatTokenPrice = (price: string, format: TokenPriceFormat) => {
+export const formatTokenPrice = (price: string, format: TokenPriceFormat) => {
   switch (format) {
     case "default":
       return price;

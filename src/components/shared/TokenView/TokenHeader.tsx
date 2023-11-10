@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import TokenIcon from "../Token/TokenIcon";
-import TokenName from "../Token/TokenName";
+import { TokenIcon, TokenName } from "../Token";
 
 const TokenHeader = () => {
   return (

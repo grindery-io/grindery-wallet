@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, SxProps } from "@mui/material";
-import { useToken } from "./Token";
+import { useToken } from "../Token";
 
 export type TokenSymbolProps = {
   sx?: SxProps | React.CSSProperties;

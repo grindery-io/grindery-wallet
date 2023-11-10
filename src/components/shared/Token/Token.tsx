@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { mockedToken } from "../../../utils/mockedToken";
+import { mockedToken } from "./mockedToken";
 
 /**
  * @description Token full name / title

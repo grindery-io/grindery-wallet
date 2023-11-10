@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, SxProps } from "@mui/material";
-import { useToken } from "./Token";
+import { useToken } from "../Token";
 
 export const DEFAULT_TOKEN_ICON_URL: {
   [chain: string]: string;

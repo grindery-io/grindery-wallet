@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, SxProps } from "@mui/material";
-import { useToken } from "./Token";
-import { BLOCKCHAIN_NAMES } from "../../../constants";
+import { useToken } from "../Token";
+import { BLOCKCHAIN_NAMES } from "../../../../constants";
 
 export type TokenChainFormat = "id" | "caip" | "name";
 
@@ -10,7 +10,7 @@ export type TokenChainProps = {
   sx?: SxProps | React.CSSProperties;
 };
 
-const formatTokenChain = (chain: string, format: TokenChainFormat) => {
+export const formatTokenChain = (chain: string, format: TokenChainFormat) => {
   switch (format) {
     case "id":
       return chain;

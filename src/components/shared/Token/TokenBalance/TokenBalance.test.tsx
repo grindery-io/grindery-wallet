@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { useToken } from "../Token";
 import TokenBalance, { formatTokenBalance } from "./TokenBalance";
-import { mockedToken } from "../../../../utils/mockedToken";
+import { mockedToken } from "../mockedToken";
 
 jest.mock("../Token", () => ({
   useToken: jest.fn(),

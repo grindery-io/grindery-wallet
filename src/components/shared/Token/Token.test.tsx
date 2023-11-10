@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import Token, { TokenContext } from "./Token";
-import { mockedToken } from "../../../utils/mockedToken";
+import { mockedToken } from "./mockedToken";
 
 describe("Token", () => {
   it("renders its children", () => {

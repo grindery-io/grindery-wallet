@@ -1,6 +1,6 @@
 import React from "react";
 import TableRow from "../../TableRow";
-import TokenChain from "../../Token/TokenChain";
+import TokenChain from "../../Token/TokenChain/TokenChain";
 
 const TokenDetailsChain = () => {
   return <TableRow label="Blockchain ID" value={<TokenChain format="id" />} />;

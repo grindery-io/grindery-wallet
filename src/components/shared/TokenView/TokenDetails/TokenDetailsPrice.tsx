@@ -2,7 +2,7 @@ import React from "react";
 import TableRow from "../../TableRow";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import { Typography } from "@mui/material";
-import TokenPrice from "../../Token/TokenPrice";
+import TokenPrice from "../../Token/TokenPrice/TokenPrice";
 
 const TokenDetailsPrice = () => {
   const {
