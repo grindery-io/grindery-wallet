@@ -65,7 +65,7 @@ export type TokenContextProps = {
   children: React.ReactNode;
 };
 
-export const defaultToken = {
+export const TokenContext = createContext<TokenType>({
   name: "Grindery One",
   symbol: "G1",
   decimals: 18,
@@ -74,9 +74,7 @@ export const defaultToken = {
   chain: "137",
   balance: "0",
   price: "0",
-};
-
-export const TokenContext = createContext<TokenType>({ ...defaultToken });
+});
 
 /**
  * Renders a Token component.
