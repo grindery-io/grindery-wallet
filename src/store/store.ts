@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { PreloadedState, configureStore } from "@reduxjs/toolkit";
 import appReducer from "./slices/appSlice";
 
 export const store = configureStore({
@@ -7,6 +7,13 @@ export const store = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export function setupStore(preloadedState?: PreloadedState<RootState>) {
+  return configureStore({
+    reducer: { app: appReducer },
+    preloadedState,
+  });
+}
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = typeof store.dispatch;

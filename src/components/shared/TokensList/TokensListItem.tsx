@@ -14,14 +14,16 @@ import {
   useAppSelector,
 } from "../../../store";
 import { getBalanceRequest } from "../../../services/balance";
-import { Token } from "../../../types/State";
+import { Token as TokenState } from "../../../types/State";
 import { useNavigate } from "react-router";
-import TokenIcon from "../TokenIcon";
-import { formatBalance } from "../../../utils/formatBalance";
 import { getTokensPriceRequest } from "../../../services/tokens";
+import Token, { TokenType } from "../Token/Token";
+import TokenIcon from "../Token/TokenIcon/TokenIcon";
+import TokenSymbol from "../Token/TokenSymbol/TokenSymbol";
+import TokenBalance from "../Token/TokenBalance/TokenBalance";
 
 type TokensListItemProps = {
-  token: Token;
+  token: TokenState;
   onClick?: () => void;
   passive?: boolean;
 };
@@ -34,6 +36,17 @@ const TokensListItem = ({ token, passive, onClick }: TokensListItemProps) => {
     balance: { value: balance },
     debug: { features },
   } = useAppSelector(selectAppStore);
+
+  const formattedToken: TokenType = {
+    name: token.name,
+    symbol: token.symbol,
+    decimals: token.decimals,
+    address: token.address,
+    icon: token.logoURI,
+    chain: token.chainId.toString(),
+    balance: ((token.balance || 0) * 10 ** token.decimals).toString(),
+    price: (token.price || 0).toString(),
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -154,47 +167,45 @@ const TokensListItem = ({ token, passive, onClick }: TokensListItemProps) => {
   ]);
 
   return (
-    <ListItem
-      style={{
-        ...TokensListItemStyles,
-      }}
-    >
-      <ListItemButton
-        sx={{ padding: "8px", borderRadius: "8px" }}
-        onClick={
-          typeof onClick !== "undefined"
-            ? onClick
-            : () => {
-                navigate(`/tokens/${token.id}`);
-              }
-        }
+    <Token token={formattedToken}>
+      <ListItem
+        style={{
+          ...TokensListItemStyles,
+        }}
       >
-        <ListItemAvatar sx={{ minWidth: "42px" }}>
-          <TokenIcon url={token.logoURI} size={32} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={token.symbol}
-          sx={{ marginRight: "100px" }}
-          primaryTypographyProps={{
-            sx: TokensListItemTextPrimaryTypographyStyles,
-          }}
-        />
-        <ListItemSecondaryAction>
-          <Typography textAlign="right" sx={{ whiteSpace: "nowrap" }}>
-            {formatBalance(token.balance || 0).formatted}
-          </Typography>
-          {features?.TOKEN_PRICE && (
-            <Typography variant="xs" color="hint" textAlign="right">
-              {
-                formatBalance((token.price || 0) * (token.balance || 0))
-                  .formatted
-              }{" "}
-              USD
+        <ListItemButton
+          sx={{ padding: "8px", borderRadius: "8px" }}
+          onClick={
+            typeof onClick !== "undefined"
+              ? onClick
+              : () => {
+                  navigate(`/tokens/${token.id}`);
+                }
+          }
+        >
+          <ListItemAvatar sx={{ minWidth: "42px" }}>
+            <TokenIcon size={32} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={<TokenSymbol />}
+            sx={{ marginRight: "100px" }}
+            primaryTypographyProps={{
+              sx: TokensListItemTextPrimaryTypographyStyles,
+            }}
+          />
+          <ListItemSecondaryAction>
+            <Typography textAlign="right" sx={{ whiteSpace: "nowrap" }}>
+              <TokenBalance format="short" />
             </Typography>
-          )}
-        </ListItemSecondaryAction>
-      </ListItemButton>
-    </ListItem>
+            {features?.TOKEN_PRICE && (
+              <Typography variant="xs" color="hint" textAlign="right">
+                <TokenBalance format="usd" /> USD
+              </Typography>
+            )}
+          </ListItemSecondaryAction>
+        </ListItemButton>
+      </ListItem>
+    </Token>
   );
 };
 

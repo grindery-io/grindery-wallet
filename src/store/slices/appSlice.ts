@@ -25,7 +25,7 @@ import {
 } from "../../types/State";
 import { fixTokens } from "../../utils/fixTokens";
 
-const initialState: AppState = {
+export const initialState: AppState = {
   activity: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITY) || "[]"),
     filters: [],

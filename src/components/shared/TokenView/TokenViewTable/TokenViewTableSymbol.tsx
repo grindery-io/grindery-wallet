@@ -2,8 +2,8 @@ import React from "react";
 import TableRow from "../../TableRow";
 import TokenSymbol from "../../Token/TokenSymbol/TokenSymbol";
 
-const TokenDetailsSymbol = () => {
+const TokenViewTableSymbol = () => {
   return <TableRow label="Token symbol" value={<TokenSymbol />} />;
 };
 
-export default TokenDetailsSymbol;
+export default TokenViewTableSymbol;

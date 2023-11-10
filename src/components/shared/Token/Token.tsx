@@ -50,6 +50,11 @@ export type TokenBalanceType = string;
 
 export type TokenPriceType = string;
 
+/**
+ * @description Token price updated timestamp
+ */
+export type TokenPriceUpdatedType = string;
+
 export interface TokenType {
   name: TokenNameType;
   symbol: TokenSymbolType;
@@ -59,6 +64,7 @@ export interface TokenType {
   chain: TokenChainType;
   balance: TokenBalanceType;
   price: TokenPriceType;
+  priceUpdated?: TokenPriceUpdatedType;
 }
 
 export type TokenContextProps = {

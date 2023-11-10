@@ -10,6 +10,7 @@ import {
 import Loading from "../shared/Loading";
 import { getBalanceRequest } from "../../services/balance";
 import TokenView from "../shared/TokenView/TokenView";
+import { TokenType } from "../shared/Token";
 
 const TokenPage = () => {
   useBackButton();
@@ -23,6 +24,18 @@ const TokenPage = () => {
   const { id } = useParams();
 
   const item = items.find((item) => item.id === id || item.address === id);
+
+  const token: TokenType = {
+    name: item?.name || "",
+    symbol: item?.symbol || "",
+    decimals: item?.decimals || 18,
+    address: item?.address || "",
+    icon: item?.logoURI || "",
+    chain: item?.chainId?.toString() || "",
+    balance: (item?.balance || 0).toString(),
+    price: (item?.price || 0).toString(),
+    priceUpdated: item?.updated || "",
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -80,7 +93,7 @@ const TokenPage = () => {
     dispatch,
   ]);
 
-  return item ? <TokenView token={item} /> : <Loading />;
+  return item ? <TokenView token={token} /> : <Loading />;
 };
 
 export default TokenPage;

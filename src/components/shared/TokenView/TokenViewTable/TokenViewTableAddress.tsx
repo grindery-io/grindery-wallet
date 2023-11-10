@@ -4,7 +4,7 @@ import LinkIcon from "../../../icons/LinkIcon";
 import TokenAddress from "../../Token/TokenAddress/TokenAddress";
 import { useToken } from "../../Token/Token";
 
-const TokenDetailsAddress = () => {
+const TokenViewTableAddress = () => {
   const { address } = useToken();
 
   return address !== "0x0" &&
@@ -43,4 +43,4 @@ const TokenDetailsAddress = () => {
   ) : null;
 };
 
-export default TokenDetailsAddress;
+export default TokenViewTableAddress;

@@ -2,7 +2,7 @@ import React from "react";
 import TableRow from "../../TableRow";
 import TokenBalance from "../../Token/TokenBalance/TokenBalance";
 
-const TokenDetailsBalance = () => {
+const TokenViewTableBalance = () => {
   return (
     <TableRow
       first
@@ -12,4 +12,4 @@ const TokenDetailsBalance = () => {
   );
 };
 
-export default TokenDetailsBalance;
+export default TokenViewTableBalance;

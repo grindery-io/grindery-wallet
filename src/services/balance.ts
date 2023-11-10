@@ -1,4 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse } from "axios";
+import axios from "axios";
 import { BOT_API_URL } from "../constants";
 
 export const getBalanceRequest = async (

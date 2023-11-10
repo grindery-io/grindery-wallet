@@ -7,4 +7,5 @@ export const mockedToken = {
   chain: "137",
   balance: "100000000000000000000",
   price: "1.5",
+  priceUpdated: "2021-09-01T00:00:00.000Z",
 };

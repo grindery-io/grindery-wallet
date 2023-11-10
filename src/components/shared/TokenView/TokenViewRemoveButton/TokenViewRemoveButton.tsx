@@ -6,10 +6,10 @@ import {
   selectAppStore,
   useAppDispatch,
   useAppSelector,
-} from "../../../store";
-import { TokenViewProps } from "./TokenView";
+} from "../../../../store";
+import { TokenViewProps } from "../TokenView";
 
-const TokenRemoveButton = ({ token }: TokenViewProps) => {
+const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
@@ -38,4 +38,4 @@ const TokenRemoveButton = ({ token }: TokenViewProps) => {
   );
 };
 
-export default TokenRemoveButton;
+export default TokenViewRemoveButton;

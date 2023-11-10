@@ -19,20 +19,21 @@ const TokenIcon = ({ size = 32, sx }: TokenIconProps) => {
 
   return icon ? (
     <Box
+      className="token-icon"
       sx={{
         position: "relative",
         borderRadius: "50%",
         width: `${size}px`,
         minWidth: `${size}px`,
         height: `${size}px`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
         backgroundImage: loaded
           ? `url(${icon})`
           : `url(${
               DEFAULT_TOKEN_ICON_URL[chain] || DEFAULT_TOKEN_ICON_URL["137"]
             })`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
         ...(sx || {}),
       }}
     >
