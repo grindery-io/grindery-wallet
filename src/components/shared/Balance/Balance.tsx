@@ -1,21 +1,22 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
-import BalanceValue from "./BalanceValue";
-import BalanceUpdated from "./BalanceUpdated";
+import BalanceValue from "./BalanceValue/BalanceValue";
+import BalanceUpdated from "./BalanceUpdated/BalanceUpdated";
 
 const Balance = () => {
   const { balance } = useAppSelector(selectAppStore);
 
   return (
     <Box
+      data-testid="balance-container"
       sx={{
         ...BalanceStyles,
         opacity: balance.cached ? 0.6 : 1,
       }}
     >
       <BalanceValue />
-      {balance.updated && <BalanceUpdated />}
+      <BalanceUpdated />
     </Box>
   );
 };

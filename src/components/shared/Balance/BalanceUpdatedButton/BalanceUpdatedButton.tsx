@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import RefreshIcon from "../../icons/RefreshIcon";
+import RefreshIcon from "../../../icons/RefreshIcon";
 import {
   appStoreActions,
   selectAppStore,
   useAppDispatch,
   useAppSelector,
-} from "../../../store";
+} from "../../../../store";
 
 const BalanceUpdatedButton = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +16,7 @@ const BalanceUpdatedButton = () => {
 
   return (
     <button
+      disabled={loading}
       onClick={() => {
         dispatch(
           appStoreActions.setBalance({

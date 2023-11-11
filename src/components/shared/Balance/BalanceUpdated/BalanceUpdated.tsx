@@ -1,16 +1,21 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import moment from "moment";
-import { selectAppStore, useAppSelector } from "../../../store";
-import BalanceUpdatedButton from "./BalanceUpdatedButton";
+import { selectAppStore, useAppSelector } from "../../../../store";
+import BalanceUpdatedButton from "../BalanceUpdatedButton/BalanceUpdatedButton";
 
 const BalanceUpdated = () => {
   const {
     balance: { updated },
   } = useAppSelector(selectAppStore);
 
-  return (
-    <Typography variant="xs" component="div" sx={BalanceUpdatedStyles}>
+  return updated ? (
+    <Typography
+      variant="xs"
+      component="div"
+      sx={BalanceUpdatedStyles}
+      data-testid="balance-updated"
+    >
       <Typography
         variant="xs"
         color="hint"
@@ -23,7 +28,7 @@ const BalanceUpdated = () => {
         <BalanceUpdatedButton />
       )}
     </Typography>
-  );
+  ) : null;
 };
 
 const BalanceUpdatedStyles = {

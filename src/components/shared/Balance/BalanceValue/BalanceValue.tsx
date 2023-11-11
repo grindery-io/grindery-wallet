@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import { selectAppStore, useAppSelector } from "../../../store";
-import { MAIN_TOKEN_ADDRESS } from "../../../constants";
-import { Token, TokenBalance } from "../Token";
+import { selectAppStore, useAppSelector } from "../../../../store";
+import { MAIN_TOKEN_ADDRESS } from "../../../../constants";
+import { Token, TokenBalance } from "../../Token";
 
 const BalanceValue = () => {
   const {
@@ -35,7 +35,7 @@ const BalanceValue = () => {
   }, [clicked, navigate]);
 
   return (
-    <Box textAlign="center">
+    <Box textAlign="center" data-testid="balance-value">
       <Typography
         component="span"
         variant="balance"
