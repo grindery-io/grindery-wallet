@@ -1,16 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  InputBase,
-  Slide,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, InputBase, Stack, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   appStoreActions,
@@ -19,26 +8,13 @@ import {
   useAppSelector,
 } from "../../../../store";
 import TokensListItem from "../../TokensList/TokensListItem";
-import SearchBox from "../../SearchBox/SearchBox";
-import { TransitionProps } from "@mui/material/transitions";
 import { SwapStatus } from "../../../../types/State";
-import { FixedSizeList as List } from "react-window";
-import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 import { SwapTokensInputProps } from "./SwapTokensInput";
 import { Token, TokenBalance, TokenIcon, TokenSymbol } from "../../Token";
 import { getTokensPriceRequest } from "../../../../services/tokens";
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import DialogSelect from "../../DialogSelect/DialogSelect";
 
 const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
-  const { height } = useWindowDimensions();
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const {
@@ -179,86 +155,43 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
           </Stack>
         </Stack>
       </Token>
-      <Dialog
-        TransitionComponent={Transition}
-        fullScreen
-        sx={{
-          "& .MuiDialog-paper": {
-            borderRadius: "0px",
-            //width: "80%",
-            //maxHeight: height - 100,
-            background: "var(--tg-theme-bg-color, #ffffff)",
-            //border: "1px solid var(--gr-theme-divider-color)",
-          },
-        }}
+      <DialogSelect
         open={open}
         onClose={handleClose}
-      >
-        <DialogTitle
-          sx={{
-            padding: "12px",
-          }}
-        >
-          <SearchBox
-            placeholder="Search token"
-            value={search}
-            onChange={(value) => {
-              setSearch(value);
-            }}
-            sx={{
-              padding: "0",
-            }}
-          />
-        </DialogTitle>
-        <Divider sx={{ marginLeft: 0 }} />
-        <DialogContent
-          sx={{
-            padding: "0",
-          }}
-        >
-          <List
-            height={height - 66}
-            itemCount={
-              (allTokens || [])
-                .filter((token) =>
-                  token.symbol.toLowerCase().includes(search.toLowerCase())
-                )
-                .filter((token) => token.address !== input.tokenIn).length
-            }
-            itemSize={48}
-            width="100%"
-            itemData={(allTokens || [])
-              .filter((token) =>
-                token.symbol.toLowerCase().includes(search.toLowerCase())
-              )
-              .filter((token) => token.address !== input.tokenIn)}
+        search={{
+          value: search,
+          onChange: setSearch,
+        }}
+        items={(allTokens || [])
+          .filter((token) =>
+            token.symbol.toLowerCase().includes(search.toLowerCase())
+          )
+          .filter((token) => token.address !== input.tokenIn)}
+        itemSize={48}
+        item={(itemProps: { data: any; index: number; style: any }) => (
+          <Box
+            sx={{ ...itemProps.style, padding: "0 8px" }}
+            key={itemProps.data[itemProps.index].id}
           >
-            {(itemProps: { data: any; index: number; style: any }) => (
-              <Box
-                sx={{ ...itemProps.style, padding: "0 8px" }}
-                key={itemProps.data[itemProps.index].id}
-              >
-                <TokensListItem
-                  key={itemProps.data[itemProps.index].address}
-                  passive
-                  token={itemProps.data[itemProps.index]}
-                  onClick={() => {
-                    dispatch(
-                      appStoreActions.setSwap({
-                        input: {
-                          ...input,
-                          tokenOut: itemProps.data[itemProps.index].address,
-                        },
-                      })
-                    );
-                    handleClose();
-                  }}
-                />
-              </Box>
-            )}
-          </List>
-        </DialogContent>
-      </Dialog>
+            <TokensListItem
+              key={itemProps.data[itemProps.index].address}
+              passive
+              token={itemProps.data[itemProps.index]}
+              onClick={() => {
+                dispatch(
+                  appStoreActions.setSwap({
+                    input: {
+                      ...input,
+                      tokenOut: itemProps.data[itemProps.index].address,
+                    },
+                  })
+                );
+                handleClose();
+              }}
+            />
+          </Box>
+        )}
+      />
     </>
   ) : null;
 };

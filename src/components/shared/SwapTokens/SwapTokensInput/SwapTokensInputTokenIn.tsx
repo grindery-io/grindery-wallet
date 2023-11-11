@@ -163,6 +163,7 @@ const SwapTokensInputTokenIn = ({ allTokens }: SwapTokensInputProps) => {
             token.symbol.toLowerCase().includes(search.toLowerCase())
           )
           .filter((token) => token.address !== input.tokenOut)}
+        itemSize={48}
         item={(itemProps: { data: any; index: number; style: any }) => (
           <Box
             sx={{ ...itemProps.style, padding: "0 8px" }}
