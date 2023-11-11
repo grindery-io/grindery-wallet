@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import {
-  DEFAULT_TOKENS,
-  EXPERIMENTAL_FEATURES,
-  STORAGE_KEYS,
-} from "../../constants";
+import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import {
   AppState,
@@ -108,12 +104,6 @@ export const initialState: AppState = {
     },
     status: SwapStatus.WAITING,
     route: null,
-  },
-  tokens: {
-    items: JSON.parse(
-      localStorage.getItem(STORAGE_KEYS.TOKENS) ||
-        JSON.stringify(DEFAULT_TOKENS)
-    ).map(fixTokens),
   },
   tokensNew: JSON.parse(
     localStorage.getItem(STORAGE_KEYS.TOKENS) ||
@@ -291,23 +281,6 @@ const appSlice = createSlice({
         ...state.swap,
         ...action.payload,
       };
-    },
-    /**
-     * Reducer to set the tokens state
-     */
-    setTokens(state, action: PayloadAction<any>) {
-      state.tokens = {
-        ...state.tokens,
-        ...action.payload,
-      };
-    },
-    /**
-     * Reducer to set the single token state
-     */
-    setToken(state, action: PayloadAction<any>) {
-      state.tokens.items = state.tokens.items.map((token: any) =>
-        token.id === action.payload.id ? { ...token, ...action.payload } : token
-      );
     },
     /**
      * Reducer to set the tokens state

@@ -3,10 +3,14 @@ import SwapTokensInputButtons from "./SwapTokensInputButtons";
 import SwapTokensInputTokenIn from "./SwapTokensInputTokenIn";
 import SwapTokensInputTokenOut from "./SwapTokensInputTokenOut";
 import SwapTokensInputRoute from "./SwapTokensInputRoute";
-import { Token } from "../../../../types/State";
 import SwapTokensInputArrow from "./SwapTokensInputArrow";
+import { TokenType } from "../../Token";
 
-const SwapTokensInput = ({ allTokens }: { allTokens: Token[] }) => {
+export type SwapTokensInputProps = {
+  allTokens: TokenType[];
+};
+
+const SwapTokensInput = ({ allTokens }: SwapTokensInputProps) => {
   return (
     <>
       <SwapTokensInputTokenIn allTokens={allTokens} />

@@ -3,30 +3,14 @@ import TokensListItem from "./TokensListItem";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { Stack } from "@mui/material";
 import TokensListImportButton from "./TokensListImportButton";
-import { MAIN_TOKEN_ADDRESS } from "../../../constants";
 import { mockedToken } from "../Token/mockedToken";
+import { sortTokens } from "../../../utils/sortTokens";
 
 const TokensList = () => {
   const { tokensNew } = useAppSelector(selectAppStore);
   const tokens =
     tokensNew.length > 0
-      ? [
-          ...tokensNew.filter(
-            (token) =>
-              token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
-          ),
-          ...tokensNew.filter(
-            (token) =>
-              token.address.toLowerCase() ===
-              "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-          ),
-          ...tokensNew.filter(
-            (token) =>
-              token.address.toLowerCase() !==
-                "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" &&
-              token.address.toLowerCase() !== MAIN_TOKEN_ADDRESS.toLowerCase()
-          ),
-        ]
+      ? sortTokens(tokensNew)
       : [
           {
             ...mockedToken,

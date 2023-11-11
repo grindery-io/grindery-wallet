@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import { SwapStatus, Token } from "../../../../types/State";
+import { SwapStatus } from "../../../../types/State";
 import {
   appStoreActions,
   selectAppStore,
@@ -9,8 +9,9 @@ import {
   useAppSelector,
 } from "../../../../store";
 import { swapTokensRequest } from "../../../../services/swap";
+import { SwapTokensInputProps } from "./SwapTokensInput";
 
-const SwapTokensInputButtons = ({ allTokens }: { allTokens: Token[] }) => {
+const SwapTokensInputButtons = ({ allTokens }: SwapTokensInputProps) => {
   let navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
@@ -100,7 +101,9 @@ const SwapTokensInputButtons = ({ allTokens }: { allTokens: Token[] }) => {
             !input.tokenIn ||
             !input.tokenOut ||
             countFailed > 3 ||
-            parseFloat(input.amountIn) > (selectedTokenIn?.balance || 0)
+            parseFloat(input.amountIn) >
+              parseFloat(selectedTokenIn?.balance || "0") /
+                10 ** (selectedTokenIn?.decimals || 18)
           }
           size="large"
           onClick={() => {

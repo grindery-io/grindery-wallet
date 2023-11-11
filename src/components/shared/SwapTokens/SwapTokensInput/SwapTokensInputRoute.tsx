@@ -1,9 +1,10 @@
 import React from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../../store";
-import { SwapStatus, Token } from "../../../../types/State";
+import { SwapStatus } from "../../../../types/State";
+import { SwapTokensInputProps } from "./SwapTokensInput";
 
-const SwapTokensInputRoute = ({ allTokens }: { allTokens: Token[] }) => {
+const SwapTokensInputRoute = ({ allTokens }: SwapTokensInputProps) => {
   const {
     swap: { status, route, input },
   } = useAppSelector(selectAppStore);

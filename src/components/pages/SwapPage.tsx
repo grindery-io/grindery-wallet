@@ -10,19 +10,24 @@ import {
 import { SwapStatus } from "../../types/State";
 import Loading from "../shared/Loading";
 import SwapTokens from "../shared/SwapTokens/SwapTokens";
+import { sortTokens } from "../../utils/sortTokens";
 
 const SwapPage = () => {
   useBackButton();
   const dispatch = useAppDispatch();
-  const {
-    tokens: { items },
-  } = useAppSelector(selectAppStore);
+  const { tokensNew } = useAppSelector(selectAppStore);
   const [searchParams] = useSearchParams();
   const tokenIn = searchParams.get("id");
   const [loading, setLoading] = useState(true);
-  const address1 = items?.[1]?.address || items?.[0]?.address;
+  const address1 =
+    sortTokens(tokensNew)[1]?.address ||
+    sortTokens(tokensNew)[0]?.address ||
+    "";
   const address2 =
-    items?.[2]?.address || items?.[1]?.address || items?.[0]?.address;
+    sortTokens(tokensNew)[2]?.address ||
+    sortTokens(tokensNew)[1]?.address ||
+    sortTokens(tokensNew)[0]?.address ||
+    "";
 
   useEffect(() => {
     dispatch(

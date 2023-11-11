@@ -1,13 +1,18 @@
 import axios from "axios";
 import { BOT_API_URL } from "../constants";
 
+export type GetBalanceResponseType = {
+  balanceWei: string;
+  balanceEther: string;
+};
+
 export const getBalanceRequest = async (
   address: string,
   tokenAddress?: string,
   chainId?: string,
   controller?: AbortController
 ) => {
-  return await axios.post(
+  return await axios.post<GetBalanceResponseType>(
     `${BOT_API_URL}/v2/balance/`,
     {
       userAddress: address,

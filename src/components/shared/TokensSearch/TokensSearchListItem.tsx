@@ -6,7 +6,6 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
-import { Token } from "../../../types/State";
 import {
   appStoreActions,
   selectAppStore,
@@ -14,65 +13,56 @@ import {
   useAppSelector,
 } from "../../../store";
 import { useNavigate } from "react-router";
-import TokenIcon from "../TokenIcon";
+import Token, { TokenType } from "../Token/Token";
+import TokenIcon from "../Token/TokenIcon/TokenIcon";
+import TokenSymbol from "../Token/TokenSymbol/TokenSymbol";
+import TokenName from "../Token/TokenName/TokenName";
+import TokenAddress from "../Token/TokenAddress/TokenAddress";
 
-const TokensSearchListItem = ({ token }: { token: Token }) => {
+const TokensSearchListItem = ({ token }: { token: TokenType }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {
-    tokens: { items },
-  } = useAppSelector(selectAppStore);
+  const { tokensNew } = useAppSelector(selectAppStore);
 
   return (
-    <ListItem sx={TokensSearchListItemStyles}>
-      <ListItemButton
-        onClick={() => {
-          if (items.find((item: Token) => item.id === token.id)) {
-            return;
-          }
-          dispatch(
-            appStoreActions.setTokens({
-              items: [...items, token],
-            })
-          );
-          setTimeout(() => {
+    <Token token={token}>
+      <ListItem sx={TokensSearchListItemStyles}>
+        <ListItemButton
+          onClick={() => {
+            dispatch(appStoreActions.setTokensNew([...tokensNew, token]));
             navigate("/tokens");
-          }, 150);
-        }}
-      >
-        <ListItemAvatar sx={TokensSearchListItemAvatarStyles}>
-          <TokenIcon url={token.logoURI} size={36} />
-        </ListItemAvatar>
-        <ListItemText
-          sx={TokensSearchListItemTextStyles}
-          primary={token.symbol}
-          secondary={token.name}
-          primaryTypographyProps={{
-            variant: "xs",
-            sx: TokensSearchListItemTextPrimaryTypographyStyles,
           }}
-          secondaryTypographyProps={{
-            variant: "xs",
-            color: "hint",
-            sx: TokensSearchListItemTextSecondaryTypographyStyles,
-          }}
-        />
-        <ListItemSecondaryAction>
+        >
+          <ListItemAvatar sx={TokensSearchListItemAvatarStyles}>
+            <TokenIcon size={36} />
+          </ListItemAvatar>
           <ListItemText
-            secondary={
-              token.address.substring(0, 6) +
-              "..." +
-              token.address.substring(token.address.length - 4)
-            }
+            sx={TokensSearchListItemTextStyles}
+            primary={<TokenSymbol />}
+            secondary={<TokenName />}
+            primaryTypographyProps={{
+              variant: "xs",
+              sx: TokensSearchListItemTextPrimaryTypographyStyles,
+            }}
             secondaryTypographyProps={{
               variant: "xs",
               color: "hint",
               sx: TokensSearchListItemTextSecondaryTypographyStyles,
             }}
           />
-        </ListItemSecondaryAction>
-      </ListItemButton>
-    </ListItem>
+          <ListItemSecondaryAction>
+            <ListItemText
+              secondary={<TokenAddress format="short" />}
+              secondaryTypographyProps={{
+                variant: "xs",
+                color: "hint",
+                sx: TokensSearchListItemTextSecondaryTypographyStyles,
+              }}
+            />
+          </ListItemSecondaryAction>
+        </ListItemButton>
+      </ListItem>
+    </Token>
   );
 };
 

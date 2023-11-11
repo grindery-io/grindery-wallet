@@ -1,17 +1,17 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { Token } from "../../../types/State";
 import { FixedSizeList as List } from "react-window";
 import Loading from "../Loading";
 import TokensSearchListItem from "./TokensSearchListItem";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
+import { TokenType } from "../Token/Token";
 
 const TokensSearchList = ({
   loading,
   items,
 }: {
   loading: boolean;
-  items: Token[];
+  items: TokenType[];
 }) => {
   const { height } = useWindowDimensions();
   return (

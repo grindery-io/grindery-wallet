@@ -1,52 +1,59 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import SearchBox from "../SearchBox/SearchBox";
-import { Token } from "../../../types/State";
 import { searchTokensRequest } from "../../../services/tokens";
 import TokensSearchList from "./TokensSearchList";
 import TokensSearchPlaceholder from "./TokensSearchPlaceholder";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { fixTokens } from "../../../utils/fixTokens";
+import { TokenType } from "../Token/Token";
 
 const TokensSearch = () => {
-  const {
-    tokens: { items: stateItems },
-  } = useAppSelector(selectAppStore);
+  const { tokensNew } = useAppSelector(selectAppStore);
   const [search, setSearch] = useState("");
-  const [items, setItems] = useState<Token[]>([]);
+  const [items, setItems] = useState<TokenType[]>([]);
+  const [loading, setLoading] = useState(false);
   const data = items.filter(
     (item) =>
       item.symbol.toLowerCase().includes(search.toLowerCase()) ||
       item.name.toLowerCase().includes(search.toLowerCase()) ||
       item.address.toLowerCase().includes(search.toLowerCase())
   );
-  const [loading, setLoading] = useState(false);
-
-  const getTokens = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await searchTokensRequest();
-      setItems(
-        (res.data || [])
-          .filter(
-            (item: Token) =>
-              !stateItems.find(
-                (stateItem: Token) =>
-                  stateItem.id.toLowerCase() === item.id.toLowerCase()
-              )
-          )
-          .map(fixTokens)
-      );
-    } catch (error) {
-      console.error("getTokens error", error);
-      setItems([]);
-    }
-    setLoading(false);
-  }, [stateItems]);
 
   useEffect(() => {
-    getTokens();
-  }, [getTokens]);
+    const controller = new AbortController();
+    setLoading(true);
+    searchTokensRequest(search, controller)
+      .then((res) => {
+        const tokens: TokenType[] = (res.data || [])
+          .map((token) => ({
+            name: token.name,
+            symbol: token.symbol,
+            address: token.address,
+            decimals: token.decimals,
+            icon: token.logoURI,
+            chain: token.chainId.toString(),
+            balance: "0",
+            price: "0",
+          }))
+          .filter(
+            (token) =>
+              !tokensNew
+                .map((t) => t.address.toLowerCase())
+                .includes(token.address.toLowerCase())
+          );
+        setItems(tokens.map(fixTokens));
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("searchTokensRequest error", error);
+        setItems([]);
+        setLoading(false);
+      });
+    return () => {
+      controller.abort();
+    };
+  }, [search, tokensNew]);
 
   return (
     <Box sx={TokensSearchStyles}>

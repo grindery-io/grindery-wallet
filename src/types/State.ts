@@ -398,7 +398,6 @@ export type AppState = {
   /**
    * Tokens state
    */
-  tokens: TokensState;
   tokensNew: TokenType[];
   /**
    * Current user state

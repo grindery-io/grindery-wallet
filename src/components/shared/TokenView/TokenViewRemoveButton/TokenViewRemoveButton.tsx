@@ -12,11 +12,9 @@ import { TokenViewProps } from "../TokenView";
 const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {
-    tokens: { items },
-  } = useAppSelector(selectAppStore);
+  const { tokensNew } = useAppSelector(selectAppStore);
 
-  return (
+  return parseFloat(token.balance) <= 0 ? (
     <Button
       sx={{ marginTop: "24px" }}
       fullWidth
@@ -24,18 +22,16 @@ const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
       variant="outlined"
       onClick={() => {
         dispatch(
-          appStoreActions.setTokens({
-            items: [...items.filter((item) => item.address !== token.address)],
-          })
+          appStoreActions.setTokensNew([
+            ...tokensNew.filter((item) => item.address !== token.address),
+          ])
         );
-        setTimeout(() => {
-          navigate("/tokens");
-        }, 150);
+        navigate("/tokens");
       }}
     >
       Remove token from wallet
     </Button>
-  );
+  ) : null;
 };
 
 export default TokenViewRemoveButton;

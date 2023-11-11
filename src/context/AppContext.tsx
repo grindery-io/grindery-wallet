@@ -26,14 +26,8 @@ export const AppContext = createContext<ContextProps>({});
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
   const dispatch = useAppDispatch();
-  const {
-    user,
-    debug,
-    contacts,
-    tokens: { items },
-    tokensNew,
-    balance,
-  } = useAppSelector(selectAppStore);
+  const { user, debug, contacts, tokensNew, balance } =
+    useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
 
   const getMe = useCallback(async () => {
@@ -213,12 +207,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [getPhotos]);
 
   useEffect(() => {
-    if (items && items.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(items));
-    }
-  }, [items]);
-
-  useEffect(() => {
     const controller = new AbortController();
     if (user?.userTelegramID && balance.shouldUpdate) {
       dispatch(
@@ -228,7 +216,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
       getFullBalanceRequest(controller)
         .then((res) => {
-          console.log("res.data.syncStatus.timestamp");
           const tokens = (res.data?.assets || []).map((asset) => ({
             name: asset.tokenName,
             symbol: asset.tokenSymbol,
@@ -244,11 +231,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
               ? new Date(res.data?.syncStatus?.timestamp * 1000).toString()
               : undefined,
           }));
+
           dispatch(appStoreActions.updateTokensNew(tokens));
           dispatch(
             appStoreActions.setBalance({
               loading: false,
-              value: parseFloat(res.data?.totalBalanceUsd) || 0,
+              value: parseFloat(res.data?.totalBalanceUsd || "0") || 0,
               updated: new Date().toString(),
               shouldUpdate: false,
             })

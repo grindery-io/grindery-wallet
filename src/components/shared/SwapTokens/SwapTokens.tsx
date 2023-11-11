@@ -6,8 +6,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../store";
-import { SwapStatus, Token } from "../../../types/State";
-import SendTokensInput from "./SwapTokensInput/SwapTokensInput";
+import { SwapStatus } from "../../../types/State";
+import SwapTokensInput from "./SwapTokensInput/SwapTokensInput";
 import SwapTokensHeader from "./SwapTokensHeader";
 import SwapTokensError from "./SwapTokensError";
 import SwapTokensSentMessage from "./SwapTokensSentMessage";
@@ -16,18 +16,19 @@ import { getSwapRoutesRequest } from "../../../services/swap";
 import { searchTokensRequest } from "../../../services/tokens";
 import { MAIN_TOKEN_ADDRESS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
+import { TokenType } from "../Token";
 
 const SwapTokens = () => {
   const dispatch = useAppDispatch();
-  const { swap, tokens } = useAppSelector(selectAppStore);
-  const [ensoTokens, setEnsoTokens] = useState<Token[]>([]);
+  const { swap, tokensNew } = useAppSelector(selectAppStore);
+  const [ensoTokens, setEnsoTokens] = useState<TokenType[]>([]);
   const { status } = swap;
-  const selectedTokenIn = tokens.items.find(
+  const selectedTokenIn = tokensNew.find(
     (token) => token.address === swap.input.tokenIn
   );
 
   const allTokens = [
-    ...tokens.items.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
+    ...tokensNew.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
     ...(ensoTokens || []),
   ];
 
@@ -79,11 +80,21 @@ const SwapTokens = () => {
     searchTokensRequest("", controller).then((res) => {
       setEnsoTokens(
         (res.data || [])
+          .map((item) => ({
+            name: item.name,
+            symbol: item.symbol,
+            address: item.address,
+            decimals: item.decimals,
+            icon: item.logoURI,
+            chain: item.chainId.toString(),
+            balance: "0",
+            price: "0",
+          }))
           .filter(
-            (item: Token) =>
-              !tokens.items.find(
-                (stateItem: Token) =>
-                  stateItem.id.toLowerCase() === item.id.toLowerCase()
+            (item) =>
+              !tokensNew.find(
+                (stateItem) =>
+                  stateItem.address.toLowerCase() === item.address.toLowerCase()
               )
           )
           .map(fixTokens)
@@ -92,7 +103,7 @@ const SwapTokens = () => {
     return () => {
       controller.abort();
     };
-  }, [tokens.items]);
+  }, [tokensNew]);
 
   return (
     <>
@@ -103,7 +114,7 @@ const SwapTokens = () => {
           {status === SwapStatus.SENDING && <SwapTokensSending />}
           {status === SwapStatus.ERROR && <SwapTokensError />}
           {(status === SwapStatus.WAITING || status === SwapStatus.LOADING) && (
-            <SendTokensInput allTokens={allTokens} />
+            <SwapTokensInput allTokens={allTokens} />
           )}
         </Box>
       </Box>
