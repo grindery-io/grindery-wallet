@@ -15,18 +15,16 @@ import { sortTokens } from "../../utils/sortTokens";
 const SwapPage = () => {
   useBackButton();
   const dispatch = useAppDispatch();
-  const { tokensNew } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
   const [searchParams] = useSearchParams();
   const tokenIn = searchParams.get("id");
   const [loading, setLoading] = useState(true);
   const address1 =
-    sortTokens(tokensNew)[1]?.address ||
-    sortTokens(tokensNew)[0]?.address ||
-    "";
+    sortTokens(tokens)[1]?.address || sortTokens(tokens)[0]?.address || "";
   const address2 =
-    sortTokens(tokensNew)[2]?.address ||
-    sortTokens(tokensNew)[1]?.address ||
-    sortTokens(tokensNew)[0]?.address ||
+    sortTokens(tokens)[2]?.address ||
+    sortTokens(tokens)[1]?.address ||
+    sortTokens(tokens)[0]?.address ||
     "";
 
   useEffect(() => {
