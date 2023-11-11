@@ -11,6 +11,7 @@ const Loading = ({ sx }: Props) => {
       sx={{ margin: "20px", flex: 1, ...(sx || {}) }}
       alignItems="center"
       justifyContent="center"
+      data-testid="loading"
     >
       <CircularProgress
         style={{

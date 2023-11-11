@@ -14,7 +14,7 @@ import BoardPage from "./components/pages/BoardPage";
 import { selectAppStore, useAppSelector } from "./store";
 import WelcomePage from "./components/pages/WelcomePage";
 import StatsPage from "./components/pages/StatsPage";
-import TokenPage from "./components/pages/TokenPage";
+import TokenPage from "./components/pages/TokenPage/TokenPage";
 import TokensImportPage from "./components/pages/TokensImportPage";
 import SwapPage from "./components/pages/SwapPage";
 
