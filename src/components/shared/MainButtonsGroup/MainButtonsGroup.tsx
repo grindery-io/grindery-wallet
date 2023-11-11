@@ -1,10 +1,10 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import ActionButtonsGroupButtonSend from "./ActionButtonsGroupButtonSend";
 import { selectAppStore, useAppSelector } from "../../../store";
-import ActionButtonsGroupButtonSwap from "./ActionButtonsGroupButtonSwap";
+import MainButtonsGroupButtonSend from "./MainButtonsGroupButtonSend/MainButtonsGroupButtonSend";
+import MainButtonsGroupButtonSwap from "./MainButtonsGroupButtonSwap/MainButtonsGroupButtonSwap";
 
-const ActionButtonsGroup = () => {
+const MainButtonsGroup = () => {
   const {
     debug: { features },
   } = useAppSelector(selectAppStore);
@@ -22,12 +22,10 @@ const ActionButtonsGroup = () => {
         width: "100%",
       }}
     >
-      <ActionButtonsGroupButtonSend
-        label={features?.SWAP ? "Send" : undefined}
-      />
-      {features?.SWAP && <ActionButtonsGroupButtonSwap label="Swap" />}
+      <MainButtonsGroupButtonSend label={features?.SWAP ? "Send" : undefined} />
+      {features?.SWAP && <MainButtonsGroupButtonSwap label="Swap" />}
     </Stack>
   );
 };
 
-export default ActionButtonsGroup;
+export default MainButtonsGroup;

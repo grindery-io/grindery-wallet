@@ -2,13 +2,13 @@ import React from "react";
 import BottomNavigation from "../shared/BottomNavigation";
 import TokensTabs from "../shared/TokensTabs";
 import Balance from "../shared/Balance/Balance";
-import ActionButtonsGroup from "../shared/ActionButtonsGroup/ActionButtonsGroup";
+import MainButtonsGroup from "../shared/MainButtonsGroup/MainButtonsGroup";
 
 const TokensPage = () => {
   return (
     <>
       <Balance />
-      <ActionButtonsGroup />
+      <MainButtonsGroup />
       <TokensTabs />
       <BottomNavigation />
     </>

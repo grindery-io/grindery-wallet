@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import { ICONS } from "../../../constants";
-import { selectAppStore, useAppSelector } from "../../../store";
+import { ICONS } from "../../../../constants";
+import { selectAppStore, useAppSelector } from "../../../../store";
 
-const ActionButtonsGroupButtonSend = ({ label }: { label?: string }) => {
+const MainButtonsGroupButtonSend = ({ label }: { label?: string }) => {
   const { user } = useAppSelector(selectAppStore);
 
   let navigate = useNavigate();
@@ -29,4 +29,4 @@ const ActionButtonsGroupButtonSend = ({ label }: { label?: string }) => {
   );
 };
 
-export default ActionButtonsGroupButtonSend;
+export default MainButtonsGroupButtonSend;
