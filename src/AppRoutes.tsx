@@ -21,7 +21,7 @@ import SwapPage from "./components/pages/SwapPage";
 const AppRoutes = () => {
   const {
     user,
-    debug: { features },
+    debug: { enabled, features },
   } = useAppSelector(selectAppStore);
 
   return user ? (
@@ -39,9 +39,9 @@ const AppRoutes = () => {
       <Route path="/apps" element={<AppsPage />} />
       <Route path="/community" element={<CommunityPage />} />
       <Route path="/send" element={<SendPage />} />
-      <Route path="/board" element={<BoardPage />} />
       <Route path="/debug" element={<DebugPage />} />
-      <Route path="/debug/stats" element={<StatsPage />} />
+      {enabled && <Route path="/debug/stats" element={<StatsPage />} />}
+      {features?.LEADERBOARD && <Route path="/board" element={<BoardPage />} />}
       {features?.SWAP && <Route path="/swap" element={<SwapPage />} />}
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>
