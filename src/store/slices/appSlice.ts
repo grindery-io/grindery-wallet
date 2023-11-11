@@ -25,6 +25,7 @@ import {
 } from "../../types/State";
 import { fixTokens } from "../../utils/fixTokens";
 import { TokenType } from "../../components/shared/Token";
+import { mockedToken } from "../../components/shared/Token/mockedToken";
 
 export const initialState: AppState = {
   activity: {
@@ -40,7 +41,13 @@ export const initialState: AppState = {
     loading: true,
     updated: localStorage.getItem(STORAGE_KEYS.APPS_UPDATED) || "",
   },
-  balance: { shouldUpdate: true, loading: true },
+  balance: {
+    ...(JSON.parse(
+      localStorage.getItem(STORAGE_KEYS.BALANCE) || '{ "value": 0 }'
+    ) || {}),
+    shouldUpdate: true,
+    loading: true,
+  },
   community: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.COMMUNITY) || "[]"),
     loading: true,
@@ -108,7 +115,10 @@ export const initialState: AppState = {
         JSON.stringify(DEFAULT_TOKENS)
     ).map(fixTokens),
   },
-  tokensNew: [],
+  tokensNew: JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.TOKENS) ||
+      JSON.stringify([{ ...mockedToken, balance: "0", price: "0" }])
+  ).map(fixTokens),
   user: null,
 };
 
@@ -304,6 +314,22 @@ const appSlice = createSlice({
      */
     setTokensNew(state, action: PayloadAction<TokenType[]>) {
       state.tokensNew = action.payload;
+    },
+    updateTokensNew(state, action: PayloadAction<TokenType[]>) {
+      state.tokensNew = [
+        ...state.tokensNew.map(
+          (token) =>
+            action.payload.find(
+              (t) => t.address.toLowerCase() === token.address.toLowerCase()
+            ) || token
+        ),
+        ...action.payload.filter(
+          (token) =>
+            !state.tokensNew.find(
+              (t) => t.address.toLowerCase() === token.address.toLowerCase()
+            )
+        ),
+      ];
     },
   },
 });

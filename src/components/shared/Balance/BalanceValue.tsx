@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import { formatBalance } from "../../../utils/formatBalance";
 import { useNavigate } from "react-router";
 import { selectAppStore, useAppSelector } from "../../../store";
+import { MAIN_TOKEN_ADDRESS } from "../../../constants";
+import { Token, TokenBalance } from "../Token";
 
 const BalanceValue = () => {
   const {
     balance: { value },
     debug: { features },
-    tokens: { items },
+    tokensNew,
   } = useAppSelector(selectAppStore);
   const navigate = useNavigate();
-  const { full } = formatBalance(value);
   const [clicked, setClicked] = useState(0);
+
+  const mainToken = tokensNew.find(
+    (token) => token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
+  );
 
   useEffect(() => {
     let timeout: any;
@@ -43,15 +47,17 @@ const BalanceValue = () => {
           userSelect: "none",
         }}
       >
-        {features?.TOKEN_PRICE
-          ? formatBalance(
-              items
-                .map((token) => (token.price || 0) * (token.balance || 0))
-                .reduce((partialSum, a) => partialSum + a, 0)
-            ).formatted
-          : full.toLocaleString()}{" "}
+        {features?.TOKEN_PRICE ? (
+          (value || 0).toFixed(2)
+        ) : mainToken ? (
+          <Token token={mainToken}>
+            <TokenBalance format="short" />
+          </Token>
+        ) : (
+          "0.00"
+        )}
       </Typography>
-      <Typography component="span" variant="md">
+      <Typography component="span" variant="md" ml="8px">
         {features?.TOKEN_PRICE ? "USD" : "G1"}
       </Typography>
     </Box>

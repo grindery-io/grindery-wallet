@@ -31,6 +31,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     debug,
     contacts,
     tokens: { items },
+    tokensNew,
+    balance,
   } = useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
 
@@ -218,40 +220,64 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (user?.userTelegramID) {
+    if (user?.userTelegramID && balance.shouldUpdate) {
+      dispatch(
+        appStoreActions.setBalance({
+          loading: true,
+        })
+      );
       getFullBalanceRequest(controller)
         .then((res) => {
           console.log("res.data.syncStatus.timestamp");
-
+          const tokens = (res.data?.assets || []).map((asset) => ({
+            name: asset.tokenName,
+            symbol: asset.tokenSymbol,
+            decimals: asset.tokenDecimals,
+            address:
+              asset.contractAddress ||
+              "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            icon: asset.thumbnail,
+            chain: "137",
+            balance: asset.balanceRawInteger,
+            price: asset.tokenPrice,
+            priceUpdated: res.data?.syncStatus?.timestamp
+              ? new Date(res.data?.syncStatus?.timestamp * 1000).toString()
+              : undefined,
+          }));
+          dispatch(appStoreActions.updateTokensNew(tokens));
           dispatch(
-            appStoreActions.setTokensNew(
-              res.data.assets.map((asset) => ({
-                name: asset.tokenName,
-                symbol: asset.tokenSymbol,
-                decimals: asset.tokenDecimals,
-                address:
-                  asset.contractAddress ||
-                  "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-                icon: asset.thumbnail,
-                chain: "137",
-                balance: asset.balanceRawInteger,
-                price: asset.tokenPrice,
-                priceUpdated: new Date(
-                  res.data.syncStatus.timestamp * 1000
-                ).toString(),
-              }))
-            )
+            appStoreActions.setBalance({
+              loading: false,
+              value: parseFloat(res.data?.totalBalanceUsd) || 0,
+              updated: new Date().toString(),
+              shouldUpdate: false,
+            })
           );
         })
         .catch((error) => {
-          //
+          dispatch(
+            appStoreActions.setBalance({
+              loading: false,
+              shouldUpdate: false,
+            })
+          );
         });
     }
 
     return () => {
       controller.abort();
     };
-  }, [user?.userTelegramID, dispatch]);
+  }, [user?.userTelegramID, balance.shouldUpdate, dispatch]);
+
+  useEffect(() => {
+    if (tokensNew && tokensNew.length > 0) {
+      localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(tokensNew));
+    }
+  }, [tokensNew]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.BALANCE, JSON.stringify(balance));
+  }, [balance]);
 
   return (
     <AppContext.Provider
