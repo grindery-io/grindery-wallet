@@ -9,7 +9,7 @@ import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token/Token";
 
 const TokensSearch = () => {
-  const { tokensNew } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
   const [search, setSearch] = useState("");
   const [items, setItems] = useState<TokenType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ const TokensSearch = () => {
           }))
           .filter(
             (token) =>
-              !tokensNew
+              !tokens
                 .map((t) => t.address.toLowerCase())
                 .includes(token.address.toLowerCase())
           );
@@ -53,7 +53,7 @@ const TokensSearch = () => {
     return () => {
       controller.abort();
     };
-  }, [search, tokensNew]);
+  }, [search, tokens]);
 
   return (
     <Box sx={TokensSearchStyles}>

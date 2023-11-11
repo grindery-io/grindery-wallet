@@ -7,11 +7,11 @@ import TokenView from "../shared/TokenView/TokenView";
 
 const TokenPage = () => {
   useBackButton();
-  const { tokensNew } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
 
   const { id } = useParams();
 
-  const token = tokensNew.find(
+  const token = tokens.find(
     (token) => token.address.toLowerCase() === id?.toLowerCase()
   );
 

@@ -45,14 +45,14 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
     user,
     swap,
     debug: { features },
-    tokensNew,
+    tokens,
   } = useAppSelector(selectAppStore);
   const { input } = swap;
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
     (token) => token.address === input.tokenOut
   );
-  const tokenIsNotImported = !tokensNew.find(
+  const tokenIsNotImported = !tokens.find(
     (token) =>
       token.address.toLowerCase() === selectedToken?.address.toLowerCase()
   );

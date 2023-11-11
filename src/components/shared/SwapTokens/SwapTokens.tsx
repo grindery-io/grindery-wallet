@@ -20,15 +20,15 @@ import { TokenType } from "../Token";
 
 const SwapTokens = () => {
   const dispatch = useAppDispatch();
-  const { swap, tokensNew } = useAppSelector(selectAppStore);
+  const { swap, tokens } = useAppSelector(selectAppStore);
   const [ensoTokens, setEnsoTokens] = useState<TokenType[]>([]);
   const { status } = swap;
-  const selectedTokenIn = tokensNew.find(
+  const selectedTokenIn = tokens.find(
     (token) => token.address === swap.input.tokenIn
   );
 
   const allTokens = [
-    ...tokensNew.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
+    ...tokens.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
     ...(ensoTokens || []),
   ];
 
@@ -92,7 +92,7 @@ const SwapTokens = () => {
           }))
           .filter(
             (item) =>
-              !tokensNew.find(
+              !tokens.find(
                 (stateItem) =>
                   stateItem.address.toLowerCase() === item.address.toLowerCase()
               )
@@ -103,7 +103,7 @@ const SwapTokens = () => {
     return () => {
       controller.abort();
     };
-  }, [tokensNew]);
+  }, [tokens]);
 
   return (
     <>

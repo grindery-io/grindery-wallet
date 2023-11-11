@@ -108,7 +108,7 @@ export const initialState: AppState = {
     status: SwapStatus.WAITING,
     route: null,
   },
-  tokensNew: JSON.parse(
+  tokens: JSON.parse(
     localStorage.getItem(STORAGE_KEYS.TOKENS) ||
       JSON.stringify([{ ...GRINDERY_ONE_TOKEN }])
   ).map(fixTokens),
@@ -288,12 +288,12 @@ const appSlice = createSlice({
     /**
      * Reducer to set the tokens state
      */
-    setTokensNew(state, action: PayloadAction<TokenType[]>) {
-      state.tokensNew = action.payload;
+    setTokens(state, action: PayloadAction<TokenType[]>) {
+      state.tokens = action.payload;
     },
-    updateTokensNew(state, action: PayloadAction<TokenType[]>) {
-      state.tokensNew = [
-        ...state.tokensNew.map(
+    updateTokens(state, action: PayloadAction<TokenType[]>) {
+      state.tokens = [
+        ...state.tokens.map(
           (token) =>
             action.payload.find(
               (t) => t.address.toLowerCase() === token.address.toLowerCase()
@@ -301,7 +301,7 @@ const appSlice = createSlice({
         ),
         ...action.payload.filter(
           (token) =>
-            !state.tokensNew.find(
+            !state.tokens.find(
               (t) => t.address.toLowerCase() === token.address.toLowerCase()
             )
         ),

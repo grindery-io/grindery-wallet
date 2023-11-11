@@ -12,7 +12,7 @@ import { TokenViewProps } from "../TokenView";
 const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { tokensNew } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
 
   return parseFloat(token.balance) <= 0 ? (
     <Button
@@ -22,8 +22,8 @@ const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
       variant="outlined"
       onClick={() => {
         dispatch(
-          appStoreActions.setTokensNew([
-            ...tokensNew.filter((item) => item.address !== token.address),
+          appStoreActions.setTokens([
+            ...tokens.filter((item) => item.address !== token.address),
           ])
         );
         navigate("/tokens");

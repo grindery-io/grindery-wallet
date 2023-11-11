@@ -310,34 +310,6 @@ export type SwapState = {
   route: SwapRoute | null;
 };
 
-export type Token = {
-  id: string;
-  chainId: number;
-  name: string;
-  symbol: string;
-  address: string;
-  decimals: number;
-  logoURI: string;
-  balance?: number;
-  cached?: boolean;
-  loading?: boolean;
-  shouldUpdate?: boolean;
-  updated?: string;
-  price?: number;
-  priceLoading?: boolean;
-  priceUpdated?: string;
-};
-
-/**
- * Interface for the TokensState object representing the state of the tokens
- */
-export type TokensState = {
-  /**
-   * Array of tokens
-   */
-  items: Token[];
-};
-
 /**
  * Interface for the UserState object representing the state of the current user
  */
@@ -398,7 +370,7 @@ export type AppState = {
   /**
    * Tokens state
    */
-  tokensNew: TokenType[];
+  tokens: TokenType[];
   /**
    * Current user state
    */

@@ -9,12 +9,12 @@ const BalanceValue = () => {
   const {
     balance: { value },
     debug: { features },
-    tokensNew,
+    tokens,
   } = useAppSelector(selectAppStore);
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(0);
 
-  const mainToken = tokensNew.find(
+  const mainToken = tokens.find(
     (token) => token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
   );
 

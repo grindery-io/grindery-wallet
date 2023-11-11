@@ -13,8 +13,8 @@ const SendTokensInputAmount = ({
   onChange: (value: string) => void;
   recepient?: string | string[] | null;
 }) => {
-  const { tokensNew } = useAppSelector(selectAppStore);
-  const selectedToken = tokensNew.find(
+  const { tokens } = useAppSelector(selectAppStore);
+  const selectedToken = tokens.find(
     (token) =>
       token.address.toLowerCase() === GRINDERY_ONE_TOKEN.address.toLowerCase()
   );

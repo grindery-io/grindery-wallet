@@ -7,10 +7,10 @@ import { sortTokens } from "../../../utils/sortTokens";
 import { GRINDERY_ONE_TOKEN } from "../../../constants";
 
 const TokensList = () => {
-  const { tokensNew } = useAppSelector(selectAppStore);
+  const { tokens: stateTokens } = useAppSelector(selectAppStore);
   const tokens =
-    tokensNew.length > 0
-      ? sortTokens(tokensNew)
+    stateTokens.length > 0
+      ? sortTokens(stateTokens)
       : [
           {
             ...GRINDERY_ONE_TOKEN,

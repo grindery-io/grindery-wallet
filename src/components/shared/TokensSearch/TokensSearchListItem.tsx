@@ -22,14 +22,14 @@ import TokenAddress from "../Token/TokenAddress/TokenAddress";
 const TokensSearchListItem = ({ token }: { token: TokenType }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { tokensNew } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
 
   return (
     <Token token={token}>
       <ListItem sx={TokensSearchListItemStyles}>
         <ListItemButton
           onClick={() => {
-            dispatch(appStoreActions.setTokensNew([...tokensNew, token]));
+            dispatch(appStoreActions.setTokens([...tokens, token]));
             navigate("/tokens");
           }}
         >

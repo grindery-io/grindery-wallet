@@ -26,7 +26,7 @@ export const AppContext = createContext<ContextProps>({});
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
   const dispatch = useAppDispatch();
-  const { user, debug, contacts, tokensNew, balance } =
+  const { user, debug, contacts, tokens, balance } =
     useAppSelector(selectAppStore);
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
 
@@ -232,7 +232,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
               : undefined,
           }));
 
-          dispatch(appStoreActions.updateTokensNew(tokens));
+          dispatch(appStoreActions.updateTokens(tokens));
           dispatch(
             appStoreActions.setBalance({
               loading: false,
@@ -258,10 +258,10 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [user?.userTelegramID, balance.shouldUpdate, dispatch]);
 
   useEffect(() => {
-    if (tokensNew && tokensNew.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(tokensNew));
+    if (tokens && tokens.length > 0) {
+      localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(tokens));
     }
-  }, [tokensNew]);
+  }, [tokens]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.BALANCE, JSON.stringify(balance));
