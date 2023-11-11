@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { mockedToken } from "./mockedToken";
-import { MAIN_TOKEN_ADDRESS } from "../../../constants";
+import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../constants";
 
 /**
  * @description Token full name / title
@@ -73,9 +72,7 @@ export type TokenContextProps = {
   children: React.ReactNode;
 };
 
-export const TokenContext = createContext<TokenType>({
-  ...mockedToken,
-});
+export const TokenContext = createContext<TokenType>({ ...GRINDERY_ONE_TOKEN });
 
 /**
  * Renders a Token component.

@@ -227,6 +227,17 @@ export const BLOCKCHAIN_NAMES: {
   "1": "Ethereum",
 };
 
+export const GRINDERY_ONE_TOKEN = {
+  name: "Grindery One",
+  symbol: "G1",
+  decimals: 18,
+  address: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
+  icon: "/images/g1-token-red.svg",
+  chain: "137",
+  balance: "0",
+  price: "0",
+};
+
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
 var(--tg-theme-button-color, #2481cc)

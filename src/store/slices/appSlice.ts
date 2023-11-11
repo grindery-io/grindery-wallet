@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { EXPERIMENTAL_FEATURES, STORAGE_KEYS } from "../../constants";
+import {
+  EXPERIMENTAL_FEATURES,
+  GRINDERY_ONE_TOKEN,
+  STORAGE_KEYS,
+} from "../../constants";
 import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import {
   AppState,
@@ -21,7 +25,6 @@ import {
 } from "../../types/State";
 import { fixTokens } from "../../utils/fixTokens";
 import { TokenType } from "../../components/shared/Token";
-import { mockedToken } from "../../components/shared/Token/mockedToken";
 
 export const initialState: AppState = {
   activity: {
@@ -107,7 +110,7 @@ export const initialState: AppState = {
   },
   tokensNew: JSON.parse(
     localStorage.getItem(STORAGE_KEYS.TOKENS) ||
-      JSON.stringify([{ ...mockedToken, balance: "0", price: "0" }])
+      JSON.stringify([{ ...GRINDERY_ONE_TOKEN }])
   ).map(fixTokens),
   user: null,
 };

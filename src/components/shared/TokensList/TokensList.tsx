@@ -3,8 +3,8 @@ import TokensListItem from "./TokensListItem";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { Stack } from "@mui/material";
 import TokensListImportButton from "./TokensListImportButton";
-import { mockedToken } from "../Token/mockedToken";
 import { sortTokens } from "../../../utils/sortTokens";
+import { GRINDERY_ONE_TOKEN } from "../../../constants";
 
 const TokensList = () => {
   const { tokensNew } = useAppSelector(selectAppStore);
@@ -13,9 +13,7 @@ const TokensList = () => {
       ? sortTokens(tokensNew)
       : [
           {
-            ...mockedToken,
-            balance: "0",
-            price: "0",
+            ...GRINDERY_ONE_TOKEN,
             priceUpdated: new Date().toString(),
           },
         ];

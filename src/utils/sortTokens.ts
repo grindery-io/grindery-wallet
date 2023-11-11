@@ -1,11 +1,11 @@
 import { TokenType } from "../components/shared/Token";
-import { mockedToken } from "../components/shared/Token/mockedToken";
+import { GRINDERY_ONE_TOKEN } from "../constants";
 
 export const sortTokens = (tokens: TokenType[]) => {
   return [
     ...tokens.filter(
       (token) =>
-        token.address.toLowerCase() === mockedToken.address.toLowerCase()
+        token.address.toLowerCase() === GRINDERY_ONE_TOKEN.address.toLowerCase()
     ),
     ...tokens.filter(
       (token) =>
@@ -16,7 +16,7 @@ export const sortTokens = (tokens: TokenType[]) => {
       (token) =>
         token.address.toLowerCase() !==
           "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" &&
-        token.address.toLowerCase() !== mockedToken.address.toLowerCase()
+        token.address.toLowerCase() !== GRINDERY_ONE_TOKEN.address.toLowerCase()
     ),
   ];
 };

@@ -10,8 +10,6 @@ type Props = {
 };
 
 const UserAvatar = ({ user, size, sx }: Props) => {
-  console.log("user", user);
-
   return (
     <Box
       sx={{
