@@ -25,7 +25,7 @@ const TokensSearch = () => {
     setLoading(true);
     searchTokensRequest(search, controller)
       .then((res) => {
-        const tokens: TokenType[] = (res.data || [])
+        const swapTokens: TokenType[] = (res.data || [])
           .map((token) => ({
             name: token.name,
             symbol: token.symbol,
@@ -42,7 +42,7 @@ const TokensSearch = () => {
                 .map((t) => t.address.toLowerCase())
                 .includes(token.address.toLowerCase())
           );
-        setItems(tokens.map(fixTokens));
+        setItems(swapTokens.map(fixTokens));
         setLoading(false);
       })
       .catch((error) => {
