@@ -10,6 +10,7 @@ import {
 import { getMeRequest } from "../services/me";
 import { getContactsRequest } from "../services/contacts";
 import { getFullBalanceRequest } from "../services/balance";
+import { extractTokensFromBalanceResponse } from "../utils/extractTokensFromBalanceResponse";
 
 // Context props
 type ContextProps = {
@@ -216,21 +217,9 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       );
       getFullBalanceRequest(controller)
         .then((res) => {
-          const tokens = (res.data?.assets || []).map((asset) => ({
-            name: asset.tokenName,
-            symbol: asset.tokenSymbol,
-            decimals: asset.tokenDecimals,
-            address:
-              asset.contractAddress ||
-              "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-            icon: asset.thumbnail,
-            chain: "137",
-            balance: asset.balanceRawInteger,
-            price: asset.tokenPrice,
-            priceUpdated: res.data?.syncStatus?.timestamp
-              ? new Date(res.data?.syncStatus?.timestamp * 1000).toString()
-              : undefined,
-          }));
+          const tokens = res.data
+            ? extractTokensFromBalanceResponse(res.data)
+            : [];
 
           dispatch(appStoreActions.updateTokens(tokens));
           dispatch(
