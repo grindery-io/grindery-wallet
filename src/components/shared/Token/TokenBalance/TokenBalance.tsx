@@ -21,10 +21,7 @@ export const formatTokenBalance = (
     case "eth":
       return (Number(balance) / 10 ** decimals).toString();
     case "usd":
-      return (
-        (Number(balance) / 10 ** decimals) *
-        Number(price)
-      ).toLocaleString();
+      return ((Number(balance) / 10 ** decimals) * Number(price)).toFixed(2);
     case "short":
       return parseFloat(
         (Number(balance) / 10 ** decimals).toFixed(2)

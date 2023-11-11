@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { mockedToken } from "./mockedToken";
+import { MAIN_TOKEN_ADDRESS } from "../../../constants";
 
 /**
  * @description Token full name / title
@@ -85,7 +86,13 @@ const Token = ({ children, token }: TokenContextProps): JSX.Element => {
   const [state, setState] = useState<TokenType>(token);
 
   useEffect(() => {
-    setState(token);
+    setState({
+      ...token,
+      icon:
+        token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
+          ? "/images/g1-token-red.svg"
+          : token.icon,
+    });
   }, [token]);
 
   return (

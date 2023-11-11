@@ -12,9 +12,9 @@ export type TokenPriceProps = {
 export const formatTokenPrice = (price: string, format: TokenPriceFormat) => {
   switch (format) {
     case "default":
-      return price;
+      return `${parseFloat(price).toFixed(2)} USD`;
     case "full":
-      return `${price} USD`;
+      return price;
     case "short":
       return `$${price}`;
     case "$":

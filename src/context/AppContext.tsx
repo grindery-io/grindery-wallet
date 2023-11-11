@@ -221,7 +221,27 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (user?.userTelegramID) {
       getFullBalanceRequest(controller)
         .then((res) => {
-          console.log("balance", res.data);
+          console.log("res.data.syncStatus.timestamp");
+
+          dispatch(
+            appStoreActions.setTokensNew(
+              res.data.assets.map((asset) => ({
+                name: asset.tokenName,
+                symbol: asset.tokenSymbol,
+                decimals: asset.tokenDecimals,
+                address:
+                  asset.contractAddress ||
+                  "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                icon: asset.thumbnail,
+                chain: "137",
+                balance: asset.balanceRawInteger,
+                price: asset.tokenPrice,
+                priceUpdated: new Date(
+                  res.data.syncStatus.timestamp * 1000
+                ).toString(),
+              }))
+            )
+          );
         })
         .catch((error) => {
           //
@@ -231,7 +251,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     return () => {
       controller.abort();
     };
-  }, [user?.userTelegramID]);
+  }, [user?.userTelegramID, dispatch]);
 
   return (
     <AppContext.Provider

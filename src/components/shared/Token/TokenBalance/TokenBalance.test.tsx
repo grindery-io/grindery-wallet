@@ -28,7 +28,7 @@ describe("TokenBalance", () => {
   it("renders the token balance in USD", () => {
     const { getByText } = render(<TokenBalance format="usd" />);
 
-    expect(getByText("150")).toBeInTheDocument();
+    expect(getByText("150.00")).toBeInTheDocument();
   });
 });
 
@@ -60,7 +60,7 @@ describe("formatTokenBalance", () => {
       mockedToken.price,
       mockedToken.decimals
     );
-    expect(formattedBalance).toBe("150");
+    expect(formattedBalance).toBe("150.00");
   });
 
   it("formats the token balance in short", () => {

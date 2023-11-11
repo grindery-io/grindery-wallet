@@ -9,7 +9,7 @@ const TokenViewTablePrice = () => {
   } = useAppSelector(selectAppStore);
 
   return features?.TOKEN_PRICE ? (
-    <TableRow label="Price" value={<TokenPrice format="full" />} />
+    <TableRow label="Price" value={<TokenPrice />} />
   ) : null;
 };
 

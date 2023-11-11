@@ -22,7 +22,7 @@ describe("TokenPrice", () => {
   it("renders the token price", () => {
     const { getByText } = render(<TokenPrice />);
 
-    expect(getByText(mockedToken.price)).toBeInTheDocument();
+    expect(getByText("1.50 USD")).toBeInTheDocument();
   });
 
   it("renders the token price in short format", () => {
@@ -35,7 +35,7 @@ describe("TokenPrice", () => {
 describe("formatTokenPrice", () => {
   it("formats the token price in default format", () => {
     const formattedPrice = formatTokenPrice(mockedToken.price, "default");
-    expect(formattedPrice).toBe(mockedToken.price);
+    expect(formattedPrice).toBe("1.50 USD");
   });
 
   it("formats the token price in short format", () => {

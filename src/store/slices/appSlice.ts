@@ -24,6 +24,7 @@ import {
   UserState,
 } from "../../types/State";
 import { fixTokens } from "../../utils/fixTokens";
+import { TokenType } from "../../components/shared/Token";
 
 export const initialState: AppState = {
   activity: {
@@ -107,6 +108,7 @@ export const initialState: AppState = {
         JSON.stringify(DEFAULT_TOKENS)
     ).map(fixTokens),
   },
+  tokensNew: [],
   user: null,
 };
 
@@ -296,6 +298,12 @@ const appSlice = createSlice({
       state.tokens.items = state.tokens.items.map((token: any) =>
         token.id === action.payload.id ? { ...token, ...action.payload } : token
       );
+    },
+    /**
+     * Reducer to set the tokens state
+     */
+    setTokensNew(state, action: PayloadAction<TokenType[]>) {
+      state.tokensNew = action.payload;
     },
   },
 });

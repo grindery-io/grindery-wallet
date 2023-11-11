@@ -21,17 +21,38 @@ export const getBalanceRequest = async (
   );
 };
 
-/**
- *
- * @todo: fix response type
- */
+export type GetFullBalanceResponseType = {
+  totalBalanceUsd: string;
+  totalCount: number;
+  assets: {
+    blockchain: string;
+    tokenName: string;
+    tokenSymbol: string;
+    tokenDecimals: number;
+    tokenType: string;
+    contractAddress: string;
+    holderAddress: string;
+    balance: string;
+    balanceRawInteger: string;
+    balanceUsd: string;
+    tokenPrice: string;
+    thumbnail: string;
+  }[];
+  syncStatus: {
+    timestamp: number;
+    lag: string;
+    status: string;
+  };
+};
+
 export const getFullBalanceRequest = async (controller?: AbortController) => {
-  return await axios.get<{
-    success: true;
-  }>(`${BOT_API_URL}/v2/balance/`, {
-    signal: controller?.signal,
-    headers: {
-      Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-    },
-  });
+  return await axios.get<GetFullBalanceResponseType>(
+    `${BOT_API_URL}/v2/balance/`,
+    {
+      signal: controller?.signal,
+      headers: {
+        Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+      },
+    }
+  );
 };

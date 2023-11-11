@@ -1,3 +1,4 @@
+import { TokenType } from "../components/shared/Token";
 import { SwapRoute } from "./SwapRoute";
 import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
@@ -398,6 +399,7 @@ export type AppState = {
    * Tokens state
    */
   tokens: TokensState;
+  tokensNew: TokenType[];
   /**
    * Current user state
    */
