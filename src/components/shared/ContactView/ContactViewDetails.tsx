@@ -3,14 +3,14 @@ import { Box, Typography } from "@mui/material";
 import { AppUser } from "../../../hooks/useAppUser";
 import UserAvatar from "../UserAvatar";
 
-const ContactDetails = ({ contact }: { contact: AppUser }) => {
+const ContactViewDetails = ({ contact }: { contact: AppUser }) => {
   return (
     <Box>
-      <Box sx={ContactDetailsAvatarStyles}>
+      <Box sx={ContactViewDetailsAvatarStyles}>
         <UserAvatar user={contact} size={130} />
 
         {contact.isGrinderyUser && (
-          <Box sx={ContactDetailsAvatarBadgeStyles}>
+          <Box sx={ContactViewDetailsAvatarBadgeStyles}>
             <img src="https://app.grindery.io/logo192.png" alt="" />
           </Box>
         )}
@@ -23,13 +23,13 @@ const ContactDetails = ({ contact }: { contact: AppUser }) => {
   );
 };
 
-const ContactDetailsAvatarStyles = {
+const ContactViewDetailsAvatarStyles = {
   margin: "20px auto 0",
   position: "relative",
   width: "130px",
   height: "130px",
 };
-const ContactDetailsAvatarBadgeStyles = {
+const ContactViewDetailsAvatarBadgeStyles = {
   position: "absolute",
   bottom: "-4px",
   right: "-4px",
@@ -38,4 +38,4 @@ const ContactDetailsAvatarBadgeStyles = {
   "& img": { width: "32px", height: "32px", display: "block" },
 };
 
-export default ContactDetails;
+export default ContactViewDetails;

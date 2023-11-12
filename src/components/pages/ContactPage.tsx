@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
-import Contact from "../shared/Contact/Contact";
+import ContactView from "../shared/ContactView/ContactView";
 
 const ContactPage = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const ContactPage = () => {
     }
   }, [id, navigate]);
 
-  return <Contact id={id || ""} />;
+  return <ContactView id={id || ""} />;
 };
 
 export default ContactPage;

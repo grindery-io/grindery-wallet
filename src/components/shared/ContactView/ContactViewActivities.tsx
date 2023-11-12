@@ -7,7 +7,7 @@ import { AppUser } from "../../../hooks/useAppUser";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUserActivityRequest } from "../../../services/activity";
 
-const ContactActivities = ({ contact }: { contact: AppUser }) => {
+const ContactViewActivities = ({ contact }: { contact: AppUser }) => {
   const navigate = useNavigate();
 
   const [activities, setActivities] = useState<TelegramUserActivity[]>([]);
@@ -127,4 +127,4 @@ const ContactActivities = ({ contact }: { contact: AppUser }) => {
   );
 };
 
-export default ContactActivities;
+export default ContactViewActivities;

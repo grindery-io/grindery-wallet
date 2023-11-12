@@ -4,11 +4,11 @@ import { ICONS, MAX_WIDTH } from "../../../constants";
 import { Box, Button } from "@mui/material";
 import { AppUser } from "../../../hooks/useAppUser";
 
-const ContactSendTokensButton = ({ contact }: { contact: AppUser }) => {
+const ContactViewSendTokensButton = ({ contact }: { contact: AppUser }) => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={ContactSendTokensButtonStyles}>
+    <Box sx={ContactViewSendTokensButtonStyles}>
       <Button
         variant="contained"
         startIcon={
@@ -32,7 +32,7 @@ const ContactSendTokensButton = ({ contact }: { contact: AppUser }) => {
   );
 };
 
-const ContactSendTokensButtonStyles = {
+const ContactViewSendTokensButtonStyles = {
   padding: "16px",
   position: "fixed",
   width: "100%",
@@ -43,4 +43,4 @@ const ContactSendTokensButtonStyles = {
   bottom: 0,
 };
 
-export default ContactSendTokensButton;
+export default ContactViewSendTokensButton;
