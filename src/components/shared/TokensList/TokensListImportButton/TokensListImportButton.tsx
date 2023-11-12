@@ -6,7 +6,10 @@ import { useNavigate } from "react-router";
 const TokensListImportButton = () => {
   const navigate = useNavigate();
   return (
-    <Box sx={{ margin: "8px 0 16px", textAlign: "center" }}>
+    <Box
+      sx={{ margin: "8px 0 16px", textAlign: "center" }}
+      data-testid="tokens-list-import-button"
+    >
       <Button
         size="small"
         variant="text"

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, ListItemText, Menu, MenuItem } from "@mui/material";
-import { SearchBoxProps } from "./SearchBox";
-import SearchBoxFiltersMenuItem from "./SearchBoxFiltersMenuItem";
+import { SearchBoxProps } from "../SearchBox";
+import SearchBoxFiltersMenuItem from "../SearchBoxFiltersMenuItem/SearchBoxFiltersMenuItem";
 
 interface SearchBoxFiltersMenuProps extends SearchBoxProps {
   open: boolean;
@@ -20,6 +20,7 @@ const SearchBoxFiltersMenu = (props: SearchBoxFiltersMenuProps) => {
       MenuListProps={{
         sx: { background: "var(--tg-theme-secondary-bg-color, #efeff3)" },
       }}
+      data-testid="search-box-filters-menu"
     >
       <MenuItem sx={{ marginBottom: 0, minHeight: "auto" }} disabled>
         <ListItemText
@@ -43,7 +44,13 @@ const SearchBoxFiltersMenu = (props: SearchBoxFiltersMenuProps) => {
           />
         ))}
       <Box sx={{ padding: "6px 16px" }}>
-        <Button fullWidth variant="outlined" size="small" onClick={handleClose}>
+        <Button
+          fullWidth
+          variant="outlined"
+          size="small"
+          onClick={handleClose}
+          data-testid="search-box-filters-close-button"
+        >
           Search
         </Button>
       </Box>

@@ -1,11 +1,12 @@
 import React from "react";
 import { IconButton, InputBase } from "@mui/material";
-import { ICONS } from "../../../constants";
-import { SearchBoxProps } from "./SearchBox";
+import { ICONS } from "../../../../constants";
+import { SearchBoxProps } from "../SearchBox";
 
 const SearchBoxInput = ({ value, placeholder, onChange }: SearchBoxProps) => {
   return (
     <InputBase
+      data-testid="search-box-input"
       name="search"
       placeholder={placeholder}
       startAdornment={

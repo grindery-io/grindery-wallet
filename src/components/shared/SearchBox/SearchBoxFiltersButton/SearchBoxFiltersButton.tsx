@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge, IconButton } from "@mui/material";
-import { SearchBoxProps } from "./SearchBox";
+import { SearchBoxProps } from "../SearchBox";
 
 interface SearchBoxFiltersButtonProps extends SearchBoxProps {
   handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -11,6 +11,7 @@ const SearchBoxFiltersButton = (props: SearchBoxFiltersButtonProps) => {
 
   return (
     <Badge
+      data-testid="search-box-filters-badge"
       badgeContent={
         (filters && filters.filter((filter) => filter.isActive).length) || 0
       }
@@ -23,6 +24,7 @@ const SearchBoxFiltersButton = (props: SearchBoxFiltersButtonProps) => {
       overlap="circular"
     >
       <IconButton
+        data-testid="search-box-filters-button"
         sx={{
           padding: "0px",
           color: "var(--tg-theme-hint-color, #999999)",

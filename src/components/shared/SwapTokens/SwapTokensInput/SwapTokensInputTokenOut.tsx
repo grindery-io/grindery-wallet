@@ -7,7 +7,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../../store";
-import TokensListItem from "../../TokensList/TokensListItem";
+import TokensListItem from "../../TokensList/TokensListItem/TokensListItem";
 import { SwapStatus } from "../../../../types/State";
 import { SwapTokensInputProps } from "./SwapTokensInput";
 import { Token, TokenBalance, TokenIcon, TokenSymbol } from "../../Token";

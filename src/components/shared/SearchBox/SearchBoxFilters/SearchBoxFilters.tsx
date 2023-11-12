@@ -1,7 +1,7 @@
 import React from "react";
-import { SearchBoxProps } from "./SearchBox";
-import SearchBoxFiltersMenu from "./SearchBoxFiltersMenu";
-import SearchBoxFiltersButton from "./SearchBoxFiltersButton";
+import { SearchBoxProps } from "../SearchBox";
+import SearchBoxFiltersMenu from "../SearchBoxFiltersMenu/SearchBoxFiltersMenu";
+import SearchBoxFiltersButton from "../SearchBoxFiltersButton/SearchBoxFiltersButton";
 
 const SearchBoxFilters = (props: SearchBoxProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

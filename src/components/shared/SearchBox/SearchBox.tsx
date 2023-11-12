@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, SxProps } from "@mui/material";
-import SearchBoxInput from "./SearchBoxInput";
-import SearchBoxFilters from "./SearchBoxFilters";
+import SearchBoxInput from "./SearchBoxInput/SearchBoxInput";
+import SearchBoxFilters from "./SearchBoxFilters/SearchBoxFilters";
 
 export type Filter = {
   key: string;

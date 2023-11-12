@@ -1,8 +1,8 @@
 import React from "react";
-import TokensListItem from "./TokensListItem";
+import TokensListItem from "./TokensListItem/TokensListItem";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { Stack } from "@mui/material";
-import TokensListImportButton from "./TokensListImportButton";
+import TokensListImportButton from "./TokensListImportButton/TokensListImportButton";
 import { sortTokens } from "../../../utils/sortTokens";
 import { GRINDERY_ONE_TOKEN } from "../../../constants";
 
@@ -24,6 +24,7 @@ const TokensList = () => {
       justifyContent="flex-start"
       style={TokensListStyles}
       useFlexGap
+      data-testid="tokens-list"
     >
       {tokens.map((token) => (
         <TokensListItem token={token} key={token.address} />

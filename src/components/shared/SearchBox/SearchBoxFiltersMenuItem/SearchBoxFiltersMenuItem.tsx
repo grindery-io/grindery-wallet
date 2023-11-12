@@ -1,6 +1,6 @@
 import React from "react";
 import { Checkbox, ListItemText, MenuItem, Radio } from "@mui/material";
-import { Filter, SearchBoxProps } from "./SearchBox";
+import { Filter, SearchBoxProps } from "../SearchBox";
 
 interface SearchBoxFiltersMenuItemProps extends SearchBoxProps {
   filter: Filter;

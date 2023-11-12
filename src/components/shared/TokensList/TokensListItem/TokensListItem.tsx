@@ -7,12 +7,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { selectAppStore, useAppSelector } from "../../../store";
+import { selectAppStore, useAppSelector } from "../../../../store";
 import { useNavigate } from "react-router";
-import Token, { TokenType } from "../Token/Token";
-import TokenIcon from "../Token/TokenIcon/TokenIcon";
-import TokenSymbol from "../Token/TokenSymbol/TokenSymbol";
-import TokenBalance from "../Token/TokenBalance/TokenBalance";
+import Token, { TokenType } from "../../Token/Token";
+import TokenIcon from "../../Token/TokenIcon/TokenIcon";
+import TokenSymbol from "../../Token/TokenSymbol/TokenSymbol";
+import TokenBalance from "../../Token/TokenBalance/TokenBalance";
 
 type TokensListItemProps = {
   token: TokenType;
