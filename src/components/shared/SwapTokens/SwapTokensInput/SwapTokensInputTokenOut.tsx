@@ -17,12 +17,7 @@ import DialogSelect from "../../DialogSelect/DialogSelect";
 const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
-  const {
-    user,
-    swap,
-    debug: { features },
-    tokens,
-  } = useAppSelector(selectAppStore);
+  const { user, swap, tokens } = useAppSelector(selectAppStore);
   const { input } = swap;
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
@@ -142,16 +137,15 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
               ).toString()}
               readOnly
             />
-            {features?.TOKEN_PRICE && (
-              <Typography variant="xs" color="hint">
-                {(
-                  parseFloat(tokenIsNotImported ? price : selectedToken.price) *
-                  (parseFloat(swap.route?.amountOut || "0") /
-                    Math.pow(10, selectedToken?.decimals || 18))
-                ).toFixed(2)}{" "}
-                USD
-              </Typography>
-            )}
+
+            <Typography variant="xs" color="hint">
+              {(
+                parseFloat(tokenIsNotImported ? price : selectedToken.price) *
+                (parseFloat(swap.route?.amountOut || "0") /
+                  Math.pow(10, selectedToken?.decimals || 18))
+              ).toFixed(2)}{" "}
+              USD
+            </Typography>
           </Stack>
         </Stack>
       </Token>

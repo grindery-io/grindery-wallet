@@ -7,7 +7,6 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { selectAppStore, useAppSelector } from "../../../../store";
 import { useNavigate } from "react-router";
 import Token, { TokenType } from "../../Token/Token";
 import TokenIcon from "../../Token/TokenIcon/TokenIcon";
@@ -22,9 +21,6 @@ type TokensListItemProps = {
 
 const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
   const navigate = useNavigate();
-  const {
-    debug: { features },
-  } = useAppSelector(selectAppStore);
 
   return (
     <Token token={token}>
@@ -57,11 +53,10 @@ const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
             <Typography textAlign="right" sx={{ whiteSpace: "nowrap" }}>
               <TokenBalance format="short" />
             </Typography>
-            {features?.TOKEN_PRICE && (
-              <Typography variant="xs" color="hint" textAlign="right">
-                <TokenBalance format="usd" /> USD
-              </Typography>
-            )}
+
+            <Typography variant="xs" color="hint" textAlign="right">
+              <TokenBalance format="usd" /> USD
+            </Typography>
           </ListItemSecondaryAction>
         </ListItemButton>
       </ListItem>

@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import BalanceValue from "./BalanceValue";
 import { useAppSelector } from "../../../../store";
+import { mockedToken } from "../../Token/mockedToken";
 
 jest.mock("../../../../store");
 jest.mock("react-router", () => ({
@@ -23,8 +24,7 @@ describe("BalanceValue", () => {
 
   beforeEach(() => {
     mockedUseAppSelector.mockReturnValue({
-      balance: { value: 123.45 },
-      debug: { features: { TOKEN_PRICE: true } },
+      balance: { value: 123.45, display: "usd" },
       tokens: [],
     });
   });
@@ -33,18 +33,17 @@ describe("BalanceValue", () => {
     jest.resetAllMocks();
   });
 
-  it("renders the balance value with USD when TOKEN_PRICE feature is enabled", () => {
+  it("renders the balance value with USD when display is `usd`", () => {
     render(<BalanceValue />);
 
     expect(screen.getByText("123.45")).toBeInTheDocument();
     expect(screen.getByText("USD")).toBeInTheDocument();
   });
 
-  it("renders the main token balance when TOKEN_PRICE feature is disabled and main token exists", () => {
-    const mockedMainToken = { address: MAIN_TOKEN_ADDRESS };
+  it("renders the main token balance when display mode is `token` and main token exists", () => {
+    const mockedMainToken = mockedToken;
     mockedUseAppSelector.mockReturnValue({
-      balance: { value: 123.45 },
-      debug: { features: { TOKEN_PRICE: false } },
+      balance: { value: 123.45, display: "token" },
       tokens: [mockedMainToken],
     });
 
@@ -53,10 +52,9 @@ describe("BalanceValue", () => {
     expect(screen.getByText("G1")).toBeInTheDocument();
   });
 
-  it("renders 0.00 when TOKEN_PRICE feature is disabled and main token does not exist", () => {
+  it("renders 0.00 when display is `token` and main token does not exist", () => {
     mockedUseAppSelector.mockReturnValue({
-      balance: { value: 123.45 },
-      debug: { features: { TOKEN_PRICE: false } },
+      balance: { value: 123.45, display: "token" },
       tokens: [],
     });
 

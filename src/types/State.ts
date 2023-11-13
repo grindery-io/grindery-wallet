@@ -80,6 +80,10 @@ export type BalanceState = {
    * When the balance was last updated
    */
   updated?: string;
+  /**
+   * Display mode
+   */
+  display: "token" | "usd";
 };
 
 /**

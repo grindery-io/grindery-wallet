@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, MenuItem, Select, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import { selectAppStore, useAppSelector } from "../../../../store";
+import {
+  appStoreActions,
+  selectAppStore,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import { MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import { Token, TokenBalance } from "../../Token";
 
 const BalanceValue = () => {
+  const dispatch = useAppDispatch();
   const {
-    balance: { value },
-    debug: { features },
+    balance: { value, display },
     tokens,
   } = useAppSelector(selectAppStore);
   const navigate = useNavigate();
@@ -45,9 +50,10 @@ const BalanceValue = () => {
         sx={{
           WebkitUserSelect: "none",
           userSelect: "none",
+          marginLeft: "32px",
         }}
       >
-        {features?.TOKEN_PRICE ? (
+        {display === "usd" ? (
           (value || 0).toFixed(2)
         ) : mainToken ? (
           <Token token={mainToken}>
@@ -57,9 +63,57 @@ const BalanceValue = () => {
           "0.00"
         )}
       </Typography>
-      <Typography component="span" variant="md" ml="8px">
-        {features?.TOKEN_PRICE ? "USD" : "G1"}
-      </Typography>
+      <Select
+        sx={{
+          display: "inline-flex",
+          marginLeft: "8px",
+          fontFamily: "inherit",
+          "& .MuiSelect-select": {
+            padding: 0,
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "none",
+          },
+        }}
+        value={display}
+        onChange={(e) => {
+          dispatch(
+            appStoreActions.setBalance({
+              display: e.target.value as any,
+            })
+          );
+        }}
+        inputProps={{
+          name: "balance",
+          id: "balance-display",
+        }}
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              minWidth: "unset !important",
+            },
+          },
+          sx: {
+            "& .MuiList-root": {
+              padding: "8px 8px 4px",
+            },
+            "& .MuiMenuItem-root": {
+              borderRadius: "4px",
+              padding: "2px 12px !important",
+              marginBottom: "4px",
+              minHeight: "unset !important",
+            },
+            "& .MuiMenuItem-root.Mui-selected": {
+              backgroundColor:
+                "var(--tg-theme-button-color, #2481cc) !important",
+              color: "var(--tg-theme-button-text-color, #ffffff) !important",
+            },
+          },
+        }}
+      >
+        <MenuItem value="token">{mainToken?.symbol || "G1"}</MenuItem>
+        <MenuItem value="usd">USD</MenuItem>
+      </Select>
     </Box>
   );
 };

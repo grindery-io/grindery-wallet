@@ -47,6 +47,10 @@ export const initialState: AppState = {
     ) || {}),
     shouldUpdate: true,
     loading: true,
+    display:
+      JSON.parse(
+        localStorage.getItem(STORAGE_KEYS.BALANCE) || '{ "display": "token" }'
+      )?.display || "token",
   },
   community: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.COMMUNITY) || "[]"),

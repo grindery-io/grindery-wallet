@@ -18,7 +18,6 @@ const SwapTokensInputTokenIn = ({ allTokens }: SwapTokensInputProps) => {
   const dispatch = useAppDispatch();
   const {
     swap: { input },
-    debug: { features },
   } = useAppSelector(selectAppStore);
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
@@ -139,15 +138,14 @@ const SwapTokensInputTokenIn = ({ allTokens }: SwapTokensInputProps) => {
                 debouncedSearchChange(e.target.value);
               }}
             />
-            {features?.TOKEN_PRICE && (
-              <Typography variant="xs" color="hint">
-                {(
-                  parseFloat(selectedToken.price) *
-                  parseFloat(input.amountIn || "0")
-                ).toFixed(2)}{" "}
-                USD
-              </Typography>
-            )}
+
+            <Typography variant="xs" color="hint">
+              {(
+                parseFloat(selectedToken.price) *
+                parseFloat(input.amountIn || "0")
+              ).toFixed(2)}{" "}
+              USD
+            </Typography>
           </Stack>
         </Stack>
       </Token>
