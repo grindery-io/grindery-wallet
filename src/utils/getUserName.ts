@@ -1,7 +1,8 @@
+import { ContactType } from "../components/shared/Contact/Contact";
 import { TelegramUser, TelegramUserContact } from "../types/Telegram";
 
 export const getUserName = (
-  user: TelegramUserContact | TelegramUser | null
+  user: TelegramUserContact | TelegramUser | ContactType | null
 ) => {
   return !!(user as TelegramUserContact)?.firstName
     ? `${(user as TelegramUserContact)?.firstName}${

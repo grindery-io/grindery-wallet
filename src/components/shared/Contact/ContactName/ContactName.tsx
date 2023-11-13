@@ -2,6 +2,7 @@ import React from "react";
 import { Box, SxProps } from "@mui/material";
 import {
   ContactFirstNameType,
+  ContactIdType,
   ContactLastNameType,
   ContactUsernameType,
   useContact,
@@ -19,27 +20,30 @@ export const formatContactName = (
     firstName: ContactFirstNameType;
     lastName: ContactLastNameType;
     username: ContactUsernameType;
+    id: ContactIdType;
   },
   format: ContactNameFormat
 ) => {
   switch (format) {
     case "default":
-      return `${names.firstName} ${names.lastName}`;
+      return `${names.firstName || ""}${
+        names.lastName ? " " + names.lastName : ""
+      }`;
     case "first":
-      return names.firstName;
+      return names.firstName || "";
     case "last":
-      return names.lastName;
+      return names.lastName || "";
     case "username":
-      return names.username;
+      return names.username || names.firstName || names.lastName || names.id;
     default:
       return `${names.firstName} ${names.lastName}`;
   }
 };
 
 const ContactName = ({ format = "default", sx }: ContactNameProps) => {
-  const { firstName, lastName, username } = useContact();
+  const { firstName, lastName, username, id } = useContact();
 
-  const name = formatContactName({ firstName, lastName, username }, format);
+  const name = formatContactName({ firstName, lastName, username, id }, format);
 
   return name ? (
     <Box sx={sx} component="span">

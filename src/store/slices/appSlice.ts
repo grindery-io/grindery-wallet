@@ -11,6 +11,7 @@ import {
   AppsState,
   BalanceState,
   CommunityState,
+  ContactsState,
   DebugState,
   ErrorState,
   LeaderboardEntry,
@@ -240,7 +241,7 @@ const appSlice = createSlice({
     /**
      * Reducer to set the contacts state
      */
-    setContacts(state, action: PayloadAction<any>) {
+    setContacts(state, action: PayloadAction<ContactsState>) {
       state.contacts = {
         ...state.contacts,
         ...action.payload,

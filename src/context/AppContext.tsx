@@ -11,6 +11,7 @@ import { getMeRequest } from "../services/me";
 import { getContactsRequest } from "../services/contacts";
 import { getFullBalanceRequest } from "../services/balance";
 import { extractTokensFromBalanceResponse } from "../utils/extractTokensFromBalanceResponse";
+import { extractContactsFromContactsResponse } from "../utils/extractContactsFromContactsResponse";
 
 // Context props
 type ContextProps = {
@@ -61,12 +62,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       const res = await getContactsRequest();
       dispatch(
         appStoreActions.setContacts({
-          items: res?.data || [],
+          items: extractContactsFromContactsResponse(res?.data || []),
         })
       );
       localStorage.setItem(
         STORAGE_KEYS.CONTACTS,
-        JSON.stringify(res.data || [])
+        JSON.stringify(extractContactsFromContactsResponse(res?.data || []))
       );
     } catch (error) {
       console.error("getTgContacts error", error);

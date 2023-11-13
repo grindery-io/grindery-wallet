@@ -1,16 +1,15 @@
 import React from "react";
 import { ListItemText } from "@mui/material";
-import useAppUser from "../../../hooks/useAppUser";
-import { ContactProps } from "./ContactListItem";
+import ContactName from "../Contact/ContactName/ContactName";
+import { useContact } from "../Contact/Contact";
 
-const ContactListItemText = (props: ContactProps) => {
-  const { contact } = props;
-  const { user } = useAppUser(contact.id);
+const ContactListItemText = () => {
+  const { username } = useContact();
 
   return (
     <ListItemText
       sx={ListItemTextStyles}
-      primary={user.name}
+      primary={<ContactName />}
       primaryTypographyProps={{
         variant: "xs",
         sx: PrimaryTypographyStyles,
@@ -20,7 +19,13 @@ const ContactListItemText = (props: ContactProps) => {
         color: "hint",
         sx: SecondaryTypographyStyles,
       }}
-      secondary={user.username ? "@" + user.username : undefined}
+      secondary={
+        username ? (
+          <span>
+            @<ContactName format="username" />
+          </span>
+        ) : undefined
+      }
     ></ListItemText>
   );
 };

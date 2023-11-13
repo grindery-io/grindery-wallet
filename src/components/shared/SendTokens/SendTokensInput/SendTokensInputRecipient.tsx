@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, ButtonBase, Stack, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import useAppUser from "../../../../hooks/useAppUser";
-import UserAvatar from "../../UserAvatar";
 import { selectAppStore, useAppSelector } from "../../../../store";
+import Contact, { ContactType } from "../../Contact/Contact";
+import ContactAvatar from "../../Contact/ContactAvatar/ContactAvatar";
+import ContactName from "../../Contact/ContactName/ContactName";
 
 const SendTokensInputRecipient = ({
   recipient,
@@ -15,59 +16,66 @@ const SendTokensInputRecipient = ({
   const { contacts } = useAppSelector(selectAppStore);
 
   const contact = Array.isArray(recipient)
-    ? contacts.items?.filter((c: any) => recipient.includes(c.id))
-    : contacts.items?.find((c: any) => c.id === recipient);
+    ? contacts.items?.filter((c: ContactType) => recipient.includes(c.id))[0]
+    : contacts.items?.find((c: ContactType) => c.id === recipient);
+
   const isSingle = !Array.isArray(recipient) || recipient.length === 1;
 
-  const { user } = useAppUser(contact?.id || "");
-  return (
-    <ButtonBase
-      onClick={() => {
-        onClear();
-      }}
-      sx={SendTokensInputRecipientStyles}
-    >
-      <Stack
-        alignItems="center"
-        useFlexGap
-        direction="row"
-        spacing="16px"
-        sx={{ width: "100%" }}
+  return contact ? (
+    <Contact contact={contact}>
+      <ButtonBase
+        onClick={() => {
+          onClear();
+        }}
+        sx={SendTokensInputRecipientStyles}
       >
-        {isSingle && <UserAvatar size={36} user={user} />}
-
-        <Box textAlign="left">
-          <Typography variant="sm" sx={{ lineHeight: 1.5 }}>
-            Recipient{!isSingle ? "s" : ""}
-          </Typography>
-          <Typography color="hint" variant="sm" sx={{ lineHeight: 1.5 }}>
-            {isSingle && contact ? (
-              <>
-                {user.name}
-                {user.username ? ` | @${user.username}` : ""}
-              </>
-            ) : (
-              <>{Array.isArray(recipient) ? recipient.length : 0} contacts</>
-            )}
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            padding: "0 4px",
-            marginLeft: "auto",
-          }}
+        <Stack
+          alignItems="center"
+          useFlexGap
+          direction="row"
+          spacing="16px"
+          sx={{ width: "100%" }}
         >
-          <ArrowDropDownIcon
+          {isSingle && <ContactAvatar />}
+
+          <Box textAlign="left">
+            <Typography variant="sm" sx={{ lineHeight: 1.5 }}>
+              Recipient{!isSingle ? "s" : ""}
+            </Typography>
+            <Typography color="hint" variant="sm" sx={{ lineHeight: 1.5 }}>
+              {isSingle ? (
+                <>
+                  <ContactName />
+                  {contact.username && (
+                    <>
+                      {" | @"}
+                      <ContactName format="username" />
+                    </>
+                  )}
+                </>
+              ) : (
+                <>{Array.isArray(recipient) ? recipient.length : 0} contacts</>
+              )}
+            </Typography>
+          </Box>
+
+          <Box
             sx={{
-              display: "block",
-              color: "var(--tg-theme-hint-color, #999999)",
+              padding: "0 4px",
+              marginLeft: "auto",
             }}
-          />
-        </Box>
-      </Stack>
-    </ButtonBase>
-  );
+          >
+            <ArrowDropDownIcon
+              sx={{
+                display: "block",
+                color: "var(--tg-theme-hint-color, #999999)",
+              }}
+            />
+          </Box>
+        </Stack>
+      </ButtonBase>
+    </Contact>
+  ) : null;
 };
 
 const SendTokensInputRecipientStyles = {

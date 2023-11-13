@@ -1,12 +1,12 @@
 import React from "react";
 import { FixedSizeList as List } from "react-window";
-import { TelegramUserContact } from "../../../types/Telegram";
 import { Box } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import ContactsListButtons from "./ContactsListButtons";
 import { ContactsListProps } from "./ContactsList";
 import ContactsListItemRenderer from "./ContactsListItemRenderer";
+import { ContactType } from "../Contact/Contact";
 
 interface Props extends ContactsListProps {
   search: string;
@@ -19,22 +19,22 @@ const ContactsListItems = (props: Props) => {
   const { height } = useWindowDimensions();
   const { items, filters } = contacts || {};
 
-  const applyFilters = (contact: TelegramUserContact) => {
+  const applyFilters = (contact: ContactType) => {
     let res = false;
     if (
       (filters || []).includes("invited") &&
-      contact.isInvited &&
-      !contact.isGrinderyUser
+      contact.invited &&
+      !contact.grinderyUser
     ) {
       res = true;
     }
-    if ((filters || []).includes("has-wallet") && contact.isGrinderyUser) {
+    if ((filters || []).includes("has-wallet") && contact.grinderyUser) {
       res = true;
     }
     if (
       (filters || []).includes("not-invited") &&
-      !contact.isGrinderyUser &&
-      !contact.isInvited
+      !contact.grinderyUser &&
+      !contact.invited
     ) {
       res = true;
     }
@@ -53,11 +53,11 @@ const ContactsListItems = (props: Props) => {
         (contact.lastName &&
           contact.lastName.toLowerCase().includes(search.toLowerCase()))
     )
-    .sort((a: TelegramUserContact, b: TelegramUserContact) =>
-      a.isInvited === b.isInvited ? 0 : a.isInvited ? -1 : 1
+    .sort((a: ContactType, b: ContactType) =>
+      a.invited === b.invited ? 0 : a.invited ? -1 : 1
     )
-    .sort((a: TelegramUserContact, b: TelegramUserContact) =>
-      a.isGrinderyUser === b.isGrinderyUser ? 0 : a.isGrinderyUser ? -1 : 1
+    .sort((a: ContactType, b: ContactType) =>
+      a.grinderyUser === b.grinderyUser ? 0 : a.grinderyUser ? -1 : 1
     )
     .filter((contact) => contact.id !== user?.userTelegramID)
     .filter((contact) =>

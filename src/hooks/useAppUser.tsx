@@ -5,6 +5,7 @@ import { getUserName } from "../utils/getUserName";
 import { selectAppStore, useAppSelector } from "../store";
 import useAppContext from "./useAppContext";
 import { getUserRequest } from "../services/user";
+import { ContactType } from "../components/shared/Contact/Contact";
 
 export type AppUser = {
   id: string;
@@ -28,7 +29,9 @@ const useAppUser = (userId: string) => {
 
   const photo = photos?.[userId];
 
-  const [user, setUser] = useState<TelegramUserContact | TelegramUser | null>(
+  const [user, setUser] = useState<
+    TelegramUserContact | TelegramUser | ContactType | null
+  >(
     contacts?.find((c) => c.id === userId)
       ? contacts?.find((c) => c.id === userId)
       : cachedUser

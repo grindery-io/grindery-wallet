@@ -10,19 +10,19 @@ export type ContactIdType = string;
  * @description Telegram contact first name
  * @example "John"
  */
-export type ContactFirstNameType = string;
+export type ContactFirstNameType = string | null;
 
 /**
  * @description Telegram contact last name
  * @example "Doe"
  */
-export type ContactLastNameType = string;
+export type ContactLastNameType = string | null;
 
 /**
  * @description Telegram contact username
  * @example "johndoe"
  */
-export type ContactUsernameType = string;
+export type ContactUsernameType = string | null;
 
 /**
  * @description Telegram contact phone number

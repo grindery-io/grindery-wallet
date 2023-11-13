@@ -2,9 +2,11 @@ import React from "react";
 import CheckIcon from "../../icons/CheckIcon";
 import { Box, Typography } from "@mui/material";
 import { ContactProps } from "./ContactListItem";
+import { useContact } from "../Contact/Contact";
 
 const ContactListItemEnd = (props: ContactProps) => {
-  const { contact, selected } = props;
+  const { selected } = props;
+  const { invited, grinderyUser } = useContact();
 
   return (
     <Box ml="auto">
@@ -12,14 +14,14 @@ const ContactListItemEnd = (props: ContactProps) => {
         <Box sx={BoxSelectedStyles}>
           <CheckIcon />
         </Box>
-      ) : contact.isInvited && !contact.isGrinderyUser ? (
+      ) : invited && !grinderyUser ? (
         <Box sx={BoxInvitedStyles}>
           <Typography component="span" variant="xs" color="hint">
             Invited
           </Typography>
           <CheckIcon sx={{ color: "#97C4C7" }} />
         </Box>
-      ) : !contact.isInvited && !contact.isGrinderyUser ? (
+      ) : !invited && !grinderyUser ? (
         <Box sx={BoxEligibleStyles}>
           <Typography component="span" variant="xs" color="hint">
             Eligible!

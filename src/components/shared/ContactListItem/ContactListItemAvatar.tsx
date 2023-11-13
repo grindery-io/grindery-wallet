@@ -1,35 +1,13 @@
 import React from "react";
-import { Box, ListItemAvatar } from "@mui/material";
-import useAppUser from "../../../hooks/useAppUser";
-import UserAvatar from "../UserAvatar";
-import { ContactProps } from "./ContactListItem";
+import { ListItemAvatar } from "@mui/material";
+import ContactAvatar from "../Contact/ContactAvatar/ContactAvatar";
 
-const ContactListItemAvatar = (props: ContactProps) => {
-  const { contact } = props;
-  const { user } = useAppUser(contact.id);
-
+const ContactListItemAvatar = () => {
   return (
     <ListItemAvatar
       sx={{ minWidth: "36px", marginRight: "16px", position: "relative" }}
     >
-      <UserAvatar user={user} size={36} />
-      {user.isGrinderyUser && (
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: "-6px",
-            right: "-6px",
-            border: "2px solid var(--tg-theme-bg-color, #ffffff)",
-            borderRadius: "50%",
-          }}
-        >
-          <img
-            src="https://app.grindery.io/logo192.png"
-            alt=""
-            style={{ width: "16px", height: "16px", display: "block" }}
-          />
-        </Box>
-      )}
+      <ContactAvatar size={36} badgeSize={16} />
     </ListItemAvatar>
   );
 };

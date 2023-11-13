@@ -7,11 +7,12 @@ import { InitialsAvatar } from "@twa-dev/mark42";
 
 type ContactAvatarProps = {
   size?: number;
+  badgeSize?: number;
   sx?: SxProps | React.CSSProperties;
 };
 
-const ContactAvatar = ({ size = 36, sx }: ContactAvatarProps) => {
-  const { id, firstName, lastName } = useContact();
+const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
+  const { id, firstName, lastName, grinderyUser } = useContact();
   const { photos } = useAppContext();
   const photo = photos?.[id];
 
@@ -36,36 +37,65 @@ const ContactAvatar = ({ size = 36, sx }: ContactAvatarProps) => {
   return (
     <Box
       sx={{
-        borderRadius: "50%",
-        overflow: "hidden",
         width: `${size}px`,
         minWidth: `${size}px`,
         height: `${size}px`,
-
+        position: "relative",
         ...(sx || {}),
       }}
     >
-      {avatar && avatar !== "null" ? (
-        <img
-          src={avatar}
-          alt=""
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "block",
-            minWidth: "100%",
-          }}
-        />
-      ) : (
-        <>
-          <InitialsAvatar
-            entityId={id === "null" ? 101 : parseInt(id || "101")}
-            entityName={`${firstName} ${lastName}`}
-            theme="apple"
-            size={size}
-            style={{ fontWeight: "400" }}
+      <Box
+        sx={{
+          borderRadius: "50%",
+          overflow: "hidden",
+          width: "100%",
+          minWidth: "100%",
+          height: "100%",
+        }}
+      >
+        {avatar && avatar !== "null" ? (
+          <img
+            src={avatar}
+            alt=""
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "block",
+              minWidth: "100%",
+            }}
           />
-        </>
+        ) : (
+          <>
+            <InitialsAvatar
+              entityId={id === "null" ? 101 : parseInt(id || "101")}
+              entityName={`${firstName} ${lastName}`}
+              theme="apple"
+              size={size}
+              style={{ fontWeight: "400" }}
+            />
+          </>
+        )}
+      </Box>
+      {badgeSize && grinderyUser && (
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: `-${badgeSize / 2 - 2}px`,
+            right: `-${badgeSize / 2 - 2}px`,
+            border: "2px solid var(--tg-theme-bg-color, #ffffff)",
+            borderRadius: "50%",
+          }}
+        >
+          <img
+            src="https://app.grindery.io/logo192.png"
+            alt=""
+            style={{
+              width: `${badgeSize}px`,
+              height: `${badgeSize}px`,
+              display: "block",
+            }}
+          />
+        </Box>
       )}
     </Box>
   );

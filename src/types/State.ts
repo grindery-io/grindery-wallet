@@ -1,3 +1,4 @@
+import { ContactType } from "../components/shared/Contact/Contact";
 import { TokenType } from "../components/shared/Token";
 import { SwapRoute } from "./SwapRoute";
 import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
@@ -110,7 +111,7 @@ export type ContactsState = {
   /**
    * Array of contacts
    */
-  items?: any[];
+  items?: ContactType[];
   /**
    * Whether the contacts are loading
    */
