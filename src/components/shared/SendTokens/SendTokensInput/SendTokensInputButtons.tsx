@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import { SendStatus } from "../../../../types/State";
 import { sendTokensRequest } from "../../../../services/send";
+import { selectAppStore, useAppSelector } from "../../../../store";
 
 const SendTokensInputButtons = ({
   input,
@@ -19,7 +20,15 @@ const SendTokensInputButtons = ({
 }) => {
   let navigate = useNavigate();
   const [countFailed, setCountFailed] = React.useState(0);
-  const sendTokens = async () => {
+  const {
+    contacts: { items },
+  } = useAppSelector(selectAppStore);
+
+  const recipient = Array.isArray(input.recipient)
+    ? input.recipient.map((id) => items?.find((item) => item.id === id))
+    : items?.find((item) => item.id === input.recipient);
+
+  const sendTokens = useCallback(async () => {
     if (!/^\d+$/.test(input.amount) || parseInt(input.amount) <= 0) {
       setStatus(SendStatus.ERROR);
       return;
@@ -35,7 +44,18 @@ const SendTokensInputButtons = ({
       const res = await sendTokensRequest(
         input.recipient,
         input.amount,
-        input.message
+        input.message,
+        Array.isArray(recipient)
+          ? recipient?.map((item) => item?.username || "")
+          : recipient?.username || "",
+        Array.isArray(recipient)
+          ? recipient?.map(
+              (item) =>
+                `${item?.firstName || ""}${
+                  item?.lastName ? " " + item?.lastName : ""
+                }`
+            )
+          : recipient?.username || ""
       );
       if (res.data?.success) {
         setStatus(SendStatus.SENT);
@@ -47,7 +67,7 @@ const SendTokensInputButtons = ({
       setCountFailed(countFailed + 1);
       setStatus(SendStatus.ERROR);
     }
-  };
+  }, [recipient]);
 
   return (
     <Stack
