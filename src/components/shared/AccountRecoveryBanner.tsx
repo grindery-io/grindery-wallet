@@ -16,6 +16,7 @@ const AccountRecoveryBanner = () => {
   };
 
   return user &&
+    !user.phoneNumber &&
     typeof window.Telegram?.WebApp.requestContact !== "undefined" ? (
     <Banner
       visible={visible}
