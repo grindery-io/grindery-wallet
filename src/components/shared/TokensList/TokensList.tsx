@@ -8,10 +8,7 @@ import { GRINDERY_ONE_TOKEN } from "../../../constants";
 import AccountRecoveryBanner from "../AccountRecoveryBanner";
 
 const TokensList = () => {
-  const {
-    tokens: stateTokens,
-    debug: { enabled, features },
-  } = useAppSelector(selectAppStore);
+  const { tokens: stateTokens } = useAppSelector(selectAppStore);
   const tokens =
     stateTokens.length > 0
       ? sortTokens(stateTokens)
