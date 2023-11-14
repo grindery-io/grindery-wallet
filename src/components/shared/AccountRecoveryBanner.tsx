@@ -19,7 +19,13 @@ const AccountRecoveryBanner = () => {
   };
 
   useEffect(() => {
-    setVisible(Boolean(user && user.userTelegramID && !user.phoneNumber));
+    if (user && user.userTelegramID && !user.phoneNumber) {
+      setTimeout(() => {
+        setVisible(true);
+      }, 2000);
+    } else {
+      setVisible(false);
+    }
   }, [user]);
 
   return typeof window.Telegram?.WebApp.requestContact !== "undefined" ? (
