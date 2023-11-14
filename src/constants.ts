@@ -63,6 +63,7 @@ export const EXPERIMENTAL_FEATURES = {
   LEADERBOARD: "Leaderboard",
   CONTACT_PHOTOS: "Contact photos",
   SWAP: "Tokens swap",
+  ACCOUNT_RECOVERY: "Account recovery method",
 };
 
 export const TRANSACTION_STATUS = {

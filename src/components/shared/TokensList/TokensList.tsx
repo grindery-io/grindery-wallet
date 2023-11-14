@@ -5,9 +5,13 @@ import { Stack } from "@mui/material";
 import TokensListImportButton from "./TokensListImportButton/TokensListImportButton";
 import { sortTokens } from "../../../utils/sortTokens";
 import { GRINDERY_ONE_TOKEN } from "../../../constants";
+import AccountRecoveryBanner from "../AccountRecoveryBanner";
 
 const TokensList = () => {
-  const { tokens: stateTokens } = useAppSelector(selectAppStore);
+  const {
+    tokens: stateTokens,
+    debug: { enabled, features },
+  } = useAppSelector(selectAppStore);
   const tokens =
     stateTokens.length > 0
       ? sortTokens(stateTokens)
@@ -18,19 +22,22 @@ const TokensList = () => {
           },
         ];
   return (
-    <Stack
-      direction="column"
-      alignItems="stretch"
-      justifyContent="flex-start"
-      style={TokensListStyles}
-      useFlexGap
-      data-testid="tokens-list"
-    >
-      {tokens.map((token) => (
-        <TokensListItem token={token} key={token.address} />
-      ))}
-      <TokensListImportButton />
-    </Stack>
+    <>
+      <Stack
+        direction="column"
+        alignItems="stretch"
+        justifyContent="flex-start"
+        style={TokensListStyles}
+        useFlexGap
+        data-testid="tokens-list"
+      >
+        {tokens.map((token) => (
+          <TokensListItem token={token} key={token.address} />
+        ))}
+        <TokensListImportButton />
+      </Stack>
+      {enabled && features?.ACCOUNT_RECOVERY && <AccountRecoveryBanner />}
+    </>
   );
 };
 
