@@ -57,6 +57,7 @@ const AccountRecoveryBanner = () => {
         <Typography
           variant="xs"
           sx={{ color: "var(--tg-theme-link-color, #2481cc)" }}
+          textAlign="left"
         >
           Share your phone number to setup account recovery method
         </Typography>
