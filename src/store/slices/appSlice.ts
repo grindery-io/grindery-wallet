@@ -302,7 +302,7 @@ const appSlice = createSlice({
           (token) =>
             action.payload.find(
               (t) => t.address.toLowerCase() === token.address.toLowerCase()
-            ) || token
+            ) || { ...token, balance: "0" }
         ),
         ...action.payload.filter(
           (token) =>
