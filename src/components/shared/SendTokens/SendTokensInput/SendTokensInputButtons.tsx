@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import { SendStatus } from "../../../../types/State";
@@ -28,7 +28,7 @@ const SendTokensInputButtons = ({
     ? input.recipient.map((id) => items?.find((item) => item.id === id))
     : items?.find((item) => item.id === input.recipient);
 
-  const sendTokens = useCallback(async () => {
+  const sendTokens = async () => {
     if (!/^\d+$/.test(input.amount) || parseInt(input.amount) <= 0) {
       setStatus(SendStatus.ERROR);
       return;
@@ -55,7 +55,11 @@ const SendTokensInputButtons = ({
                   item?.lastName ? " " + item?.lastName : ""
                 }`
             )
-          : recipient?.username || ""
+          : recipient
+          ? `${recipient.firstName || ""}${
+              recipient.lastName ? " " + recipient.lastName : ""
+            }`
+          : ""
       );
       if (res.data?.success) {
         setStatus(SendStatus.SENT);
@@ -67,7 +71,7 @@ const SendTokensInputButtons = ({
       setCountFailed(countFailed + 1);
       setStatus(SendStatus.ERROR);
     }
-  }, [recipient]);
+  };
 
   return (
     <Stack
