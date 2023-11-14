@@ -36,7 +36,7 @@ const TokensList = () => {
         ))}
         <TokensListImportButton />
       </Stack>
-      {enabled && features?.ACCOUNT_RECOVERY && <AccountRecoveryBanner />}
+      <AccountRecoveryBanner />
     </>
   );
 };

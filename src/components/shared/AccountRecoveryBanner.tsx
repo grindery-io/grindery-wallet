@@ -11,7 +11,10 @@ const AccountRecoveryBanner = () => {
 
   const handleClick = () => {
     window.Telegram?.WebApp.requestContact((res) => {
-      console.log("requestContact res", res);
+      if (res) {
+        setVisible(false);
+        window.Telegram?.WebApp.close();
+      }
     });
   };
 
