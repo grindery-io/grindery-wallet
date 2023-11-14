@@ -5,7 +5,6 @@ import { Stack } from "@mui/material";
 import TokensListImportButton from "./TokensListImportButton/TokensListImportButton";
 import { sortTokens } from "../../../utils/sortTokens";
 import { GRINDERY_ONE_TOKEN } from "../../../constants";
-import AccountRecoveryBanner from "../AccountRecoveryBanner";
 
 const TokensList = () => {
   const { tokens: stateTokens } = useAppSelector(selectAppStore);
@@ -33,7 +32,6 @@ const TokensList = () => {
         ))}
         <TokensListImportButton />
       </Stack>
-      <AccountRecoveryBanner />
     </>
   );
 };
