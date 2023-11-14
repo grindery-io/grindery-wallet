@@ -25,7 +25,7 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
         color: "var(--tg-theme-bg-color, #ffffff)",
         display: "flex",
         flexDirection: "row",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "flex-start",
         gap: "8px",
         flexWrap: "nowrap",
@@ -46,6 +46,7 @@ const Banner = ({ visible, children, onClose, sx }: Props) => {
             marginLeft: "auto",
             padding: 0,
             color: "var(--tg-theme-bg-color, #ffffff)",
+            marginBottom: "auto",
           }}
           onClick={onClose}
         >
