@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getBalanceRequest, getFullBalanceRequest } from "../balance";
-import { BOT_API_URL } from "../../constants";
+import { WALLET_API_URL } from "../../constants";
 
 jest.mock("axios");
 
@@ -24,7 +24,7 @@ describe("getFullBalanceRequest", () => {
     const result = await getFullBalanceRequest(controller);
 
     expect(axios.get).toHaveBeenCalledWith(
-      `${BOT_API_URL}/v2/balance/`,
+      `${WALLET_API_URL}/v2/balance/`,
       expect.objectContaining({
         signal: controller.signal,
         headers: {
@@ -60,7 +60,7 @@ describe("getBalanceRequest", () => {
     );
 
     expect(axios.post).toHaveBeenCalledWith(
-      `${BOT_API_URL}/v2/balance/`,
+      `${WALLET_API_URL}/v2/balance/`,
       {
         userAddress: "0x123",
         contractAddress: "0x456",

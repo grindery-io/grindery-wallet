@@ -1,9 +1,9 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export const initAuthRequest = async (phone: string, password: string) => {
   return await axios.post(
-    `${BOT_API_URL}/v2/auth/init`,
+    `${WALLET_API_URL}/v2/auth/init`,
     {
       phone,
       password,
@@ -21,7 +21,7 @@ export const callbackAuthRequest = async (
   code: string
 ) => {
   return await axios.post(
-    `${BOT_API_URL}/v2/auth/callback`,
+    `${WALLET_API_URL}/v2/auth/callback`,
     {
       operationId,
       code,

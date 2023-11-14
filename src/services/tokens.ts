@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export type SearchTokensResponseType = {
   name: string;
@@ -88,7 +88,7 @@ export const getTokensPriceRequest = async (
   controller?: AbortController
 ) => {
   return await axios.get<GetTokensPriceResponseType>(
-    `${BOT_API_URL}/v2/tokens/price?symbol=${symbol}`,
+    `${WALLET_API_URL}/v2/tokens/price?symbol=${symbol}`,
     {
       signal: controller?.signal,
       headers: {

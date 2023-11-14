@@ -1,4 +1,4 @@
-export const BOT_API_URL =
+export const WALLET_API_URL =
   process.env.REACT_APP_ENV === "development"
     ? "http://localhost:3000"
     : process.env.REACT_APP_ENV === "production"

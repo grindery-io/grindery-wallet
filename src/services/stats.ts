@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export const getStatsRequest = async () => {
-  return await axios.get(`${BOT_API_URL}/v2/stats`, {
+  return await axios.get(`${WALLET_API_URL}/v2/stats`, {
     headers: {
       Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
     },
@@ -10,5 +10,5 @@ export const getStatsRequest = async () => {
 };
 
 export const getAppStatsRequest = async () => {
-  return await axios.get(`${BOT_API_URL}/v2/stats/app?history=true`);
+  return await axios.get(`${WALLET_API_URL}/v2/stats/app?history=true`);
 };

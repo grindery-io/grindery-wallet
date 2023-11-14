@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export const getRewardsRequest = async (
   filter?: string,
@@ -8,7 +8,7 @@ export const getRewardsRequest = async (
   controller?: AbortController
 ) => {
   return await axios.get(
-    `${BOT_API_URL}/v2/rewards/${
+    `${WALLET_API_URL}/v2/rewards/${
       filter || "pending"
     }?limit=15&find=${JSON.stringify(find || [])}`,
     {
@@ -24,7 +24,7 @@ export const getSingleRewardRequest = async (
   id: string,
   controller?: AbortController
 ) => {
-  return await axios.get(`${BOT_API_URL}/v2/rewards/${id}`, {
+  return await axios.get(`${WALLET_API_URL}/v2/rewards/${id}`, {
     signal: controller?.signal,
     headers: {
       Authorization: "Bearer " + window.Telegram?.WebApp?.initData,

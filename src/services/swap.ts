@@ -1,13 +1,13 @@
 import axios from "axios";
 import { SwapStateInput } from "../types/State";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export const getSwapRoutesRequest = async (
   input: SwapStateInput,
   controller: AbortController
 ) => {
   return await axios.get(
-    `${BOT_API_URL}/v2/swap?tokenIn=${input.tokenIn}&tokenOut=${input.tokenOut}&amountIn=${input.amountIn}`,
+    `${WALLET_API_URL}/v2/swap?tokenIn=${input.tokenIn}&tokenOut=${input.tokenOut}&amountIn=${input.amountIn}`,
     {
       signal: controller.signal,
       headers: {
@@ -33,7 +33,7 @@ export const swapTokensRequest = async (
   params: SwapTokenRequestParams,
   controller?: AbortController
 ) => {
-  return await axios.post(`${BOT_API_URL}/v2/swap`, params, {
+  return await axios.post(`${WALLET_API_URL}/v2/swap`, params, {
     signal: controller?.signal,
     headers: {
       Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,

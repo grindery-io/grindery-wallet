@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export const getLeaderboardRequest = async (
   page: number,
@@ -7,6 +7,6 @@ export const getLeaderboardRequest = async (
   order: string
 ) => {
   return await axios.get(
-    `${BOT_API_URL}/v2/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
+    `${WALLET_API_URL}/v2/leaderboard?limit=30&page=${page}&sortBy=${sort}&order=${order}`
   );
 };

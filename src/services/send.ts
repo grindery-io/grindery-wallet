@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export const sendTokensRequest = async (
   recipientTgId: string | string[],
@@ -7,7 +7,7 @@ export const sendTokensRequest = async (
   message?: string
 ) => {
   return await axios.post(
-    `${BOT_API_URL}/v2/send`,
+    `${WALLET_API_URL}/v2/send`,
     {
       recipientTgId,
       amount,

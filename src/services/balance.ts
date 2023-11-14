@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOT_API_URL } from "../constants";
+import { WALLET_API_URL } from "../constants";
 
 export type GetBalanceResponseType = {
   balanceWei: string;
@@ -13,7 +13,7 @@ export const getBalanceRequest = async (
   controller?: AbortController
 ) => {
   return await axios.post<GetBalanceResponseType>(
-    `${BOT_API_URL}/v2/balance/`,
+    `${WALLET_API_URL}/v2/balance/`,
     {
       userAddress: address,
       contractAddress:
@@ -52,7 +52,7 @@ export type GetFullBalanceResponseType = {
 
 export const getFullBalanceRequest = async (controller?: AbortController) => {
   return await axios.get<GetFullBalanceResponseType>(
-    `${BOT_API_URL}/v2/balance/`,
+    `${WALLET_API_URL}/v2/balance/`,
     {
       signal: controller?.signal,
       headers: {
