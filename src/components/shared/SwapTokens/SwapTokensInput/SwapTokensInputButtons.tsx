@@ -25,7 +25,10 @@ const SwapTokensInputButtons = ({ allTokens }: SwapTokensInputProps) => {
   const [countFailed, setCountFailed] = useState(0);
 
   const swapTokens = async () => {
-    if (!/^\d+$/.test(input.amountIn) || parseInt(input.amountIn) <= 0) {
+    if (
+      !/^-?\d*(\.\d+)?$/.test(input.amountIn) ||
+      parseFloat(input.amountIn) <= 0
+    ) {
       dispatch(
         appStoreActions.setSwap({
           status: SwapStatus.ERROR,
