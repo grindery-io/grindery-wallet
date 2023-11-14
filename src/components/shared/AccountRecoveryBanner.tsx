@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "./Banner";
 import { ButtonBase, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../store";
@@ -7,7 +7,7 @@ import PhonelinkLockOutlinedIcon from "@mui/icons-material/PhonelinkLockOutlined
 const AccountRecoveryBanner = () => {
   const { user } = useAppSelector(selectAppStore);
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const handleClick = () => {
     window.Telegram?.WebApp.requestContact((res) => {
@@ -18,9 +18,15 @@ const AccountRecoveryBanner = () => {
     });
   };
 
-  return user &&
-    !user.phoneNumber &&
-    typeof window.Telegram?.WebApp.requestContact !== "undefined" ? (
+  useEffect(() => {
+    if (user && user.userTelegramID && !user.phoneNumber) {
+      setTimeout(() => {
+        setVisible(true);
+      }, 2000);
+    }
+  }, [user]);
+
+  return typeof window.Telegram?.WebApp.requestContact !== "undefined" ? (
     <Banner
       visible={visible}
       onClose={() => {
