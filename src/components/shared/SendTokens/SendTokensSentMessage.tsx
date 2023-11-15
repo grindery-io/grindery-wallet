@@ -3,9 +3,14 @@ import { Box, Button } from "@mui/material";
 import Title from "../Title";
 import Subtitle from "../Subtitle";
 import { useNavigate } from "react-router";
+import { selectAppStore, useAppSelector } from "../../../store";
 
 const SendTokensSentMessage = () => {
   const navigate = useNavigate();
+  const {
+    debug: { enabled, features },
+  } = useAppSelector(selectAppStore);
+  const withConfirmation = enabled && features?.SENDING_CONFIRMATION;
   return (
     <>
       <Box
@@ -28,16 +33,23 @@ const SendTokensSentMessage = () => {
           />
         </svg>
       </Box>
-      <Title style={{ marginBottom: 0 }}>Tokens sent</Title>
+      <Title style={{ marginBottom: 0 }}>
+        {withConfirmation ? "Confirm transaction" : "Tokens sent"}
+      </Title>
       <Subtitle>
-        Tokens have been sent, and you will receive a Telegram notification once
-        the transaction is confirmed on the blockchain.
+        {withConfirmation
+          ? "Close the wallet and confirm transaction in the chat."
+          : "Tokens have been sent, and you will receive a Telegram notification once the transaction is confirmed on the blockchain."}
       </Subtitle>
       <Box sx={{ textAlign: "center" }}>
         <Button
           variant="outlined"
           onClick={() => {
-            navigate("/");
+            if (withConfirmation) {
+              window.Telegram?.WebApp.close();
+            } else {
+              navigate("/");
+            }
           }}
         >
           Close
