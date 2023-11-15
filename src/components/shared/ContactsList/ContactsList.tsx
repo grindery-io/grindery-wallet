@@ -5,12 +5,12 @@ import {
   selectAppStore,
   useAppDispatch,
   useAppSelector,
-} from "../../../store";
+} from "store";
 import SearchBox, { Filter } from "../SearchBox/SearchBox";
 import ContactsListEmpty from "./ContactsListEmpty";
 import ContactsListLoading from "./ContactsListLoading";
 import ContactsListItems from "./ContactsListItems";
-import { createFilterOption } from "../../../utils/createFilterOption";
+import { createFilterOption } from "utils";
 
 /**
  * Contacts list props

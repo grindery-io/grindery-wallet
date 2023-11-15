@@ -1,5 +1,5 @@
-import { Filter } from "../components/shared/SearchBox/SearchBox";
-import { UserState } from "../types/State";
+import { Filter } from "components/shared/SearchBox/SearchBox";
+import { UserState } from "types/State";
 
 /**
  * Create filter option utility function
@@ -34,11 +34,11 @@ export const createFilterOption = (
     ?.filter((contact) => contact.id !== user?.userTelegramID)
     .filter((contact) => {
       if (filterName === "invited") {
-        return contact.isInvited && !contact.isGrinderyUser;
+        return contact.invited && !contact.grinderyUser;
       } else if (filterName === "not-invited") {
-        return !contact.isInvited && !contact.isGrinderyUser;
+        return !contact.invited && !contact.grinderyUser;
       } else if (filterName === "has-wallet") {
-        return contact.isGrinderyUser;
+        return contact.grinderyUser;
       }
       return false;
     }).length,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Banner from "./Banner";
+import Banner from "./Banner/Banner";
 import { ButtonBase, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { selectAppStore, useAppSelector } from "../../store";

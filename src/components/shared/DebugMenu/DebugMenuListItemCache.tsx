@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { IconButton, ListItemText, Stack } from "@mui/material";
-import getLocalStorageSize from "../../../utils/getLocalStorageSize";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DebugMenuListItem from "./DebugMenuListItem";
+import { getLocalStorageSize } from "../../../utils/getLocalStorageSize";
 
 const DebugMenuListItemCache = () => {
   const [cache, setCache] = useState<string>(getLocalStorageSize());

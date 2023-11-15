@@ -1,5 +1,5 @@
 import React from "react";
-import BottomNavigation from "../shared/BottomNavigation";
+import BottomNavigation from "../shared/BottomNavigation/BottomNavigation";
 import { useNavigate } from "react-router";
 import ContactsList from "../shared/ContactsList/ContactsList";
 import ContactsPagePlaceholder from "../shared/ContactsPagePlaceholder";

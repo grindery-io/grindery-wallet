@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import BottomNavigation from "../shared/BottomNavigation";
+import BottomNavigation from "../shared/BottomNavigation/BottomNavigation";
 import ReferralBanner from "../shared/ReferralBanner";
 import RewardsList from "../shared/RewardsList/RewardsList";
 import {

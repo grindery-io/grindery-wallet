@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import AppsList from "../shared/AppsList/AppsList";
-import BottomNavigation from "../shared/BottomNavigation";
+import BottomNavigation from "../shared/BottomNavigation/BottomNavigation";
 import { appStoreActions, useAppDispatch } from "../../store";
 import { getConfigRequest } from "../../services/config";
 import { STORAGE_KEYS } from "../../constants";

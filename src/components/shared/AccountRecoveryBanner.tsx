@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Banner from "./Banner";
+import Banner from "./Banner/Banner";
 import { ButtonBase, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../store";
 import PhonelinkLockOutlinedIcon from "@mui/icons-material/PhonelinkLockOutlined";

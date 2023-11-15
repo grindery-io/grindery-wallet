@@ -1,17 +1,21 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { STORAGE_KEYS } from "../constants";
-import { UserProps } from "../types/User";
+import {
+  getMeRequest,
+  getContactsRequest,
+  getFullBalanceRequest,
+} from "services";
 import {
   appStoreActions,
   selectAppStore,
   useAppDispatch,
   useAppSelector,
-} from "../store";
-import { getMeRequest } from "../services/me";
-import { getContactsRequest } from "../services/contacts";
-import { getFullBalanceRequest } from "../services/balance";
-import { extractTokensFromBalanceResponse } from "../utils/extractTokensFromBalanceResponse";
-import { extractContactsFromContactsResponse } from "../utils/extractContactsFromContactsResponse";
+} from "store";
+import {
+  extractTokensFromBalanceResponse,
+  extractContactsFromContactsResponse,
+} from "utils";
+import { UserProps } from "types";
+import { STORAGE_KEYS } from "../constants";
 
 // Context props
 type ContextProps = {

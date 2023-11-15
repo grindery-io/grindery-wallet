@@ -1,13 +1,13 @@
 import React from "react";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { default as MuiBottomNavigation } from "@mui/material/BottomNavigation";
-import { BOTTOM_TABS, MAX_WIDTH } from "../../constants";
+import { BOTTOM_TABS, MAX_WIDTH } from "../../../constants";
 import { useLocation, useNavigate } from "react-router";
-import TokensIcon from "../icons/TokensIcon";
-import ContactsIcon from "../icons/ContactsIcon";
-import RewardsIcon from "../icons/RewardsIcon";
-import CommunityIcon from "../icons/CommunityIcon";
-import AppsIcon from "../icons/AppsIcon";
+import TokensIcon from "../../icons/TokensIcon";
+import ContactsIcon from "../../icons/ContactsIcon";
+import RewardsIcon from "../../icons/RewardsIcon";
+import CommunityIcon from "../../icons/CommunityIcon";
+import AppsIcon from "../../icons/AppsIcon";
 import { Box } from "@mui/material";
 
 const BottomNavigation = () => {
@@ -48,6 +48,7 @@ const BottomNavigation = () => {
         sx={BottomNavigationStyles}
         value={activeTab}
         onChange={handleChange}
+        data-testid="bottom-navigation"
       >
         {BOTTOM_TABS.map((tab) => (
           <BottomNavigationAction
