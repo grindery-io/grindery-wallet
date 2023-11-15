@@ -6,7 +6,8 @@ export const sendTokensRequest = async (
   amount: string,
   message?: string,
   recipientHandle?: string | string[],
-  recipientName?: string | string[]
+  recipientName?: string | string[],
+  withConfirmation?: boolean
 ) => {
   const body: any = {
     recipientTgId,
@@ -15,6 +16,7 @@ export const sendTokensRequest = async (
   if (message) body.message = message;
   if (recipientHandle) body.recipientHandle = recipientHandle;
   if (recipientName) body.recipientName = recipientName;
+  if (withConfirmation) body.withConfirmation = withConfirmation;
   return await axios.post(`${WALLET_API_URL}/v2/send`, body, {
     headers: {
       Authorization: "Bearer " + window.Telegram?.WebApp?.initData,

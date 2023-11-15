@@ -21,6 +21,7 @@ const SendTokensInputButtons = ({
   let navigate = useNavigate();
   const [countFailed, setCountFailed] = React.useState(0);
   const {
+    debug: { features, enabled },
     contacts: { items },
   } = useAppSelector(selectAppStore);
 
@@ -59,7 +60,8 @@ const SendTokensInputButtons = ({
           ? `${recipient.firstName || ""}${
               recipient.lastName ? " " + recipient.lastName : ""
             }`
-          : ""
+          : "",
+        Boolean(enabled && features?.SENDING_CONFIRMATION)
       );
       if (res.data?.success) {
         setStatus(SendStatus.SENT);
