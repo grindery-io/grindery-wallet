@@ -3,17 +3,23 @@ import { formatBalance } from "../../../utils/formatBalance";
 import { Stack, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { ActivityListItemProps } from "./ActivityListItem";
+import { Token, TokenIcon } from "../Token";
 
 /**
  * Single activity list item end component
  */
 const ActivityListItemEnd = (props: ActivityListItemProps) => {
   const { activity } = props;
-  const { user, debug } = useAppSelector(selectAppStore);
+  const { user, debug, tokens } = useAppSelector(selectAppStore);
 
   const { formatted } = formatBalance(parseFloat(activity.tokenAmount));
 
   const coloredNumbersEnabled = debug.features?.COLORED_NUMBERS;
+
+  const token = tokens.find(
+    (token) =>
+      token.address.toLowerCase() === activity?.tokenAddress?.toLowerCase()
+  );
 
   return (
     <Stack
@@ -40,12 +46,9 @@ const ActivityListItemEnd = (props: ActivityListItemProps) => {
         )}
         {formatted}
       </Typography>{" "}
-      <img
-        src="/images/g1-token-red.svg"
-        alt=""
-        width="16"
-        style={{ display: "block" }}
-      />
+      <Token token={token || tokens[0]}>
+        <TokenIcon size={16} />
+      </Token>
     </Stack>
   );
 };

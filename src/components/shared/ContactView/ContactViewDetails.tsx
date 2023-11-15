@@ -1,41 +1,17 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { AppUser } from "../../../hooks/useAppUser";
-import UserAvatar from "../UserAvatar";
+import ContactAvatar from "../Contact/ContactAvatar/ContactAvatar";
+import ContactName from "../Contact/ContactName/ContactName";
 
-const ContactViewDetails = ({ contact }: { contact: AppUser }) => {
+const ContactViewDetails = () => {
   return (
     <Box>
-      <Box sx={ContactViewDetailsAvatarStyles}>
-        <UserAvatar user={contact} size={130} />
-
-        {contact.isGrinderyUser && (
-          <Box sx={ContactViewDetailsAvatarBadgeStyles}>
-            <img src="https://app.grindery.io/logo192.png" alt="" />
-          </Box>
-        )}
-      </Box>
-
+      <ContactAvatar size={130} badgeSize={32} sx={{ margin: "20px auto 0" }} />
       <Typography textAlign="center" variant="lg" mt="16px">
-        {contact.name}
+        <ContactName format="default" />
       </Typography>
     </Box>
   );
-};
-
-const ContactViewDetailsAvatarStyles = {
-  margin: "20px auto 0",
-  position: "relative",
-  width: "130px",
-  height: "130px",
-};
-const ContactViewDetailsAvatarBadgeStyles = {
-  position: "absolute",
-  bottom: "-4px",
-  right: "-4px",
-  border: "2px solid var(--tg-theme-bg-color, #ffffff)",
-  borderRadius: "50%",
-  "& img": { width: "32px", height: "32px", display: "block" },
 };
 
 export default ContactViewDetails;

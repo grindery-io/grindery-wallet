@@ -2,10 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { ICONS, MAX_WIDTH } from "../../../constants";
 import { Box, Button } from "@mui/material";
-import { AppUser } from "../../../hooks/useAppUser";
+import { useContact } from "../Contact/Contact";
 
-const ContactViewSendTokensButton = ({ contact }: { contact: AppUser }) => {
+const ContactViewSendTokensButton = () => {
   const navigate = useNavigate();
+  const { id } = useContact();
 
   return (
     <Box sx={ContactViewSendTokensButtonStyles}>
@@ -20,7 +21,7 @@ const ContactViewSendTokensButton = ({ contact }: { contact: AppUser }) => {
         }
         fullWidth
         onClick={() => {
-          navigate(`/send?id=${contact.id}`);
+          navigate(`/send?id=${id}`);
         }}
         sx={{
           boxShadow: "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",

@@ -3,20 +3,21 @@ import { useNavigate } from "react-router";
 import { TelegramUserActivity } from "../../../types/Telegram";
 import ActivityListItem from "../ActivityListItem/ActivityListItem";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { AppUser } from "../../../hooks/useAppUser";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUserActivityRequest } from "../../../services/activity";
+import { useContact } from "../Contact/Contact";
 
-const ContactViewActivities = ({ contact }: { contact: AppUser }) => {
+const ContactViewActivities = () => {
   const navigate = useNavigate();
 
   const [activities, setActivities] = useState<TelegramUserActivity[]>([]);
   const [activitiesTotal, setActivitiesTotal] = useState(0);
   const [activitiesLoading, setActivitiesLoading] = useState(true);
+  const { id, grinderyUser } = useContact();
 
   useEffect(() => {
     const controller = new AbortController();
-    getUserActivityRequest(contact.id, 0, controller)
+    getUserActivityRequest(id, 0, controller)
       .then((res) => {
         setActivities(res.data?.docs || []);
         setActivitiesTotal(res.data?.total || 0);
@@ -29,7 +30,7 @@ const ContactViewActivities = ({ contact }: { contact: AppUser }) => {
     return () => {
       controller.abort();
     };
-  }, [contact.id]);
+  }, [id]);
 
   return (
     <>
@@ -44,26 +45,23 @@ const ContactViewActivities = ({ contact }: { contact: AppUser }) => {
         </Box>
       )}
 
-      {!activitiesLoading &&
-        activities.length < 1 &&
-        !contact.isGrinderyUser && (
-          <Typography
-            sx={{
-              margin: "16px 16px 80px",
-              textAlign: "center",
-            }}
-            color="hint"
-          >
-            Invite your friends and earn rewards
-            <br />
-            <br />
-            Send tokens to {contact.name} and then follow the instructions
-            provided by the GrinderyAI bot
-            <br />
-            <br />
-            <span style={{ fontSize: "22px" }}>👇</span>
-          </Typography>
-        )}
+      {!activitiesLoading && activities.length < 1 && !grinderyUser && (
+        <Typography
+          sx={{
+            margin: "16px 16px 80px",
+            textAlign: "center",
+          }}
+          color="hint"
+        >
+          Invite your friends and earn rewards
+          <br />
+          <br />
+          Send tokens and follow the instructions provided by the GrinderyAI bot
+          <br />
+          <br />
+          <span style={{ fontSize: "22px" }}>👇</span>
+        </Typography>
+      )}
 
       {!activitiesLoading && activities && activities.length > 0 && (
         <Box sx={{ width: "100%", paddingBottom: "76px" }}>
@@ -85,10 +83,7 @@ const ContactViewActivities = ({ contact }: { contact: AppUser }) => {
             dataLength={activities.length}
             next={async () => {
               try {
-                const res = await getUserActivityRequest(
-                  contact.id,
-                  activities.length
-                );
+                const res = await getUserActivityRequest(id, activities.length);
 
                 setActivities((_activities) => [
                   ..._activities,

@@ -1,19 +1,27 @@
 import React from "react";
-import useAppUser from "../../../hooks/useAppUser";
 import ContactViewDetails from "./ContactViewDetails";
 import ContactViewActivities from "./ContactViewActivities";
 import ContactViewSendTokensButton from "./ContactViewSendTokensButton";
+import { selectAppStore, useAppSelector } from "../../../store";
+import Contact from "../Contact/Contact";
+import Loading from "../Loading";
 
 const ContactView = ({ id }: { id: string }) => {
-  const { user: contact } = useAppUser(id || "");
+  const {
+    contacts: { items },
+  } = useAppSelector(selectAppStore);
+
+  const contact = items?.find((item) => item.id === id);
 
   return contact ? (
-    <>
-      <ContactViewDetails contact={contact} />
-      <ContactViewActivities contact={contact} />
-      <ContactViewSendTokensButton contact={contact} />
-    </>
-  ) : null;
+    <Contact contact={contact}>
+      <ContactViewDetails />
+      <ContactViewActivities />
+      <ContactViewSendTokensButton />
+    </Contact>
+  ) : (
+    <Loading />
+  );
 };
 
 export default ContactView;

@@ -68,7 +68,7 @@ const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
           <>
             <InitialsAvatar
               entityId={id === "null" ? 101 : parseInt(id || "101")}
-              entityName={`${firstName} ${lastName}`}
+              entityName={`${firstName}${lastName ? ` ${lastName}` : ""}`}
               theme="apple"
               size={size}
               style={{ fontWeight: "400" }}
@@ -80,8 +80,8 @@ const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
         <Box
           sx={{
             position: "absolute",
-            bottom: `-${badgeSize / 2 - 2}px`,
-            right: `-${badgeSize / 2 - 2}px`,
+            bottom: `-5px`,
+            right: `-5px`,
             border: "2px solid var(--tg-theme-bg-color, #ffffff)",
             borderRadius: "50%",
           }}

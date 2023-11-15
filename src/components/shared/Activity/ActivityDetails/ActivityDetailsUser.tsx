@@ -1,33 +1,63 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import TableRow from "../../TableRow";
-import useAppUser from "../../../../hooks/useAppUser";
-import UserAvatar from "../../UserAvatar";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import { ActivityProps } from "../Activity";
+import ContactName from "../../Contact/ContactName/ContactName";
+import Contact from "../../Contact/Contact";
+import ContactAvatar from "../../Contact/ContactAvatar/ContactAvatar";
+import { Tooltip } from "@mui/material";
 
 const ActivityDetailsUser = ({ activity }: ActivityProps) => {
   const navigate = useNavigate();
-  const { user } = useAppSelector(selectAppStore);
+  const {
+    user,
+    contacts: { items },
+  } = useAppSelector(selectAppStore);
 
-  const { user: contact } = useAppUser(
+  const id =
     (activity?.recipientTgId !== user?.userTelegramID
       ? activity?.recipientTgId
-      : activity?.senderTgId) || ""
-  );
+      : activity?.senderTgId) || "";
 
-  return (
+  const contact = items?.find((item) => item.id === id);
+
+  const address =
+    (activity?.recipientTgId !== user?.userTelegramID
+      ? activity?.recipientWallet
+      : activity?.senderWallet) || "";
+
+  return contact ? (
+    <Contact contact={contact}>
+      <TableRow
+        label={
+          activity?.recipientTgId !== user?.userTelegramID
+            ? "Recipient"
+            : "Sender"
+        }
+        value={<ContactName />}
+        onValueClick={() => {
+          navigate(`/contacts/${contact.id}`);
+        }}
+        icon={<ContactAvatar size={20} />}
+      />
+    </Contact>
+  ) : (
     <TableRow
       label={
         activity?.recipientTgId !== user?.userTelegramID
           ? "Recipient"
           : "Sender"
       }
-      value={contact.name}
-      onValueClick={() => {
-        navigate(`/contacts/${contact.id}`);
-      }}
-      icon={<UserAvatar user={contact} size={20} />}
+      value={
+        <Tooltip title={address}>
+          <span>
+            {address.substring(0, 6) +
+              "..." +
+              address.substring(address.length - 4)}
+          </span>
+        </Tooltip>
+      }
     />
   );
 };

@@ -2,9 +2,16 @@ import React from "react";
 import TableRow from "../../TableRow";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import { ActivityProps } from "../Activity";
+import { Token, TokenIcon, TokenSymbol } from "../../Token";
+import { Tooltip, Box } from "@mui/material";
 
 const ActivityDetailsType = ({ activity }: ActivityProps) => {
-  const { user, debug } = useAppSelector(selectAppStore);
+  const { user, debug, tokens } = useAppSelector(selectAppStore);
+
+  const token = tokens.find(
+    (token) =>
+      token.address.toLowerCase() === activity?.tokenAddress?.toLowerCase()
+  );
 
   return (
     <TableRow
@@ -29,12 +36,13 @@ const ActivityDetailsType = ({ activity }: ActivityProps) => {
         </span>
       }
       icon={
-        <img
-          src="/images/g1-token-red.svg"
-          alt=""
-          width="20"
-          style={{ display: "inline-block" }}
-        />
+        <Token token={token || tokens[0]}>
+          <Tooltip title={<TokenSymbol />}>
+            <Box>
+              <TokenIcon size={20} />
+            </Box>
+          </Tooltip>
+        </Token>
       }
     />
   );
