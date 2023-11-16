@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import LeaderboardBanner from "../LeaderboardBanner";
 import { debounce } from "lodash";
 import {
   appStoreActions,
@@ -21,7 +20,7 @@ import { STORAGE_KEYS } from "../../../constants";
  */
 const ActivitiesList = () => {
   const dispatch = useAppDispatch();
-  const { user, debug, activity } = useAppSelector(selectAppStore);
+  const { user, activity } = useAppSelector(selectAppStore);
   const { items, filters } = activity;
   const [search, setSearch] = useState("");
 
@@ -191,8 +190,6 @@ const ActivitiesList = () => {
       ) : (
         <ActivitiesListEmpty />
       )}
-
-      {debug.enabled && debug.features?.LEADERBOARD && <LeaderboardBanner />}
     </Box>
   );
 };

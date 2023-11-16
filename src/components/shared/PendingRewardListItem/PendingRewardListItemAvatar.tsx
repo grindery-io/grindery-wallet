@@ -1,11 +1,10 @@
 import React from "react";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
-import useAppUser from "../../../hooks/useAppUser";
-import UserAvatar from "../UserAvatar";
 import { Box, ListItemAvatar } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { PendingRewardListItemProps } from "./PendingRewardListItem";
+import ContactAvatar from "../Contact/ContactAvatar/ContactAvatar";
 
 const PendingRewardListItemAvatar = ({
   activity,
@@ -13,19 +12,13 @@ const PendingRewardListItemAvatar = ({
 }: PendingRewardListItemProps) => {
   const { user } = useAppSelector(selectAppStore);
 
-  const secondaryUserId =
-    user?.userTelegramID === activity.senderTgId
-      ? activity.recipientTgId
-      : activity.senderTgId;
-
-  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
-
   return (
     <ListItemAvatar
       onClick={onAvatarClick ? onAvatarClick : undefined}
       sx={{ minWidth: "36px", marginRight: "10px", position: "relative" }}
     >
-      <UserAvatar user={secondaryUser} size={36} />
+      <ContactAvatar size={36} />
+
       <Box
         sx={{
           position: "absolute",

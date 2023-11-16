@@ -1,5 +1,5 @@
 import React from "react";
-import Loading from "../shared/Loading";
+import Loading from "../shared/Loading/Loading";
 import { selectAppStore, useAppSelector } from "../../store";
 import { Button, Stack, Typography } from "@mui/material";
 

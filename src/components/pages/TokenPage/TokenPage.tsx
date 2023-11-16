@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router";
 import useBackButton from "../../../hooks/useBackButton";
 import { selectAppStore, useAppSelector } from "../../../store";
-import Loading from "../../shared/Loading";
+import Loading from "../../shared/Loading/Loading";
 import TokenView from "../../shared/TokenView/TokenView";
 
 const TokenPage = () => {

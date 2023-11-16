@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import { TelegramUserActivity } from "../../../types/Telegram";
-import useAppUser from "../../../hooks/useAppUser";
 import { Button, Stack, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 
@@ -14,22 +13,25 @@ export type PendingRewardListItemProps = {
 
 const PendingRewardListItemEnd = (props: PendingRewardListItemProps) => {
   const { activity } = props;
-  const { user } = useAppSelector(selectAppStore);
+  const {
+    user,
+    contacts: { items },
+  } = useAppSelector(selectAppStore);
 
   const secondaryUserId =
     user?.userTelegramID === activity.senderTgId
       ? activity.recipientTgId
       : activity.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
+  const contact = items?.find((contact) => contact.id === secondaryUserId);
 
   const onFollowupClick = () => {
     if (typeof window.Telegram?.WebApp?.openTelegramLink !== "undefined") {
       window.Telegram?.WebApp?.openTelegramLink(
-        "https://t.me/" + secondaryUser.username
+        "https://t.me/" + contact?.username
       );
     } else {
-      window.open("https://t.me/" + secondaryUser.username, "_blank");
+      window.open("https://t.me/" + contact?.username, "_blank");
     }
   };
 
@@ -41,7 +43,7 @@ const PendingRewardListItemEnd = (props: PendingRewardListItemProps) => {
       justifyContent="flex-end"
       spacing="4px"
     >
-      {secondaryUser.username && (
+      {contact?.username && (
         <Button
           variant="contained"
           size="small"

@@ -6,7 +6,6 @@ import { selectAppStore, useAppSelector } from "store";
 import {
   ActivityPage,
   AppsPage,
-  BoardPage,
   CommunityPage,
   ContactPage,
   ContactsPage,
@@ -45,7 +44,6 @@ const AppRoutes = () => {
       <Route path="/send" element={<SendPage />} />
       <Route path="/debug" element={<DebugPage />} />
       {enabled && <Route path="/debug/stats" element={<StatsPage />} />}
-      {features?.LEADERBOARD && <Route path="/board" element={<BoardPage />} />}
       {features?.SWAP && <Route path="/swap" element={<SwapPage />} />}
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>

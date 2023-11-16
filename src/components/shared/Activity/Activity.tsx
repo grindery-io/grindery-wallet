@@ -1,7 +1,7 @@
 import React from "react";
 import { TelegramUserActivity } from "../../../types/Telegram";
 import { Box } from "@mui/material";
-import Loading from "../../shared/Loading";
+import Loading from "../Loading/Loading";
 import ActivityHeader from "./ActivityHeader";
 import ActivityDetails from "./ActivityDetails/ActivityDetails";
 import ActivityCloseButton from "./ActivityCloseButton";

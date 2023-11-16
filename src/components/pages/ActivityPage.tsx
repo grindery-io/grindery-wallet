@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import useBackButton from "../../hooks/useBackButton";
 import { TelegramUserActivity } from "../../types/Telegram";
 import { selectAppStore, useAppSelector } from "../../store";
-import Loading from "../shared/Loading";
+import Loading from "../shared/Loading/Loading";
 import Activity from "../shared/Activity/Activity";
 import { getSingleActivityRequest } from "../../services/activity";
 

@@ -1,16 +1,17 @@
 import React from "react";
 import { Box, ListItemAvatar } from "@mui/material";
-import UserAvatar from "../UserAvatar";
 import { RewardListItemProps } from "./RewardListItem";
 import { selectAppStore, useAppSelector } from "../../../store";
-import useAppUser from "../../../hooks/useAppUser";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
+import Contact from "../Contact/Contact";
+import ContactAvatar from "../Contact/ContactAvatar/ContactAvatar";
 
 const RewardListItemAvatar = ({ reward }: RewardListItemProps) => {
   const {
     user,
     activity: { items },
+    contacts: { items: contacts },
   } = useAppSelector(selectAppStore);
   const activities = items;
 
@@ -23,10 +24,15 @@ const RewardListItemAvatar = ({ reward }: RewardListItemProps) => {
       ? activity?.recipientTgId
       : activity?.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
+  const contact = contacts?.find((contact) => contact.id === secondaryUserId);
+
   return (
     <ListItemAvatar sx={RewardListItemAvatarStyles}>
-      <UserAvatar user={secondaryUser} size={36} />
+      {contact && (
+        <Contact contact={contact}>
+          <ContactAvatar size={36} />
+        </Contact>
+      )}
       <Box sx={IconWrapperStyles}>
         {user?.userTelegramID === activity?.senderTgId ? (
           <CallMadeIcon sx={IconStyles} />

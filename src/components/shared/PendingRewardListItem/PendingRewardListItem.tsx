@@ -4,6 +4,8 @@ import { ListItem } from "@mui/material";
 import PendingRewardListItemAvatar from "./PendingRewardListItemAvatar";
 import PendingRewardListItemText from "./PendingRewardListItemText";
 import PendingRewardListItemEnd from "./PendingRewardListItemEnd";
+import { selectAppStore, useAppSelector } from "store";
+import Contact from "../Contact/Contact";
 
 export type PendingRewardListItemProps = {
   activity: TelegramUserActivity;
@@ -13,13 +15,28 @@ export type PendingRewardListItemProps = {
 };
 
 const PendingRewardListItem = (props: PendingRewardListItemProps) => {
-  return (
-    <ListItem sx={PendingRewardListItemStyles}>
-      <PendingRewardListItemAvatar {...props} />
-      <PendingRewardListItemText {...props} />
-      <PendingRewardListItemEnd {...props} />
-    </ListItem>
-  );
+  const { activity } = props;
+  const {
+    user,
+    contacts: { items },
+  } = useAppSelector(selectAppStore);
+
+  const secondaryUserId =
+    user?.userTelegramID === activity.senderTgId
+      ? activity.recipientTgId
+      : activity.senderTgId;
+
+  const contact = items?.find((contact) => contact.id === secondaryUserId);
+
+  return contact ? (
+    <Contact contact={contact}>
+      <ListItem sx={PendingRewardListItemStyles}>
+        <PendingRewardListItemAvatar {...props} />
+        <PendingRewardListItemText {...props} />
+        <PendingRewardListItemEnd {...props} />
+      </ListItem>
+    </Contact>
+  ) : null;
 };
 
 const PendingRewardListItemStyles = {

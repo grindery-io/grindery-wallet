@@ -1,26 +1,17 @@
 import React from "react";
-import useAppUser from "../../../hooks/useAppUser";
 import { ListItemText } from "@mui/material";
-import { selectAppStore, useAppSelector } from "../../../store";
 import { PendingRewardListItemProps } from "./PendingRewardListItem";
+import ContactName from "../Contact/ContactName/ContactName";
 
 const PendingRewardListItemText = (props: PendingRewardListItemProps) => {
-  const { activity, onTextClick } = props;
-  const { user } = useAppSelector(selectAppStore);
+  const { onTextClick } = props;
 
-  const secondaryUserId =
-    user?.userTelegramID === activity.senderTgId
-      ? activity.recipientTgId
-      : activity.senderTgId;
-
-  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
-
-  return secondaryUser?.name ? (
+  return (
     <ListItemText
       onClick={onTextClick ? onTextClick : undefined}
       sx={{ margin: 0 }}
       primary="Referral reward"
-      secondary={secondaryUser.name}
+      secondary={<ContactName />}
       primaryTypographyProps={{
         variant: "xs",
         sx: PendingRewardListItemTextPrimaryTypographyStyles,
@@ -31,7 +22,7 @@ const PendingRewardListItemText = (props: PendingRewardListItemProps) => {
         sx: PendingRewardListItemTextSecondaryTypographyStyles,
       }}
     />
-  ) : null;
+  );
 };
 
 const PendingRewardListItemTextPrimaryTypographyStyles = {

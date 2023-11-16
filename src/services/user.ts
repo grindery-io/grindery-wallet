@@ -1,8 +1,8 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
-import { UserProps } from "types";
+import { TelegramUser } from "types";
 
-export type GetUserResponseType = UserProps;
+export type GetUserResponseType = TelegramUser;
 
 export const getUserRequest = async (
   userId: string,

@@ -8,7 +8,7 @@ import {
   useAppSelector,
 } from "../../store";
 import { getAppStatsRequest } from "../../services/stats";
-import Loading from "../shared/Loading";
+import Loading from "../shared/Loading/Loading";
 
 const StatsPage = () => {
   useBackButton();

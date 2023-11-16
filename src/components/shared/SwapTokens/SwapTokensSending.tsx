@@ -1,5 +1,5 @@
 import React from "react";
-import Loading from "../Loading";
+import Loading from "../Loading/Loading";
 
 const SwapTokensSending = () => {
   return <Loading />;

@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { appStoreActions, useAppDispatch } from "../../store";
 import SendTokens from "../shared/SendTokens/SendTokens";
 import { SendStatus } from "../../types/State";
-import Loading from "../shared/Loading";
+import Loading from "../shared/Loading/Loading";
 
 const SendPage = () => {
   useBackButton();

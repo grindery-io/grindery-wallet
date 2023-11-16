@@ -8,7 +8,7 @@ import {
   useAppSelector,
 } from "../../store";
 import { SwapStatus } from "../../types/State";
-import Loading from "../shared/Loading";
+import Loading from "../shared/Loading/Loading";
 import SwapTokens from "../shared/SwapTokens/SwapTokens";
 import { sortTokens } from "../../utils/sortTokens";
 

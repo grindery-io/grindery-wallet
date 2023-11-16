@@ -1,6 +1,5 @@
 export { default as ActivityPage } from "./ActivityPage";
 export { default as AppsPage } from "./AppsPage";
-export { default as BoardPage } from "./BoardPage";
 export { default as CommunityPage } from "./CommunityPage";
 export { default as ConnectTelegramPage } from "./ConnectTelegramPage";
 export { default as ContactPage } from "./ContactPage";

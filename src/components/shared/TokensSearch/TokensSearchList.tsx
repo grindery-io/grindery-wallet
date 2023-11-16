@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { FixedSizeList as List } from "react-window";
-import Loading from "../Loading";
+import Loading from "../Loading/Loading";
 import TokensSearchListItem from "./TokensSearchListItem";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import { TokenType } from "../Token/Token";

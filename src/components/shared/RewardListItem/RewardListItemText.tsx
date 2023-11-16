@@ -2,13 +2,15 @@ import React from "react";
 import { ListItemText } from "@mui/material";
 import { RewardListItemProps } from "./RewardListItem";
 import { selectAppStore, useAppSelector } from "../../../store";
-import useAppUser from "../../../hooks/useAppUser";
+import ContactName from "../Contact/ContactName/ContactName";
+import Contact from "../Contact/Contact";
 
 const RewardListItemText = (props: RewardListItemProps) => {
   const { reward, type } = props;
   const {
     user,
     activity: { items },
+    contacts: { items: contactsItems },
   } = useAppSelector(selectAppStore);
   const activities = items;
 
@@ -21,7 +23,9 @@ const RewardListItemText = (props: RewardListItemProps) => {
       ? activity?.recipientTgId
       : activity?.senderTgId;
 
-  const { user: secondaryUser } = useAppUser(secondaryUserId || "");
+  const contact = contactsItems?.find(
+    (contact) => contact.id === secondaryUserId
+  );
 
   const renderNoMessagePlaceholder = () => (
     <span style={{ color: "var(--tg-theme-hint-color, #999999)" }}>
@@ -41,7 +45,13 @@ const RewardListItemText = (props: RewardListItemProps) => {
         variant: "xs",
         sx: RewardListItemTextPrimaryTypographyStyles,
       }}
-      secondary={type === "referral" ? secondaryUser.name : undefined}
+      secondary={
+        type === "referral" && contact ? (
+          <Contact contact={contact}>
+            <ContactName />
+          </Contact>
+        ) : undefined
+      }
       secondaryTypographyProps={
         type === "referral"
           ? {

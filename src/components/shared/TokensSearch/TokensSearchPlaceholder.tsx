@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import Loading from "../Loading";
+import Loading from "../Loading/Loading";
 
 const TokensSearchPlaceholder = ({ loading }: { loading: boolean }) => {
   return loading ? (

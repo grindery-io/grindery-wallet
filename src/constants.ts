@@ -60,7 +60,6 @@ export const EXPERIMENTAL_FEATURES = {
   SEND_MESSAGE: "Message sending",
   BATCH_SENDING: "Batch token sending",
   COLORED_NUMBERS: "Tokens amount colored",
-  LEADERBOARD: "Leaderboard",
   CONTACT_PHOTOS: "Contact photos",
   SWAP: "Tokens swap",
   SENDING_CONFIRMATION: "Tokens sending confirmation",

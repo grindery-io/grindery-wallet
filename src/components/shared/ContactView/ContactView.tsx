@@ -4,7 +4,7 @@ import ContactViewActivities from "./ContactViewActivities";
 import ContactViewSendTokensButton from "./ContactViewSendTokensButton";
 import { selectAppStore, useAppSelector } from "../../../store";
 import Contact from "../Contact/Contact";
-import Loading from "../Loading";
+import Loading from "../Loading/Loading";
 
 const ContactView = ({ id }: { id: string }) => {
   const {

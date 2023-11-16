@@ -4,7 +4,7 @@ import useBackButton from "../../hooks/useBackButton";
 import { selectAppStore, useAppSelector } from "../../store";
 import { TelegramUserReward } from "../../types/Telegram";
 import Reward from "../shared/Reward/Reward";
-import Loading from "../shared/Loading";
+import Loading from "../shared/Loading/Loading";
 import { getSingleRewardRequest } from "../../services/rewards";
 
 const RewardPage = () => {
