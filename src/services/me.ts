@@ -1,6 +1,23 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
 
+export type GetMeResponseType = {
+  _id: string;
+  userTelegramID: string;
+  userName: string;
+  userHandle: string;
+  responsePath: string;
+  patchwallet: string;
+  dateAdded: string;
+  webAppOpened?: number;
+  webAppOpenedFirstDate?: string;
+  webAppOpenedLastDate?: string;
+  isBanned?: string;
+  telegramSession?: string;
+  telegramSessionSavedDate?: string;
+  phoneNumber?: string;
+};
+
 export const getMeRequest = async () => {
   return await axios.get(`${WALLET_API_URL}/v2/me`, {
     headers: {

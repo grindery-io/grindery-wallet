@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "store";
 import {
   EXPERIMENTAL_FEATURES,
   GRINDERY_ONE_TOKEN,
   STORAGE_KEYS,
 } from "../../constants";
-import { TelegramUserActivity, TelegramUserReward } from "../../types/Telegram";
 import {
   AppState,
   AppsState,
@@ -23,9 +22,11 @@ import {
   SwapState,
   SwapStatus,
   UserState,
-} from "../../types/State";
-import { fixTokens } from "../../utils/fixTokens";
-import { TokenType } from "../../components/shared/Token";
+  TelegramUserActivity,
+  TelegramUserReward,
+} from "types";
+import { fixTokens } from "utils";
+import { TokenType } from "components/shared/Token";
 
 export const initialState: AppState = {
   activity: {
