@@ -1,5 +1,5 @@
 import React from "react";
-import TableRow from "../../TableRow";
+import TableRow from "../../TableRow/TableRow";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import { ActivityProps } from "../Activity";
 import { Token, TokenIcon, TokenSymbol } from "../../Token";

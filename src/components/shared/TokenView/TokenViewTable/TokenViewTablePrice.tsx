@@ -1,5 +1,5 @@
 import React from "react";
-import TableRow from "../../TableRow";
+import TableRow from "../../TableRow/TableRow";
 import TokenPrice from "../../Token/TokenPrice/TokenPrice";
 
 const TokenViewTablePrice = () => {

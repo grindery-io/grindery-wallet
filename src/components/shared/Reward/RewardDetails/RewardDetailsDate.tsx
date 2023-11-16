@@ -1,6 +1,6 @@
 import React from "react";
 import { RewardProps } from "../Reward";
-import TableRow from "../../TableRow";
+import TableRow from "../../TableRow/TableRow";
 import moment from "moment";
 
 const RewardDetailsDate = ({ reward }: RewardProps) => {

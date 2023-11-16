@@ -1,5 +1,5 @@
 import React from "react";
-import TableRow from "../../TableRow";
+import TableRow from "../../TableRow/TableRow";
 import LinkIcon from "../../../icons/LinkIcon";
 import TokenAddress from "../../Token/TokenAddress/TokenAddress";
 import { useToken } from "../../Token/Token";

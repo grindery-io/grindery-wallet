@@ -1,5 +1,5 @@
 import React from "react";
-import TableRow from "../../TableRow";
+import TableRow from "../../TableRow/TableRow";
 import { TRANSACTION_STATUS } from "../../../../constants";
 import { ActivityProps } from "../Activity";
 

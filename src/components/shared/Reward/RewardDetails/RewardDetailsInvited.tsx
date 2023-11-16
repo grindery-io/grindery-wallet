@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import TableRow from "../../TableRow";
+import TableRow from "../../TableRow/TableRow";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import { RewardProps } from "../Reward";
 import Contact from "components/shared/Contact/Contact";

@@ -3,7 +3,7 @@ import BottomNavigation from "../shared/BottomNavigation/BottomNavigation";
 import TokensTabs from "../shared/TokensTabs";
 import Balance from "../shared/Balance/Balance";
 import MainButtonsGroup from "../shared/MainButtonsGroup/MainButtonsGroup";
-import AccountRecoveryBanner from "../shared/AccountRecoveryBanner";
+import AccountRecoveryBanner from "../shared/AccountRecoveryBanner/AccountRecoveryBanner";
 
 const TokensPage = () => {
   return (
