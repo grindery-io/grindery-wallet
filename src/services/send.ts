@@ -1,6 +1,12 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
 
+export type SendTokensResponseType = {
+  success: boolean;
+  messageId?: string;
+  error?: string;
+};
+
 export const sendTokensRequest = async (
   recipientTgId: string | string[],
   amount: string,
@@ -17,9 +23,13 @@ export const sendTokensRequest = async (
   if (recipientHandle) body.recipientHandle = recipientHandle;
   if (recipientName) body.recipientName = recipientName;
   if (withConfirmation) body.withConfirmation = withConfirmation;
-  return await axios.post(`${WALLET_API_URL}/v2/send`, body, {
-    headers: {
-      Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
-    },
-  });
+  return await axios.post<SendTokensResponseType>(
+    `${WALLET_API_URL}/v2/send`,
+    body,
+    {
+      headers: {
+        Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+      },
+    }
+  );
 };
