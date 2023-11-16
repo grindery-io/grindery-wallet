@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Box, SxProps } from "@mui/material";
+import { Box, Stack, SxProps } from "@mui/material";
 import useAppContext from "../../../../hooks/useAppContext";
 import { useContact } from "../Contact";
 import { STORAGE_KEYS } from "../../../../constants";
-import { InitialsAvatar } from "@twa-dev/mark42";
+import { getPlatformDesign } from "utils";
 
 type ContactAvatarProps = {
   size?: number;
@@ -27,6 +27,19 @@ const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
         ) || ""
       : photo || ""
   );
+
+  const bgColors = [
+    ["#e17076", "#ff885e", "#ff516a"], // red
+    ["#faa774", "#ffcd6a", "#ffa85c"], // orange
+    ["#a695e7", "#82b1ff", "#665fff"], // purple
+    ["#7bc862", "#a0de7e", "#54cb68"], // green
+    ["#6ec9cb", "#53edd6", "#28c9b7"], // cyan
+    ["#65aadd", "#72d5fd", "#2a9ef1"], // blue
+    ["#ee7aae", "#e0a2f3", "#d669ed"], // pink
+  ];
+
+  const bgIndex = parseInt(id) % 7;
+  const [color, topColor, bottomColor] = bgColors[bgIndex];
 
   useEffect(() => {
     if (photo) {
@@ -56,7 +69,7 @@ const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
         {avatar && avatar !== "null" ? (
           <img
             src={avatar}
-            alt=""
+            alt={`${firstName || ""}${lastName ? " " + lastName : ""}`}
             style={{
               width: "100%",
               height: "100%",
@@ -65,15 +78,23 @@ const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
             }}
           />
         ) : (
-          <>
-            <InitialsAvatar
-              entityId={id === "null" ? 101 : parseInt(id || "101")}
-              entityName={`${firstName}${lastName ? ` ${lastName}` : ""}`}
-              theme="apple"
-              size={size}
-              style={{ fontWeight: "400" }}
-            />
-          </>
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              width: "100%",
+              height: "100%",
+              color: "#fff",
+              fontSize: Math.round(size / 2.2),
+              background:
+                getPlatformDesign() === "apple"
+                  ? `linear-gradient(180deg, ${topColor} 0%, ${bottomColor} 100%)`
+                  : color,
+            }}
+          >
+            {firstName && firstName.charAt(0).toUpperCase()}
+            {lastName && lastName.charAt(0).toUpperCase()}
+          </Stack>
         )}
       </Box>
       {badgeSize && grinderyUser && (
@@ -88,7 +109,7 @@ const ContactAvatar = ({ size = 36, badgeSize, sx }: ContactAvatarProps) => {
         >
           <img
             src="https://app.grindery.io/logo192.png"
-            alt=""
+            alt="Grindery logo"
             style={{
               width: `${badgeSize}px`,
               height: `${badgeSize}px`,

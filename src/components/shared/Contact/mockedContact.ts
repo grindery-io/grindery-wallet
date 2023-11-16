@@ -23,7 +23,7 @@ export const mockedContact = {
   premium: false,
   fake: false,
   scam: false,
-  grinderyUser: false,
+  grinderyUser: true,
   invited: false,
   status: {
     className: "offline",

@@ -3,22 +3,24 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import { selectAppStore, useAppSelector } from "store";
 
-import SendPage from "components/pages/SendPage";
-import TokensPage from "components/pages/TokensPage";
-import ContactsPage from "components/pages/ContactsPage";
-import ContactPage from "components/pages/ContactPage";
-import AppsPage from "components/pages/AppsPage";
-import ActivityPage from "components/pages/ActivityPage";
-import RewardPage from "components/pages/RewardPage";
-import RewardsPage from "components/pages/RewardsPage";
-import CommunityPage from "components/pages/CommunityPage";
-import DebugPage from "components/pages/DebugPage";
-import BoardPage from "components/pages/BoardPage";
-import WelcomePage from "components/pages/WelcomePage";
-import StatsPage from "components/pages/StatsPage";
-import TokenPage from "components/pages/TokenPage/TokenPage";
-import TokensImportPage from "components/pages/TokensImportPage";
-import SwapPage from "components/pages/SwapPage";
+import {
+  ActivityPage,
+  AppsPage,
+  BoardPage,
+  CommunityPage,
+  ContactPage,
+  ContactsPage,
+  DebugPage,
+  RewardPage,
+  RewardsPage,
+  SendPage,
+  StatsPage,
+  SwapPage,
+  TokenPage,
+  TokensImportPage,
+  TokensPage,
+  WelcomePage,
+} from "components/pages";
 
 const AppRoutes = () => {
   const {

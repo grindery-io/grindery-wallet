@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, SxProps } from "@mui/material";
+import { Box, Stack, SxProps } from "@mui/material";
 import { AppUser } from "../../hooks/useAppUser";
-import { InitialsAvatar } from "@twa-dev/mark42";
+import { getPlatformDesign } from "utils";
 
 type Props = {
   user: AppUser;
@@ -10,6 +10,21 @@ type Props = {
 };
 
 const UserAvatar = ({ user, size, sx }: Props) => {
+  const bgColors = [
+    ["#e17076", "#ff885e", "#ff516a"], // red
+    ["#faa774", "#ffcd6a", "#ffa85c"], // orange
+    ["#a695e7", "#82b1ff", "#665fff"], // purple
+    ["#7bc862", "#a0de7e", "#54cb68"], // green
+    ["#6ec9cb", "#53edd6", "#28c9b7"], // cyan
+    ["#65aadd", "#72d5fd", "#2a9ef1"], // blue
+    ["#ee7aae", "#e0a2f3", "#d669ed"], // pink
+  ];
+
+  const bgIndex = parseInt(user?.id) % 7;
+  const [color, topColor, bottomColor] = bgColors[bgIndex];
+
+  const [firstName = "", lastName = ""] = user?.name || "";
+
   return (
     <Box
       sx={{
@@ -34,13 +49,23 @@ const UserAvatar = ({ user, size, sx }: Props) => {
           }}
         />
       ) : (
-        <InitialsAvatar
-          entityId={user?.id === "null" ? 101 : parseInt(user?.id || "101")}
-          entityName={user?.name || "Unknown user"}
-          theme="apple"
-          size={size || 36}
-          style={{ fontWeight: "400" }}
-        />
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            width: "100%",
+            height: "100%",
+            color: "#fff",
+            fontSize: Math.round((size || 36) / 2.2),
+            background:
+              getPlatformDesign() === "apple"
+                ? `linear-gradient(180deg, ${topColor} 0%, ${bottomColor} 100%)`
+                : color,
+          }}
+        >
+          {firstName && firstName.charAt(0).toUpperCase()}
+          {lastName && lastName.charAt(0).toUpperCase()}
+        </Stack>
       )}
     </Box>
   );

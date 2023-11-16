@@ -11,8 +11,7 @@ import AppRoutes from "AppRoutes";
 import Container from "components/shared/Container";
 import AppContextProvider from "context/AppContext";
 
-import LeaderboardPage from "components/pages/LeaderboardPage";
-import ConnectTelegramPage from "components/pages/ConnectTelegramPage";
+import { LeaderboardPage, ConnectTelegramPage } from "components/pages";
 
 function App() {
   useEffect(() => {

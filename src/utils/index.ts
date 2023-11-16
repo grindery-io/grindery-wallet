@@ -5,6 +5,7 @@ export * from "./extractTokensFromBalanceResponse";
 export * from "./fixTokens";
 export * from "./formatBalance";
 export * from "./getLocalStorageSize";
+export * from "./getPlatformDesign";
 export * from "./getUserName";
 export * from "./isDarkTheme";
 export * from "./setAppInitiData";
