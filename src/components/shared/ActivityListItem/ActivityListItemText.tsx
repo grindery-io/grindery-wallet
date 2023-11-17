@@ -6,6 +6,8 @@ import { ActivityListItemProps } from "./ActivityListItem";
 import Contact from "../Contact/Contact";
 import ContactName from "../Contact/ContactName/ContactName";
 import { shortenAddress } from "../../../utils/shortenAddress";
+import User from "../User/User";
+import UserName from "../User/UserName/UserName";
 
 /**
  * Single activity list item text
@@ -56,6 +58,30 @@ const ActivityListItemText = (props: ActivityListItemProps) => {
         secondary={moment(activity.dateAdded).fromNow()}
       ></ListItemText>
     </Contact>
+  ) : secondaryUserId ? (
+    <User id={secondaryUserId}>
+      <ListItemText
+        sx={ListItemTextStyles}
+        primary={
+          <span>
+            {user?.userTelegramID === activity.senderTgId
+              ? "Sent to"
+              : "Received from"}{" "}
+            <UserName />
+          </span>
+        }
+        primaryTypographyProps={{
+          variant: "xs",
+          sx: primaryTypographyStyles,
+        }}
+        secondaryTypographyProps={{
+          variant: "xs",
+          color: "hint",
+          sx: secondaryTypographyStyles,
+        }}
+        secondary={moment(activity.dateAdded).fromNow()}
+      ></ListItemText>
+    </User>
   ) : (
     <ListItemText
       sx={ListItemTextStyles}

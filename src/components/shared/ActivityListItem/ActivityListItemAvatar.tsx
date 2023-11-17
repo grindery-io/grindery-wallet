@@ -6,6 +6,8 @@ import { selectAppStore, useAppSelector } from "../../../store";
 import { ActivityListItemProps } from "./ActivityListItem";
 import Contact from "../Contact/Contact";
 import ContactAvatar from "../Contact/ContactAvatar/ContactAvatar";
+import User from "../User/User";
+import UserAvatar from "../User/UserAvatar/UserAvatar";
 
 /**
  * Single activity list item avatar
@@ -37,6 +39,19 @@ const ActivityListItemAvatar = ({ activity }: ActivityListItemProps) => {
         </Box>
       </ListItemAvatar>
     </Contact>
+  ) : secondaryUserId ? (
+    <User id={secondaryUserId}>
+      <ListItemAvatar sx={ListItemAvatarStyles}>
+        <UserAvatar size={36} />
+        <Box sx={AvatarIconBoxStyles}>
+          {isSender ? (
+            <CallMadeIcon sx={AvatarIconStyles} />
+          ) : (
+            <CallReceivedIcon sx={AvatarIconStyles} />
+          )}
+        </Box>
+      </ListItemAvatar>
+    </User>
   ) : (
     <ListItemAvatar sx={ListItemAvatarStyles}>
       <Stack

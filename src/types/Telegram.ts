@@ -4,6 +4,7 @@ export type TelegramUser = {
   userName: string;
   userHandle: string;
   patchwallet: string;
+  dateAdded: string;
 };
 
 export type TelegramAuthUserInput = {
