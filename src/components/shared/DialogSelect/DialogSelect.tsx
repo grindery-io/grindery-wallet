@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import SearchBox from "../SearchBox/SearchBox";
 import { TransitionProps } from "@mui/material/transitions";
-import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
+import { FixedSizeList } from "react-window";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -28,7 +28,7 @@ export type DialogSelectProps = {
     data: any;
     index: number;
     style: any;
-  }) => React.ReactNode;
+  }) => React.ReactElement;
   itemSize: number;
   search?: {
     value: string;
@@ -80,7 +80,7 @@ const DialogSelect = (props: DialogSelectProps) => {
           padding: "0",
         }}
       >
-        <List
+        <FixedSizeList
           height={height - (search ? 66 : 0)}
           itemCount={items.length}
           itemSize={itemSize}
@@ -88,7 +88,7 @@ const DialogSelect = (props: DialogSelectProps) => {
           itemData={items}
         >
           {item}
-        </List>
+        </FixedSizeList>
       </DialogContent>
     </Dialog>
   );

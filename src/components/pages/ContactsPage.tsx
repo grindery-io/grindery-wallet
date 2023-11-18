@@ -1,19 +1,20 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation/BottomNavigation";
 import { useNavigate } from "react-router";
-import ContactsList from "../shared/ContactsList/ContactsList";
-import ContactsPagePlaceholder from "../shared/ContactsPagePlaceholder";
+import ContactsListV2 from "components/shared/ContactsListV2/ContactsListV2";
+import useWindowDimensions from "hooks/useWindowDimensions";
 
 const ContactsPage = () => {
   const navigate = useNavigate();
+  const { height } = useWindowDimensions();
 
   return (
     <>
-      <ContactsList
+      <ContactsListV2
         onContactClick={(id) => {
           navigate(`/contacts/${id}`);
         }}
-        placeholder={<ContactsPagePlaceholder />}
+        height={height - 120}
       />
 
       <BottomNavigation />

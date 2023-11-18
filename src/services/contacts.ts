@@ -1,5 +1,6 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
+import { UserType } from "components/shared/User/User";
 
 export type GetContactsResponseContactType = {
   CONSTRUCTOR_ID: number;
@@ -122,6 +123,22 @@ export const getContactsRequest = async () => {
   return await axios.get<GetContactsResponseType>(
     `${WALLET_API_URL}/v2/contacts`,
     {
+      headers: {
+        Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
+      },
+    }
+  );
+};
+
+export type GetSocialContactsResponseType = UserType[];
+
+export const getSocialContactsRequest = async (
+  controller?: AbortController
+) => {
+  return await axios.get<GetSocialContactsResponseType>(
+    `${WALLET_API_URL}/v2/contacts/social`,
+    {
+      signal: controller?.signal,
       headers: {
         Authorization: "Bearer " + window.Telegram?.WebApp?.initData,
       },

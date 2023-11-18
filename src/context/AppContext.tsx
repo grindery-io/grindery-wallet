@@ -3,6 +3,7 @@ import {
   getMeRequest,
   getContactsRequest,
   getFullBalanceRequest,
+  getSocialContactsRequest,
 } from "services";
 import {
   appStoreActions,
@@ -54,6 +55,11 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   const getTgContacts = useCallback(async () => {
     if (!window.Telegram?.WebApp?.initData || !user?.telegramSession) {
+      dispatch(
+        appStoreActions.setContacts({
+          loading: false,
+        })
+      );
       return;
     }
     dispatch(
@@ -260,6 +266,31 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.BALANCE, JSON.stringify(balance));
   }, [balance]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (window.Telegram?.WebApp?.initData) {
+      getSocialContactsRequest(controller)
+        .then((res) => {
+          dispatch(
+            appStoreActions.setContacts({
+              social: res.data || [],
+            })
+          );
+          localStorage.setItem(
+            STORAGE_KEYS.SOCIAL_CONTACTS,
+            JSON.stringify(res.data || [])
+          );
+        })
+        .catch((error) => {
+          console.error("getSocialContactsRequest error", error);
+        });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [dispatch]);
 
   return (
     <AppContext.Provider

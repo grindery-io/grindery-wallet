@@ -84,7 +84,7 @@ const ContactsListItems = (props: Props) => {
       >
         <List
           height={height - (typeof onSelect !== "undefined" ? 100 : 120)}
-          itemCount={data?.length}
+          itemCount={data?.length || 0}
           itemSize={68}
           width="100%"
           itemData={data}

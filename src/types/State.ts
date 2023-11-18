@@ -1,3 +1,4 @@
+import { UserType } from "components/shared/User/User";
 import { ContactType } from "../components/shared/Contact/Contact";
 import { TokenType } from "../components/shared/Token";
 import { SwapRoute } from "./SwapRoute";
@@ -128,6 +129,10 @@ export type ContactsState = {
    * Array of filter keys
    */
   filters?: string[];
+  /**
+   * Array of social contacts
+   */
+  social?: UserType[];
 };
 
 /**

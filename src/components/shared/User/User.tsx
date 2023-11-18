@@ -38,6 +38,12 @@ export type UserPatchwalletType = string;
  */
 export type UserDateAddedType = string;
 
+/**
+ * @description User score
+ * @example 1
+ */
+export type UserScoreType = number;
+
 export interface UserType {
   _id: UserIdType;
   userTelegramID: UserTelegramIdType;
@@ -45,6 +51,7 @@ export interface UserType {
   userHandle: UserHandleType;
   patchwallet: UserPatchwalletType;
   dateAdded: UserDateAddedType;
+  score?: UserScoreType;
 }
 
 export type UserContextProps = {

@@ -65,6 +65,9 @@ export const initialState: AppState = {
     loading: true,
     filters: [],
     updated: localStorage.getItem(STORAGE_KEYS.CONTACTS_UPDATED) || undefined,
+    social: localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS)
+      ? JSON.parse(localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS) || "[]")
+      : undefined,
   },
   debug: {
     enabled: localStorage.getItem(STORAGE_KEYS.DEBUG) === "true",

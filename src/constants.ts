@@ -93,6 +93,7 @@ export const STORAGE_KEYS = {
   INIT_DATA: "gr_wallet_init_data",
   TOKEN_BALANCE: "gr_wallet_token_balance_{{key}}",
   TOKENS: "gr_wallet_tokens",
+  SOCIAL_CONTACTS: "gr_wallet_social_contacts",
 };
 
 export const BOTTOM_TABS = [

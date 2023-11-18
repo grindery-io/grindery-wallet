@@ -1,23 +1,23 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { FixedSizeList as List } from "react-window";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import AppsListItem from "../AppsListItem/AppsListItem";
+import { FixedSizeList } from "react-window";
 
 const AppsListItems = ({ data }: { data: any[] }) => {
   const { height } = useWindowDimensions();
 
   return (
     <Box textAlign="left" sx={AppsListItemsStyles}>
-      <List
+      <FixedSizeList
         height={height - 120}
-        itemCount={data.length}
+        itemCount={data.length || 0}
         itemSize={69}
         width="100%"
         itemData={data}
       >
         {Renderer}
-      </List>
+      </FixedSizeList>
     </Box>
   );
 };
