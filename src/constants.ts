@@ -63,6 +63,7 @@ export const EXPERIMENTAL_FEATURES = {
   CONTACT_PHOTOS: "Contact photos",
   SWAP: "Tokens swap",
   SENDING_CONFIRMATION: "Tokens sending confirmation",
+  SOCIAL_CONTACTS: "Social contacts",
 };
 
 export const TRANSACTION_STATUS = {

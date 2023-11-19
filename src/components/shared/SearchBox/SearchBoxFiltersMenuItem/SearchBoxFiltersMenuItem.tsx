@@ -76,10 +76,10 @@ const SearchBoxFiltersMenuItem = (props: SearchBoxFiltersMenuItemProps) => {
             primary={filter.label}
             sx={{ color: "var(--tg-theme-text-color, #000000)" }}
           />
-          {!hideCount && filter.count && (
+          {!hideCount && typeof filter.count !== "undefined" && (
             <span
               style={{
-                marginLeft: "20px",
+                marginLeft: "8px",
                 fontSize: "14px",
                 color: "var(--tg-theme-hint-color, #999999)",
               }}

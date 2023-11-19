@@ -133,6 +133,10 @@ export type ContactsState = {
    * Array of social contacts
    */
   social?: UserType[];
+  /**
+   * Whether the social contacts are loading
+   */
+  socialLoading?: boolean;
 };
 
 /**

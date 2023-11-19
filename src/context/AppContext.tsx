@@ -269,12 +269,22 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (window.Telegram?.WebApp?.initData) {
+    if (
+      window.Telegram?.WebApp?.initData &&
+      debug.enabled &&
+      debug.features?.SOCIAL_CONTACTS
+    ) {
+      dispatch(
+        appStoreActions.setContacts({
+          socialLoading: true,
+        })
+      );
       getSocialContactsRequest(controller)
         .then((res) => {
           dispatch(
             appStoreActions.setContacts({
               social: res.data || [],
+              socialLoading: false,
             })
           );
           localStorage.setItem(
@@ -284,13 +294,18 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         })
         .catch((error) => {
           console.error("getSocialContactsRequest error", error);
+          dispatch(
+            appStoreActions.setContacts({
+              socialLoading: false,
+            })
+          );
         });
     }
 
     return () => {
       controller.abort();
     };
-  }, [dispatch]);
+  }, [debug, dispatch]);
 
   return (
     <AppContext.Provider

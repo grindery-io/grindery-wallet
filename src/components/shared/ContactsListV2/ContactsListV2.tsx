@@ -5,7 +5,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { createFilterOption } from "utils";
 import SearchBox, { Filter } from "../SearchBox/SearchBox";
 import {
   Box,
@@ -19,6 +18,7 @@ import { VariableSizeList } from "react-window";
 import useWindowDimensions from "hooks/useWindowDimensions";
 import UserListItem from "../UserListItem/UserListItem";
 import ContactListItem from "../ContactListItem/ContactListItem";
+import PlaceholderListItem from "../PlaceholderListItem/PlaceholderListItem";
 
 const getItemSize = (index: number, data: any) => {
   switch (data[index].type) {
@@ -34,6 +34,33 @@ const getItemSize = (index: number, data: any) => {
       return 68;
   }
 };
+
+const FILTER_OPTIONS = [
+  {
+    key: "telegram",
+    label: "Telegram contacts",
+  },
+  {
+    key: "invited",
+    label: "Invited Contacts",
+  },
+  {
+    key: "not-invited",
+    label: "Not invited Contacts",
+  },
+  {
+    key: "has-wallet",
+    label: "Contacts with wallets",
+  },
+  {
+    key: "interacted",
+    label: "People you've interacted with",
+  },
+  {
+    key: "might-know",
+    label: "People you might know",
+  },
+];
 
 type ContactsListV2Props = {
   /**
@@ -67,28 +94,64 @@ type ContactsListV2Props = {
 const ContactsListV2 = (props: ContactsListV2Props) => {
   const { height, width } = useWindowDimensions();
   const dispatch = useAppDispatch();
-  const { user, contacts } = useAppSelector(selectAppStore);
+  const {
+    user,
+    contacts,
+    debug: { enabled, features },
+  } = useAppSelector(selectAppStore);
   const [search, setSearch] = useState("");
 
-  const { items, loading, filters, social } = contacts || {};
+  const { items, loading, filters, social, socialLoading } = contacts || {};
 
-  const applyFilters = (item: any) => {
+  const applyFilters = (item: any, filters?: string[]) => {
     let res = false;
+
     if (
       (filters || []).includes("invited") &&
-      item.invited &&
-      !item.grinderyUser
+      ((item.type === "contact" &&
+        item.props?.invited &&
+        !item.props?.grinderyUser) ||
+        (item.type === "banner" && item.props.key === "requestTgAccess"))
     ) {
       res = true;
     }
-    if ((filters || []).includes("has-wallet") && item.grinderyUser) {
+    if (
+      (filters || []).includes("has-wallet") &&
+      ((item.type === "contact" && item.props?.grinderyUser) ||
+        (item.type === "banner" && item.props.key === "requestTgAccess"))
+    ) {
       res = true;
     }
     if (
       (filters || []).includes("not-invited") &&
-      !item.grinderyUser &&
-      !item.invited &&
-      !item.userTelegramID
+      ((item.type === "contact" &&
+        !item.props?.grinderyUser &&
+        !item.props?.invited) ||
+        (item.type === "banner" && item.props.key === "requestTgAccess"))
+    ) {
+      res = true;
+    }
+
+    if (
+      (filters || []).includes("telegram") &&
+      (item.type === "contact" ||
+        (item.type === "banner" && item.props.key === "requestTgAccess"))
+    ) {
+      res = true;
+    }
+    if (
+      (filters || []).includes("interacted") &&
+      item.type === "user" &&
+      item.props?.score === 1
+    ) {
+      res = true;
+    }
+
+    if (
+      (filters || []).includes("might-know") &&
+      item.type === "user" &&
+      item.props?.score > 0.1 &&
+      item.props?.score < 1
     ) {
       res = true;
     }
@@ -96,19 +159,26 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
     return res;
   };
 
-  const data = [
+  const rawData = [
     ...(!user?.telegramSession
       ? [
           {
             type: "banner",
             props: {
+              key: "requestTgAccess",
               text: "Grant access",
             },
           },
         ]
       : []),
-    ...((items || []).length > 0
+    ...((user?.telegramSession && (items || []).length > 0) || loading
       ? [{ type: "header", props: { text: "Telegram contacts" } }]
+      : []),
+    ...(user?.telegramSession && (items || []).length < 1 && loading
+      ? [
+          { type: "placeholder", props: {} },
+          { type: "placeholder", props: {} },
+        ]
       : []),
     ...(items || [])
       .map((item) => ({
@@ -125,14 +195,28 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
           ? -1
           : 1
       ),
-    ...((social || [])
+    ...((enabled && features?.SOCIAL_CONTACTS ? social || [] : [])
       .filter((item) => item.score === 1)
       .filter(
         (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
-      ).length > 0
+      ).length > 0 ||
+    (enabled && features?.SOCIAL_CONTACTS && socialLoading)
       ? [{ type: "header", props: { text: "People you've interacted with" } }]
       : []),
-    ...(social || [])
+    ...(enabled &&
+    features?.SOCIAL_CONTACTS &&
+    socialLoading &&
+    (social || [])
+      .filter((item) => item.score === 1)
+      .filter(
+        (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
+      ).length < 1
+      ? [
+          { type: "placeholder", props: {} },
+          { type: "placeholder", props: {} },
+        ]
+      : []),
+    ...(enabled && features?.SOCIAL_CONTACTS ? social || [] : [])
       .filter((item) => item.score === 1)
       .filter(
         (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
@@ -141,14 +225,14 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
         type: "user",
         props: item,
       })),
-    ...((social || [])
+    ...((enabled && features?.SOCIAL_CONTACTS ? social || [] : [])
       .filter((item) => (item.score || 0) < 1 && (item.score || 0) > 0.1)
       .filter(
         (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
       ).length > 0
       ? [{ type: "header", props: { text: "People you might know" } }]
       : []),
-    ...(social || [])
+    ...(enabled && features?.SOCIAL_CONTACTS ? social || [] : [])
       .filter((item) => (item.score || 0) < 1 && (item.score || 0) > 0.1)
       .filter(
         (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
@@ -174,46 +258,39 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
           item.props.lastName.toLowerCase().includes(search.toLowerCase()))
     )
     .filter((item: any) => item.props.id !== user?.userTelegramID)
-    .filter((item: any) => item.props.userTelegramID !== user?.userTelegramID)
-    .filter((item: any) =>
-      (filters || []).length > 0 ? applyFilters(item.props) : true
-    );
+    .filter((item: any) => item.props.userTelegramID !== user?.userTelegramID);
 
-  const options: Filter[] = [
-    createFilterOption(
-      "invited",
-      "Invited Contacts",
-      "checkbox",
-      "invited",
-      data,
-      filters,
-      user,
-      dispatch,
-      appStoreActions
-    ),
-    createFilterOption(
-      "not-invited",
-      "Not invited Contacts",
-      "checkbox",
-      "not-invited",
-      data,
-      filters,
-      user,
-      dispatch,
-      appStoreActions
-    ),
-    createFilterOption(
-      "has-wallet",
-      "Contacts with wallets",
-      "checkbox",
-      "has-wallet",
-      data,
-      filters,
-      user,
-      dispatch,
-      appStoreActions
-    ),
-  ];
+  const data = rawData.filter((item: any) =>
+    (filters || []).length > 0 ? applyFilters(item, filters) : true
+  );
+
+  const options: Filter[] = FILTER_OPTIONS.filter((option) => true).map(
+    (option) => ({
+      ...option,
+      type: "checkbox",
+      value: filters?.includes(option.key) || false,
+      isActive: filters?.includes(option.key) || false,
+      count: rawData
+        .filter((item: any) =>
+          applyFilters(item, [...(filters || []), option.key])
+        )
+        .filter(
+          (item) =>
+            item.type !== "banner" &&
+            item.type !== "header" &&
+            item.type !== "placeholder"
+        ).length,
+      onChange: (value: string | number | boolean) => {
+        dispatch(
+          appStoreActions.setContacts({
+            filters: value
+              ? [...(filters || []), option.key]
+              : filters?.filter((item) => item !== option.key),
+          })
+        );
+      },
+    })
+  );
 
   return (
     <Box sx={{ width: "100%", maxWidth: "768px", margin: "0 auto" }}>
@@ -259,11 +336,11 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
               )}
             </VariableSizeList>
           </Box>
-        ) : loading ? (
+        ) : loading || socialLoading ? (
           <Loading />
         ) : (
           <Typography sx={{ margin: "20px", textAlign: "center" }}>
-            Your contacts list is empty.
+            Nothing found
           </Typography>
         )}
       </Box>
@@ -365,6 +442,7 @@ const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
           </Typography>
         </ListSubheader>
       )}
+      {data[index].type === "placeholder" && <PlaceholderListItem />}
     </Box>
   );
 };
