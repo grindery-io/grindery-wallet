@@ -60,6 +60,7 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
   const [search, setSearch] = useState("");
+  const [more, setMore] = useState(false);
 
   const { items, loading, filters, social, socialLoading } = contacts || {};
 
@@ -164,8 +165,8 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
     if (
       (filters || []).includes("might-know") &&
       item.type === "user" &&
-      item.props?.score > 0.1 &&
-      item.props?.score < 1
+      item.props?.score < 1 &&
+      (more ? true : item.props?.score > 0.1)
     ) {
       res = true;
     }
@@ -244,10 +245,58 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
       .filter(
         (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
       ).length > 0
+      ? [
+          {
+            type: "header",
+            props: {
+              text: "People you might know",
+              button: !more
+                ? {
+                    label: "Show all",
+                    onClick: () => {
+                      setMore(true);
+                    },
+                  }
+                : undefined,
+            },
+          },
+        ]
+      : []),
+    ...(enabled &&
+    features?.SOCIAL_CONTACTS &&
+    socialLoading &&
+    (enabled && features?.SOCIAL_CONTACTS ? social || [] : [])
+      .filter((item) => (item.score || 0) < 1 && (item.score || 0) > 0.1)
+      .filter(
+        (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
+      ).length < 1
       ? [{ type: "header", props: { text: "People you might know" } }]
       : []),
     ...(enabled && features?.SOCIAL_CONTACTS ? social || [] : [])
       .filter((item) => (item.score || 0) < 1 && (item.score || 0) > 0.1)
+      .filter(
+        (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
+      )
+      .map((item) => ({
+        type: "user",
+        props: item,
+      }))
+      .sort((a: any, b: any) => (b.props.score || 0) - (a.props.score || 0)),
+    ...(enabled &&
+    features?.SOCIAL_CONTACTS &&
+    socialLoading &&
+    (social || [])
+      .filter((item) => (item.score || 0) < 1 && (item.score || 0) > 0.1)
+      .filter(
+        (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
+      ).length < 1
+      ? [
+          { type: "placeholder", props: {} },
+          { type: "placeholder", props: {} },
+        ]
+      : []),
+    ...(enabled && features?.SOCIAL_CONTACTS && more ? social || [] : [])
+      .filter((item) => (item.score || 0) <= 0.1)
       .filter(
         (item) => !(items || []).map((i) => i.id).includes(item.userTelegramID)
       )
@@ -383,6 +432,9 @@ const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
               border: "1px solid var(--gr-theme-divider-color)",
               padding: "8px 16px",
               borderRadius: "5px",
+              "&:hover": {
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
             }}
             onClick={() => {
               if (window.Telegram?.WebApp?.openLink) {
@@ -485,11 +537,30 @@ const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
             margin: "16px 16px 0",
             padding: "0px",
             background: "transparent",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexWrap: "nowrap",
+            gap: "8px",
           }}
         >
           <Typography variant="sm" sx={{ lineHeight: "1.5" }}>
             {data[index].props.text}
           </Typography>
+          {enabled &&
+            features?.SOCIAL_CONTACTS &&
+            data[index].props?.button && (
+              <Button
+                sx={{ padding: "0 2px", marginLeft: "auto" }}
+                variant="text"
+                color="primary"
+                size="small"
+                onClick={data[index].props.button.onClick}
+              >
+                {data[index].props.button.label}
+              </Button>
+            )}
         </ListSubheader>
       )}
       {data[index].type === "placeholder" && <PlaceholderListItem />}

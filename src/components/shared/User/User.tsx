@@ -78,13 +78,14 @@ const User = ({ children, user, id }: UserContextProps): JSX.Element => {
   const [state, setState] = useState<UserType | null>(user || cachedUser);
 
   useEffect(() => {
-    setState(user || cachedUser);
-  }, [user, cachedUser]);
+    if (user) {
+      setState(user);
+    }
+  }, [user]);
 
   useEffect(() => {
-    const controller = new AbortController();
     if (id && !user && !cachedUser) {
-      getUserRequest(id, controller)
+      getUserRequest(id)
         .then((res) => {
           setState(res.data || null);
           localStorage.setItem(
@@ -96,10 +97,6 @@ const User = ({ children, user, id }: UserContextProps): JSX.Element => {
           console.error(err);
         });
     }
-
-    return () => {
-      controller.abort();
-    };
   }, [id, user, cachedUser]);
 
   return (

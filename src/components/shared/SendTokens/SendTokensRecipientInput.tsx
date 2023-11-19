@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import ContactsList from "../ContactsList/ContactsList";
 import {
   appStoreActions,
   selectAppStore,
   useAppDispatch,
   useAppSelector,
 } from "../../../store";
-import SendTokensContactsPlaceholder from "./SendTokensContactsPlaceholder";
 import ContactsSelectBanner from "../ContactsSelectBanner";
+import ContactsListV2 from "../ContactsListV2/ContactsListV2";
+import useWindowDimensions from "hooks/useWindowDimensions";
 
 const SendTokensRecipientInput = () => {
+  const { height } = useWindowDimensions();
   const dispatch = useAppDispatch();
   const { debug, send } = useAppSelector(selectAppStore);
   const { input, selectedContacts } = send;
   const [banner, setBanner] = useState(true);
   return (
     <>
-      <ContactsList
+      <ContactsListV2
+        height={height - 104}
         onContactClick={(id) => {
           dispatch(
             appStoreActions.setSend({
@@ -60,7 +62,7 @@ const SendTokensRecipientInput = () => {
             })
           );
         }}
-        placeholder={<SendTokensContactsPlaceholder />}
+        //placeholder={<SendTokensContactsPlaceholder />}
       />
 
       {debug.features?.BATCH_SENDING && (

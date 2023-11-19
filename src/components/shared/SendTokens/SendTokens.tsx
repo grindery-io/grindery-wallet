@@ -34,7 +34,7 @@ const SendTokens = () => {
 
 const SendTokensStyles = {
   width: "100%",
-  paddingTop: "16px",
+
   flex: 1,
   display: "flex",
   flexDirection: "column",

@@ -5,7 +5,6 @@ import { SendStatus } from "../../../types/State";
 
 const SendTokensHeader = () => {
   const {
-    user,
     send: { status, input },
   } = useAppSelector(selectAppStore);
 
@@ -16,9 +15,7 @@ const SendTokensHeader = () => {
           ? "Sending"
           : status === SendStatus.SENT
           ? "Sent"
-          : user?.telegramSession
-          ? `Send${!input.recipient ? " to" : ""}`
-          : ""}
+          : `Send${!input.recipient ? " to" : ""}`}
       </Typography>
     </Box>
   );
@@ -30,7 +27,7 @@ const SendTokensHeaderStyles = {
   alignItems: "center",
   justifyContent: "center",
   position: "relative",
-  padding: "0 16px",
+  padding: "16px 16px 0",
   boxSizing: "border-box",
 } as SxProps;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ListItem, ListItemButton } from "@mui/material";
+import { ListItem } from "@mui/material";
 import PlaceholderListItemAvatar from "./PlaceholderListItemAvatar";
 import PlaceholderListItemText from "./PlaceholderListItemText";
 
@@ -12,14 +12,8 @@ const PlaceholderListItem = () => {
         border: "1px solid var(--gr-theme-divider-color)",
       }}
     >
-      <ListItemButton
-        sx={{
-          ...ListItemButtonStyles,
-        }}
-      >
-        <PlaceholderListItemAvatar />
-        <PlaceholderListItemText />
-      </ListItemButton>
+      <PlaceholderListItemAvatar />
+      <PlaceholderListItemText />
     </ListItem>
   );
 };
@@ -27,12 +21,8 @@ const PlaceholderListItem = () => {
 const ListItemStyles = {
   margin: "10px 16px 0",
   width: "calc(100% - 32px)",
-  padding: 0,
   borderRadius: "5px",
   overflow: "hidden",
-};
-
-const ListItemButtonStyles = {
   padding: "10px",
 };
 
