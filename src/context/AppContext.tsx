@@ -58,6 +58,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       dispatch(
         appStoreActions.setContacts({
           loading: false,
+          items: [],
         })
       );
       return;
