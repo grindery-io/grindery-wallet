@@ -24,6 +24,8 @@ const ContactView = ({ id }: { id: string }) => {
   ) : user ? (
     <User user={user}>
       <ContactViewDetails type="user" />
+      <ContactViewActivities />
+      <ContactViewSendTokensButton />
     </User>
   ) : (
     <Loading />

@@ -6,6 +6,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUserActivityRequest } from "../../../services/activity";
 import { useContact } from "../Contact/Contact";
+import { useUser } from "../User/User";
 
 const ContactViewActivities = () => {
   const navigate = useNavigate();
@@ -13,7 +14,9 @@ const ContactViewActivities = () => {
   const [activities, setActivities] = useState<TelegramUserActivity[]>([]);
   const [activitiesTotal, setActivitiesTotal] = useState(0);
   const [activitiesLoading, setActivitiesLoading] = useState(true);
-  const { id, grinderyUser } = useContact();
+  const user = useUser();
+  const contact = useContact();
+  const id = contact.id || user?.userTelegramID || "";
 
   useEffect(() => {
     const controller = new AbortController();
@@ -45,23 +48,28 @@ const ContactViewActivities = () => {
         </Box>
       )}
 
-      {!activitiesLoading && activities.length < 1 && !grinderyUser && (
-        <Typography
-          sx={{
-            margin: "16px 16px 80px",
-            textAlign: "center",
-          }}
-          color="hint"
-        >
-          Invite your friends and earn rewards
-          <br />
-          <br />
-          Send tokens and follow the instructions provided by the GrinderyAI bot
-          <br />
-          <br />
-          <span style={{ fontSize: "22px" }}>👇</span>
-        </Typography>
-      )}
+      {!activitiesLoading &&
+        activities.length < 1 &&
+        contact &&
+        !contact.grinderyUser &&
+        !user && (
+          <Typography
+            sx={{
+              margin: "16px 16px 80px",
+              textAlign: "center",
+            }}
+            color="hint"
+          >
+            Invite your friends and earn rewards
+            <br />
+            <br />
+            Send tokens and follow the instructions provided by the GrinderyAI
+            bot
+            <br />
+            <br />
+            <span style={{ fontSize: "22px" }}>👇</span>
+          </Typography>
+        )}
 
       {!activitiesLoading && activities && activities.length > 0 && (
         <Box sx={{ width: "100%", paddingBottom: "76px" }}>

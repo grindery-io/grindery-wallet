@@ -3,10 +3,13 @@ import { useNavigate } from "react-router";
 import { ICONS, MAX_WIDTH } from "../../../constants";
 import { Box, Button } from "@mui/material";
 import { useContact } from "../Contact/Contact";
+import { useUser } from "../User/User";
 
 const ContactViewSendTokensButton = () => {
   const navigate = useNavigate();
-  const { id } = useContact();
+  const contact = useContact();
+  const user = useUser();
+  const id = contact.id || user?.userTelegramID || "";
 
   return (
     <Box sx={ContactViewSendTokensButtonStyles}>
