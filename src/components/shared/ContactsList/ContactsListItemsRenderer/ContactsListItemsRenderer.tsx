@@ -13,6 +13,7 @@ import ContactListItem from "../../ContactListItem/ContactListItem";
 import PlaceholderListItem from "../../PlaceholderListItem/PlaceholderListItem";
 import BulletPoints from "../../BulletPoints";
 import { ContactsListProps } from "../ContactsList";
+import { ContactsListDataItemVariantType } from "utils";
 
 export interface ContactsListItemsRendererProps extends ContactsListProps {
   data: any;
@@ -33,7 +34,7 @@ const ContactsListItemsRenderer = ({
   } = useAppSelector(selectAppStore);
   return (
     <Box sx={style} key={JSON.stringify(data[index])}>
-      {data[index].type === "banner" &&
+      {data[index].variant === ContactsListDataItemVariantType.BANNER &&
         data[index].props.key === "requestTgAccess" && (
           <ListItemButton
             sx={{
@@ -131,7 +132,7 @@ const ContactsListItemsRenderer = ({
             </Stack>
           </ListItemButton>
         )}
-      {data[index].type === "user" && (
+      {data[index].variant === ContactsListDataItemVariantType.USER && (
         <UserListItem
           selected={(selected || []).includes(
             data[index]?.props?.userTelegramID
@@ -141,7 +142,7 @@ const ContactsListItemsRenderer = ({
           onUserPress={onSelect}
         />
       )}
-      {data[index].type === "contact" && (
+      {data[index].variant === ContactsListDataItemVariantType.CONTACT && (
         <ContactListItem
           selected={(selected || []).includes(data[index]?.props?.id)}
           contact={data[index].props}
@@ -149,7 +150,7 @@ const ContactsListItemsRenderer = ({
           onContactPress={onSelect}
         />
       )}
-      {data[index].type === "header" && (
+      {data[index].variant === ContactsListDataItemVariantType.HEADER && (
         <ListSubheader
           sx={{
             position: "relative",
@@ -182,7 +183,9 @@ const ContactsListItemsRenderer = ({
             )}
         </ListSubheader>
       )}
-      {data[index].type === "placeholder" && <PlaceholderListItem />}
+      {data[index].variant === ContactsListDataItemVariantType.PLACEHOLDER && (
+        <PlaceholderListItem />
+      )}
     </Box>
   );
 };

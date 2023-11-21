@@ -17,7 +17,7 @@ describe("Balance", () => {
         shouldUpdate: true,
         value: 123.45,
         cached: false,
-        updated: new Date().toString(),
+        updated: new Date().toISOString(),
       },
       debug: {},
       tokens: [],

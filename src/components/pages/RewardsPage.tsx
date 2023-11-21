@@ -39,7 +39,10 @@ const RewardsPage = () => {
           STORAGE_KEYS.REWARDS,
           JSON.stringify(res.data?.docs)
         );
-        localStorage.setItem(STORAGE_KEYS.REWARDS_SAVED, new Date().toString());
+        localStorage.setItem(
+          STORAGE_KEYS.REWARDS_SAVED,
+          new Date().toISOString()
+        );
       }
     } catch (error) {
       console.error("getTgRewards error", error);

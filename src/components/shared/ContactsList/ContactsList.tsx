@@ -3,21 +3,25 @@ import { selectAppStore, useAppSelector } from "store";
 import { Box, Typography } from "@mui/material";
 import Loading from "../Loading/Loading";
 import ContactsListHeader from "./ContactsListHeader/ContactsListHeader";
-import ContactsListBatchSelectButtons from "./ContactsListBatchSelectButtons.tsx/ContactsListBatchSelectButtons";
+import ContactsListBatchSelectButtons from "./ContactsListBatchSelectButtons/ContactsListBatchSelectButtons";
 import ContactsListItems from "./ContactsListItems/ContactsListItems";
-import { filterContacts, getContactsList } from "utils";
+import {
+  filterContactsData,
+  filterContactsListDataBySearchQuery,
+  getContactsListData,
+} from "utils";
 
 /**
  * Contact click handler
- * @param contact - Telegram user contact
+ * @param {string} id - Telegram contact or user id
  */
 export type ContactsListOnContactClickType = (id: string) => void;
 
 /**
  * Contact select handler
- * @param contact - Telegram user contact id
+ * @param id - Telegram contact or user id
  */
-export type ContactsListOnSelectType = (contactId: string) => void;
+export type ContactsListOnSelectType = (id: string) => void;
 
 /**
  * Array of selected contacts ids
@@ -64,7 +68,7 @@ const ContactsList = (props: ContactsListProps) => {
     contactsLoading = Boolean(loading),
     socialContactsLoading = Boolean(socialLoading);
 
-  const rawData = getContactsList({
+  const rawData = getContactsListData({
     hasTgSession,
     contactsItems,
     socialContactsItems,
@@ -72,25 +76,12 @@ const ContactsList = (props: ContactsListProps) => {
     contactsLoading,
     socialContactsLoading,
   })
-    .filter(
-      (item: any) =>
-        !search ||
-        (item.props.userName &&
-          item.props.userName.toLowerCase().includes(search.toLowerCase())) ||
-        (item.props.userHandle &&
-          item.props.userHandle.toLowerCase().includes(search.toLowerCase())) ||
-        (item.props.username &&
-          item.props.username.toLowerCase().includes(search.toLowerCase())) ||
-        (item.props.firstName &&
-          item.props.firstName.toLowerCase().includes(search.toLowerCase())) ||
-        (item.props.lastName &&
-          item.props.lastName.toLowerCase().includes(search.toLowerCase()))
-    )
+    .filter((item: any) => filterContactsListDataBySearchQuery(item, search))
     .filter((item: any) => item.props.id !== user?.userTelegramID)
     .filter((item: any) => item.props.userTelegramID !== user?.userTelegramID);
 
   const data = rawData.filter((item: any) =>
-    (filters || []).length > 0 ? filterContacts(item, filters) : true
+    (filters || []).length > 0 ? filterContactsData(item, filters) : true
   );
 
   return (
@@ -98,7 +89,6 @@ const ContactsList = (props: ContactsListProps) => {
       <Box textAlign="left">
         <ContactsListHeader
           rawData={rawData}
-          applyFilters={filterContacts}
           value={search}
           onChange={(value) => {
             setSearch(value);
@@ -108,12 +98,7 @@ const ContactsList = (props: ContactsListProps) => {
         {data && data.length > 0 ? (
           <>
             <ContactsListItems {...props} data={data} />
-            <ContactsListBatchSelectButtons
-              selected={props.selected}
-              onSelect={props.onSelect}
-              onSelectCancel={props.onSelectCancel}
-              onSelectConfirm={props.onSelectConfirm}
-            />
+            <ContactsListBatchSelectButtons {...props} />
           </>
         ) : loading || socialLoading ? (
           <Loading />

@@ -15,7 +15,7 @@ export const extractTokensFromBalanceResponse = (
     balance: asset.balanceRawInteger,
     price: asset.tokenPrice,
     priceUpdated: response.syncStatus?.timestamp
-      ? new Date(response.syncStatus?.timestamp * 1000).toString()
+      ? new Date(response.syncStatus?.timestamp * 1000).toISOString()
       : undefined,
   }));
 };

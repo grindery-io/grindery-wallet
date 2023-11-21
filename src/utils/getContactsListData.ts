@@ -1,12 +1,20 @@
 import { ContactType } from "components/shared/Contact/Contact";
 import { UserType } from "components/shared/User/User";
 
+export enum ContactsListDataItemVariantType {
+  BANNER = "banner",
+  PLACEHOLDER = "placeholder",
+  HEADER = "header",
+  CONTACT = "contact",
+  USER = "user",
+}
+
 export type ContactsListDataItemType = {
-  type: string;
+  variant: ContactsListDataItemVariantType;
   props: any;
 };
 
-export const getContactsList = ({
+export const getContactsListData = ({
   hasTgSession,
   contactsItems,
   socialContactsItems,
@@ -25,7 +33,7 @@ export const getContactsList = ({
     ...(!hasTgSession
       ? [
           {
-            type: "banner",
+            variant: ContactsListDataItemVariantType.BANNER,
             props: {
               key: "requestTgAccess",
               text: "Grant access",
@@ -34,17 +42,22 @@ export const getContactsList = ({
         ]
       : []),
     ...((hasTgSession && contactsItems.length > 0) || contactsLoading
-      ? [{ type: "header", props: { text: "Telegram contacts" } }]
+      ? [
+          {
+            variant: ContactsListDataItemVariantType.HEADER,
+            props: { text: "Telegram contacts" },
+          },
+        ]
       : []),
     ...(hasTgSession && contactsItems.length < 1 && contactsLoading
       ? [
-          { type: "placeholder", props: {} },
-          { type: "placeholder", props: {} },
+          { variant: ContactsListDataItemVariantType.PLACEHOLDER, props: {} },
+          { variant: ContactsListDataItemVariantType.PLACEHOLDER, props: {} },
         ]
       : []),
     ...contactsItems
       .map((item) => ({
-        type: "contact",
+        variant: ContactsListDataItemVariantType.CONTACT,
         props: item,
       }))
       .sort((a: any, b: any) =>
@@ -63,7 +76,12 @@ export const getContactsList = ({
         (item) => !contactsItems.map((i) => i.id).includes(item.userTelegramID)
       ).length > 0 ||
     (socialContactsEnabled && socialContactsLoading)
-      ? [{ type: "header", props: { text: "People you've interacted with" } }]
+      ? [
+          {
+            variant: ContactsListDataItemVariantType.HEADER,
+            props: { text: "People you've interacted with" },
+          },
+        ]
       : []),
     ...(socialContactsEnabled &&
     socialContactsLoading &&
@@ -73,8 +91,8 @@ export const getContactsList = ({
         (item) => !contactsItems.map((i) => i.id).includes(item.userTelegramID)
       ).length < 1
       ? [
-          { type: "placeholder", props: {} },
-          { type: "placeholder", props: {} },
+          { variant: ContactsListDataItemVariantType.PLACEHOLDER, props: {} },
+          { variant: ContactsListDataItemVariantType.PLACEHOLDER, props: {} },
         ]
       : []),
     ...(socialContactsEnabled ? socialContactsItems : [])
@@ -83,7 +101,7 @@ export const getContactsList = ({
         (item) => !contactsItems.map((i) => i.id).includes(item.userTelegramID)
       )
       .map((item) => ({
-        type: "user",
+        variant: ContactsListDataItemVariantType.USER,
         props: item,
       })),
     ...((socialContactsEnabled ? socialContactsItems : [])
@@ -93,7 +111,7 @@ export const getContactsList = ({
       ).length > 0
       ? [
           {
-            type: "header",
+            variant: ContactsListDataItemVariantType.HEADER,
             props: {
               text: "People you might know",
             },
@@ -107,7 +125,12 @@ export const getContactsList = ({
       .filter(
         (item) => !contactsItems.map((i) => i.id).includes(item.userTelegramID)
       ).length < 1
-      ? [{ type: "header", props: { text: "People you might know" } }]
+      ? [
+          {
+            variant: ContactsListDataItemVariantType.HEADER,
+            props: { text: "People you might know" },
+          },
+        ]
       : []),
     ...(socialContactsEnabled ? socialContactsItems : [])
       .filter((item) => (item.score || 0) < 1)
@@ -115,7 +138,7 @@ export const getContactsList = ({
         (item) => !contactsItems.map((i) => i.id).includes(item.userTelegramID)
       )
       .map((item) => ({
-        type: "user",
+        variant: ContactsListDataItemVariantType.USER,
         props: item,
       }))
       .sort((a: any, b: any) => (b.props.score || 0) - (a.props.score || 0)),
@@ -127,8 +150,8 @@ export const getContactsList = ({
         (item) => !contactsItems.map((i) => i.id).includes(item.userTelegramID)
       ).length < 1
       ? [
-          { type: "placeholder", props: {} },
-          { type: "placeholder", props: {} },
+          { variant: ContactsListDataItemVariantType.PLACEHOLDER, props: {} },
+          { variant: ContactsListDataItemVariantType.PLACEHOLDER, props: {} },
         ]
       : []),
   ];

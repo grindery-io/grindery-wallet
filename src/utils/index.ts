@@ -13,5 +13,6 @@ export * from "./setAppStyles";
 export * from "./shortenAddress";
 export * from "./sortTokens";
 export * from "./testUtils";
-export * from "./filterContacts";
-export * from "./getContactsList";
+export * from "./filterContactsData";
+export * from "./getContactsListData";
+export * from "./filterContactsListDataBySearchQuery";

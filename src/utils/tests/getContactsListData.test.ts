@@ -1,8 +1,8 @@
-import { getContactsList } from "../getContactsList";
+import { getContactsListData } from "../getContactsListData";
 
-describe("getContactsList", () => {
+describe("getContactsListData", () => {
   it("should return the correct contacts list when hasTgSession is false", () => {
-    const contactsList = getContactsList({
+    const contactsList = getContactsListData({
       hasTgSession: false,
       contactsItems: [],
       socialContactsItems: [],
@@ -13,7 +13,7 @@ describe("getContactsList", () => {
 
     expect(contactsList).toEqual([
       {
-        type: "banner",
+        variant: "banner",
         props: {
           key: "requestTgAccess",
           text: "Grant access",
@@ -23,7 +23,7 @@ describe("getContactsList", () => {
   });
 
   it("should return the correct contacts list when hasTgSession is true and contactsItems is not empty", () => {
-    const contactsList = getContactsList({
+    const contactsList = getContactsListData({
       hasTgSession: true,
       contactsItems: [
         // @ts-ignore
@@ -51,11 +51,11 @@ describe("getContactsList", () => {
 
     expect(contactsList).toEqual([
       {
-        type: "header",
+        variant: "header",
         props: { text: "Telegram contacts" },
       },
       {
-        type: "contact",
+        variant: "contact",
         props: {
           id: "1",
           firstName: "John",
@@ -65,7 +65,7 @@ describe("getContactsList", () => {
         },
       },
       {
-        type: "contact",
+        variant: "contact",
         props: {
           id: "2",
           firstName: "Jane",

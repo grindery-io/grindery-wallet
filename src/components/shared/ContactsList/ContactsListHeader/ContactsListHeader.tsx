@@ -6,19 +6,18 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
+import { ContactsListDataItemVariantType, filterContactsData } from "utils";
 
 export type ContactsListHeaderProps = {
   value: string;
   onChange: (value: string) => void;
   rawData: any[];
-  applyFilters: (item: any, filters?: string[]) => boolean;
 };
 
 const ContactsListHeader = ({
   value,
   onChange,
   rawData,
-  applyFilters,
 }: ContactsListHeaderProps) => {
   const dispatch = useAppDispatch();
   const {
@@ -81,13 +80,13 @@ const ContactsListHeader = ({
       isActive: filters?.includes(option.key) || false,
       count: rawData
         .filter((item: any) =>
-          applyFilters(item, [...(filters || []), option.key])
+          filterContactsData(item, [...(filters || []), option.key])
         )
         .filter(
           (item) =>
-            item.type !== "banner" &&
-            item.type !== "header" &&
-            item.type !== "placeholder"
+            item.variant !== ContactsListDataItemVariantType.BANNER &&
+            item.variant !== ContactsListDataItemVariantType.HEADER &&
+            item.variant !== ContactsListDataItemVariantType.PLACEHOLDER
         ).length,
       onChange: (value: string | number | boolean) => {
         dispatch(

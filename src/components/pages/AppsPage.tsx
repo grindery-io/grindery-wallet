@@ -21,7 +21,7 @@ const AppsPage = () => {
       const apps = res.data?.config?.filter(
         (c: any) => c.fields.Type === "App" && c.fields.Status === "Published"
       );
-      const updated = new Date().toString();
+      const updated = new Date().toISOString();
       dispatch(
         appStoreActions.setCommunity({
           items: community,

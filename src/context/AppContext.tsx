@@ -238,7 +238,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             appStoreActions.setBalance({
               loading: false,
               value: parseFloat(res.data?.totalBalanceUsd || "0") || 0,
-              updated: new Date().toString(),
+              updated: new Date().toISOString(),
               shouldUpdate: false,
             })
           );

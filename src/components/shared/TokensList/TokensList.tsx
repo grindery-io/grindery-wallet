@@ -14,7 +14,7 @@ const TokensList = () => {
       : [
           {
             ...GRINDERY_ONE_TOKEN,
-            priceUpdated: new Date().toString(),
+            priceUpdated: new Date().toISOString(),
           },
         ];
   return (
