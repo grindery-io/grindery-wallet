@@ -13,3 +13,5 @@ export * from "./setAppStyles";
 export * from "./shortenAddress";
 export * from "./sortTokens";
 export * from "./testUtils";
+export * from "./filterContacts";
+export * from "./getContactsList";
