@@ -20,15 +20,25 @@ const SendTokensRecipientInput = () => {
       <ContactsListV2
         height={height - 104}
         onContactClick={(id) => {
-          dispatch(
-            appStoreActions.setSend({
-              input: {
-                recipient: id,
-                amount: "",
-                message: "",
-              },
-            })
-          );
+          if (selectedContacts.length > 0) {
+            dispatch(
+              appStoreActions.setSend({
+                selectedContacts: selectedContacts.includes(id)
+                  ? selectedContacts.filter((c) => c !== id)
+                  : [...selectedContacts, id],
+              })
+            );
+          } else {
+            dispatch(
+              appStoreActions.setSend({
+                input: {
+                  recipient: id,
+                  amount: "",
+                  message: "",
+                },
+              })
+            );
+          }
         }}
         selected={selectedContacts}
         onSelect={(id) => {
@@ -65,7 +75,7 @@ const SendTokensRecipientInput = () => {
         //placeholder={<SendTokensContactsPlaceholder />}
       />
 
-      {debug.features?.BATCH_SENDING && (
+      {debug.enabled && debug.features?.BATCH_SENDING && (
         <ContactsSelectBanner
           onClose={() => {
             setBanner(false);

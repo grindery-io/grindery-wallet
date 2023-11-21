@@ -9,7 +9,7 @@ import SearchBox, { Filter } from "../SearchBox/SearchBox";
 import {
   Box,
   Button,
-  ButtonBase,
+  ListItemButton,
   ListSubheader,
   Stack,
   Typography,
@@ -103,12 +103,16 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
           },
         ]
       : []),
-    ...(enabled && features?.SOCIAL_CONTACTS
+    ...(enabled && features?.SOCIAL_CONTACTS && !user?.telegramSession
       ? [
           {
             key: "interacted",
             label: "People you've interacted with",
           },
+        ]
+      : []),
+    ...(enabled && features?.SOCIAL_CONTACTS
+      ? [
           {
             key: "might-know",
             label: "People you might know",
@@ -348,37 +352,79 @@ const ContactsListV2 = (props: ContactsListV2Props) => {
         />
 
         {data && data.length > 0 ? (
-          <Box
-            sx={{
-              "& > div": {
-                padding: `0 0 ${
-                  typeof props.onSelect !== "undefined" &&
-                  props.selected &&
-                  props.selected.length > 0
-                    ? "80"
-                    : "10"
-                }px`,
-                boxSizing: "border-box",
+          <>
+            <Box
+              sx={{
                 "& > div": {
-                  padding: "0 0 10px",
+                  padding: `0 0 ${
+                    typeof props.onSelect !== "undefined" &&
+                    props.selected &&
+                    props.selected.length > 0
+                      ? "80"
+                      : "10"
+                  }px`,
                   boxSizing: "border-box",
+                  "& > div": {
+                    padding: "0 0 10px",
+                    boxSizing: "border-box",
+                  },
                 },
-              },
-            }}
-          >
-            <VariableSizeList
-              key={data.length}
-              height={props.height || height}
-              itemCount={data.length}
-              itemSize={(index) => getItemSize(index, data)}
-              width={width < 768 ? width : 768}
-              itemData={data}
+              }}
             >
-              {(itemProps: { data: any; index: number; style: any }) => (
-                <Renderer {...itemProps} {...props} />
+              <VariableSizeList
+                key={data.length}
+                height={props.height || height}
+                itemCount={data.length}
+                itemSize={(index) => getItemSize(index, data)}
+                width={width < 768 ? width : 768}
+                itemData={data}
+              >
+                {(itemProps: { data: any; index: number; style: any }) => (
+                  <Renderer {...itemProps} {...props} />
+                )}
+              </VariableSizeList>
+            </Box>
+            {typeof props.onSelect !== "undefined" &&
+              props.selected &&
+              props.selected.length > 0 && (
+                <Stack
+                  direction="row"
+                  spacing="8px"
+                  sx={ContactsListButtonStyles}
+                >
+                  {typeof props.onSelectCancel !== "undefined" && (
+                    <Button
+                      onClick={() => {
+                        if (typeof props.onSelectCancel !== "undefined") {
+                          props.onSelectCancel();
+                        }
+                      }}
+                      variant="outlined"
+                      size="large"
+                      sx={ContactsListButtonCancelStyles}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                  {typeof props.onSelectConfirm !== "undefined" && (
+                    <Button
+                      onClick={() => {
+                        if (typeof props.onSelectConfirm !== "undefined") {
+                          props.onSelectConfirm();
+                        }
+                      }}
+                      fullWidth
+                      size="large"
+                      sx={ContactsListButtonSendStyles}
+                      variant="contained"
+                    >
+                      Send x {props.selected?.length || 0} contact
+                      {props.selected && props.selected?.length > 1 ? "s" : ""}
+                    </Button>
+                  )}
+                </Stack>
               )}
-            </VariableSizeList>
-          </Box>
+          </>
         ) : loading || socialLoading ? (
           <Loading />
         ) : (
@@ -397,7 +443,14 @@ interface RendererProps extends ContactsListV2Props {
   style: any;
 }
 
-const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
+const Renderer = ({
+  data,
+  index,
+  style,
+  selected,
+  onContactClick,
+  onSelect,
+}: RendererProps) => {
   const {
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
@@ -405,7 +458,7 @@ const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
     <Box sx={style} key={JSON.stringify(data[index])}>
       {data[index].type === "banner" &&
         data[index].props.key === "requestTgAccess" && (
-          <ButtonBase
+          <ListItemButton
             sx={{
               width: "calc(100% - 32px)",
               margin: "10px 16px 0",
@@ -499,15 +552,24 @@ const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
                 </>
               ) : null}
             </Stack>
-          </ButtonBase>
+          </ListItemButton>
         )}
       {data[index].type === "user" && (
-        <UserListItem user={data[index].props} onUserClick={onContactClick} />
+        <UserListItem
+          selected={(selected || []).includes(
+            data[index]?.props?.userTelegramID
+          )}
+          user={data[index].props}
+          onUserClick={onContactClick}
+          onUserPress={onSelect}
+        />
       )}
       {data[index].type === "contact" && (
         <ContactListItem
+          selected={(selected || []).includes(data[index]?.props?.id)}
           contact={data[index].props}
           onContactClick={onContactClick}
+          onContactPress={onSelect}
         />
       )}
       {data[index].type === "header" && (
@@ -546,6 +608,33 @@ const Renderer = ({ data, index, style, onContactClick }: RendererProps) => {
       {data[index].type === "placeholder" && <PlaceholderListItem />}
     </Box>
   );
+};
+
+const ContactsListButtonStyles = {
+  position: "fixed",
+  bottom: "0px",
+  padding: "0px 8px 16px",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  maxWidth: "768px",
+  zIndex: 2,
+};
+
+const ContactsListButtonCancelStyles = {
+  paddingLeft: "48px",
+  paddingRight: "48px",
+  backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+  "&:hover": {
+    backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+  },
+  boxShadow: "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
+};
+
+const ContactsListButtonSendStyles = {
+  boxShadow: "5px 5px 20px 0px var(--gr-theme-button-shadow-color)",
 };
 
 export default ContactsListV2;

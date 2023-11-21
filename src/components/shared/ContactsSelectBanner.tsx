@@ -12,7 +12,7 @@ const ContactsSelectBanner = ({
 }) => {
   const { user } = useAppSelector(selectAppStore);
 
-  return user && user.telegramSession ? (
+  return user && user.patchwallet ? (
     <Banner visible={visible} onClose={onClose} sx={{ bottom: "20px" }}>
       <Box
         sx={{
