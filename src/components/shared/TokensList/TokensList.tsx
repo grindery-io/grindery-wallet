@@ -1,10 +1,11 @@
 import React from "react";
 import TokensListItem from "./TokensListItem/TokensListItem";
 import { selectAppStore, useAppSelector } from "../../../store";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import TokensListImportButton from "./TokensListImportButton/TokensListImportButton";
 import { sortTokens } from "../../../utils/sortTokens";
 import { GRINDERY_ONE_TOKEN } from "../../../constants";
+import TokensListExplorerButton from "./TokensListExplorerButton/TokensListExplorerButton";
 
 const TokensList = () => {
   const { tokens: stateTokens } = useAppSelector(selectAppStore);
@@ -30,7 +31,10 @@ const TokensList = () => {
         {tokens.map((token) => (
           <TokensListItem token={token} key={token.address} />
         ))}
-        <TokensListImportButton />
+        <Box sx={{ margin: "8px 0 16px" }}>
+          <TokensListImportButton />
+          <TokensListExplorerButton />
+        </Box>
       </Stack>
     </>
   );

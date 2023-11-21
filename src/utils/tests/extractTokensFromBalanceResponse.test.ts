@@ -39,7 +39,7 @@ describe("extractTokensFromBalanceResponse", () => {
         chain: "137",
         balance: "1000000000000000000",
         price: "1.23",
-        priceUpdated: new Date(1631234567000).toString(),
+        priceUpdated: new Date(1631234567000).toISOString(),
       },
       {
         name: "Token 2",
@@ -50,7 +50,7 @@ describe("extractTokensFromBalanceResponse", () => {
         chain: "137",
         balance: "5000000000000000",
         price: "4.56",
-        priceUpdated: new Date(1631234567000).toString(),
+        priceUpdated: new Date(1631234567000).toISOString(),
       },
     ]);
   });
