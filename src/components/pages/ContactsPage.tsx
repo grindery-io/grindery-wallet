@@ -1,7 +1,7 @@
 import React from "react";
 import BottomNavigation from "../shared/BottomNavigation/BottomNavigation";
 import { useNavigate } from "react-router";
-import ContactsListV2 from "components/shared/ContactsListV2/ContactsListV2";
+import ContactsList from "components/shared/ContactsList/ContactsList";
 import useWindowDimensions from "hooks/useWindowDimensions";
 
 const ContactsPage = () => {
@@ -10,7 +10,7 @@ const ContactsPage = () => {
 
   return (
     <>
-      <ContactsListV2
+      <ContactsList
         onContactClick={(id) => {
           navigate(`/contacts/${id}`);
         }}

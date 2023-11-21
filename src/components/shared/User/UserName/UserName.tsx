@@ -35,7 +35,7 @@ const UserName = ({ format = "default", sx }: UserNameProps) => {
 
   return name ? (
     <Box sx={sx} component="span">
-      {name}
+      {name.replace("undefined", "")}
     </Box>
   ) : null;
 };

@@ -6,7 +6,7 @@ import {
   useAppSelector,
 } from "../../../store";
 import ContactsSelectBanner from "../ContactsSelectBanner";
-import ContactsListV2 from "../ContactsListV2/ContactsListV2";
+import ContactsList from "../ContactsList/ContactsList";
 import useWindowDimensions from "hooks/useWindowDimensions";
 
 const SendTokensRecipientInput = () => {
@@ -17,7 +17,7 @@ const SendTokensRecipientInput = () => {
   const [banner, setBanner] = useState(true);
   return (
     <>
-      <ContactsListV2
+      <ContactsList
         height={height - 104}
         onContactClick={(id) => {
           if (selectedContacts.length > 0) {
