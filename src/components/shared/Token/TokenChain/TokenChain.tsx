@@ -1,34 +1,50 @@
 import React from "react";
-import { Box, SxProps } from "@mui/material";
+import { SxProps, Stack, Tooltip } from "@mui/material";
 import { useToken } from "../Token";
-import { BLOCKCHAIN_NAMES } from "../../../../constants";
-
-export type TokenChainFormat = "id" | "caip" | "name";
+import Chain from "components/shared/Chain/Chain";
+import ChainName, {
+  ChainNameFormat,
+} from "components/shared/Chain/ChainName/ChainName";
+import ChainAvatar from "components/shared/Chain/ChainAvatar/ChainAvatar";
 
 export type TokenChainProps = {
-  format?: TokenChainFormat;
+  format?: ChainNameFormat;
+  withIcon?: boolean;
+  onlyIcon?: boolean;
+  iconSize?: number;
   sx?: SxProps | React.CSSProperties;
 };
 
-export const formatTokenChain = (chain: string, format: TokenChainFormat) => {
-  switch (format) {
-    case "id":
-      return chain;
-    case "caip":
-      return `eip155:${chain}`;
-    case "name":
-      return BLOCKCHAIN_NAMES[chain];
-    default:
-      return chain;
-  }
-};
-
-const TokenChain = ({ format = "name", sx }: TokenChainProps) => {
+const TokenChain = ({
+  format,
+  withIcon,
+  onlyIcon,
+  iconSize,
+  sx,
+}: TokenChainProps) => {
   const { chain } = useToken();
   return chain ? (
-    <Box sx={sx} component="span">
-      {formatTokenChain(chain, format)}
-    </Box>
+    <Chain id={chain}>
+      <Stack
+        sx={sx}
+        component="span"
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        spacing="4px"
+        useFlexGap
+      >
+        {!onlyIcon && <ChainName format={format} />}
+        {withIcon && !onlyIcon && <ChainAvatar size={iconSize} />}
+        {onlyIcon && (
+          <Tooltip title={<ChainName format={format} />}>
+            <span>
+              <ChainAvatar size={iconSize} />
+            </span>
+          </Tooltip>
+        )}
+      </Stack>
+    </Chain>
   ) : null;
 };
 

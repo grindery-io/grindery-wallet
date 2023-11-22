@@ -13,7 +13,9 @@ const ChainAvatar = ({ size = 36, sx }: ChainAvatarProps) => {
 
   return (
     <Box
+      component="span"
       sx={{
+        display: "block",
         width: `${size}px`,
         minWidth: `${size}px`,
         height: `${size}px`,
@@ -22,7 +24,9 @@ const ChainAvatar = ({ size = 36, sx }: ChainAvatarProps) => {
       }}
     >
       <Box
+        component="span"
         sx={{
+          display: "block",
           borderRadius: "50%",
           overflow: "hidden",
           width: "100%",
@@ -43,6 +47,7 @@ const ChainAvatar = ({ size = 36, sx }: ChainAvatarProps) => {
           />
         ) : (
           <Stack
+            component="span"
             alignItems="center"
             justifyContent="center"
             sx={{
