@@ -14,6 +14,7 @@ import {
 import {
   extractTokensFromBalanceResponse,
   extractContactsFromContactsResponse,
+  fixTokens,
 } from "utils";
 import { UserProps } from "types";
 import { STORAGE_KEYS } from "../constants";
@@ -233,7 +234,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             ? extractTokensFromBalanceResponse(res.data)
             : [];
 
-          dispatch(appStoreActions.updateTokens(tokens));
+          dispatch(appStoreActions.updateTokens(tokens.map(fixTokens)));
           dispatch(
             appStoreActions.setBalance({
               loading: false,
