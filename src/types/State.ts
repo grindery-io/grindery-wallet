@@ -313,6 +313,7 @@ export type SwapStateInput = {
   tokenIn: string;
   amountIn: string;
   tokenOut: string;
+  chainId?: string;
 };
 
 /**

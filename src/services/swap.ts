@@ -7,7 +7,11 @@ export const getSwapRoutesRequest = async (
   controller: AbortController
 ) => {
   return await axios.get(
-    `${WALLET_API_URL}/v2/swap?tokenIn=${input.tokenIn}&tokenOut=${input.tokenOut}&amountIn=${input.amountIn}`,
+    `${WALLET_API_URL}/v2/swap?tokenIn=${input.tokenIn}&tokenOut=${
+      input.tokenOut
+    }&amountIn=${input.amountIn}${
+      input.chainId ? `&chainId=${input.chainId}` : ""
+    }`,
     {
       signal: controller.signal,
       headers: {

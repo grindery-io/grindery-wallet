@@ -21,7 +21,7 @@ describe("getFullBalanceRequest", () => {
     );
 
     const controller = new AbortController();
-    const result = await getFullBalanceRequest(controller);
+    const result = await getFullBalanceRequest("polygon", controller);
 
     expect(axios.get).toHaveBeenCalledWith(
       `${WALLET_API_URL}/v2/balance/`,

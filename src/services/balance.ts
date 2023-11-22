@@ -50,9 +50,12 @@ export type GetFullBalanceResponseType = {
   };
 };
 
-export const getFullBalanceRequest = async (controller?: AbortController) => {
+export const getFullBalanceRequest = async (
+  chain?: string,
+  controller?: AbortController
+) => {
   return await axios.get<GetFullBalanceResponseType>(
-    `${WALLET_API_URL}/v2/balance/`,
+    `${WALLET_API_URL}/v2/balance/${chain ? "?chain=" + chain : ""}`,
     {
       signal: controller?.signal,
       headers: {

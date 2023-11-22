@@ -17,7 +17,7 @@ import {
   fixTokens,
 } from "utils";
 import { UserProps } from "types";
-import { STORAGE_KEYS } from "../constants";
+import { CHAINS, STORAGE_KEYS } from "../constants";
 
 // Context props
 type ContextProps = {
@@ -228,7 +228,12 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           loading: true,
         })
       );
-      getFullBalanceRequest(controller)
+      getFullBalanceRequest(
+        debug.enabled && debug.features?.MULTICHAIN
+          ? CHAINS.map((chain) => chain.name).join(",")
+          : "polygon",
+        controller
+      )
         .then((res) => {
           const tokens = res.data
             ? extractTokensFromBalanceResponse(res.data)
@@ -257,7 +262,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     return () => {
       controller.abort();
     };
-  }, [user?.userTelegramID, balance.shouldUpdate, dispatch]);
+  }, [user?.userTelegramID, balance.shouldUpdate, debug, dispatch]);
 
   useEffect(() => {
     if (tokens && tokens.length > 0) {

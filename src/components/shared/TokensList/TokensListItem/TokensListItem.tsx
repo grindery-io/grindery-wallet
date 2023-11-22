@@ -5,6 +5,7 @@ import {
   ListItemButton,
   ListItemSecondaryAction,
   ListItemText,
+  Stack,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -12,6 +13,8 @@ import Token, { TokenType } from "../../Token/Token";
 import TokenIcon from "../../Token/TokenIcon/TokenIcon";
 import TokenSymbol from "../../Token/TokenSymbol/TokenSymbol";
 import TokenBalance from "../../Token/TokenBalance/TokenBalance";
+import { selectAppStore, useAppSelector } from "store";
+import TokenChain from "components/shared/Token/TokenChain/TokenChain";
 
 type TokensListItemProps = {
   token: TokenType;
@@ -21,6 +24,9 @@ type TokensListItemProps = {
 
 const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
   const navigate = useNavigate();
+  const {
+    debug: { enabled, features },
+  } = useAppSelector(selectAppStore);
 
   return (
     <Token token={token}>
@@ -39,8 +45,25 @@ const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
                 }
           }
         >
-          <ListItemAvatar sx={{ minWidth: "42px" }}>
+          <ListItemAvatar sx={{ minWidth: "42px", position: "relative" }}>
             <TokenIcon size={32} />
+            {enabled && features?.MULTICHAIN && (
+              <Stack
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  width: "17px",
+                  height: "17px",
+                  position: "absolute",
+                  bottom: "-3px",
+                  left: "21px",
+                  backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+                  borderRadius: "50%",
+                }}
+              >
+                <TokenChain onlyIcon iconSize={13} />
+              </Stack>
+            )}
           </ListItemAvatar>
           <ListItemText
             primary={<TokenSymbol />}
