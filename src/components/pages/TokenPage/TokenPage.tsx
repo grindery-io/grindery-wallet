@@ -11,8 +11,13 @@ const TokenPage = () => {
 
   const { id } = useParams();
 
+  const tokenChain = id?.split(":")[0];
+  const tokenAddresss = id?.split(":")[1];
+
   const token = tokens.find(
-    (token) => token.address.toLowerCase() === id?.toLowerCase()
+    (token) =>
+      token.address.toLowerCase() === tokenAddresss?.toLowerCase() &&
+      token.chain.toLowerCase() === tokenChain?.toLowerCase()
   );
 
   return token ? <TokenView token={token} /> : <Loading />;

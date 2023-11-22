@@ -41,7 +41,7 @@ const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
             typeof onClick !== "undefined"
               ? onClick
               : () => {
-                  navigate(`/tokens/${token.address}`);
+                  navigate(`/tokens/${token.chain}:${token.address}`);
                 }
           }
         >

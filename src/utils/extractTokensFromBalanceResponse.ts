@@ -1,3 +1,4 @@
+import { CHAINS } from "../constants";
 import { TokenType } from "../components/shared/Token";
 import { GetFullBalanceResponseType } from "../services/balance";
 
@@ -11,7 +12,8 @@ export const extractTokensFromBalanceResponse = (
     address:
       asset.contractAddress || "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     icon: asset.thumbnail,
-    chain: "137",
+    chain:
+      CHAINS.find((chain: any) => chain.name === asset.blockchain)?.id || "137",
     balance: asset.balanceRawInteger,
     price: asset.tokenPrice,
     priceUpdated: response.syncStatus?.timestamp

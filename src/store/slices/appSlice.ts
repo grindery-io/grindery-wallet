@@ -305,13 +305,17 @@ const appSlice = createSlice({
         ...state.tokens.map(
           (token) =>
             action.payload.find(
-              (t) => t.address.toLowerCase() === token.address.toLowerCase()
+              (t) =>
+                t.address.toLowerCase() === token.address.toLowerCase() &&
+                t.chain === token.chain
             ) || { ...token, balance: "0" }
         ),
         ...action.payload.filter(
           (token) =>
             !state.tokens.find(
-              (t) => t.address.toLowerCase() === token.address.toLowerCase()
+              (t) =>
+                t.address.toLowerCase() === token.address.toLowerCase() &&
+                t.chain === token.chain
             )
         ),
       ];
