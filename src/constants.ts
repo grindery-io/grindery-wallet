@@ -66,6 +66,7 @@ export const EXPERIMENTAL_FEATURES = {
   SWAP: "Tokens swap",
   SENDING_CONFIRMATION: "Tokens sending confirmation",
   SOCIAL_CONTACTS: "Social contacts",
+  MULTICHAIN: "Multichain support",
 };
 
 export const TRANSACTION_STATUS = {

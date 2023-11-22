@@ -2,6 +2,30 @@ import axios from "axios";
 import { WALLET_API_URL } from "../constants";
 
 export type SearchTokensResponseType = {
+  blockchain: string;
+  address: string;
+  name: string;
+  decimals: number;
+  symbol: string;
+  thumbnail: string;
+}[];
+
+export const searchTokensRequest = async (
+  chain?: string,
+  controller?: AbortController
+) => {
+  return await axios.get<SearchTokensResponseType>(
+    `${WALLET_API_URL}/v2/tokens?chain=${chain || "polygon"}`,
+    {
+      signal: controller?.signal,
+      headers: {
+        Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+      },
+    }
+  );
+};
+
+export type SearchSwapTokensResponseType = {
   name: string;
   symbol: string;
   decimals: number;
@@ -11,12 +35,12 @@ export type SearchTokensResponseType = {
   chainId: number;
 }[];
 
-export const searchTokensRequest = async (
+export const searchSwapTokensRequest = async (
   search?: string,
   controller?: AbortController
 ) => {
   const searchBy = search && search.startsWith("0x") ? "address" : "symbol";
-  return await axios.get<SearchTokensResponseType>(
+  return await axios.get<SearchSwapTokensResponseType>(
     `https://api.enso.finance/api/v1/baseTokens?chainId=137&${searchBy}=${
       search || ""
     }`,

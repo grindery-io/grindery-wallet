@@ -13,7 +13,7 @@ import SwapTokensError from "./SwapTokensError";
 import SwapTokensSentMessage from "./SwapTokensSentMessage";
 import SwapTokensSending from "./SwapTokensSending";
 import { getSwapRoutesRequest } from "../../../services/swap";
-import { searchTokensRequest } from "../../../services/tokens";
+import { searchSwapTokensRequest } from "../../../services/tokens";
 import { MAIN_TOKEN_ADDRESS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token";
@@ -77,7 +77,7 @@ const SwapTokens = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    searchTokensRequest("", controller).then((res) => {
+    searchSwapTokensRequest("", controller).then((res) => {
       setEnsoTokens(
         (res.data || [])
           .map((item) => ({

@@ -17,7 +17,7 @@ const TokenIcon = ({ size = 32, sx }: TokenIconProps) => {
   const { icon, chain } = useToken();
   const [loaded, setLoaded] = useState(false);
 
-  return icon ? (
+  return (
     <Box
       className="token-icon"
       sx={{
@@ -52,7 +52,7 @@ const TokenIcon = ({ size = 32, sx }: TokenIconProps) => {
         }}
       />
     </Box>
-  ) : null;
+  );
 };
 
 export default TokenIcon;

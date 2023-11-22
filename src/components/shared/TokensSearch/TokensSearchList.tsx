@@ -14,6 +14,7 @@ const TokensSearchList = ({
   items: TokenType[];
 }) => {
   const { height } = useWindowDimensions();
+  const visibleItems = items.filter((item) => item.symbol);
   return (
     <Box>
       {loading ? (
@@ -33,10 +34,21 @@ const TokensSearchList = ({
         >
           <List
             height={height - 63}
-            itemCount={items.length}
+            itemCount={visibleItems.length}
             itemSize={64}
             width="100%"
-            itemData={items}
+            itemData={visibleItems.sort((a, b) => {
+              const nameA = a.symbol.toUpperCase();
+              const nameB = b.symbol.toUpperCase();
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+
+              return 0;
+            })}
           >
             {(itemProps: { data: any; index: number; style: any }) => (
               <Box

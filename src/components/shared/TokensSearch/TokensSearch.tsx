@@ -7,6 +7,7 @@ import TokensSearchPlaceholder from "./TokensSearchPlaceholder";
 import { selectAppStore, useAppSelector } from "../../../store";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token/Token";
+import { CHAINS } from "../../../constants";
 
 const TokensSearch = () => {
   const { tokens } = useAppSelector(selectAppStore);
@@ -23,7 +24,7 @@ const TokensSearch = () => {
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
-    searchTokensRequest(search, controller)
+    searchTokensRequest("polygon", controller)
       .then((res) => {
         const swapTokens: TokenType[] = (res.data || [])
           .map((token) => ({
@@ -31,8 +32,10 @@ const TokensSearch = () => {
             symbol: token.symbol,
             address: token.address,
             decimals: token.decimals,
-            icon: token.logoURI,
-            chain: token.chainId.toString(),
+            icon: token.thumbnail || "",
+            chain:
+              CHAINS.find((chain) => chain.name === token.blockchain)?.id ||
+              "137",
             balance: "0",
             price: "0",
           }))
@@ -53,7 +56,7 @@ const TokensSearch = () => {
     return () => {
       controller.abort();
     };
-  }, [search, tokens]);
+  }, [tokens]);
 
   return (
     <Box sx={TokensSearchStyles}>
