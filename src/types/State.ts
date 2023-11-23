@@ -266,15 +266,19 @@ export enum SendStatus {
   SENT = "sent",
 }
 
+export type SendStateInput = {
+  amount: string;
+  recipient: string | string[] | null;
+  message: string;
+  chainId?: string;
+  tokenAddress?: string;
+};
+
 /**
  * Interface for the SendState object representing the state of the send page
  */
 export type SendState = {
-  input: {
-    amount: string;
-    recipient: string | string[] | null;
-    message: string;
-  };
+  input: SendStateInput;
   status: SendStatus;
   selectedContacts: string[];
 };

@@ -32,9 +32,8 @@ const SendTokensRecipientInput = () => {
             dispatch(
               appStoreActions.setSend({
                 input: {
+                  ...input,
                   recipient: id,
-                  amount: "",
-                  message: "",
                 },
               })
             );

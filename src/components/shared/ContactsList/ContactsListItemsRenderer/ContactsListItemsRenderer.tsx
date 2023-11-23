@@ -43,9 +43,6 @@ const ContactsListItemsRenderer = ({
               border: "1px solid var(--gr-theme-divider-color)",
               padding: "8px 16px",
               borderRadius: "5px",
-              "&:hover": {
-                backgroundColor: "rgba(0, 0, 0, 0.04)",
-              },
             }}
             onClick={() => {
               if (window.Telegram?.WebApp?.openLink) {
@@ -70,6 +67,7 @@ const ContactsListItemsRenderer = ({
               spacing="8px"
               useFlexGap
               sx={{
+                width: "100%",
                 marginTop: !enabled || !features?.SOCIAL_CONTACTS ? "20px" : 0,
               }}
             >

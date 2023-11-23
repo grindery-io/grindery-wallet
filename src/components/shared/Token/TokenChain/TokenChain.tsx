@@ -26,7 +26,7 @@ const TokenChain = ({
   return chain ? (
     <Chain id={chain}>
       <Stack
-        sx={sx}
+        sx={{ display: "inline-flex", ...(sx || {}) }}
         component="span"
         direction="row"
         alignItems="center"

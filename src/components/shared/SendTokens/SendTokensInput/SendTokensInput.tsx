@@ -35,7 +35,6 @@ const SendTokensInput = () => {
 
       <SendTokensInputToken />
       <SendTokensInputAmount
-        amount={input.amount}
         onChange={(value) => {
           dispatch(
             appStoreActions.setSend({
@@ -43,7 +42,6 @@ const SendTokensInput = () => {
             })
           );
         }}
-        recepient={input.recipient}
       />
       <SendTokensInputMessage
         message={input.message}

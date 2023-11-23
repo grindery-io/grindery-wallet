@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import useBackButton from "../../hooks/useBackButton";
 import { useSearchParams } from "react-router-dom";
-import { appStoreActions, useAppDispatch } from "../../store";
-import SendTokens from "../shared/SendTokens/SendTokens";
-import { SendStatus } from "../../types/State";
-import Loading from "../shared/Loading/Loading";
+import useBackButton from "hooks/useBackButton";
+import { appStoreActions, useAppDispatch } from "store";
+import { SendStatus } from "types";
+import SendTokens from "components/shared/SendTokens/SendTokens";
+import Loading from "components/shared/Loading/Loading";
+import { MAIN_TOKEN_ADDRESS } from "../../constants";
 
 const SendPage = () => {
   useBackButton();
@@ -20,6 +21,8 @@ const SendPage = () => {
           recipient: recipientId || null,
           amount: "",
           message: "",
+          chainId: "137",
+          tokenAddress: MAIN_TOKEN_ADDRESS,
         },
         status: SendStatus.WAITING,
         selectedContacts: [],

@@ -1,20 +1,17 @@
 import React from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
-import { SendStatus } from "../../../../types/State";
-import { sendTokensRequest } from "../../../../services/send";
-import { selectAppStore, useAppSelector } from "../../../../store";
+import { SendStateInput, SendStatus } from "types";
+import { selectAppStore, useAppSelector } from "store";
+import { sendTokensRequestV2 } from "services";
+import { CHAINS, MAIN_TOKEN_ADDRESS } from "../../../../constants";
 
 const SendTokensInputButtons = ({
   input,
   status,
   setStatus,
 }: {
-  input: {
-    amount: string;
-    recipient: string | string[] | null;
-    message: string;
-  };
+  input: SendStateInput;
   status: string;
   setStatus: (status: SendStatus) => void;
 }) => {
@@ -23,7 +20,16 @@ const SendTokensInputButtons = ({
   const {
     debug: { features, enabled },
     contacts: { items },
+    tokens,
   } = useAppSelector(selectAppStore);
+
+  const { chainId, tokenAddress } = input;
+  const selectedToken = tokens.find(
+    (token) =>
+      token.address.toLowerCase() === tokenAddress?.toLowerCase() &&
+      token.chain === chainId
+  );
+  const selectedChain = CHAINS.find((chain) => chain.id === chainId);
 
   const recipient = Array.isArray(input.recipient)
     ? input.recipient.map((id) => items?.find((item) => item.id === id))
@@ -42,14 +48,14 @@ const SendTokensInputButtons = ({
     }
     setStatus(SendStatus.SENDING);
     try {
-      const res = await sendTokensRequest(
-        input.recipient,
-        input.amount,
-        input.message,
-        Array.isArray(recipient)
+      const res = await sendTokensRequestV2({
+        recipientTgId: input.recipient,
+        amount: input.amount,
+        message: input.message,
+        recipientHandle: Array.isArray(recipient)
           ? recipient?.map((item) => item?.username || "")
           : recipient?.username || "",
-        Array.isArray(recipient)
+        recipientName: Array.isArray(recipient)
           ? recipient?.map(
               (item) =>
                 `${item?.firstName || ""}${
@@ -61,8 +67,10 @@ const SendTokensInputButtons = ({
               recipient.lastName ? " " + recipient.lastName : ""
             }`
           : "",
-        Boolean(enabled && features?.SENDING_CONFIRMATION)
-      );
+        withConfirmation: Boolean(enabled && features?.SENDING_CONFIRMATION),
+        chainId: "137",
+        tokenAddress: MAIN_TOKEN_ADDRESS,
+      });
       if (res.data?.success) {
         setStatus(SendStatus.SENT);
       } else {
@@ -105,15 +113,15 @@ const SendTokensInputButtons = ({
         }
         size="large"
         onClick={() => {
+          const amount = Array.isArray(input.recipient)
+            ? (parseFloat(input.amount) * input.recipient.length).toString()
+            : input.amount;
+          const symbol = selectedToken?.symbol || "G1";
+          const chainName = selectedChain?.label || "Polygon";
+          const message = `You are going to send ${amount} ${symbol} on ${chainName} blockchain.\nThis action can not be undone.\nAre you sure?`;
           if (window.Telegram?.WebApp?.showConfirm) {
             window.Telegram?.WebApp?.showConfirm(
-              "You are going to send " +
-                (Array.isArray(input.recipient)
-                  ? (
-                      parseFloat(input.amount) * input.recipient.length
-                    ).toString()
-                  : input.amount) +
-                " G1 tokens. This action can not be undone. Are you sure?",
+              message,
               (confirmed: boolean) => {
                 if (confirmed) {
                   sendTokens();
@@ -121,15 +129,7 @@ const SendTokensInputButtons = ({
               }
             );
           } else {
-            const confirmed = window.confirm(
-              "You are going to send " +
-                (Array.isArray(input.recipient)
-                  ? (
-                      parseFloat(input.amount) * input.recipient.length
-                    ).toString()
-                  : input.amount) +
-                " G1 tokens. This action can not be undone. Are you sure?"
-            );
+            const confirmed = window.confirm(message);
             if (confirmed) {
               sendTokens();
             }

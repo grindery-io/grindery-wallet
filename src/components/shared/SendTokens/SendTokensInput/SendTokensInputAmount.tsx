@@ -1,23 +1,25 @@
 import React from "react";
 import { Box, Button, InputBase, Stack } from "@mui/material";
-import { selectAppStore, useAppSelector } from "../../../../store";
-import { GRINDERY_ONE_TOKEN } from "../../../../constants";
-import { Token, TokenSymbol } from "../../Token";
+import { selectAppStore, useAppSelector } from "store";
+import { Token, TokenSymbol } from "components/shared/Token";
 
 const SendTokensInputAmount = ({
-  amount,
   onChange,
-  recepient,
 }: {
-  amount: string;
   onChange: (value: string) => void;
-  recepient?: string | string[] | null;
 }) => {
-  const { tokens } = useAppSelector(selectAppStore);
+  const {
+    tokens,
+    send: { input },
+  } = useAppSelector(selectAppStore);
+  const { amount, recipient, chainId, tokenAddress } = input;
+
   const selectedToken = tokens.find(
     (token) =>
-      token.address.toLowerCase() === GRINDERY_ONE_TOKEN.address.toLowerCase()
+      token.address.toLowerCase() === tokenAddress?.toLowerCase() &&
+      token.chain === chainId
   );
+
   const balance =
     parseFloat(selectedToken?.balance || "0") /
     10 ** (selectedToken?.decimals || 18);
@@ -55,11 +57,11 @@ const SendTokensInputAmount = ({
             onChange={(e) => {
               onChange(
                 typeof balance !== "undefined"
-                  ? Array.isArray(recepient)
+                  ? Array.isArray(recipient)
                     ? parseFloat(e.target.value) >
-                      Math.round((balance / recepient.length) * 100) / 100
+                      Math.round((balance / recipient.length) * 100) / 100
                       ? (
-                          Math.round((balance / recepient.length) * 100) / 100
+                          Math.round((balance / recipient.length) * 100) / 100
                         ).toString()
                       : e.target.value
                     : parseFloat(e.target.value) > balance
@@ -79,7 +81,7 @@ const SendTokensInputAmount = ({
               step: 1,
             }}
           />
-          {Array.isArray(recepient) && (
+          {Array.isArray(recipient) && (
             <>
               <p
                 style={{
@@ -95,10 +97,10 @@ const SendTokensInputAmount = ({
                     fontWeight: "bold",
                   }}
                 >
-                  {amount ? parseFloat(amount) * recepient.length : 0}{" "}
+                  {amount ? parseFloat(amount) * recipient.length : 0}{" "}
                   <TokenSymbol />
                 </span>{" "}
-                total for {recepient.length} contacts
+                total for {recipient.length} contacts
               </p>
             </>
           )}
@@ -112,8 +114,8 @@ const SendTokensInputAmount = ({
               marginLeft: "auto",
             }}
             onClick={() => {
-              const value = Array.isArray(recepient)
-                ? Math.floor(balance / recepient.length).toString()
+              const value = Array.isArray(recipient)
+                ? Math.floor(balance / recipient.length).toString()
                 : balance.toString();
               onChange(value);
             }}

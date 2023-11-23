@@ -74,9 +74,9 @@ const Chain = ({ children, chain, id }: ChainContextProps): JSX.Element => {
         CHAINS.find((chain: ChainType) => chain.id === id) || {
           id: "000",
           caipId: "000",
-          name: "unknown",
+          name: "unsupported",
           logo: "",
-          label: "Unknown",
+          label: "Unsupported",
           testnet: false,
         }
       );

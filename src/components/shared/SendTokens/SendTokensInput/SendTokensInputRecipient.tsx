@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, ButtonBase, Stack, Typography } from "@mui/material";
+import { Box, ListItemButton, Stack, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import Contact, { ContactType } from "../../Contact/Contact";
@@ -32,7 +32,7 @@ const SendTokensInputRecipient = ({
 
   return !isSingle ? (
     <>
-      <ButtonBase
+      <ListItemButton
         onClick={() => {
           onClear();
         }}
@@ -68,11 +68,11 @@ const SendTokensInputRecipient = ({
             />
           </Box>
         </Stack>
-      </ButtonBase>
+      </ListItemButton>
     </>
   ) : contact ? (
     <Contact contact={contact}>
-      <ButtonBase
+      <ListItemButton
         onClick={() => {
           onClear();
         }}
@@ -116,11 +116,11 @@ const SendTokensInputRecipient = ({
             />
           </Box>
         </Stack>
-      </ButtonBase>
+      </ListItemButton>
     </Contact>
   ) : user ? (
     <User user={user}>
-      <ButtonBase
+      <ListItemButton
         onClick={() => {
           onClear();
         }}
@@ -164,7 +164,7 @@ const SendTokensInputRecipient = ({
             />
           </Box>
         </Stack>
-      </ButtonBase>
+      </ListItemButton>
     </User>
   ) : null;
 };
@@ -175,6 +175,7 @@ const SendTokensInputRecipientStyles = {
   border: "none",
   background: "var(--tg-theme-secondary-bg-color, #efeff3)",
   padding: "10px 10px 10px 20px",
+  flex: "unset",
 };
 
 export default SendTokensInputRecipient;
