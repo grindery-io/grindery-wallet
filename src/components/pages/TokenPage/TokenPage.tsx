@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import useBackButton from "../../../hooks/useBackButton";
 import { selectAppStore, useAppSelector } from "../../../store";
 import Loading from "../../shared/Loading/Loading";
-import TokenView from "../../shared/TokenView/TokenView";
+import TokenDetails from "../../shared/TokenDetails/TokenDetails";
 
 const TokenPage = () => {
   useBackButton();
@@ -20,7 +20,7 @@ const TokenPage = () => {
       token.chain.toLowerCase() === tokenChain?.toLowerCase()
   );
 
-  return token ? <TokenView token={token} /> : <Loading />;
+  return token ? <TokenDetails token={token} /> : <Loading />;
 };
 
 export default TokenPage;

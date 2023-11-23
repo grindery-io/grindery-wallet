@@ -2,8 +2,8 @@ import React from "react";
 import TableRow from "../../TableRow/TableRow";
 import TokenDecimals from "../../Token/TokenDecimals/TokenDecimals";
 
-const TokenViewTableDecimals = () => {
+const TokenDetailsTableDecimals = () => {
   return <TableRow label="Decimals" value={<TokenDecimals />} />;
 };
 
-export default TokenViewTableDecimals;
+export default TokenDetailsTableDecimals;

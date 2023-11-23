@@ -2,7 +2,7 @@ import React from "react";
 import TableRow from "../../TableRow/TableRow";
 import TokenChain from "../../Token/TokenChain/TokenChain";
 
-const TokenViewTableChain = () => {
+const TokenDetailsTableChain = () => {
   return (
     <TableRow
       label="Blockchain"
@@ -11,4 +11,4 @@ const TokenViewTableChain = () => {
   );
 };
 
-export default TokenViewTableChain;
+export default TokenDetailsTableChain;

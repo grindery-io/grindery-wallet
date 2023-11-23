@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
-import TokenView from "./TokenView";
+import TokenDetails from "./TokenDetails";
 import { mockedToken } from "../Token/mockedToken";
 import { renderWithProviders } from "../../../utils/testUtils";
 
-describe("TokenView", () => {
+describe("TokenDetails", () => {
   it("renders the token view", () => {
     const { getByText } = renderWithProviders(
-      <TokenView token={mockedToken} />
+      <TokenDetails token={mockedToken} />
     );
     expect(getByText("Contract address")).toBeInTheDocument();
     expect(getByText("Token symbol")).toBeInTheDocument();

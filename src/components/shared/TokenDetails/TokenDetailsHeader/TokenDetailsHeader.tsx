@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { TokenIcon, TokenName } from "../../Token";
 
-const TokenViewHeader = () => {
+const TokenDetailsHeader = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <Box
@@ -23,4 +23,4 @@ const TokenViewHeader = () => {
   );
 };
 
-export default TokenViewHeader;
+export default TokenDetailsHeader;

@@ -7,9 +7,9 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../../store";
-import { TokenViewProps } from "../TokenView";
+import { TokenDetailsProps } from "../TokenDetails";
 
-const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
+const TokenDetailsRemoveButton = ({ token }: TokenDetailsProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { tokens } = useAppSelector(selectAppStore);
@@ -34,4 +34,4 @@ const TokenViewRemoveButton = ({ token }: TokenViewProps) => {
   ) : null;
 };
 
-export default TokenViewRemoveButton;
+export default TokenDetailsRemoveButton;

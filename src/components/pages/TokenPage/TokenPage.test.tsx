@@ -34,9 +34,11 @@ describe("TokenPage", () => {
     jest.resetAllMocks();
   });
 
-  it("renders the TokenView component when a valid token ID is provided", () => {
+  it("renders the TokenDetails component when a valid token ID is provided", () => {
     render(
-      <MemoryRouter initialEntries={[`/tokens/${mockedToken.address}`]}>
+      <MemoryRouter
+        initialEntries={[`/tokens/${mockedToken.chain}:${mockedToken.address}`]}
+      >
         <Routes>
           <Route path="/tokens/:id" element={<TokenPage />} />
         </Routes>

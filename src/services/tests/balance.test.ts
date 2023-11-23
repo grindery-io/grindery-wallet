@@ -24,7 +24,7 @@ describe("getFullBalanceRequest", () => {
     const result = await getFullBalanceRequest("polygon", controller);
 
     expect(axios.get).toHaveBeenCalledWith(
-      `${WALLET_API_URL}/v2/balance/`,
+      `${WALLET_API_URL}/v2/balance/?chain=polygon`,
       expect.objectContaining({
         signal: controller.signal,
         headers: {

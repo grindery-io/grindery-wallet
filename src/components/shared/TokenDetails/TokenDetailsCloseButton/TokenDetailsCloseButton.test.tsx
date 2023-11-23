@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import TokenViewCloseButton from "./TokenViewCloseButton";
+import TokenDetailsCloseButton from "./TokenDetailsCloseButton";
 import { renderWithProviders } from "../../../../utils/testUtils";
 
-describe("TokenViewCloseButton", () => {
+describe("TokenDetailsCloseButton", () => {
   it("renders the close button", () => {
-    renderWithProviders(<TokenViewCloseButton />);
+    renderWithProviders(<TokenDetailsCloseButton />);
     expect(screen.getByRole("button")).toHaveTextContent("Close");
   });
 
@@ -16,7 +16,7 @@ describe("TokenViewCloseButton", () => {
       useNavigate: () => mockNavigate,
     }));
 
-    renderWithProviders(<TokenViewCloseButton />);
+    renderWithProviders(<TokenDetailsCloseButton />);
     userEvent.click(screen.getByRole("button"));
 
     expect(mockNavigate).toHaveBeenCalledTimes(0);

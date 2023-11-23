@@ -2,7 +2,7 @@ import React from "react";
 import TableRow from "../../TableRow/TableRow";
 import TokenPriceUpdated from "../../Token/TokenPriceUpdated/TokenPriceUpdated";
 
-const TokenViewTablePriceUpdated = () => {
+const TokenDetailsTablePriceUpdated = () => {
   return (
     <TableRow
       label="Price updated"
@@ -11,4 +11,4 @@ const TokenViewTablePriceUpdated = () => {
   );
 };
 
-export default TokenViewTablePriceUpdated;
+export default TokenDetailsTablePriceUpdated;

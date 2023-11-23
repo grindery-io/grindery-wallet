@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
 
-const TokenViewCloseButton = () => {
+const TokenDetailsCloseButton = () => {
   const navigate = useNavigate();
 
   return (
@@ -19,4 +19,4 @@ const TokenViewCloseButton = () => {
   );
 };
 
-export default TokenViewCloseButton;
+export default TokenDetailsCloseButton;

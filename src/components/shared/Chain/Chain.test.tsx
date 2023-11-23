@@ -50,7 +50,7 @@ describe("Chain", () => {
     );
 
     const matchingChain = CHAINS.find((chain: ChainType) => chain.id === id);
-    const expectedName = matchingChain ? matchingChain.name : "unknown";
+    const expectedName = matchingChain ? matchingChain.name : "unsupported";
 
     expect(getByText(expectedName)).toBeInTheDocument();
   });
@@ -68,9 +68,9 @@ describe("Chain", () => {
     const defaultChain = {
       id: "000",
       caipId: "000",
-      name: "unknown",
+      name: "unsupported",
       logo: "",
-      label: "Unknown",
+      label: "Unsupported",
     };
 
     expect(getByText(defaultChain.name)).toBeInTheDocument();

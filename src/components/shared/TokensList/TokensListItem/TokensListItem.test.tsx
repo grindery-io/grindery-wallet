@@ -22,7 +22,9 @@ describe("TokensListItem", () => {
 
     fireEvent.click(button);
 
-    expect(window.location.pathname).toBe(`/tokens/${mockedToken.address}`);
+    expect(window.location.pathname).toBe(
+      `/tokens/${mockedToken.chain}:${mockedToken.address}`
+    );
   });
 
   it("calls onClick prop when provided", () => {
