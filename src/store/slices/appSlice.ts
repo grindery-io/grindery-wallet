@@ -27,6 +27,7 @@ import {
 } from "types";
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
+import _ from "lodash";
 
 export const initialState: AppState = {
   activity: {
@@ -301,24 +302,27 @@ const appSlice = createSlice({
       state.tokens = action.payload;
     },
     updateTokens(state, action: PayloadAction<TokenType[]>) {
-      state.tokens = [
-        ...state.tokens.map(
-          (token) =>
-            action.payload.find(
-              (t) =>
-                t.address.toLowerCase() === token.address.toLowerCase() &&
-                t.chain === token.chain
-            ) || { ...token, balance: "0" }
-        ),
-        ...action.payload.filter(
-          (token) =>
-            !state.tokens.find(
-              (t) =>
-                t.address.toLowerCase() === token.address.toLowerCase() &&
-                t.chain === token.chain
-            )
-        ),
-      ];
+      state.tokens = _.uniqBy(
+        [
+          ...state.tokens.map(
+            (token) =>
+              action.payload.find(
+                (t) =>
+                  t.address.toLowerCase() === token.address.toLowerCase() &&
+                  t.chain === token.chain
+              ) || { ...token, balance: "0" }
+          ),
+          ...action.payload.filter(
+            (token) =>
+              !state.tokens.find(
+                (t) =>
+                  t.address.toLowerCase() === token.address.toLowerCase() &&
+                  t.chain === token.chain
+              )
+          ),
+        ],
+        (token) => token.address.toLowerCase() + token.chain
+      );
     },
   },
 });

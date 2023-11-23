@@ -58,6 +58,7 @@ const SwapTokensInputButtons = ({ allTokens }: SwapTokensInputProps) => {
         amountOut: route?.amountOut || "0",
         gas: route?.gas.toString() || "0",
         priceImpact: route?.priceImpact.toString() || "0",
+        chainId: input.chainId || "137",
       });
 
       dispatch(

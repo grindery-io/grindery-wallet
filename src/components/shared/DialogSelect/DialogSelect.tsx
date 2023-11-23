@@ -33,6 +33,7 @@ export type DialogSelectProps = {
   search?: {
     value: string;
     onChange: (value: string) => void;
+    placeholder?: string;
   };
 };
 
@@ -61,7 +62,7 @@ const DialogSelect = (props: DialogSelectProps) => {
             }}
           >
             <SearchBox
-              placeholder="Search token"
+              placeholder={search.placeholder || "Search token"}
               value={search.value}
               onChange={(value: string) => {
                 search.onChange(value);

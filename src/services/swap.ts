@@ -31,6 +31,7 @@ export type SwapTokenRequestParams = {
   amountOut: string;
   gas?: string;
   priceImpact?: string;
+  chainId?: string;
 };
 
 export const swapTokensRequest = async (

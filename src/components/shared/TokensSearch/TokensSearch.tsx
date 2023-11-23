@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import SearchBox from "../SearchBox/SearchBox";
 import { searchTokensRequest } from "../../../services/tokens";
 import TokensSearchList from "./TokensSearchList";
@@ -8,10 +8,15 @@ import { selectAppStore, useAppSelector } from "../../../store";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token/Token";
 import { CHAINS } from "../../../constants";
+import TokensSearchChainSelector from "./TokensSearchChainSelector";
 
 const TokensSearch = () => {
-  const { tokens } = useAppSelector(selectAppStore);
+  const {
+    tokens,
+    debug: { enabled, features },
+  } = useAppSelector(selectAppStore);
   const [search, setSearch] = useState("");
+  const [chain, setChain] = useState("137");
   const [items, setItems] = useState<TokenType[]>([]);
   const [loading, setLoading] = useState(false);
   const data = items.filter(
@@ -20,13 +25,14 @@ const TokensSearch = () => {
       item.name.toLowerCase().includes(search.toLowerCase()) ||
       item.address.toLowerCase().includes(search.toLowerCase())
   );
+  const selectedChain = CHAINS.find((c) => c.id === chain) || CHAINS[0];
 
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
-    searchTokensRequest("polygon", controller)
+    searchTokensRequest(selectedChain.name, controller)
       .then((res) => {
-        const swapTokens: TokenType[] = (res.data || [])
+        const ankrTokens: TokenType[] = (res.data || [])
           .map((token) => ({
             name: token.name,
             symbol: token.symbol,
@@ -45,7 +51,7 @@ const TokensSearch = () => {
                 .map((t) => t.address.toLowerCase())
                 .includes(token.address.toLowerCase())
           );
-        setItems(swapTokens.map(fixTokens));
+        setItems(ankrTokens.map(fixTokens));
         setLoading(false);
       })
       .catch((error) => {
@@ -56,17 +62,34 @@ const TokensSearch = () => {
     return () => {
       controller.abort();
     };
-  }, [tokens]);
+  }, [tokens, selectedChain]);
 
   return (
     <Box sx={TokensSearchStyles}>
-      <SearchBox
-        placeholder="Search tokens"
-        value={search}
-        onChange={(e: string) => {
-          setSearch(e);
-        }}
-      />
+      <Stack direction="row" alignItems="center" justifyContent="center">
+        <SearchBox
+          sx={
+            enabled && features?.MULTICHAIN
+              ? {
+                  paddingRight: "8px",
+                }
+              : undefined
+          }
+          placeholder="Search tokens"
+          value={search}
+          onChange={(e: string) => {
+            setSearch(e);
+          }}
+        />
+        {enabled && features?.MULTICHAIN && (
+          <TokensSearchChainSelector
+            selectedChain={selectedChain}
+            onChange={(c) => {
+              setChain(c.id);
+            }}
+          />
+        )}
+      </Stack>
 
       {data && data.length > 0 ? (
         <TokensSearchList items={data} loading={loading} />
