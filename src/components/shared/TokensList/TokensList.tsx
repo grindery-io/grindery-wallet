@@ -29,7 +29,7 @@ const TokensList = () => {
         data-testid="tokens-list"
       >
         {tokens.map((token) => (
-          <TokensListItem token={token} key={token.address} />
+          <TokensListItem token={token} key={token.address} withChainIcon />
         ))}
         <Box sx={{ margin: "8px 0 16px" }}>
           <TokensListImportButton />

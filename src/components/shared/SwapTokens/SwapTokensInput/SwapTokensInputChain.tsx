@@ -75,7 +75,9 @@ const SwapTokensInputChain = () => {
             </Typography>
           </Box>
           <Box sx={{ marginLeft: "auto" }}>
-            <ArrowDropDownIcon />
+            <ArrowDropDownIcon
+              sx={{ color: "var(--tg-theme-text-color, #000000)" }}
+            />
           </Box>
         </ButtonBase>
       </Chain>

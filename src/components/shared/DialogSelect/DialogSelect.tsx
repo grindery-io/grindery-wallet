@@ -5,6 +5,7 @@ import {
   DialogTitle,
   Divider,
   Slide,
+  Typography,
 } from "@mui/material";
 import SearchBox from "../SearchBox/SearchBox";
 import { TransitionProps } from "@mui/material/transitions";
@@ -35,19 +36,21 @@ export type DialogSelectProps = {
     onChange: (value: string) => void;
     placeholder?: string;
   };
+  fullWidth?: boolean;
 };
 
 const DialogSelect = (props: DialogSelectProps) => {
-  const { open, onClose, items, search, item, itemSize } = props;
+  const { open, onClose, items, search, item, itemSize, fullWidth } = props;
   const { height } = useWindowDimensions();
 
   return (
     <Dialog
       TransitionComponent={Transition}
-      fullScreen
+      fullScreen={fullWidth}
       sx={{
         "& .MuiDialog-paper": {
-          borderRadius: "0px",
+          width: "100%",
+          borderRadius: "8px",
           background: "var(--tg-theme-bg-color, #ffffff)",
         },
       }}
@@ -81,15 +84,21 @@ const DialogSelect = (props: DialogSelectProps) => {
           padding: "0",
         }}
       >
-        <FixedSizeList
-          height={height - (search ? 66 : 0)}
-          itemCount={items.length}
-          itemSize={itemSize}
-          width="100%"
-          itemData={items}
-        >
-          {item}
-        </FixedSizeList>
+        {items.length > 0 ? (
+          <FixedSizeList
+            height={height - (search ? 66 : 0) - 64}
+            itemCount={items.length}
+            itemSize={itemSize}
+            width="100%"
+            itemData={items}
+          >
+            {item}
+          </FixedSizeList>
+        ) : (
+          <Typography textAlign="center" color="hint" sx={{ margin: "50px" }}>
+            Nothing found
+          </Typography>
+        )}
       </DialogContent>
     </Dialog>
   );

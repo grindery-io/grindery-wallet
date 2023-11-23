@@ -21,7 +21,9 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
   const { input } = swap;
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
-    (token) => token.address === input.tokenOut
+    (token) =>
+      token.address === input.tokenOut &&
+      token.chain === (input.chainId || "137")
   );
   const tokenIsNotImported = !tokens.find(
     (token) =>
@@ -59,44 +61,55 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
     };
   }, [tokenIsNotImported, user?.patchwallet, selectedToken]);
 
-  return selectedToken ? (
+  return (
     <>
-      <Token token={selectedToken}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="flex-start"
-          spacing="16px"
-          useFlexGap
-          sx={{
-            padding: "10px 10px 10px 20px",
-            width: "100%",
-            borderRadius: "10px",
-            backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
-          }}
-        >
-          <Box>
-            <Button
-              onClick={handleOpen}
-              variant="text"
-              color="primary"
-              startIcon={<TokenIcon size={20} key={selectedToken.address} />}
-              endIcon={<ArrowDropDownIcon />}
-              sx={{
-                padding: "2px 2px 2px 6px",
-                marginLeft: "-4px",
-                color: selectedToken
-                  ? "var(--tg-theme-text-color, #000000)"
-                  : undefined,
-                borderRadius: "12px",
-                "& .MuiButton-endIcon": {
-                  marginLeft: "4px !important",
-                },
-              }}
-            >
-              <TokenSymbol />
-            </Button>
-
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="flex-start"
+        spacing="16px"
+        useFlexGap
+        sx={{
+          padding: "10px 10px 10px 20px",
+          width: "100%",
+          borderRadius: "10px",
+          backgroundColor: "var(--tg-theme-secondary-bg-color, #efeff3)",
+        }}
+      >
+        <Box>
+          <Button
+            onClick={handleOpen}
+            variant="text"
+            color="primary"
+            startIcon={
+              selectedToken ? (
+                <Token token={selectedToken}>
+                  <TokenIcon size={20} key={selectedToken.address} />
+                </Token>
+              ) : undefined
+            }
+            endIcon={<ArrowDropDownIcon />}
+            sx={{
+              padding: "2px 2px 2px 6px",
+              marginLeft: "-4px",
+              color: "var(--tg-theme-text-color, #000000)",
+              borderRadius: "12px",
+              "& .MuiButton-endIcon": {
+                marginLeft: "4px !important",
+              },
+            }}
+          >
+            {selectedToken ? (
+              <>
+                <Token token={selectedToken}>
+                  <TokenSymbol />
+                </Token>
+              </>
+            ) : (
+              "Select token out"
+            )}
+          </Button>
+          {selectedToken && (
             <Typography
               variant="xs"
               sx={{ marginTop: "4px", lineHeight: 1.5 }}
@@ -104,40 +117,42 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
             >
               Balance: <TokenBalance format="short" />
             </Typography>
-          </Box>
-          <Stack
-            sx={{ marginLeft: "auto", flex: 1 }}
-            direction="column"
-            alignItems="flex-end"
-            justifyContent="center"
-          >
-            <InputBase
-              sx={{
-                width: "100%",
-                "& input": {
-                  textAlign: "right",
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                },
-              }}
-              inputProps={{
-                type: "number",
-                min: 0,
-                sx: {
-                  padding: 0,
-                  color: "var(--tg-theme-text-color, #000000)",
-                },
-                name: "amountOut",
-              }}
-              placeholder="0"
-              disabled={swap.status === SwapStatus.LOADING}
-              value={(
-                parseFloat(swap.route?.amountOut || "0") /
-                Math.pow(10, selectedToken?.decimals || 18)
-              ).toString()}
-              readOnly
-            />
+          )}
+        </Box>
+        <Stack
+          sx={{ marginLeft: "auto", flex: 1 }}
+          direction="column"
+          alignItems="flex-end"
+          justifyContent="center"
+        >
+          <InputBase
+            sx={{
+              width: "100%",
+              "& input": {
+                textAlign: "right",
+                fontSize: "24px",
+                fontWeight: "bold",
+              },
+            }}
+            inputProps={{
+              type: "number",
+              min: 0,
+              sx: {
+                padding: 0,
+                color: "var(--tg-theme-text-color, #000000)",
+              },
+              name: "amountOut",
+            }}
+            placeholder="0"
+            disabled={swap.status === SwapStatus.LOADING}
+            value={(
+              parseFloat(swap.route?.amountOut || "0") /
+              Math.pow(10, selectedToken?.decimals || 18)
+            ).toString()}
+            readOnly
+          />
 
+          {selectedToken && (
             <Typography variant="xs" color="hint">
               {(
                 parseFloat(tokenIsNotImported ? price : selectedToken.price) *
@@ -146,9 +161,10 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
               ).toFixed(2)}{" "}
               USD
             </Typography>
-          </Stack>
+          )}
         </Stack>
-      </Token>
+      </Stack>
+
       <DialogSelect
         open={open}
         onClose={handleClose}
@@ -160,7 +176,8 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
           .filter((token) =>
             token.symbol.toLowerCase().includes(search.toLowerCase())
           )
-          .filter((token) => token.address !== input.tokenIn)}
+          .filter((token) => token.address !== input.tokenIn)
+          .filter((token) => token.chain === (input.chainId || "137"))}
         itemSize={48}
         item={(itemProps: { data: any; index: number; style: any }) => (
           <Box
@@ -187,7 +204,7 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
         )}
       />
     </>
-  ) : null;
+  );
 };
 
 export default SwapTokensInputTokenOut;

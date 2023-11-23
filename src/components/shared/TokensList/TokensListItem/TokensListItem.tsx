@@ -20,9 +20,14 @@ type TokensListItemProps = {
   token: TokenType;
   onClick?: () => void;
   passive?: boolean;
+  withChainIcon?: boolean;
 };
 
-const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
+const TokensListItem = ({
+  token,
+  onClick,
+  withChainIcon,
+}: TokensListItemProps) => {
   const navigate = useNavigate();
   const {
     debug: { enabled, features },
@@ -47,7 +52,7 @@ const TokensListItem = ({ token, onClick }: TokensListItemProps) => {
         >
           <ListItemAvatar sx={{ minWidth: "42px", position: "relative" }}>
             <TokenIcon size={32} />
-            {enabled && features?.MULTICHAIN && (
+            {enabled && features?.MULTICHAIN && withChainIcon && (
               <Stack
                 alignItems="center"
                 justifyContent="center"

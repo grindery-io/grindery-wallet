@@ -36,14 +36,11 @@ export type SearchSwapTokensResponseType = {
 }[];
 
 export const searchSwapTokensRequest = async (
-  search?: string,
+  chainId?: string,
   controller?: AbortController
 ) => {
-  const searchBy = search && search.startsWith("0x") ? "address" : "symbol";
   return await axios.get<SearchSwapTokensResponseType>(
-    `https://api.enso.finance/api/v1/baseTokens?chainId=137&${searchBy}=${
-      search || ""
-    }`,
+    `https://api.enso.finance/api/v1/baseTokens?chainId=${chainId || "137"}`,
     {
       signal: controller?.signal,
     }

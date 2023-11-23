@@ -77,33 +77,36 @@ const SwapTokens = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    searchSwapTokensRequest("", controller).then((res) => {
-      setEnsoTokens(
-        (res.data || [])
-          .map((item) => ({
-            name: item.name,
-            symbol: item.symbol,
-            address: item.address,
-            decimals: item.decimals,
-            icon: item.logoURI,
-            chain: item.chainId.toString(),
-            balance: "0",
-            price: "0",
-          }))
-          .filter(
-            (item) =>
-              !tokens.find(
-                (stateItem) =>
-                  stateItem.address.toLowerCase() === item.address.toLowerCase()
-              )
-          )
-          .map(fixTokens)
-      );
-    });
+    searchSwapTokensRequest(swap.input.chainId || "137", controller).then(
+      (res) => {
+        setEnsoTokens(
+          (res.data || [])
+            .map((item) => ({
+              name: item.name,
+              symbol: item.symbol,
+              address: item.address,
+              decimals: item.decimals,
+              icon: item.logoURI,
+              chain: item.chainId.toString(),
+              balance: "0",
+              price: "0",
+            }))
+            .filter(
+              (item) =>
+                !tokens.find(
+                  (stateItem) =>
+                    stateItem.address.toLowerCase() ===
+                    item.address.toLowerCase()
+                )
+            )
+            .map(fixTokens)
+        );
+      }
+    );
     return () => {
       controller.abort();
     };
-  }, [tokens]);
+  }, [tokens, swap.input.chainId]);
 
   return (
     <>
