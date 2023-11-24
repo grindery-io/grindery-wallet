@@ -64,6 +64,7 @@ const DebugMenuListItem = ({
 };
 
 const DebugMenuListItemPrimaryTextStyles = {
+  maxWidth: "60%",
   color: "var(--tg-theme-text-color, #000000)",
 };
 

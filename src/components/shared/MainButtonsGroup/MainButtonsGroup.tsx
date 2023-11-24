@@ -3,10 +3,11 @@ import { Stack } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 import MainButtonsGroupButtonSend from "./MainButtonsGroupButtonSend/MainButtonsGroupButtonSend";
 import MainButtonsGroupButtonSwap from "./MainButtonsGroupButtonSwap/MainButtonsGroupButtonSwap";
+import MainButtonsGroupButtonBridge from "./MainButtonsGroupButtonBridge/MainButtonsGroupButtonMainButtonsGroupButtonBridge";
 
 const MainButtonsGroup = () => {
   const {
-    debug: { features },
+    debug: { enabled, features },
   } = useAppSelector(selectAppStore);
 
   return (
@@ -16,14 +17,19 @@ const MainButtonsGroup = () => {
       justifyContent="center"
       flexWrap="nowrap"
       useFlexGap
-      spacing="16px"
+      spacing="8px"
       sx={{
         padding: "0 16px",
         width: "100%",
       }}
     >
-      <MainButtonsGroupButtonSend label={features?.SWAP ? "Send" : undefined} />
-      {features?.SWAP && <MainButtonsGroupButtonSwap label="Swap" />}
+      <MainButtonsGroupButtonSend
+        label={enabled && features?.SWAP ? "Send" : undefined}
+      />
+      {enabled && features?.SWAP && <MainButtonsGroupButtonSwap label="Swap" />}
+      {enabled && features?.BRIDGE && (
+        <MainButtonsGroupButtonBridge label="Bridge" />
+      )}
     </Stack>
   );
 };
