@@ -103,20 +103,20 @@ const SwapTokensInputTokenIn = ({ allTokens }: SwapTokensInputProps) => {
           </Button>
 
           {selectedToken && (
-            <>
+            <Token token={selectedToken}>
               <Typography
                 variant="xs"
                 sx={{ marginTop: "4px", lineHeight: 1.5 }}
                 color="hint"
               >
-                Balance: <TokenBalance format="short" />
+                Balance: <TokenBalance format="eth" />
               </Typography>
               {notEnoughBalance && (
                 <Typography variant="xs" color="error" mt="4px">
                   Not enough <TokenSymbol />
                 </Typography>
               )}
-            </>
+            </Token>
           )}
         </Box>
         <Stack

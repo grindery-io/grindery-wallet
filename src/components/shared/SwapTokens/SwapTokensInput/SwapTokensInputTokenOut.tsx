@@ -100,23 +100,23 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
             }}
           >
             {selectedToken ? (
-              <>
-                <Token token={selectedToken}>
-                  <TokenSymbol />
-                </Token>
-              </>
+              <Token token={selectedToken}>
+                <TokenSymbol />
+              </Token>
             ) : (
               "Select token out"
             )}
           </Button>
           {selectedToken && (
-            <Typography
-              variant="xs"
-              sx={{ marginTop: "4px", lineHeight: 1.5 }}
-              color="hint"
-            >
-              Balance: <TokenBalance format="short" />
-            </Typography>
+            <Token token={selectedToken}>
+              <Typography
+                variant="xs"
+                sx={{ marginTop: "4px", lineHeight: 1.5 }}
+                color="hint"
+              >
+                Balance: <TokenBalance format="eth" />
+              </Typography>
+            </Token>
           )}
         </Box>
         <Stack
