@@ -87,6 +87,30 @@ export type BalanceState = {
   display: "token" | "usd";
 };
 
+export enum BridgeStatus {
+  WAITING = "waiting_user_input",
+  LOADING = "loading",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+export type BridgeStateInput = {
+  tokenIn: string;
+  amountIn: string;
+  tokenOut: string;
+  chainIn: string;
+  chainOut: string;
+};
+
+/**
+ * Interface for the BridgeState object representing the state of the bridge page
+ */
+export type BridgeState = {
+  input: BridgeStateInput;
+  status: BridgeStatus;
+};
+
 /**
  * Interface for the CommunityState object representing the state of the grindery community
  */
@@ -350,6 +374,10 @@ export type AppState = {
    * User balance state
    */
   balance: BalanceState;
+  /**
+   * Bridge state
+   */
+  bridge: BridgeState;
   /**
    * Community list state
    */

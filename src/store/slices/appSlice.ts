@@ -24,6 +24,8 @@ import {
   UserState,
   TelegramUserActivity,
   TelegramUserReward,
+  BridgeStatus,
+  BridgeState,
 } from "types";
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
@@ -53,6 +55,16 @@ export const initialState: AppState = {
       JSON.parse(
         localStorage.getItem(STORAGE_KEYS.BALANCE) || '{ "display": "token" }'
       )?.display || "token",
+  },
+  bridge: {
+    input: {
+      tokenIn: "",
+      amountIn: "",
+      tokenOut: "",
+      chainIn: "",
+      chainOut: "",
+    },
+    status: BridgeStatus.WAITING,
   },
   community: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.COMMUNITY) || "[]"),
@@ -216,6 +228,15 @@ const appSlice = createSlice({
     setBalance(state, action: PayloadAction<Partial<BalanceState>>) {
       state.balance = {
         ...state.balance,
+        ...action.payload,
+      };
+    },
+    /**
+     * Reducer to set the bridge state
+     */
+    setBridge(state, action: PayloadAction<Partial<BridgeState>>) {
+      state.bridge = {
+        ...state.bridge,
         ...action.payload,
       };
     },
