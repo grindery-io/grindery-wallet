@@ -68,8 +68,8 @@ const SendTokensInputButtons = ({
             }`
           : "",
         withConfirmation: Boolean(enabled && features?.SENDING_CONFIRMATION),
-        chainId: "137",
-        tokenAddress: MAIN_TOKEN_ADDRESS,
+        chainId: input.chainId || "137",
+        tokenAddress: input.tokenAddress || MAIN_TOKEN_ADDRESS,
       });
       if (res.data?.success) {
         setStatus(SendStatus.SENT);
