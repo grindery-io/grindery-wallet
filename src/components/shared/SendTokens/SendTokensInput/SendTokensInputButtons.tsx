@@ -36,7 +36,7 @@ const SendTokensInputButtons = ({
     : items?.find((item) => item.id === input.recipient);
 
   const sendTokens = async () => {
-    if (!/^\d+$/.test(input.amount) || parseInt(input.amount) <= 0) {
+    if (isNaN(parseFloat(input.amount)) || parseFloat(input.amount) <= 0) {
       setStatus(SendStatus.ERROR);
       return;
     }
