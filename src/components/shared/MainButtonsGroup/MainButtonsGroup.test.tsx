@@ -37,7 +37,7 @@ describe("MainButtonsGroup", () => {
   it("renders the Swap button", () => {
     mockedUseAppSelector.mockReturnValue({
       user: { patchwallet: true },
-      debug: { features: { SWAP: true } },
+      debug: { enabled: true, features: { SWAP: true } },
     });
     render(<MainButtonsGroup />, { wrapper: MemoryRouter });
 

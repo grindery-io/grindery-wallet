@@ -15,10 +15,7 @@ import BridgeTokensSending from "./BridgeTokensSending";
 import { CHAINS, MAIN_TOKEN_ADDRESS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token";
-import {
-  getBridgeQuoteRequest,
-  searchBridgeTokensRequest,
-} from "services/bridge";
+import { getBridgeQuoteRequest, getBridgeTokensRequest } from "services";
 import Web3 from "web3";
 
 const BridgeTokens = () => {
@@ -93,7 +90,7 @@ const BridgeTokens = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    searchBridgeTokensRequest(
+    getBridgeTokensRequest(
       CHAINS.map((c) => parseInt(c.id)).join(","),
       controller
     ).then((res) => {

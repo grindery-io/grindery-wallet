@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BridgeStateInput } from "types";
 
-export type SearchBridgeTokensResponseType = {
+export type GetBridgeTokensResponseType = {
   tokens: {
     [key: string]: {
       address: string;
@@ -16,11 +16,11 @@ export type SearchBridgeTokensResponseType = {
   };
 };
 
-export const searchBridgeTokensRequest = async (
+export const getBridgeTokensRequest = async (
   chainIds?: string, // see lifi docs: https://docs.li.fi/li.fi-api/li.fi-api/requesting-all-known-tokens
   controller?: AbortController
 ) => {
-  return await axios.get<SearchBridgeTokensResponseType>(
+  return await axios.get<GetBridgeTokensResponseType>(
     `https://li.quest/v1/tokens?chains=${chainIds || "137"}`,
     {
       signal: controller?.signal,
@@ -28,7 +28,7 @@ export const searchBridgeTokensRequest = async (
   );
 };
 
-export type GetBridgeQuoteResponseToken = {
+export type LifiResponseToken = {
   address: string;
   chainId: number;
   symbol: string;
@@ -50,10 +50,10 @@ export type GetBridgeQuoteResponseType = {
   };
   action: {
     // information about the token being sent
-    fromToken: GetBridgeQuoteResponseToken;
+    fromToken: LifiResponseToken;
     fromAmount: string;
     // information about the token being received
-    toToken: GetBridgeQuoteResponseToken;
+    toToken: LifiResponseToken;
     fromChainId: number;
     toChainId: number;
     slippage: number;
@@ -70,7 +70,7 @@ export type GetBridgeQuoteResponseType = {
       name: string;
       description: string;
       // information about the token that the gas is payed in
-      token: GetBridgeQuoteResponseToken;
+      token: LifiResponseToken;
       amount: string;
       amountUSD: string;
       percentage: string;
@@ -83,7 +83,7 @@ export type GetBridgeQuoteResponseType = {
       limit: string;
       amount: string;
       amountUSD: string;
-      token: GetBridgeQuoteResponseToken;
+      token: LifiResponseToken;
     }[];
     executionDuration: number;
     fromAmountUSD: string;
@@ -96,9 +96,9 @@ export type GetBridgeQuoteResponseType = {
     action: {
       fromChainId: number;
       fromAmount: string;
-      fromToken: GetBridgeQuoteResponseToken;
+      fromToken: LifiResponseToken;
       toChainId: number;
-      toToken: GetBridgeQuoteResponseToken;
+      toToken: LifiResponseToken;
       slippage: number;
       fromAddress: string;
       toAddress: string;
@@ -113,7 +113,7 @@ export type GetBridgeQuoteResponseType = {
       feeCosts: {
         name: string;
         description: string;
-        token: GetBridgeQuoteResponseToken;
+        token: LifiResponseToken;
         amount: string;
         amountUSD: string;
         percentage: string;
@@ -127,7 +127,7 @@ export type GetBridgeQuoteResponseType = {
         limit: string;
         amount: string;
         amountUSD: string;
-        token: GetBridgeQuoteResponseToken;
+        token: LifiResponseToken;
       }[];
 
       toolData: {
@@ -172,6 +172,42 @@ export const getBridgeQuoteRequest = async ({
       headers: {
         Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
       },
+    }
+  );
+};
+
+export type GetBridgeConnectionsResponseType = {
+  connections: {
+    fromChainId: number;
+    toChainId: number;
+    fromTokens: LifiResponseToken[];
+
+    toTokens: LifiResponseToken[];
+  }[];
+};
+
+export const getBridgeConnectionsRequest = async ({
+  fromChain,
+  toChain,
+  fromToken,
+  toToken,
+  controller,
+}: {
+  fromChain?: string;
+  toChain?: string;
+  fromToken?: string;
+  toToken?: string;
+  controller?: AbortController;
+}) => {
+  const query = [];
+  if (fromChain) query.push(`fromChain=${fromChain}`);
+  if (toChain) query.push(`toChain=${toChain}`);
+  if (fromToken) query.push(`fromToken=${fromToken}`);
+  if (toToken) query.push(`toToken=${toToken}`);
+  return await axios.get<GetBridgeConnectionsResponseType>(
+    `https://li.quest/v1/connections?${query.join("&")}`,
+    {
+      signal: controller?.signal,
     }
   );
 };

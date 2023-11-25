@@ -5,7 +5,6 @@ import { SwapStatus } from "../../../types/State";
 
 const SwapTokensHeader = () => {
   const {
-    user,
     swap: { status },
   } = useAppSelector(selectAppStore);
 
@@ -16,9 +15,7 @@ const SwapTokensHeader = () => {
           ? "Sending"
           : status === SwapStatus.SENT
           ? "Sent"
-          : user?.telegramSession
-          ? "Swap"
-          : ""}
+          : "Swap"}
       </Typography>
     </Box>
   );

@@ -5,7 +5,6 @@ import { BridgeStatus } from "../../../types/State";
 
 const BridgeTokensHeader = () => {
   const {
-    user,
     bridge: { status },
   } = useAppSelector(selectAppStore);
 
@@ -16,9 +15,7 @@ const BridgeTokensHeader = () => {
           ? "Sending"
           : status === BridgeStatus.SENT
           ? "Sent"
-          : user?.telegramSession
-          ? "Bridge"
-          : ""}
+          : "Bridge"}
       </Typography>
     </Box>
   );

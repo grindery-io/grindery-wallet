@@ -11,3 +11,4 @@ export * from "./stats";
 export * from "./swap";
 export * from "./tokens";
 export * from "./user";
+export * from "./bridge";

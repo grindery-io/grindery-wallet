@@ -1,10 +1,10 @@
 import { UserType } from "components/shared/User/User";
-import { ContactType } from "../components/shared/Contact/Contact";
-import { TokenType } from "../components/shared/Token";
+import { ContactType } from "components/shared/Contact/Contact";
+import { TokenType } from "components/shared/Token";
 import { SwapRoute } from "./SwapRoute";
 import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
-import { GetBridgeQuoteResponseType } from "services/bridge";
+import { GetBridgeQuoteResponseType } from "services";
 
 /**
  * Interface for the ActivityState object representing the state of the user activity
