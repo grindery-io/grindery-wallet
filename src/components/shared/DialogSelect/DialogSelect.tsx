@@ -2,9 +2,9 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
   Divider,
   Slide,
+  Stack,
   Typography,
 } from "@mui/material";
 import SearchBox from "../SearchBox/SearchBox";
@@ -35,6 +35,8 @@ export type DialogSelectProps = {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
+    startAction?: React.ReactNode;
+    endAction?: React.ReactNode;
   };
   fullWidth?: boolean;
 };
@@ -59,11 +61,15 @@ const DialogSelect = (props: DialogSelectProps) => {
     >
       {search && (
         <>
-          <DialogTitle
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
             sx={{
               padding: "12px",
             }}
           >
+            {typeof search.startAction !== "undefined" && search.startAction}
             <SearchBox
               placeholder={search.placeholder || "Search token"}
               value={search.value}
@@ -74,7 +80,8 @@ const DialogSelect = (props: DialogSelectProps) => {
                 padding: "0",
               }}
             />
-          </DialogTitle>
+            {typeof search.endAction !== "undefined" && search.endAction}
+          </Stack>
           <Divider sx={{ marginLeft: 0 }} />
         </>
       )}

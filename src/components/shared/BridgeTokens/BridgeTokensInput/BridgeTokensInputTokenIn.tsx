@@ -12,6 +12,11 @@ import { debounce } from "lodash";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
 import { Token, TokenBalance, TokenIcon, TokenSymbol } from "../../Token";
 import DialogSelect from "../../DialogSelect/DialogSelect";
+import TokensSearchChainSelector from "components/shared/TokensSearch/TokensSearchChainSelector";
+import { CHAINS } from "../../../../constants";
+import Chain from "components/shared/Chain/Chain";
+import ChainName from "components/shared/Chain/ChainName/ChainName";
+import ChainAvatar from "components/shared/Chain/ChainAvatar/ChainAvatar";
 
 const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
   const [search, setSearch] = useState("");
@@ -21,10 +26,10 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
   } = useAppSelector(selectAppStore);
   const [open, setOpen] = useState(false);
   const selectedToken = allTokens.find(
-    (token) =>
-      token.address === input.tokenIn &&
-      token.chain === (input.chainId || "137")
+    (token) => token.address === input.tokenIn && token.chain === input.chainIn
   );
+  const selectedChain =
+    CHAINS.find((chain) => chain.id === input.chainIn) || CHAINS[0];
 
   const notEnoughBalance =
     parseFloat(input.amountIn) >
@@ -77,9 +82,24 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
             color="primary"
             startIcon={
               selectedToken ? (
-                <Token token={selectedToken}>
-                  <TokenIcon size={20} key={selectedToken.address} />
-                </Token>
+                <Box sx={{ position: "relative" }}>
+                  <Token token={selectedToken}>
+                    <TokenIcon size={20} key={selectedToken.address} />
+                  </Token>
+                  {selectedChain && (
+                    <Chain chain={selectedChain}>
+                      <ChainAvatar
+                        size={12}
+                        key={selectedToken.address}
+                        sx={{
+                          position: "absolute",
+                          bottom: "-2px",
+                          right: "-4px",
+                        }}
+                      />
+                    </Chain>
+                  )}
+                </Box>
               ) : undefined
             }
             endIcon={<ArrowDropDownIcon />}
@@ -96,6 +116,13 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
             {selectedToken ? (
               <Token token={selectedToken}>
                 <TokenSymbol />
+                {selectedChain && (
+                  <span style={{ marginLeft: "4px" }}>
+                    <Chain chain={selectedChain}>
+                      on <ChainName />
+                    </Chain>
+                  </span>
+                )}
               </Token>
             ) : (
               "Select token in"
@@ -168,13 +195,28 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
         search={{
           value: search,
           onChange: setSearch,
+          startAction: (
+            <TokensSearchChainSelector
+              sx={{ padding: 0 }}
+              selectedChain={selectedChain}
+              onChange={(c) => {
+                dispatch(
+                  appStoreActions.setBridge({
+                    input: {
+                      ...input,
+                      chainIn: c.id,
+                    },
+                  })
+                );
+              }}
+            />
+          ),
         }}
         items={(allTokens || [])
           .filter((token) =>
             token.symbol.toLowerCase().includes(search.toLowerCase())
           )
-          .filter((token) => token.address !== input.tokenOut)
-          .filter((token) => token.chain === (input.chainId || "137"))}
+          .filter((token) => token.chain === input.chainIn)}
         itemSize={48}
         item={(itemProps: { data: any; index: number; style: any }) => (
           <Box
@@ -182,6 +224,7 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
             key={itemProps.data[itemProps.index].id}
           >
             <TokensListItem
+              //withChainIcon
               key={itemProps.data[itemProps.index].address}
               passive
               token={itemProps.data[itemProps.index]}

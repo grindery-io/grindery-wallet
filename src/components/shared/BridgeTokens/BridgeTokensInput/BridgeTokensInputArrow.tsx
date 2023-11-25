@@ -21,12 +21,16 @@ const BridgeTokensInputArrow = () => {
           setRotate(!rotate);
           const currentTokenIn = input.tokenIn;
           const currentTokenOut = input.tokenOut;
+          const currentChainIn = input.chainIn;
+          const currentChainOut = input.chainOut;
           dispatch(
             appStoreActions.setBridge({
               input: {
                 ...input,
                 tokenIn: currentTokenOut,
                 tokenOut: currentTokenIn,
+                chainIn: currentChainOut,
+                chainOut: currentChainIn,
               },
             })
           );

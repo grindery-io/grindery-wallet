@@ -4,6 +4,7 @@ import { TokenType } from "../components/shared/Token";
 import { SwapRoute } from "./SwapRoute";
 import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
+import { GetBridgeQuoteResponseType } from "services/bridge";
 
 /**
  * Interface for the ActivityState object representing the state of the user activity
@@ -109,6 +110,7 @@ export type BridgeStateInput = {
 export type BridgeState = {
   input: BridgeStateInput;
   status: BridgeStatus;
+  quote: GetBridgeQuoteResponseType | null;
 };
 
 /**

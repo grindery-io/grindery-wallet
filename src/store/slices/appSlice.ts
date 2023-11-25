@@ -65,6 +65,7 @@ export const initialState: AppState = {
       chainOut: "",
     },
     status: BridgeStatus.WAITING,
+    quote: null,
   },
   community: {
     items: JSON.parse(localStorage.getItem(STORAGE_KEYS.COMMUNITY) || "[]"),

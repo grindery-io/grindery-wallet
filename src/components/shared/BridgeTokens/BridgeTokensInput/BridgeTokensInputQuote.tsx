@@ -4,9 +4,9 @@ import { selectAppStore, useAppSelector } from "../../../../store";
 import { BridgeStatus } from "../../../../types/State";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
 
-const BridgeTokensInputRoute = ({ allTokens }: BridgeTokensInputProps) => {
+const BridgeTokensInputQuote = ({ allTokens }: BridgeTokensInputProps) => {
   const {
-    bridge: { status, route, input },
+    bridge: { status, quote, input },
   } = useAppSelector(selectAppStore);
 
   const isNothingFound =
@@ -14,16 +14,19 @@ const BridgeTokensInputRoute = ({ allTokens }: BridgeTokensInputProps) => {
     input.amountIn &&
     input.tokenIn &&
     input.tokenOut &&
-    !route;
+    input.chainIn &&
+    input.chainOut &&
+    !quote;
 
-  const isRouteFound = status === BridgeStatus.WAITING && route;
+  const isRouteFound = status === BridgeStatus.WAITING && quote;
 
   const selectedTokenIn = allTokens.find(
-    (token) => token.address === input.tokenIn
+    (token) => token.address === input.tokenIn && token.chain === input.chainIn
   );
 
   const selectedTokenOut = allTokens.find(
-    (token) => token.address === input.tokenOut
+    (token) =>
+      token.address === input.tokenOut && token.chain === input.chainOut
   );
 
   return (
@@ -61,7 +64,7 @@ const BridgeTokensInputRoute = ({ allTokens }: BridgeTokensInputProps) => {
                 <Typography fontWeight="bold">
                   1 {selectedTokenIn?.symbol} ={" "}
                   {(
-                    parseFloat(route?.amountOut || "0") /
+                    parseFloat(quote?.estimate.toAmount || "0") /
                     Math.pow(10, selectedTokenOut?.decimals || 18) /
                     parseFloat(input.amountIn)
                   ).toString()}{" "}
@@ -74,7 +77,7 @@ const BridgeTokensInputRoute = ({ allTokens }: BridgeTokensInputProps) => {
             <Typography color="hint">
               {isNothingFound
                 ? "No routes found"
-                : "Select tokens and enter an amount to swap"}
+                : "Select tokens and enter an amount to bridge"}
             </Typography>
           )}
         </Stack>
@@ -83,4 +86,4 @@ const BridgeTokensInputRoute = ({ allTokens }: BridgeTokensInputProps) => {
   );
 };
 
-export default BridgeTokensInputRoute;
+export default BridgeTokensInputQuote;

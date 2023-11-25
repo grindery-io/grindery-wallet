@@ -10,6 +10,7 @@ import { BridgeStatus } from "../../types/State";
 import Loading from "../shared/Loading/Loading";
 import { sortTokens } from "../../utils/sortTokens";
 import { CHAINS } from "../../constants";
+import BridgeTokens from "components/shared/BridgeTokens/BridgeTokens";
 
 const BridgePage = () => {
   useBackButton();
@@ -42,7 +43,7 @@ const BridgePage = () => {
     }, 500);
   }, [address1, address2, dispatch]);
 
-  return !loading ? <>Bridge</> : <Loading />;
+  return !loading ? <BridgeTokens /> : <Loading />;
 };
 
 export default BridgePage;

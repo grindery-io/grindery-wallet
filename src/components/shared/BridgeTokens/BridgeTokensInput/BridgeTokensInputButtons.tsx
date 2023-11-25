@@ -14,7 +14,7 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
   let navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
-    bridge: { input, status, route },
+    bridge: { input, status, quote },
   } = useAppSelector(selectAppStore);
 
   const selectedTokenIn = allTokens.find(
@@ -47,7 +47,7 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
       })
     );
     try {
-      const res = await bridgeTokensRequest({
+      /*const res = await bridgeTokensRequest({
         to: route?.tx.to,
         data: route?.tx.data,
         value: route?.tx.value,
@@ -64,7 +64,7 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
         appStoreActions.setBridge({
           status: res.data?.success ? BridgeStatus.SENT : BridgeStatus.ERROR,
         })
-      );
+      );*/
     } catch (error) {
       console.error("bridge tokens error", error);
       setCountFailed(countFailed + 1);
@@ -98,6 +98,7 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
           variant="contained"
           fullWidth
           disabled={
+            !quote ||
             status === BridgeStatus.SENDING ||
             status === BridgeStatus.LOADING ||
             !input.amountIn ||
@@ -142,8 +143,8 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
         margin="10px 0 0px"
       >
         Powered by{" "}
-        <a href="https://www.enso.finance/" target="_blank" rel="noreferrer">
-          Enso
+        <a href="https://li.fi/" target="_blank" rel="noreferrer">
+          LI.FI
         </a>
       </Typography>
     </Box>

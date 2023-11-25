@@ -12,32 +12,41 @@ import BridgeTokensHeader from "./BridgeTokensHeader";
 import BridgeTokensError from "./BridgeTokensError";
 import BridgeTokensSentMessage from "./BridgeTokensSentMessage";
 import BridgeTokensSending from "./BridgeTokensSending";
-import { getBridgeRoutesRequest } from "../../../services/swap";
-import { searchBridgeTokensRequest } from "../../../services/tokens";
-import { MAIN_TOKEN_ADDRESS } from "../../../constants";
+import { CHAINS, MAIN_TOKEN_ADDRESS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token";
+import {
+  getBridgeQuoteRequest,
+  searchBridgeTokensRequest,
+} from "services/bridge";
+import Web3 from "web3";
 
 const BridgeTokens = () => {
   const dispatch = useAppDispatch();
-  const { swap, tokens } = useAppSelector(selectAppStore);
-  const [ensoTokens, setEnsoTokens] = useState<TokenType[]>([]);
-  const { status } = swap;
+  const { user, bridge, tokens } = useAppSelector(selectAppStore);
+  const [lifiTokens, setLifiTokens] = useState<TokenType[]>([]);
+  const { status } = bridge;
   const selectedTokenIn = tokens.find(
-    (token) => token.address === swap.input.tokenIn
+    (token) => token.address === bridge.input.tokenIn
   );
 
   const allTokens = [
     ...tokens.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
-    ...(ensoTokens || []),
+    ...(lifiTokens || []),
   ];
+
+  console.log("allTokens", allTokens);
 
   useEffect(() => {
     const controller = new AbortController();
-    if (!swap.input.amountIn || !swap.input.tokenIn || !swap.input.tokenOut) {
+    if (
+      !bridge.input.amountIn ||
+      !bridge.input.tokenIn ||
+      !bridge.input.tokenOut
+    ) {
       dispatch(
         appStoreActions.setBridge({
-          route: null,
+          quote: null,
         })
       );
       return;
@@ -47,11 +56,18 @@ const BridgeTokens = () => {
         status: BridgeStatus.LOADING,
       })
     );
-    getBridgeRoutesRequest(swap.input, controller)
+    getBridgeQuoteRequest({
+      input: {
+        ...bridge.input,
+        amountIn: Web3.utils.toWei(parseFloat(bridge.input.amountIn), "ether"),
+      },
+      fromAddress: user?.patchwallet || "",
+      controller,
+    })
       .then((res) => {
         dispatch(
           appStoreActions.setBridge({
-            route: res?.data || null,
+            quote: res?.data || null,
             status: BridgeStatus.WAITING,
           })
         );
@@ -59,7 +75,7 @@ const BridgeTokens = () => {
       .catch((err) => {
         dispatch(
           appStoreActions.setBridge({
-            route: null,
+            quote: null,
             status: BridgeStatus.WAITING,
           })
         );
@@ -73,40 +89,45 @@ const BridgeTokens = () => {
         })
       );
     };
-  }, [swap.input, selectedTokenIn, dispatch]);
+  }, [bridge.input, selectedTokenIn, user?.patchwallet, dispatch]);
 
   useEffect(() => {
     const controller = new AbortController();
-    searchBridgeTokensRequest(swap.input.chainId || "137", controller).then(
-      (res) => {
-        setEnsoTokens(
-          (res.data || [])
-            .map((item) => ({
-              name: item.name,
-              symbol: item.symbol,
-              address: item.address,
-              decimals: item.decimals,
-              icon: item.logoURI,
-              chain: item.chainId.toString(),
-              balance: "0",
-              price: "0",
-            }))
-            .filter(
-              (item) =>
-                !tokens.find(
-                  (stateItem) =>
-                    stateItem.address.toLowerCase() ===
-                    item.address.toLowerCase()
-                )
-            )
-            .map(fixTokens)
-        );
-      }
-    );
+    searchBridgeTokensRequest(
+      CHAINS.map((c) => parseInt(c.id)).join(","),
+      controller
+    ).then((res) => {
+      setLifiTokens(
+        [
+          ...(res.data?.tokens?.[CHAINS[0].id] || []),
+          ...(res.data?.tokens?.[CHAINS[1].id] || []),
+        ]
+          .map((item) => ({
+            name: item.name,
+            symbol: item.symbol,
+            address: item.address,
+            decimals: item.decimals,
+            icon: item.logoURI,
+            chain: item.chainId.toString(),
+            balance: "0",
+            price: item.priceUSD,
+          }))
+          .filter(
+            (item) =>
+              !tokens.find(
+                (stateItem) =>
+                  stateItem.address.toLowerCase() ===
+                    item.address.toLowerCase() &&
+                  stateItem.chain.toLowerCase() === item.chain.toLowerCase()
+              )
+          )
+          .map(fixTokens)
+      );
+    });
     return () => {
       controller.abort();
     };
-  }, [tokens, swap.input.chainId]);
+  }, [tokens]);
 
   return (
     <>
