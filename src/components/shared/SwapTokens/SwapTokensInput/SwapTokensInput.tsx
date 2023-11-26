@@ -9,10 +9,10 @@ import { selectAppStore, useAppSelector } from "store";
 import SwapTokensInputChain from "./SwapTokensInputChain";
 
 export type SwapTokensInputProps = {
-  allTokens: TokenType[];
+  tokensIn: TokenType[];
 };
 
-const SwapTokensInput = ({ allTokens }: SwapTokensInputProps) => {
+const SwapTokensInput = ({ tokensIn }: SwapTokensInputProps) => {
   const {
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
@@ -20,11 +20,11 @@ const SwapTokensInput = ({ allTokens }: SwapTokensInputProps) => {
   return (
     <>
       {enabled && features?.MULTICHAIN && <SwapTokensInputChain />}
-      <SwapTokensInputTokenIn allTokens={allTokens} />
+      <SwapTokensInputTokenIn tokensIn={tokensIn} />
       <SwapTokensInputArrow />
-      <SwapTokensInputTokenOut allTokens={allTokens} />
-      <SwapTokensInputRoute allTokens={allTokens} />
-      <SwapTokensInputButtons allTokens={allTokens} />
+      <SwapTokensInputTokenOut tokensIn={tokensIn} />
+      <SwapTokensInputRoute tokensIn={tokensIn} />
+      <SwapTokensInputButtons tokensIn={tokensIn} />
     </>
   );
 };

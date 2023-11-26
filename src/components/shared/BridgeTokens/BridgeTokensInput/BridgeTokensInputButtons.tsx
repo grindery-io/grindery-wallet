@@ -11,14 +11,14 @@ import {
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
 import { swapTokensRequest } from "services";
 
-const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
+const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
   let navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     bridge: { input, status, quote },
   } = useAppSelector(selectAppStore);
 
-  const selectedTokenIn = allTokens.find(
+  const selectedTokenIn = tokensIn.find(
     (token) => token.address === input.tokenIn
   );
 

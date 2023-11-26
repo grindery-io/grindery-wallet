@@ -18,14 +18,14 @@ import Chain from "components/shared/Chain/Chain";
 import ChainName from "components/shared/Chain/ChainName/ChainName";
 import ChainAvatar from "components/shared/Chain/ChainAvatar/ChainAvatar";
 
-const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
+const BridgeTokensInputTokenIn = ({ tokensIn }: BridgeTokensInputProps) => {
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const {
     bridge: { input },
   } = useAppSelector(selectAppStore);
   const [open, setOpen] = useState(false);
-  const selectedToken = allTokens.find(
+  const selectedToken = tokensIn.find(
     (token) => token.address === input.tokenIn && token.chain === input.chainIn
   );
   const selectedChain =
@@ -212,7 +212,7 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
             />
           ),
         }}
-        items={(allTokens || [])
+        items={(tokensIn || [])
           .filter(
             (token) =>
               token.symbol.toLowerCase().includes(search.toLowerCase()) ||

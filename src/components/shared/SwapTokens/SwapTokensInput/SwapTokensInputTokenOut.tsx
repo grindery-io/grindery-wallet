@@ -14,13 +14,13 @@ import { Token, TokenBalance, TokenIcon, TokenSymbol } from "../../Token";
 import { getTokensPriceRequest } from "../../../../services/tokens";
 import DialogSelect from "../../DialogSelect/DialogSelect";
 
-const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
+const SwapTokensInputTokenOut = ({ tokensIn }: SwapTokensInputProps) => {
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const { user, swap, tokens } = useAppSelector(selectAppStore);
   const { input } = swap;
   const [open, setOpen] = useState(false);
-  const selectedToken = allTokens.find(
+  const selectedToken = tokensIn.find(
     (token) =>
       token.address === input.tokenOut &&
       token.chain === (input.chainId || "137")
@@ -172,7 +172,7 @@ const SwapTokensInputTokenOut = ({ allTokens }: SwapTokensInputProps) => {
           value: search,
           onChange: setSearch,
         }}
-        items={(allTokens || [])
+        items={(tokensIn || [])
           .filter((token) =>
             token.symbol.toLowerCase().includes(search.toLowerCase())
           )

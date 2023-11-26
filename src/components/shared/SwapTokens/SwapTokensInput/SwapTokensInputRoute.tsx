@@ -4,7 +4,7 @@ import { selectAppStore, useAppSelector } from "../../../../store";
 import { SwapStatus } from "../../../../types/State";
 import { SwapTokensInputProps } from "./SwapTokensInput";
 
-const SwapTokensInputRoute = ({ allTokens }: SwapTokensInputProps) => {
+const SwapTokensInputRoute = ({ tokensIn }: SwapTokensInputProps) => {
   const {
     swap: { status, route, input },
   } = useAppSelector(selectAppStore);
@@ -18,11 +18,11 @@ const SwapTokensInputRoute = ({ allTokens }: SwapTokensInputProps) => {
 
   const isRouteFound = status === SwapStatus.WAITING && route;
 
-  const selectedTokenIn = allTokens.find(
+  const selectedTokenIn = tokensIn.find(
     (token) => token.address === input.tokenIn
   );
 
-  const selectedTokenOut = allTokens.find(
+  const selectedTokenOut = tokensIn.find(
     (token) => token.address === input.tokenOut
   );
 

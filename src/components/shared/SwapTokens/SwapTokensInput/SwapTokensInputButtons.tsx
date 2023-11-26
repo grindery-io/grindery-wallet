@@ -11,14 +11,14 @@ import {
 import { swapTokensRequest } from "../../../../services/swap";
 import { SwapTokensInputProps } from "./SwapTokensInput";
 
-const SwapTokensInputButtons = ({ allTokens }: SwapTokensInputProps) => {
+const SwapTokensInputButtons = ({ tokensIn }: SwapTokensInputProps) => {
   let navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     swap: { input, status, route },
   } = useAppSelector(selectAppStore);
 
-  const selectedTokenIn = allTokens.find(
+  const selectedTokenIn = tokensIn.find(
     (token) => token.address === input.tokenIn
   );
 

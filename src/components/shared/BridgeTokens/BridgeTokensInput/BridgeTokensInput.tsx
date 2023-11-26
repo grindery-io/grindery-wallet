@@ -7,17 +7,18 @@ import BridgeTokensInputArrow from "./BridgeTokensInputArrow";
 import { TokenType } from "../../Token";
 
 export type BridgeTokensInputProps = {
-  allTokens: TokenType[];
+  tokensIn: TokenType[];
+  tokensOut?: TokenType[];
 };
 
-const BridgeTokensInput = ({ allTokens }: BridgeTokensInputProps) => {
+const BridgeTokensInput = ({ tokensIn, tokensOut }: BridgeTokensInputProps) => {
   return (
     <>
-      <BridgeTokensInputTokenIn allTokens={allTokens} />
+      <BridgeTokensInputTokenIn tokensIn={tokensIn} />
       <BridgeTokensInputArrow />
-      <BridgeTokensInputTokenOut allTokens={allTokens} />
-      <BridgeTokensInputQuote allTokens={allTokens} />
-      <BridgeTokensInputButtons allTokens={allTokens} />
+      <BridgeTokensInputTokenOut tokensOut={tokensOut || []} />
+      <BridgeTokensInputQuote tokensIn={tokensIn} />
+      <BridgeTokensInputButtons tokensIn={tokensIn} />
     </>
   );
 };

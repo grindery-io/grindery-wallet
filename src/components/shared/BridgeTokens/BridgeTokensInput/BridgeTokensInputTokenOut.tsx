@@ -9,8 +9,13 @@ import {
 } from "../../../../store";
 import TokensListItem from "../../TokensList/TokensListItem/TokensListItem";
 import { BridgeStatus } from "../../../../types/State";
-import { BridgeTokensInputProps } from "./BridgeTokensInput";
-import { Token, TokenBalance, TokenIcon, TokenSymbol } from "../../Token";
+import {
+  Token,
+  TokenBalance,
+  TokenIcon,
+  TokenSymbol,
+  TokenType,
+} from "../../Token";
 import { getTokensPriceRequest } from "../../../../services/tokens";
 import DialogSelect from "../../DialogSelect/DialogSelect";
 import TokensSearchChainSelector from "components/shared/TokensSearch/TokensSearchChainSelector";
@@ -19,13 +24,17 @@ import Chain from "components/shared/Chain/Chain";
 import ChainName from "components/shared/Chain/ChainName/ChainName";
 import ChainAvatar from "components/shared/Chain/ChainAvatar/ChainAvatar";
 
-const BridgeTokensInputTokenOut = ({ allTokens }: BridgeTokensInputProps) => {
+const BridgeTokensInputTokenOut = ({
+  tokensOut,
+}: {
+  tokensOut: TokenType[];
+}) => {
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const { user, bridge, tokens } = useAppSelector(selectAppStore);
   const { input } = bridge;
   const [open, setOpen] = useState(false);
-  const selectedToken = allTokens.find(
+  const selectedToken = tokensOut.find(
     (token) =>
       token.address === input.tokenOut && token.chain === input.chainOut
   );
@@ -217,7 +226,7 @@ const BridgeTokensInputTokenOut = ({ allTokens }: BridgeTokensInputProps) => {
             />
           ),
         }}
-        items={(allTokens || [])
+        items={(tokensOut || [])
           .filter((token) =>
             token.symbol.toLowerCase().includes(search.toLowerCase())
           )

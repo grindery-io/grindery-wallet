@@ -27,7 +27,7 @@ const SwapTokens = () => {
     (token) => token.address === swap.input.tokenIn
   );
 
-  const allTokens = [
+  const tokensIn = [
     ...tokens.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
     ...(ensoTokens || []),
   ];
@@ -117,7 +117,7 @@ const SwapTokens = () => {
           {status === SwapStatus.SENDING && <SwapTokensSending />}
           {status === SwapStatus.ERROR && <SwapTokensError />}
           {(status === SwapStatus.WAITING || status === SwapStatus.LOADING) && (
-            <SwapTokensInput allTokens={allTokens} />
+            <SwapTokensInput tokensIn={tokensIn} />
           )}
         </Box>
       </Box>

@@ -4,7 +4,7 @@ import { selectAppStore, useAppSelector } from "../../../../store";
 import { BridgeStatus } from "../../../../types/State";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
 
-const BridgeTokensInputQuote = ({ allTokens }: BridgeTokensInputProps) => {
+const BridgeTokensInputQuote = ({ tokensIn }: BridgeTokensInputProps) => {
   const {
     bridge: { status, quote, input },
   } = useAppSelector(selectAppStore);
@@ -20,11 +20,11 @@ const BridgeTokensInputQuote = ({ allTokens }: BridgeTokensInputProps) => {
 
   const isRouteFound = status === BridgeStatus.WAITING && quote;
 
-  const selectedTokenIn = allTokens.find(
+  const selectedTokenIn = tokensIn.find(
     (token) => token.address === input.tokenIn && token.chain === input.chainIn
   );
 
-  const selectedTokenOut = allTokens.find(
+  const selectedTokenOut = tokensIn.find(
     (token) =>
       token.address === input.tokenOut && token.chain === input.chainOut
   );
