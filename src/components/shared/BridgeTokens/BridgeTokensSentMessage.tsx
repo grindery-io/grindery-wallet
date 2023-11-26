@@ -28,10 +28,9 @@ const BridgeTokensSentMessage = () => {
           />
         </svg>
       </Box>
-      <Title style={{ marginBottom: 0 }}>Tokens sent</Title>
+      <Title style={{ marginBottom: 0 }}>Coming soon</Title>
       <Subtitle>
-        Tokens have been sent, and you will receive a Telegram notification once
-        the bridge is complete and confirmed on the blockchain.
+        Tokens bridging is not available yet. Please try again later.
       </Subtitle>
       <Box sx={{ textAlign: "center" }}>
         <Button
