@@ -6,6 +6,7 @@ export const DEFAULT_TOKEN_ICON_URL: {
   [chain: string]: string;
 } = {
   "137": "https://polygonscan.com/assets/poly/images/svg/empty-token.svg",
+  "59144": "https://lineascan.build/images/main/empty-token.png",
 };
 
 export type TokenIconProps = {

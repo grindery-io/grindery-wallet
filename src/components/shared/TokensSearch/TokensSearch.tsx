@@ -67,11 +67,22 @@ const TokensSearch = () => {
   return (
     <Box sx={TokensSearchStyles}>
       <Stack direction="row" alignItems="center" justifyContent="center">
+        {enabled && features?.MULTICHAIN && (
+          <TokensSearchChainSelector
+            sx={{
+              padding: "16px 0px 6px 16px",
+            }}
+            selectedChain={selectedChain}
+            onChange={(c) => {
+              setChain(c.id);
+            }}
+          />
+        )}
         <SearchBox
           sx={
             enabled && features?.MULTICHAIN
               ? {
-                  paddingRight: "8px",
+                  paddingLeft: "4px",
                 }
               : undefined
           }
@@ -81,14 +92,6 @@ const TokensSearch = () => {
             setSearch(e);
           }}
         />
-        {enabled && features?.MULTICHAIN && (
-          <TokensSearchChainSelector
-            selectedChain={selectedChain}
-            onChange={(c) => {
-              setChain(c.id);
-            }}
-          />
-        )}
       </Stack>
 
       {data && data.length > 0 ? (

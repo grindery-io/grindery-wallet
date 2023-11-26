@@ -9,6 +9,7 @@ import {
   useAppSelector,
 } from "../../../../store";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
+import { swapTokensRequest } from "services";
 
 const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
   let navigate = useNavigate();
@@ -24,10 +25,7 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
   const [countFailed, setCountFailed] = useState(0);
 
   const bridgeTokens = async () => {
-    if (
-      !/^-?\d*(\.\d+)?$/.test(input.amountIn) ||
-      parseFloat(input.amountIn) <= 0
-    ) {
+    if (isNaN(parseFloat(input.amountIn)) || parseFloat(input.amountIn) <= 0) {
       dispatch(
         appStoreActions.setBridge({
           status: BridgeStatus.ERROR,
@@ -35,7 +33,13 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
       );
       return;
     }
-    if (!input.tokenOut || !input.tokenIn) {
+    if (
+      !input.tokenOut ||
+      !input.tokenIn ||
+      !input.chainIn ||
+      !input.chainOut ||
+      !quote
+    ) {
       return;
     }
     if (countFailed > 3) {
@@ -46,25 +50,26 @@ const BridgeTokensInputButtons = ({ allTokens }: BridgeTokensInputProps) => {
         status: BridgeStatus.SENDING,
       })
     );
+
     try {
-      /*const res = await bridgeTokensRequest({
-        to: route?.tx.to,
-        data: route?.tx.data,
-        value: route?.tx.value,
+      const res = await swapTokensRequest({
+        to: quote.transactionRequest.to,
+        data: quote.transactionRequest.data,
+        value: quote.transactionRequest.value,
         tokenIn: input.tokenIn,
         amountIn: input.amountIn,
         tokenOut: input.tokenOut,
-        amountOut: route?.amountOut || "0",
-        gas: route?.gas.toString() || "0",
-        priceImpact: route?.priceImpact.toString() || "0",
-        chainId: input.chainId || "137",
+        amountOut: quote.estimate.toAmount,
+        gas: quote.transactionRequest.gasPrice,
+        priceImpact: "0",
+        chainId: input.chainIn || "137",
       });
 
       dispatch(
         appStoreActions.setBridge({
           status: res.data?.success ? BridgeStatus.SENT : BridgeStatus.ERROR,
         })
-      );*/
+      );
     } catch (error) {
       console.error("bridge tokens error", error);
       setCountFailed(countFailed + 1);

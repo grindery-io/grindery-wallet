@@ -213,8 +213,11 @@ const BridgeTokensInputTokenIn = ({ allTokens }: BridgeTokensInputProps) => {
           ),
         }}
         items={(allTokens || [])
-          .filter((token) =>
-            token.symbol.toLowerCase().includes(search.toLowerCase())
+          .filter(
+            (token) =>
+              token.symbol.toLowerCase().includes(search.toLowerCase()) ||
+              token.address.toLowerCase().includes(search.toLowerCase()) ||
+              token.name.toLowerCase().includes(search.toLowerCase())
           )
           .filter((token) => token.chain === input.chainIn)}
         itemSize={48}

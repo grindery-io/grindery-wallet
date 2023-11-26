@@ -12,7 +12,7 @@ import BridgeTokensHeader from "./BridgeTokensHeader";
 import BridgeTokensError from "./BridgeTokensError";
 import BridgeTokensSentMessage from "./BridgeTokensSentMessage";
 import BridgeTokensSending from "./BridgeTokensSending";
-import { CHAINS, MAIN_TOKEN_ADDRESS } from "../../../constants";
+import { CHAINS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token";
 import { getBridgeQuoteRequest, getBridgeTokensRequest } from "services";
@@ -23,16 +23,43 @@ const BridgeTokens = () => {
   const { user, bridge, tokens } = useAppSelector(selectAppStore);
   const [lifiTokens, setLifiTokens] = useState<TokenType[]>([]);
   const { status } = bridge;
-  const selectedTokenIn = tokens.find(
+
+  const allTokens = lifiTokens
+    .map((t) => {
+      const token = tokens.find((token) => {
+        const address =
+          t.address === "0x0000000000000000000000000000000000000000"
+            ? "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            : t.address;
+
+        return (
+          token.address.toLowerCase() === address.toLowerCase() &&
+          token.chain === t.chain
+        );
+      });
+      if (token) {
+        return token;
+      }
+      return t;
+    })
+    .sort((a, b) => {
+      const balanceA = parseFloat(a.balance) / 10 ** a.decimals;
+      const balanceB = parseFloat(b.balance) / 10 ** b.decimals;
+
+      if (balanceA > balanceB) {
+        return -1;
+      }
+      if (balanceA < balanceB) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+  const selectedTokenIn = allTokens.find(
     (token) => token.address === bridge.input.tokenIn
   );
-
-  const allTokens = [
-    ...tokens.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
-    ...(lifiTokens || []),
-  ];
-
-  console.log("allTokens", allTokens);
+  console.log("selectedTokenIn", selectedTokenIn);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -109,22 +136,13 @@ const BridgeTokens = () => {
             balance: "0",
             price: item.priceUSD,
           }))
-          .filter(
-            (item) =>
-              !tokens.find(
-                (stateItem) =>
-                  stateItem.address.toLowerCase() ===
-                    item.address.toLowerCase() &&
-                  stateItem.chain.toLowerCase() === item.chain.toLowerCase()
-              )
-          )
           .map(fixTokens)
       );
     });
     return () => {
       controller.abort();
     };
-  }, [tokens]);
+  }, []);
 
   return (
     <>
