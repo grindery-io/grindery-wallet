@@ -31,7 +31,7 @@ describe("MainButtonsGroup", () => {
   it("renders the Send button", () => {
     render(<MainButtonsGroup />, { wrapper: MemoryRouter });
 
-    expect(screen.getByText("Send tokens")).toBeInTheDocument();
+    expect(screen.getByText("Send")).toBeInTheDocument();
   });
 
   it("renders the Swap button", () => {

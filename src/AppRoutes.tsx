@@ -45,9 +45,9 @@ const AppRoutes = () => {
       <Route path="/send" element={<SendPage />} />
       <Route path="/debug" element={<DebugPage />} />
       {enabled && <Route path="/debug/stats" element={<StatsPage />} />}
-      {enabled && features?.SWAP && (
-        <Route path="/swap" element={<SwapPage />} />
-      )}
+
+      <Route path="/swap" element={<SwapPage />} />
+
       {enabled && features?.BRIDGE && (
         <Route path="/bridge" element={<BridgePage />} />
       )}

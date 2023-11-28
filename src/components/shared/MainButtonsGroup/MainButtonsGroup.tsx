@@ -23,10 +23,8 @@ const MainButtonsGroup = () => {
         width: "100%",
       }}
     >
-      <MainButtonsGroupButtonSend
-        label={enabled && features?.SWAP ? "Send" : undefined}
-      />
-      {enabled && features?.SWAP && <MainButtonsGroupButtonSwap label="Swap" />}
+      <MainButtonsGroupButtonSend label="Send" />
+      <MainButtonsGroupButtonSwap label="Swap" />
       {enabled && features?.BRIDGE && (
         <MainButtonsGroupButtonBridge label="Bridge" />
       )}
