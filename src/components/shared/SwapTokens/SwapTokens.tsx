@@ -14,7 +14,6 @@ import SwapTokensSentMessage from "./SwapTokensSentMessage";
 import SwapTokensSending from "./SwapTokensSending";
 import { getSwapRoutesRequest } from "../../../services/swap";
 import { searchSwapTokensRequest } from "../../../services/tokens";
-import { MAIN_TOKEN_ADDRESS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token";
 
@@ -27,10 +26,45 @@ const SwapTokens = () => {
     (token) => token.address === swap.input.tokenIn
   );
 
-  const tokensIn = [
-    ...tokens.filter((token) => token.address !== MAIN_TOKEN_ADDRESS),
+  const tokensIn = ensoTokens
+    .map((t) => {
+      const token = tokens.find((token) => {
+        const address =
+          t.address === "0x0000000000000000000000000000000000000000"
+            ? "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            : t.address;
+
+        return (
+          token.address.toLowerCase() === address.toLowerCase() &&
+          token.chain === t.chain
+        );
+      });
+      if (token) {
+        return { ...token, price: t.price || token.price || "0" };
+      }
+      return t;
+    })
+    .sort((a, b) => {
+      const balanceA = parseFloat(a.balance) / 10 ** a.decimals;
+      const balanceB = parseFloat(b.balance) / 10 ** b.decimals;
+
+      if (balanceA > balanceB) {
+        return -1;
+      }
+      if (balanceA < balanceB) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+  /*const tokensIn = [
+    ...tokens.filter(
+      (token) =>
+        token.address.toLowerCase() !== MAIN_TOKEN_ADDRESS.toLowerCase()
+    ),
     ...(ensoTokens || []),
-  ];
+  ];*/
 
   useEffect(() => {
     const controller = new AbortController();
@@ -92,12 +126,10 @@ const SwapTokens = () => {
               price: "0",
             }))
             .filter(
-              (item) =>
-                !tokens.find(
-                  (stateItem) =>
-                    stateItem.address.toLowerCase() ===
-                    item.address.toLowerCase()
-                )
+              (t) =>
+                t.address !== "0x0" &&
+                t.address !== "0x0000000000000000000000000000000000000000" &&
+                t.address !== "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             )
             .map(fixTokens)
         );
