@@ -1,13 +1,15 @@
 import React from "react";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
-import { Box } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../store";
 import LinkIcon from "../icons/LinkIcon";
+import CopyIcon from "components/icons/CopyIcon";
 
 type UserAddressProps = {
   address?: string;
   avatar?: boolean;
   border?: boolean;
+  sx?: SxProps;
 };
 
 /**
@@ -20,6 +22,7 @@ const UserAddress = ({
   address: providedAddress,
   avatar = true,
   border = true,
+  sx,
 }: UserAddressProps) => {
   const { user } = useAppSelector(selectAppStore);
 
@@ -28,46 +31,75 @@ const UserAddress = ({
   return address ? (
     <Box textAlign="center">
       <span>
-        <button
-          onClick={() => {
-            if (window.Telegram?.WebApp?.openLink) {
-              window.Telegram.WebApp.openLink(
-                `https://polygonscan.com/token/0xe36bd65609c08cd17b53520293523cf4560533d0?a=${address}`
-              );
-            } else {
-              window.open(
-                `https://polygonscan.com/token/0xe36bd65609c08cd17b53520293523cf4560533d0?a=${address}`,
-                "_blank"
-              );
-            }
-          }}
-          style={{
-            ...UserAddressButtonStyles,
-            border: border ? "1px solid #D3DEEC" : "none",
+        <Box
+          sx={{
+            ...UserAddressBoxStyles,
+            border: border ? "1px solid var(--gr-theme-divider-color)" : "none",
             padding: border ? "4px 10px 4px 5px" : 0,
+            ...(sx || {}),
           }}
         >
           {avatar && (
             <Jazzicon diameter={18} seed={jsNumberForAddress(address)} />
           )}
 
-          <span style={UserAddressTextStyles}>
+          <span
+            style={UserAddressTextStyles}
+            onClick={() => {
+              navigator.clipboard.writeText(user?.patchwallet || "");
+              setTimeout(() => {
+                if (window.Telegram?.WebApp?.showAlert) {
+                  window.Telegram?.WebApp?.showAlert("Wallet address copied");
+                } else {
+                  window.alert("Wallet address copied");
+                }
+              }, 150);
+            }}
+          >
             {address.substring(0, 6) +
               "..." +
               address.substring(address.length - 4)}
           </span>
           <span>
-            <LinkIcon />
+            <CopyIcon
+              sx={{ width: "14px", height: "14px", marginTop: "6px" }}
+              onClick={() => {
+                navigator.clipboard.writeText(user?.patchwallet || "");
+                setTimeout(() => {
+                  if (window.Telegram?.WebApp?.showAlert) {
+                    window.Telegram?.WebApp?.showAlert("Wallet address copied");
+                  } else {
+                    window.alert("Wallet address copied");
+                  }
+                }, 150);
+              }}
+            />
           </span>
-        </button>
+          <span>
+            <LinkIcon
+              onClick={() => {
+                if (window.Telegram?.WebApp?.openLink) {
+                  window.Telegram.WebApp.openLink(
+                    `https://polygonscan.com/tokenholdings?a=${address}`
+                  );
+                } else {
+                  window.open(
+                    `https://polygonscan.com/tokenholdings?a=${address}`,
+                    "_blank"
+                  );
+                }
+              }}
+            />
+          </span>
+        </Box>
       </span>
     </Box>
   ) : null;
 };
 
-const UserAddressButtonStyles: React.CSSProperties = {
+const UserAddressBoxStyles: React.CSSProperties = {
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",

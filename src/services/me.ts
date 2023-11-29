@@ -25,3 +25,11 @@ export const getMeRequest = async () => {
     },
   });
 };
+
+export const updateMeRequest = async (body: { [key: string]: any }) => {
+  return await axios.post(`${WALLET_API_URL}/v2/me`, body, {
+    headers: {
+      Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+    },
+  });
+};

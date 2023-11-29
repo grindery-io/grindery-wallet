@@ -16,7 +16,7 @@ import {
   TokenIcon,
   TokenSymbol,
 } from "components/shared/Token";
-import { CHAINS, MAIN_TOKEN_ADDRESS } from "../../../../constants";
+import { CHAINS } from "../../../../constants";
 
 const SendTokensInputToken = () => {
   const [open, setOpen] = useState(false);
@@ -46,9 +46,6 @@ const SendTokensInputToken = () => {
     <Token token={selectedToken}>
       <ListItemButton
         onClick={handleOpen}
-        disabled={
-          !enabled || (!features?.MULTICHAIN && !features?.TOKENS_SENDING_ERC20)
-        }
         sx={{
           width: "100%",
           borderRadius: "10px",
@@ -104,22 +101,20 @@ const SendTokensInputToken = () => {
               Balance: <TokenBalance format="eth" />
             </Typography>
           </Box>
-          {enabled &&
-            (features?.MULTICHAIN || features?.TOKENS_SENDING_ERC20) && (
-              <Box
-                sx={{
-                  padding: "0 4px",
-                  marginLeft: "auto",
-                }}
-              >
-                <ArrowDropDownIcon
-                  sx={{
-                    display: "block",
-                    color: "var(--tg-theme-hint-color, #999999)",
-                  }}
-                />
-              </Box>
-            )}
+
+          <Box
+            sx={{
+              padding: "0 4px",
+              marginLeft: "auto",
+            }}
+          >
+            <ArrowDropDownIcon
+              sx={{
+                display: "block",
+                color: "var(--tg-theme-hint-color, #999999)",
+              }}
+            />
+          </Box>
         </Stack>
       </ListItemButton>
       <DialogSelect
@@ -136,12 +131,6 @@ const SendTokensInputToken = () => {
           .filter((token) => {
             if (
               token.address === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-            ) {
-              return false;
-            }
-            if (
-              !features?.TOKENS_SENDING_ERC20 &&
-              token.address.toLowerCase() !== MAIN_TOKEN_ADDRESS.toLowerCase()
             ) {
               return false;
             }

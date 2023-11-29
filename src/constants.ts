@@ -67,7 +67,6 @@ export const EXPERIMENTAL_FEATURES = {
   SENDING_CONFIRMATION: "Tokens sending confirmation",
   SOCIAL_CONTACTS: "Social contacts",
   MULTICHAIN: "Multichain support",
-  TOKENS_SENDING_ERC20: "Sending any ERC20 tokens",
   BRIDGE: "Tokens bridge (requires multichain)",
 };
 

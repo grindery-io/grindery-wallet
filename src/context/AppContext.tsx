@@ -4,6 +4,7 @@ import {
   getContactsRequest,
   getFullBalanceRequest,
   getSocialContactsRequest,
+  updateMeRequest,
 } from "services";
 import {
   appStoreActions,
@@ -313,6 +314,20 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       controller.abort();
     };
   }, [debug, dispatch]);
+
+  useEffect(() => {
+    if (user?.patchwallet) {
+      updateMeRequest({
+        debug,
+      })
+        .then((res) => {
+          //
+        })
+        .catch((error) => {
+          // console.error("updateMeRequest error", error);
+        });
+    }
+  }, [user?.patchwallet, debug]);
 
   return (
     <AppContext.Provider

@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../store";
 import BalanceValue from "./BalanceValue/BalanceValue";
 import BalanceUpdated from "./BalanceUpdated/BalanceUpdated";
+import UserAddress from "../UserAddress";
 
 const Balance = () => {
   const { balance } = useAppSelector(selectAppStore);
@@ -17,6 +18,7 @@ const Balance = () => {
     >
       <BalanceValue />
       <BalanceUpdated />
+      <UserAddress avatar={false} border={false} sx={{ marginTop: "4px" }} />
     </Box>
   );
 };
