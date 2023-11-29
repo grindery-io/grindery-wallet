@@ -1,6 +1,5 @@
 import React from "react";
 import { Divider } from "@mui/material";
-import DebugMenuListItemAppPackage from "./DebugMenuListItemAppPackage";
 import DebugMenuListItemAppVersion from "./DebugMenuListItemAppVersion";
 import DebugMenuListItemApiVersion from "./DebugMenuListItemApiVersion";
 import DebugMenuListItemAppId from "./DebugMenuListItemAppId";
@@ -11,8 +10,6 @@ import DebugMenuListItemStats from "./DebugMenuListItemStats";
 const DebugMenuListApp = () => {
   return (
     <>
-      <DebugMenuListItemAppPackage />
-      <Divider />
       <DebugMenuListItemAppVersion />
       <Divider />
       {window.Telegram?.WebApp?.version && (

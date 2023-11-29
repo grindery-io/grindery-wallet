@@ -4,7 +4,6 @@ import { selectAppStore, useAppSelector } from "../../../store";
 import DebugMenuListItemUserId from "./DebugMenuListItemUserId";
 import DebugMenuListItemUserName from "./DebugMenuListItemUserName";
 import DebugMenuListItemTelegram from "./DebugMenuListItemTelegram";
-import DebugMenuListItemUserAddress from "./DebugMenuListItemUserAddress";
 
 const DebugMenuListUser = () => {
   const { user } = useAppSelector(selectAppStore);
@@ -20,13 +19,6 @@ const DebugMenuListUser = () => {
         </>
       )}
       <DebugMenuListItemTelegram />
-
-      {user?.patchwallet && (
-        <>
-          <Divider />
-          <DebugMenuListItemUserAddress />
-        </>
-      )}
     </>
   );
 };
