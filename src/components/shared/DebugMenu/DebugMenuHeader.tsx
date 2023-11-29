@@ -6,8 +6,10 @@ const DebugMenuHeader = () => {
     <Box sx={DebugMenuHeaderStyles}>
       <Typography variant="title">⚠️</Typography>
       <Typography variant="sm" color="hint">
-        Caution: Debug Mode. Use with expertise. Only proceed if you know what
-        you are doing.
+        <strong>Use at Your Own Risk:</strong> Please be aware that features
+        available in the debug mode are still under development and testing.
+        They are provided on an "as is" and "as available" basis. We do not
+        guarantee their accuracy, reliability, or permanence.
       </Typography>
     </Box>
   );

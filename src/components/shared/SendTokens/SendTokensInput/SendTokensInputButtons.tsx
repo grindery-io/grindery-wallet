@@ -118,7 +118,7 @@ const SendTokensInputButtons = ({
             : input.amount;
           const symbol = selectedToken?.symbol || "G1";
           const chainName = selectedChain?.label || "Polygon";
-          const message = `You are going to send ${amount} ${symbol} on ${chainName} blockchain.\nThis action can not be undone.\nAre you sure?`;
+          const message = `You are going to send ${amount} ${symbol} on ${chainName} blockchain.\nThis action can not be undone.\n\nAre you sure?`;
           if (window.Telegram?.WebApp?.showConfirm) {
             window.Telegram?.WebApp?.showConfirm(
               message,
