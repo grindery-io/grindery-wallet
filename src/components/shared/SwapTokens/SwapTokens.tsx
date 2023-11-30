@@ -40,7 +40,7 @@ const SwapTokens = () => {
         );
       });
       if (token) {
-        return { ...token, price: t.price || token.price || "0" };
+        return { ...token, price: token.price || t.price || "0" };
       }
       return t;
     })
