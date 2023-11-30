@@ -3,14 +3,18 @@ import { Box, Button } from "@mui/material";
 import Title from "../Title";
 import Subtitle from "../Subtitle";
 import { useNavigate } from "react-router";
-import { selectAppStore, useAppSelector } from "../../../store";
+import { selectAppStore, useAppSelector } from "store";
+import { MAIN_TOKEN_ADDRESS } from "../../../constants";
 
 const SendTokensSentMessage = () => {
   const navigate = useNavigate();
   const {
-    debug: { enabled, features },
+    send: {
+      input: { tokenAddress },
+    },
   } = useAppSelector(selectAppStore);
-  const withConfirmation = enabled && features?.SENDING_CONFIRMATION;
+  const withConfirmation =
+    tokenAddress?.toLowerCase() !== MAIN_TOKEN_ADDRESS.toLowerCase();
   return (
     <>
       <Box
@@ -46,7 +50,11 @@ const SendTokensSentMessage = () => {
           variant="outlined"
           onClick={() => {
             if (withConfirmation) {
-              window.Telegram?.WebApp.close();
+              if (typeof window.Telegram?.WebApp.close !== "undefined") {
+                window.Telegram?.WebApp.close();
+              } else {
+                window.open(`https://telegram.me/grinderyAIBot`, "_self");
+              }
             } else {
               navigate("/");
             }

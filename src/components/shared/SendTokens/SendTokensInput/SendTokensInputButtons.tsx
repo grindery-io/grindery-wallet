@@ -5,6 +5,8 @@ import { SendStateInput, SendStatus } from "types";
 import { selectAppStore, useAppSelector } from "store";
 import { sendTokensRequestV2 } from "services";
 import { CHAINS, MAIN_TOKEN_ADDRESS } from "../../../../constants";
+import { ContactType } from "components/shared/Contact/Contact";
+import { UserType } from "components/shared/User/User";
 
 const SendTokensInputButtons = ({
   input,
@@ -18,8 +20,7 @@ const SendTokensInputButtons = ({
   let navigate = useNavigate();
   const [countFailed, setCountFailed] = React.useState(0);
   const {
-    debug: { features, enabled },
-    contacts: { items },
+    contacts: { items, social },
     tokens,
   } = useAppSelector(selectAppStore);
 
@@ -31,9 +32,24 @@ const SendTokensInputButtons = ({
   );
   const selectedChain = CHAINS.find((chain) => chain.id === chainId);
 
+  const recepients: (ContactType | UserType)[] = [
+    ...(items || []),
+    ...(social || []),
+  ];
+
   const recipient = Array.isArray(input.recipient)
-    ? input.recipient.map((id) => items?.find((item) => item.id === id))
-    : items?.find((item) => item.id === input.recipient);
+    ? input.recipient.map((id) =>
+        recepients.find(
+          (item) =>
+            (item as ContactType).id === id ||
+            (item as UserType).userTelegramID === id
+        )
+      )
+    : recepients.find(
+        (item) =>
+          (item as ContactType).id === input.recipient ||
+          (item as UserType).userTelegramID === input.recipient
+      );
 
   const sendTokens = async () => {
     if (isNaN(parseFloat(input.amount)) || parseFloat(input.amount) <= 0) {
@@ -53,21 +69,34 @@ const SendTokensInputButtons = ({
         amount: input.amount,
         message: input.message,
         recipientHandle: Array.isArray(recipient)
-          ? recipient?.map((item) => item?.username || "")
-          : recipient?.username || "",
-        recipientName: Array.isArray(recipient)
           ? recipient?.map(
               (item) =>
-                `${item?.firstName || ""}${
-                  item?.lastName ? " " + item?.lastName : ""
-                }`
+                (item as ContactType)?.username ||
+                (item as UserType)?.userHandle ||
+                ""
+            )
+          : (recipient as ContactType)?.username ||
+            (recipient as UserType)?.userHandle ||
+            "",
+        recipientName: Array.isArray(recipient)
+          ? recipient?.map((item) =>
+              (item as ContactType)?.id
+                ? `${(item as ContactType)?.firstName || ""}${
+                    (item as ContactType)?.lastName
+                      ? " " + (item as ContactType)?.lastName
+                      : ""
+                  }`
+                : (item as UserType)?.userName || ""
             )
           : recipient
-          ? `${recipient.firstName || ""}${
-              recipient.lastName ? " " + recipient.lastName : ""
-            }`
+          ? (recipient as ContactType).id
+            ? `${(recipient as ContactType).firstName || ""}${
+                (recipient as ContactType).lastName
+                  ? " " + (recipient as ContactType).lastName
+                  : ""
+              }`
+            : (recipient as UserType).userName || ""
           : "",
-        withConfirmation: Boolean(enabled && features?.SENDING_CONFIRMATION),
         chainId: input.chainId || "137",
         tokenAddress: input.tokenAddress || MAIN_TOKEN_ADDRESS,
       });
@@ -80,6 +109,33 @@ const SendTokensInputButtons = ({
       console.error("send tokens error", error);
       setCountFailed(countFailed + 1);
       setStatus(SendStatus.ERROR);
+    }
+  };
+
+  const handleSendClick = () => {
+    const amount = Array.isArray(input.recipient)
+      ? (parseFloat(input.amount) * input.recipient.length).toString()
+      : input.amount;
+    const symbol = selectedToken?.symbol || "G1";
+    const chainName = selectedChain?.label || "Polygon";
+    const withConfirmation =
+      input.tokenAddress?.toLowerCase() !== MAIN_TOKEN_ADDRESS.toLowerCase();
+    const message = `You are going to send ${amount} ${symbol} on ${chainName} blockchain.\nThis action ${
+      withConfirmation
+        ? "requires confirmation in the chat."
+        : "can not be undone. \n\nAre you sure?"
+    }`;
+    if (window.Telegram?.WebApp?.showConfirm) {
+      window.Telegram?.WebApp?.showConfirm(message, (confirmed: boolean) => {
+        if (confirmed) {
+          sendTokens();
+        }
+      });
+    } else {
+      const confirmed = window.confirm(message);
+      if (confirmed) {
+        sendTokens();
+      }
     }
   };
 
@@ -112,29 +168,7 @@ const SendTokensInputButtons = ({
           countFailed > 3
         }
         size="large"
-        onClick={() => {
-          const amount = Array.isArray(input.recipient)
-            ? (parseFloat(input.amount) * input.recipient.length).toString()
-            : input.amount;
-          const symbol = selectedToken?.symbol || "G1";
-          const chainName = selectedChain?.label || "Polygon";
-          const message = `You are going to send ${amount} ${symbol} on ${chainName} blockchain.\nThis action can not be undone.\n\nAre you sure?`;
-          if (window.Telegram?.WebApp?.showConfirm) {
-            window.Telegram?.WebApp?.showConfirm(
-              message,
-              (confirmed: boolean) => {
-                if (confirmed) {
-                  sendTokens();
-                }
-              }
-            );
-          } else {
-            const confirmed = window.confirm(message);
-            if (confirmed) {
-              sendTokens();
-            }
-          }
-        }}
+        onClick={handleSendClick}
       >
         {countFailed > 3
           ? "Try later..."

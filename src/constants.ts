@@ -64,7 +64,6 @@ export const EXPERIMENTAL_FEATURES = {
   COLORED_NUMBERS: "Tokens amount colored",
   CONTACT_PHOTOS: "Contact photos",
   SWAP: "Tokens swap",
-  SENDING_CONFIRMATION: "Tokens sending confirmation",
   SOCIAL_CONTACTS: "Social contacts",
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
