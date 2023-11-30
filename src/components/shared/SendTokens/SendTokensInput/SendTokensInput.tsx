@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   appStoreActions,
   selectAppStore,
@@ -13,6 +13,7 @@ import SendTokensInputGas from "./SendTokensInputGas";
 import SendTokensInputButtons from "./SendTokensInputButtons";
 
 const SendTokensInput = () => {
+  const sendRef = useRef(null);
   const dispatch = useAppDispatch();
   const { send } = useAppSelector(selectAppStore);
   const { status, input } = send;
@@ -35,6 +36,7 @@ const SendTokensInput = () => {
 
       <SendTokensInputToken />
       <SendTokensInputAmount
+        sendRef={sendRef}
         onChange={(value) => {
           dispatch(
             appStoreActions.setSend({
@@ -56,6 +58,7 @@ const SendTokensInput = () => {
       />
       <SendTokensInputGas />
       <SendTokensInputButtons
+        sendRef={sendRef}
         input={input}
         setStatus={(status) => {
           dispatch(appStoreActions.setSend({ status }));

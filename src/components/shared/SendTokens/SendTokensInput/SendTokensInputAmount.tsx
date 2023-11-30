@@ -5,8 +5,10 @@ import { Token, TokenSymbol } from "components/shared/Token";
 
 const SendTokensInputAmount = ({
   onChange,
+  sendRef,
 }: {
   onChange: (value: string) => void;
+  sendRef?: React.RefObject<HTMLButtonElement>;
 }) => {
   const {
     tokens,
@@ -70,6 +72,16 @@ const SendTokensInputAmount = ({
                   : "0"
               );
             }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter" && sendRef?.current) {
+                sendRef.current.focus();
+                setTimeout(() => {
+                  if (sendRef.current) {
+                    sendRef.current.click();
+                  }
+                }, 100);
+              }
+            }}
             sx={{}}
             placeholder="0"
             type="number"
@@ -79,6 +91,7 @@ const SendTokensInputAmount = ({
                 color: "var(--tg-theme-text-color, #000000)",
               },
               step: 1,
+              enterkeyhint: "send",
             }}
           />
           {Array.isArray(recipient) && (

@@ -12,10 +12,12 @@ const SendTokensInputButtons = ({
   input,
   status,
   setStatus,
+  sendRef,
 }: {
   input: SendStateInput;
   status: string;
   setStatus: (status: SendStatus) => void;
+  sendRef: React.RefObject<HTMLButtonElement>;
 }) => {
   let navigate = useNavigate();
   const [countFailed, setCountFailed] = React.useState(0);
@@ -167,6 +169,7 @@ const SendTokensInputButtons = ({
           !input.recipient ||
           countFailed > 3
         }
+        ref={sendRef}
         size="large"
         onClick={handleSendClick}
       >
