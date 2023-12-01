@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import SwitchAccessShortcutIcon from "@mui/icons-material/SwitchAccessShortcut";
+import { useNavigate } from "react-router";
 
-const MainButtonsGroupButtonBridge = ({
+const MainButtonsGroupButtonBuy = ({
   label,
   withIcon = true,
 }: {
@@ -12,8 +12,8 @@ const MainButtonsGroupButtonBridge = ({
   withIcon?: boolean;
 }) => {
   const { user } = useAppSelector(selectAppStore);
+  const navigate = useNavigate();
 
-  let navigate = useNavigate();
   return (
     <Button
       startIcon={
@@ -31,13 +31,13 @@ const MainButtonsGroupButtonBridge = ({
       variant="contained"
       fullWidth
       disabled={!user?.patchwallet}
-      onClick={() => {
-        navigate("/bridge");
+      onClick={async () => {
+        navigate("/buy");
       }}
     >
-      {label || "Bridge tokens"}
+      {label || "Buy tokens"}
     </Button>
   );
 };
 
-export default MainButtonsGroupButtonBridge;
+export default MainButtonsGroupButtonBuy;

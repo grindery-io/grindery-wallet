@@ -16,3 +16,4 @@ export { default as TokensPage } from "./TokensPage";
 export { default as WelcomePage } from "./WelcomePage";
 export { default as TokenPage } from "./TokenPage/TokenPage";
 export { default as BridgePage } from "./BridgePage";
+export { default as BuyPage } from "./BuyPage";

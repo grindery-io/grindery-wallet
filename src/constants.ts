@@ -68,6 +68,7 @@ export const EXPERIMENTAL_FEATURES = {
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
   SEND_NATIVE: "Native token sending",
+  ON_RAMP: "Fiat-to-crypto On-ramp",
 };
 
 export const TRANSACTION_STATUS = {

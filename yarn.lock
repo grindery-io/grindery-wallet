@@ -1718,6 +1718,11 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@moonpay/moonpay-js@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@moonpay/moonpay-js/-/moonpay-js-0.3.1.tgz#9e744e03d6fc18b13907dbf68b9c657dfc63aca1"
+  integrity sha512-o0n4FRekR8Xn6bfdt2u3j6reDnVv/ZnW3WhKUK/YPktQVVJX78CzWdynbgTnz69tR5P8ZptIXlqAfcsW3f3mAA==
+
 "@mui/base@5.0.0-beta.16":
   version "5.0.0-beta.16"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-beta.16.tgz#5869b8cc83ea5da0083bb11790bda007c2384564"
