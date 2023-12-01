@@ -28,17 +28,17 @@ describe("MainButtonsGroupButtonBuy", () => {
   });
 
   it("renders the button with the correct label", () => {
-    render(<MainButtonsGroupButtonBuy label="Bridge Tokens" />, {
+    render(<MainButtonsGroupButtonBuy label="Buy Tokens" />, {
       wrapper: MemoryRouter,
     });
 
-    expect(screen.getByText("Bridge Tokens")).toBeInTheDocument();
+    expect(screen.getByText("Buy Tokens")).toBeInTheDocument();
   });
 
   it("renders the button with the default label when no label is provided", () => {
     render(<MainButtonsGroupButtonBuy />, { wrapper: MemoryRouter });
 
-    expect(screen.getByText("Bridge tokens")).toBeInTheDocument();
+    expect(screen.getByText("Buy tokens")).toBeInTheDocument();
   });
 
   it("disables the button when user.patchwallet is false", () => {
@@ -58,6 +58,6 @@ describe("MainButtonsGroupButtonBuy", () => {
 
     button.click();
 
-    expect(mockNavigate).toHaveBeenCalledWith("/bridge");
+    expect(mockNavigate).toHaveBeenCalledWith("/buy");
   });
 });
