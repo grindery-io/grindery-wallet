@@ -67,6 +67,7 @@ export const EXPERIMENTAL_FEATURES = {
   SOCIAL_CONTACTS: "Social contacts",
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
+  SEND_NATIVE: "Native token sending",
 };
 
 export const TRANSACTION_STATUS = {

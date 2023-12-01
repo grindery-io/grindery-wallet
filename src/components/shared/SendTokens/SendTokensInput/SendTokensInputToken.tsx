@@ -130,6 +130,7 @@ const SendTokensInputToken = () => {
           )
           .filter((token) => {
             if (
+              !features?.SEND_NATIVE &&
               token.address === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             ) {
               return false;
