@@ -24,7 +24,7 @@ const BuyTokens = () => {
           useWarnBeforeRefresh={false}
           variant="embedded"
           baseCurrencyCode="usd"
-          baseCurrencyAmount="100"
+          //baseCurrencyAmount="100"
           defaultCurrencyCode="eth"
           visible
           colorCode={colorCode}
