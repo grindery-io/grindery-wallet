@@ -89,11 +89,13 @@ const SwapTokensInputChain = () => {
           onChange: setSearch,
           placeholder: "Search blockchain",
         }}
-        items={(CHAINS || []).filter(
-          (c) =>
-            c.name.toLowerCase().includes(search.toLowerCase()) ||
-            c.label.toLowerCase().includes(search.toLowerCase())
-        )}
+        items={(CHAINS || [])
+          .filter((c) => !c.testnet)
+          .filter(
+            (c) =>
+              c.name.toLowerCase().includes(search.toLowerCase()) ||
+              c.label.toLowerCase().includes(search.toLowerCase())
+          )}
         itemSize={48}
         item={(itemProps: { data: any; index: number; style: any }) => (
           <Box

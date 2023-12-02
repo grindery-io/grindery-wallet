@@ -58,7 +58,7 @@ const TokensSearchChainSelector = ({
           },
         }}
       >
-        {CHAINS.map((c) => (
+        {CHAINS.filter((c) => !c.testnet).map((c) => (
           <MenuItem
             sx={{
               minHeight: "auto",

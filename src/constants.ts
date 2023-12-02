@@ -68,7 +68,7 @@ export const EXPERIMENTAL_FEATURES = {
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
   SEND_NATIVE: "Native token sending",
-  ON_RAMP: "Fiat-to-crypto On-ramp",
+  ON_RAMP: "On-ramp (sandbox)",
 };
 
 export const TRANSACTION_STATUS = {
@@ -140,84 +140,6 @@ export const TOKENS_TABS = [
   },
 ];
 
-export const TELEGRAM_SERVERS = [
-  {
-    ip: "pluto.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "pluto-1.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "venus.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "venus-1.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "aurora.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "aurora-1.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "vesta.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "vesta-1.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "vesflorata.web.telegram.org",
-    port: 443,
-  },
-  {
-    ip: "flora-1.web.telegram.org",
-    port: 443,
-  },
-];
-
-export const DEFAULT_TOKENS = [
-  {
-    id: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-    chainId: 137,
-    name: "Grindery One",
-    symbol: "G1",
-    address: "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-    decimals: 18,
-    logoURI: "/images/g1-token-red.svg",
-    balance: 0,
-  },
-  {
-    id: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-    chainId: 137,
-    name: "MATIC",
-    symbol: "MATIC",
-    address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-    decimals: 18,
-    logoURI:
-      "https://metadata-service.herokuapp.com/api/token/137/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/icon",
-    balance: 0,
-  },
-  {
-    id: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
-    chainId: 137,
-    name: "Native USD Coin (PoS)",
-    symbol: "USDC",
-    address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
-    decimals: 6,
-    logoURI:
-      "https://metadata-service.herokuapp.com/api/token/137/0x2791bca1f2de4661ed88a30c99a7a9449aa84174/icon",
-    balance: 0,
-  },
-];
-
 export const DEFAULT_TOKEN_ICON_URL =
   "https://polygonscan.com/assets/poly/images/svg/empty-token.svg";
 
@@ -225,13 +147,6 @@ export const MAIN_TOKEN_ADDRESS = "0xe36BD65609c08Cd17b53520293523CF4560533d0";
 
 export const USDCE_TOKEN_ADDRESS = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
 export const USDC_TOKEN_ADDRESS = "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359";
-
-export const BLOCKCHAIN_NAMES: {
-  [chain: string]: string;
-} = {
-  "137": "Polygon",
-  "1": "Ethereum",
-};
 
 export const GRINDERY_ONE_TOKEN = {
   name: "Grindery One",
@@ -262,6 +177,17 @@ export const CHAINS: ChainType[] = [
     testnet: false,
   },
 ];
+
+/*
+{
+    id: "80001",
+    caipId: "eip155:80001",
+    name: "polygon_mumbai",
+    logo: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUxIiBoZWlnaHQ9IjI1MSIgdmlld0JveD0iMCAwIDI1MSAyNTEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQo8bWFzayBpZD0ibWFzazBfNDg2NF8xOTQ4IiBzdHlsZT0ibWFzay10eXBlOmx1bWluYW5jZSIgbWFza1VuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjI1MSIgaGVpZ2h0PSIyNTEiPg0KPHBhdGggZD0iTTEyNS4zOTQgMjUwLjc4OEMxOTQuNjQ3IDI1MC43ODggMjUwLjc4OCAxOTQuNjQ3IDI1MC43ODggMTI1LjM5NEMyNTAuNzg4IDU2LjE0MDggMTk0LjY0NyAwIDEyNS4zOTQgMEM1Ni4xNDA4IDAgMCA1Ni4xNDA4IDAgMTI1LjM5NEMwIDE5NC42NDcgNTYuMTQwOCAyNTAuNzg4IDEyNS4zOTQgMjUwLjc4OFoiIGZpbGw9IndoaXRlIi8+DQo8L21hc2s+DQo8ZyBtYXNrPSJ1cmwoI21hc2swXzQ4NjRfMTk0OCkiPg0KPHBhdGggZD0iTTI2Mi42NjEgLTExLjg3MzNILTExLjg3M1YyNjIuNjYxSDI2Mi42NjFWLTExLjg3MzNaIiBmaWxsPSIjQkRDNUQxIi8+DQo8L2c+DQo8cGF0aCBkPSJNMTYxLjY1OSAxNTIuNDUzTDE5Ny4xMzUgMTMxLjk2OEMxOTkuMDE1IDEzMC44ODMgMjAwLjE3NyAxMjguODY1IDIwMC4xNzcgMTI2LjY5NFY4NS43MjkzQzIwMC4xNzcgODMuNTYzNiAxOTkuMDA5IDgxLjU0MTIgMTk3LjEzNSA4MC40NTU3TDE2MS42NTkgNTkuOTcwNkMxNTkuNzggNTguODg1MiAxNTcuNDUgNTguODkwMyAxNTUuNTcxIDU5Ljk3MDZMMTIwLjA5NSA4MC40NTU3QzExOC4yMTYgODEuNTQxMiAxMTcuMDU0IDgzLjU2MzYgMTE3LjA1NCA4NS43MjkzVjE1OC45NEw5Mi4xNzU1IDE3My4zMDJMNjcuMjk3NCAxNTguOTRWMTMwLjIxMkw5Mi4xNzU1IDExNS44NUwxMDguNTg1IDEyNS4zMjJWMTA2LjA1MUw5NS4yMTY4IDk4LjMzNDhDOTQuMjk1MiA5Ny44MDIzIDkzLjI0MDQgOTcuNTIwNyA5Mi4xNzA0IDk3LjUyMDdDOTEuMTAwMyA5Ny41MjA3IDkwLjA0NTYgOTcuODAyMyA4OS4xMjkxIDk4LjMzNDhMNTMuNjUyNiAxMTguODJDNTEuNzczNiAxMTkuOTA1IDUwLjYxMTMgMTIxLjkyMyA1MC42MTEzIDEyNC4wOTNWMTY1LjA1OUM1MC42MTEzIDE2Ny4yMjQgNTEuNzc4NyAxNjkuMjQ3IDUzLjY1MjYgMTcwLjMzMkw4OS4xMjkxIDE5MC44MTdDOTEuMDAzIDE5MS44OTggOTMuMzM3NyAxOTEuODk4IDk1LjIxNjggMTkwLjgxN0wxMzAuNjkzIDE3MC4zMzdDMTMyLjU3MiAxNjkuMjUyIDEzMy43MzUgMTY3LjIyOSAxMzMuNzM1IDE2NS4wNjRWOTEuODUyOEwxMzQuMTg1IDkxLjU5NjhMMTU4LjYxMyA3Ny40OTEyTDE4My40OTEgOTEuODUyOFYxMjAuNTgxTDE1OC42MTMgMTM0Ljk0M0wxNDIuMjI5IDEyNS40ODFWMTQ0Ljc1M0wxNTUuNTcxIDE1Mi40NThDMTU3LjQ1IDE1My41MzkgMTU5Ljc4IDE1My41MzkgMTYxLjY1OSAxNTIuNDU4VjE1Mi40NTNaIiBmaWxsPSJ3aGl0ZSIvPg0KPC9zdmc+DQo=",
+    label: "Polygon Mumbai",
+    testnet: true,
+  },
+  */
 
 /* 
 var(--tg-theme-secondary-bg-color, #efeff3)
