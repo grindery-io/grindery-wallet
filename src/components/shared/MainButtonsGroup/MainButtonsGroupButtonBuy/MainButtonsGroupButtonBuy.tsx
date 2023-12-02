@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../../store";
-import SwitchAccessShortcutIcon from "@mui/icons-material/SwitchAccessShortcut";
 import { useNavigate } from "react-router";
+import AddIcon from "@mui/icons-material/Add";
 
 const MainButtonsGroupButtonBuy = ({
   label,
@@ -18,12 +18,11 @@ const MainButtonsGroupButtonBuy = ({
     <Button
       startIcon={
         withIcon ? (
-          <SwitchAccessShortcutIcon
+          <AddIcon
             sx={{
               width: "20px",
               height: "20px",
               display: "block",
-              transform: "rotate(90deg)",
             }}
           />
         ) : undefined

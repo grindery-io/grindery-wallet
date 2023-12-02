@@ -31,18 +31,24 @@ const MainButtonsGroup = () => {
       }}
     >
       {enabled && features?.ON_RAMP && (
-        <MainButtonsGroupButtonBuy label="Buy" withIcon={buttonsNum < 4} />
+        <MainButtonsGroupButtonBuy
+          label={buttonsNum > 2 ? "Buy" : "Buy tokens"}
+          withIcon={buttonsNum < 4}
+        />
       )}
       <MainButtonsGroupButtonSend
-        label={enabled && features?.SWAP ? "Send" : undefined}
+        label={buttonsNum > 2 ? "Send" : "Send tokens"}
         withIcon={buttonsNum < 4}
       />
       {enabled && features?.SWAP && (
-        <MainButtonsGroupButtonSwap label="Swap" withIcon={buttonsNum < 4} />
+        <MainButtonsGroupButtonSwap
+          label={buttonsNum > 2 ? "Swap" : "Swap tokens"}
+          withIcon={buttonsNum < 4}
+        />
       )}
       {enabled && features?.BRIDGE && (
         <MainButtonsGroupButtonBridge
-          label="Bridge"
+          label={buttonsNum > 2 ? "Bridge" : "Bridge tokens"}
           withIcon={buttonsNum < 4}
         />
       )}

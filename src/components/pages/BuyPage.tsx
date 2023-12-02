@@ -2,21 +2,30 @@ import React from "react";
 import { MoonPayBuyWidget, MoonPayProvider } from "@moonpay/moonpay-react";
 import useBackButton from "hooks/useBackButton";
 import { selectAppStore, useAppSelector } from "store";
-//import { WALLET_API_URL } from "../../constants";
+import { WALLET_API_URL } from "../../constants";
 import { Box } from "@mui/material";
 import { isDarkTheme } from "utils";
+import Loading from "components/shared/Loading/Loading";
+import axios from "axios";
 
 const BuyPage = () => {
   useBackButton();
   const { user } = useAppSelector(selectAppStore);
 
-  /*const handleGetSignature = async (url: string): Promise<string> => {
-    const res = await fetch(`${WALLET_API_URL}/v2/buy/sign-url?url=${url}`);
-    const signature = await res.text();
-    return signature;
-  };*/
+  const handleGetSignature = async (url: string): Promise<string> => {
+    const res = await axios.get(
+      `${WALLET_API_URL}/v2/buy/sign-url?url=${encodeURIComponent(url)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${window.Telegram?.WebApp?.initData}`,
+        },
+      }
+    );
 
-  return (
+    return res.data?.signature || "";
+  };
+
+  return user?.patchwallet ? (
     <Box
       sx={{
         width: "100%",
@@ -27,17 +36,17 @@ const BuyPage = () => {
         justifyContent: "center",
         alignItems: "center",
         "& > div": {
-          width: "100%",
-          height: "100vh",
+          width: "100% !important",
+          height: "100vh !important",
           flex: 1,
           margin: "0 !important",
-          padding: "0 16px !important",
+          padding: "0 !important",
           border: "none !important",
           borderRadius: "0 !important",
         },
         "& iframe": {
-          width: "100%",
-          height: "100vh",
+          width: "100% !important",
+          height: "100vh !important",
           border: "none",
           display: "block",
           margin: 0,
@@ -45,18 +54,13 @@ const BuyPage = () => {
         },
       }}
     >
-      <MoonPayProvider
-        apiKey="pk_test_relDpm1G9B54FAcIGvnGFlLLpH5hX"
-        //environment="sandbox"
-        debug
-      >
+      <MoonPayProvider apiKey={process.env.REACT_APP_MOONPAY_PK || ""} debug>
         <MoonPayBuyWidget
           useWarnBeforeRefresh={false}
           variant="embedded"
           baseCurrencyCode="usd"
           baseCurrencyAmount="100"
           defaultCurrencyCode="eth"
-          onLogin={async () => console.log("Customer logged in!")}
           visible
           colorCode={
             window.Telegram?.WebApp?.themeParams?.button_color || "#2481cc"
@@ -64,11 +68,14 @@ const BuyPage = () => {
           theme={isDarkTheme() ? "dark" : "light"}
           language="en"
           externalCustomerId={user?.userTelegramID}
-          //walletAddress={user?.patchwallet}
-          //onUrlSignatureRequested={handleGetSignature}
+          walletAddress={user?.patchwallet}
+          currencyCode="ETH_POLYGON"
+          onUrlSignatureRequested={handleGetSignature}
         />
       </MoonPayProvider>
     </Box>
+  ) : (
+    <Loading />
   );
 };
 
