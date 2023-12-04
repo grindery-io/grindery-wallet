@@ -52,9 +52,7 @@ const AppRoutes = () => {
       {enabled && features?.BRIDGE && (
         <Route path="/bridge" element={<BridgePage />} />
       )}
-      {enabled && features?.ON_RAMP && (
-        <Route path="/buy" element={<BuyPage />} />
-      )}
+      <Route path="/buy" element={<BuyPage />} />
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>
   ) : (

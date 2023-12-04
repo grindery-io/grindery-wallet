@@ -34,6 +34,7 @@ const BuyTokens = () => {
           walletAddress={user?.patchwallet || ""}
           currencyCode="ETH_POLYGON"
           onUrlSignatureRequested={handleGetSignature}
+          showWalletAddressForm="true"
         />
       </MoonPayProvider>
     </Box>
