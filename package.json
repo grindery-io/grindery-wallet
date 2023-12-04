@@ -40,7 +40,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:env:staging": "REACT_APP_ENV=staging REACT_APP_MOONPAY_PK=pk_test_relDpm1G9B54FAcIGvnGFlLLpH5hX react-scripts build",
+    "build:env:staging": "REACT_APP_ENV=staging react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
