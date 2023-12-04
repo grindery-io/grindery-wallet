@@ -1,8 +1,12 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../../store";
-import { useNavigate } from "react-router";
 import AddIcon from "@mui/icons-material/Add";
+
+const url =
+  process.env.REACT_APP_ENV === "production"
+    ? "https://wallet.grindery.io/buy"
+    : "https://wallet-staging.grindery.io/buy";
 
 const MainButtonsGroupButtonBuy = ({
   label,
@@ -12,7 +16,6 @@ const MainButtonsGroupButtonBuy = ({
   withIcon?: boolean;
 }) => {
   const { user } = useAppSelector(selectAppStore);
-  const navigate = useNavigate();
 
   return (
     <Button
@@ -31,7 +34,16 @@ const MainButtonsGroupButtonBuy = ({
       fullWidth
       disabled={!user?.patchwallet}
       onClick={async () => {
-        navigate("/buy");
+        if (window.Telegram?.WebApp?.openLink) {
+          window.Telegram.WebApp.openLink(
+            `${url}?${window.Telegram?.WebApp?.initData || ""}`
+          );
+        } else {
+          window.open(
+            `${url}?${window.Telegram?.WebApp?.initData || ""}`,
+            "_blank"
+          );
+        }
       }}
     >
       {label || "Buy tokens"}
