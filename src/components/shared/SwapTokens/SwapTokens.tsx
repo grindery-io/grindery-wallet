@@ -26,6 +26,8 @@ const SwapTokens = () => {
     (token) => token.address === swap.input.tokenIn
   );
 
+  console.log("ensoTokens", ensoTokens);
+
   const tokensIn = ensoTokens
     .map((t) => {
       const token = tokens.find((token) => {
@@ -125,12 +127,6 @@ const SwapTokens = () => {
               balance: "0",
               price: "0",
             }))
-            .filter(
-              (t) =>
-                t.address !== "0x0" &&
-                t.address !== "0x0000000000000000000000000000000000000000" &&
-                t.address !== "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-            )
             .map(fixTokens)
         );
       }
