@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import { SwapStatus } from "../../../../types/State";
 import {
@@ -78,7 +78,7 @@ const SwapTokensInputButtons = ({ tokensIn }: SwapTokensInputProps) => {
   };
 
   return (
-    <Box mt="auto" mb="10px">
+    <Box mt="auto" mb="16px">
       <Stack
         direction="row"
         spacing="16px"
@@ -136,17 +136,6 @@ const SwapTokensInputButtons = ({ tokensIn }: SwapTokensInputProps) => {
             : "Swap"}
         </Button>
       </Stack>
-      <Typography
-        color="hint"
-        variant="xs"
-        textAlign="center"
-        margin="10px 0 0px"
-      >
-        Powered by{" "}
-        <a href="https://www.enso.finance/" target="_blank" rel="noreferrer">
-          Enso
-        </a>
-      </Typography>
     </Box>
   );
 };
