@@ -32,7 +32,7 @@ const SwapTokensSentMessage = () => {
       <Subtitle>
         Tokens have been sent, and you will receive a Telegram notification once
         the swap is complete and confirmed on the blockchain. Swapping can take
-        up to 30 minutes.
+        up to 30 minutes, but usually takes less than 5 minutes.
       </Subtitle>
       <Box sx={{ textAlign: "center" }}>
         <Button

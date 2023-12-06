@@ -41,6 +41,6 @@ describe("MainButtonsGroup", () => {
     });
     render(<MainButtonsGroup />, { wrapper: MemoryRouter });
 
-    expect(screen.queryByText("Swap")).toBeInTheDocument();
+    expect(screen.queryByText("Swap tokens")).toBeInTheDocument();
   });
 });

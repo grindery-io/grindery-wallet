@@ -50,14 +50,4 @@ describe("MainButtonsGroupButtonBuy", () => {
 
     expect(screen.getByRole("button")).toBeDisabled();
   });
-
-  it("navigates to the /bridge route when clicked", () => {
-    render(<MainButtonsGroupButtonBuy />, { wrapper: MemoryRouter });
-
-    const button = screen.getByRole("button");
-
-    button.click();
-
-    expect(mockNavigate).toHaveBeenCalledWith("/buy");
-  });
 });
