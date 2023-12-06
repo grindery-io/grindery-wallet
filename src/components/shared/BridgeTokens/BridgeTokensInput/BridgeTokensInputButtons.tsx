@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import { BridgeStatus } from "../../../../types/State";
 import {
@@ -82,7 +82,7 @@ const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
   };
 
   return (
-    <Box mt="auto" mb="10px">
+    <Box mt="auto" mb="16px">
       <Stack
         direction="row"
         spacing="16px"
@@ -141,17 +141,6 @@ const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
             : "Bridge"}
         </Button>
       </Stack>
-      <Typography
-        color="hint"
-        variant="xs"
-        textAlign="center"
-        margin="10px 0 0px"
-      >
-        Powered by{" "}
-        <a href="https://li.fi/" target="_blank" rel="noreferrer">
-          LI.FI
-        </a>
-      </Typography>
     </Box>
   );
 };

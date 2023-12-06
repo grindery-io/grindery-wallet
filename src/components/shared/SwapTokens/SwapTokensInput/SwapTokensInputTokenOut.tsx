@@ -186,8 +186,8 @@ const SwapTokensInputTokenOut = ({ tokensIn }: SwapTokensInputProps) => {
           </Typography>
           <a href="https://www.enso.finance/" target="_blank" rel="noreferrer">
             <img
-              src={`/images/ENSO_horizontal_${
-                isDarkTheme() ? "white" : "black"
+              src={`/images/partner-logos/enso/${
+                isDarkTheme() ? "dark" : "light"
               }.png`}
               alt="Enso"
             />
