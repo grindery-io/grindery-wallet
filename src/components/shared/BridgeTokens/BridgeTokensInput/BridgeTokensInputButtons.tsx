@@ -9,6 +9,7 @@ import {
   useAppSelector,
 } from "../../../../store";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
+import { swapTokensRequest } from "services";
 
 const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
   let navigate = useNavigate();
@@ -51,7 +52,7 @@ const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
     );
 
     try {
-      /*const res = await swapTokensRequest({
+      await swapTokensRequest({
         to: quote.transactionRequest.to,
         data: quote.transactionRequest.data,
         value: quote.transactionRequest.value,
@@ -62,14 +63,13 @@ const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
         gas: quote.transactionRequest.gasPrice,
         priceImpact: "0",
         chainId: input.chainIn || "137",
-      });*/
-      setTimeout(() => {
-        dispatch(
-          appStoreActions.setBridge({
-            status: BridgeStatus.SENT,
-          })
-        );
-      }, 1000);
+      });
+
+      dispatch(
+        appStoreActions.setBridge({
+          status: BridgeStatus.SENT,
+        })
+      );
     } catch (error) {
       console.error("bridge tokens error", error);
       setCountFailed(countFailed + 1);
