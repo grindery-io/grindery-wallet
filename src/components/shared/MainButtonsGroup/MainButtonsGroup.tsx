@@ -12,8 +12,7 @@ const MainButtonsGroup = () => {
   } = useAppSelector(selectAppStore);
 
   const buttonsNum =
-    1 +
-    (enabled && features?.SWAP ? 1 : 0) +
+    2 +
     (enabled && features?.BRIDGE ? 1 : 0) +
     (enabled && features?.ON_RAMP ? 1 : 0);
 
@@ -40,12 +39,12 @@ const MainButtonsGroup = () => {
         label={buttonsNum > 2 ? "Send" : "Send tokens"}
         withIcon={buttonsNum < 4}
       />
-      {enabled && features?.SWAP && (
-        <MainButtonsGroupButtonSwap
-          label={buttonsNum > 2 ? "Swap" : "Swap tokens"}
-          withIcon={buttonsNum < 4}
-        />
-      )}
+
+      <MainButtonsGroupButtonSwap
+        label={buttonsNum > 2 ? "Swap" : "Swap tokens"}
+        withIcon={buttonsNum < 4}
+      />
+
       {enabled && features?.BRIDGE && (
         <MainButtonsGroupButtonBridge
           label={buttonsNum > 2 ? "Bridge" : "Bridge tokens"}
