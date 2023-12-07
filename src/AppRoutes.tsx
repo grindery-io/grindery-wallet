@@ -21,6 +21,7 @@ import {
   TokensImportPage,
   TokensPage,
   WelcomePage,
+  LoginPage,
 } from "components/pages";
 
 const AppRoutes = () => {
@@ -51,10 +52,14 @@ const AppRoutes = () => {
         <Route path="/bridge" element={<BridgePage />} />
       )}
       <Route path="/buy" element={<BuyPage />} />
+
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>
   ) : (
-    <WelcomePage />
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="*" element={<WelcomePage />} />
+    </Routes>
   );
 };
 

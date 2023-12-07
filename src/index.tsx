@@ -14,6 +14,7 @@ declare global {
         StringSession: any;
       };
     };
+    TelegramLoginWidget?: any;
   }
 }
 
