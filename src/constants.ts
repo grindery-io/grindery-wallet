@@ -63,7 +63,6 @@ export const EXPERIMENTAL_FEATURES = {
   BATCH_SENDING: "Batch token sending",
   COLORED_NUMBERS: "Tokens amount colored",
   CONTACT_PHOTOS: "Contact photos",
-  SOCIAL_CONTACTS: "Social contacts",
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
   SEND_NATIVE: "Native token sending",

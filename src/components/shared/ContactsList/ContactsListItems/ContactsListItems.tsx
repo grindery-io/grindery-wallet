@@ -1,5 +1,4 @@
 import React from "react";
-import { selectAppStore, useAppSelector } from "store";
 import { Box } from "@mui/material";
 import { VariableSizeList } from "react-window";
 import useWindowDimensions from "hooks/useWindowDimensions";
@@ -15,14 +14,10 @@ const ContactsListItems = (props: ContactsListItemsProps) => {
   const { height, width } = useWindowDimensions();
   const { data } = props;
 
-  const {
-    debug: { enabled, features },
-  } = useAppSelector(selectAppStore);
-
   const getItemSize = (index: number, data: any) => {
     switch (data[index].variant) {
       case ContactsListDataItemVariantType.BANNER:
-        return !enabled || !features?.SOCIAL_CONTACTS ? 470 : 133;
+        return 156;
       case ContactsListDataItemVariantType.USER:
         return 68;
       case ContactsListDataItemVariantType.CONTACT:

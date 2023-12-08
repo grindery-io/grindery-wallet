@@ -277,11 +277,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (
-      window.Telegram?.WebApp?.initData &&
-      debug.enabled &&
-      debug.features?.SOCIAL_CONTACTS
-    ) {
+    if (window.Telegram?.WebApp?.initData) {
       dispatch(
         appStoreActions.setContacts({
           socialLoading: true,

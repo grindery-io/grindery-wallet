@@ -1,5 +1,4 @@
 import React from "react";
-import { selectAppStore, useAppSelector } from "store";
 import {
   Box,
   Button,
@@ -11,7 +10,6 @@ import {
 import UserListItem from "../../UserListItem/UserListItem";
 import ContactListItem from "../../ContactListItem/ContactListItem";
 import PlaceholderListItem from "../../PlaceholderListItem/PlaceholderListItem";
-import BulletPoints from "../../BulletPoints";
 import { ContactsListProps } from "../ContactsList";
 import { ContactsListDataItemVariantType } from "utils";
 
@@ -29,9 +27,6 @@ const ContactsListItemsRenderer = ({
   onContactClick,
   onSelect,
 }: ContactsListItemsRendererProps) => {
-  const {
-    debug: { enabled, features },
-  } = useAppSelector(selectAppStore);
   return (
     <Box sx={style} key={JSON.stringify(data[index])}>
       {data[index].variant === ContactsListDataItemVariantType.BANNER &&
@@ -68,7 +63,7 @@ const ContactsListItemsRenderer = ({
               useFlexGap
               sx={{
                 width: "100%",
-                marginTop: !enabled || !features?.SOCIAL_CONTACTS ? "20px" : 0,
+                marginTop: 0,
               }}
             >
               <svg
@@ -98,35 +93,16 @@ const ContactsListItemsRenderer = ({
                 Grant access to telegram contacts to invite new users and earn
                 rewards
               </Typography>
-              {!enabled || !features?.SOCIAL_CONTACTS ? (
-                <>
-                  <Typography
-                    variant="md"
-                    sx={{
-                      margin: "16px 0",
-                      color: "var(--tg-theme-link-color, #2481cc)",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Grant Access
-                  </Typography>
-                  <BulletPoints
-                    style={{
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginBottom: "16px",
-                      display: "inline-flex",
-                    }}
-                    items={[
-                      "Forget about wallet addresses of your contacts",
-                      "Send tokens before they setup they own wallet",
-                      "Earn rewards by identifying contacts to refer",
-                      "Explore your crypto network",
-                      "and more to come…",
-                    ]}
-                  />
-                </>
-              ) : null}
+              <Typography
+                textAlign="center"
+                variant="xs"
+                sx={{
+                  fontWeight: "bold",
+                  color: "var(--tg-theme-link-color, #2481cc)",
+                }}
+              >
+                CLICK HERE
+              </Typography>
             </Stack>
           </ListItemButton>
         )}
@@ -166,19 +142,17 @@ const ContactsListItemsRenderer = ({
           <Typography variant="sm" sx={{ lineHeight: "1.5" }}>
             {data[index].props.text}
           </Typography>
-          {enabled &&
-            features?.SOCIAL_CONTACTS &&
-            data[index].props?.button && (
-              <Button
-                sx={{ padding: "0 2px", marginLeft: "auto" }}
-                variant="text"
-                color="primary"
-                size="small"
-                onClick={data[index].props.button.onClick}
-              >
-                {data[index].props.button.label}
-              </Button>
-            )}
+          {data[index].props?.button && (
+            <Button
+              sx={{ padding: "0 2px", marginLeft: "auto" }}
+              variant="text"
+              color="primary"
+              size="small"
+              onClick={data[index].props.button.onClick}
+            >
+              {data[index].props.button.label}
+            </Button>
+          )}
         </ListSubheader>
       )}
       {data[index].variant === ContactsListDataItemVariantType.PLACEHOLDER && (

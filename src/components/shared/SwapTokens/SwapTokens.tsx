@@ -26,8 +26,6 @@ const SwapTokens = () => {
     (token) => token.address === swap.input.tokenIn
   );
 
-  console.log("ensoTokens", ensoTokens);
-
   const tokensIn = ensoTokens
     .map((t) => {
       const token = tokens.find((token) => {

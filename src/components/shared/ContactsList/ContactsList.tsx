@@ -54,17 +54,13 @@ export type ContactsListProps = {
 
 const ContactsList = (props: ContactsListProps) => {
   const [search, setSearch] = useState("");
-  const {
-    user,
-    contacts,
-    debug: { enabled, features },
-  } = useAppSelector(selectAppStore);
+  const { user, contacts } = useAppSelector(selectAppStore);
 
   const { items, loading, filters, social, socialLoading } = contacts || {},
     hasTgSession = Boolean(user?.telegramSession),
     contactsItems = items || [],
     socialContactsItems = social || [],
-    socialContactsEnabled = Boolean(enabled && features?.SOCIAL_CONTACTS),
+    socialContactsEnabled = true,
     contactsLoading = Boolean(loading),
     socialContactsLoading = Boolean(socialLoading);
 
