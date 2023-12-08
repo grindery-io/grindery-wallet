@@ -20,16 +20,12 @@ const ContactsListHeader = ({
   rawData,
 }: ContactsListHeaderProps) => {
   const dispatch = useAppDispatch();
-  const {
-    user,
-    contacts,
-    debug: { enabled, features },
-  } = useAppSelector(selectAppStore);
+  const { user, contacts } = useAppSelector(selectAppStore);
 
   const { filters } = contacts || {};
 
   const filterOptions = [
-    ...(user?.telegramSession && enabled && features?.SOCIAL_CONTACTS
+    ...(user?.telegramSession
       ? [
           {
             key: "telegram",
@@ -53,7 +49,7 @@ const ContactsListHeader = ({
           },
         ]
       : []),
-    ...(enabled && features?.SOCIAL_CONTACTS && !user?.telegramSession
+    ...(!user?.telegramSession
       ? [
           {
             key: "interacted",
@@ -61,14 +57,12 @@ const ContactsListHeader = ({
           },
         ]
       : []),
-    ...(enabled && features?.SOCIAL_CONTACTS
-      ? [
-          {
-            key: "might-know",
-            label: "People you might know",
-          },
-        ]
-      : []),
+    ...[
+      {
+        key: "might-know",
+        label: "People you might know",
+      },
+    ],
   ];
 
   const options: Filter[] = filterOptions

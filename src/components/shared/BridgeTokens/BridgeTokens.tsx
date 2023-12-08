@@ -206,8 +206,6 @@ const BridgeTokens = () => {
     };
   }, [bridge.input.chainIn, bridge.input.tokenIn]);
 
-  console.log("bridgeTokens", bridgeTokens);
-
   return (
     <>
       <Box sx={BridgeTokensStyles}>

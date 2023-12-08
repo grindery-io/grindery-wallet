@@ -34,13 +34,18 @@ const ConnectTelegramSuccess = () => {
       <Title>Account Successfully Connected!</Title>
       <Subtitle>
         You can close this page and return to the{" "}
-        <a
-          style={{ color: "var(--tg-theme-link-color, #2481cc)" }}
-          href="https://telegram.me/grinderyAIBot"
-        >
-          Telegram app
-        </a>
-        .
+        {window.Telegram?.WebApp?.platform ? (
+          <a
+            style={{ color: "var(--tg-theme-link-color, #2481cc)" }}
+            href="https://telegram.me/grinderyAIBot"
+          >
+            GrinderyAI Bot
+          </a>
+        ) : (
+          <a style={{ color: "var(--tg-theme-link-color, #2481cc)" }} href="/">
+            Wallet
+          </a>
+        )}
       </Subtitle>
       <BulletPoints
         items={[
