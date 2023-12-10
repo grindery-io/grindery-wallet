@@ -3,8 +3,21 @@ import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import BottomNavigation from "./BottomNavigation";
 import { BrowserRouter } from "react-router-dom";
+import { useAppSelector } from "../../../store";
+
+jest.mock("../../../store");
 
 describe("BottomNavigation", () => {
+  const mockedUseAppSelector = useAppSelector as jest.MockedFunction<
+    typeof useAppSelector
+  >;
+
+  beforeEach(() => {
+    mockedUseAppSelector.mockReturnValue({
+      debug: { enabled: false },
+    });
+  });
+
   it("renders the bottom navigation", () => {
     render(
       <BrowserRouter>

@@ -65,8 +65,8 @@ export const EXPERIMENTAL_FEATURES = {
   CONTACT_PHOTOS: "Contact photos",
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
-  SEND_NATIVE: "Native token sending",
   ON_RAMP: "On-ramp (sandbox)",
+  STAKING: "Staking",
 };
 
 export const TRANSACTION_STATUS = {
@@ -98,6 +98,7 @@ export const STORAGE_KEYS = {
   TOKEN_BALANCE: "gr_wallet_token_balance_{{key}}",
   TOKENS: "gr_wallet_tokens",
   SOCIAL_CONTACTS: "gr_wallet_social_contacts",
+  STAKING: "gr_wallet_staking",
 };
 
 export const BOTTOM_TABS = [
@@ -116,6 +117,29 @@ export const BOTTOM_TABS = [
   {
     label: "Apps",
     path: "/apps",
+  },
+  {
+    label: "Community",
+    path: "/community",
+  },
+];
+
+export const BOTTOM_TABS_STAKING = [
+  {
+    label: "Tokens",
+    path: "/tokens",
+  },
+  {
+    label: "Contacts",
+    path: "/contacts",
+  },
+  {
+    label: "Rewards",
+    path: "/rewards",
+  },
+  {
+    label: "Staking",
+    path: "/staking",
   },
   {
     label: "Community",

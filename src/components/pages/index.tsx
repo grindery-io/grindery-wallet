@@ -17,3 +17,4 @@ export { default as WelcomePage } from "./WelcomePage";
 export { default as TokenPage } from "./TokenPage/TokenPage";
 export { default as BridgePage } from "./BridgePage";
 export { default as BuyPage } from "./BuyPage";
+export { default as StakingPage } from "./StakingPage";

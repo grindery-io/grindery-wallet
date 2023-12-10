@@ -1,7 +1,11 @@
 import React from "react";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { default as MuiBottomNavigation } from "@mui/material/BottomNavigation";
-import { BOTTOM_TABS, MAX_WIDTH } from "../../../constants";
+import {
+  BOTTOM_TABS,
+  BOTTOM_TABS_STAKING,
+  MAX_WIDTH,
+} from "../../../constants";
 import { useLocation, useNavigate } from "react-router";
 import TokensIcon from "../../icons/TokensIcon";
 import ContactsIcon from "../../icons/ContactsIcon";
@@ -9,9 +13,15 @@ import RewardsIcon from "../../icons/RewardsIcon";
 import CommunityIcon from "../../icons/CommunityIcon";
 import AppsIcon from "../../icons/AppsIcon";
 import { Box } from "@mui/material";
+import { selectAppStore, useAppSelector } from "store";
+import StakingIcon from "components/icons/StakingIcon";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
+  const {
+    debug: { enabled, features },
+  } = useAppSelector(selectAppStore);
+  const tabs = enabled && features?.STAKING ? BOTTOM_TABS_STAKING : BOTTOM_TABS;
 
   const location = useLocation();
   const activeTab =
@@ -33,6 +43,8 @@ const BottomNavigation = () => {
         return <RewardsIcon />;
       case "Apps":
         return <AppsIcon />;
+      case "Staking":
+        return <StakingIcon />;
       case "Community":
         return <CommunityIcon />;
       default:
@@ -50,7 +62,7 @@ const BottomNavigation = () => {
         onChange={handleChange}
         data-testid="bottom-navigation"
       >
-        {BOTTOM_TABS.map((tab) => (
+        {tabs.map((tab) => (
           <BottomNavigationAction
             key={tab.path}
             label={tab.label}

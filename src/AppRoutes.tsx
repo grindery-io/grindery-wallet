@@ -15,6 +15,7 @@ import {
   RewardPage,
   RewardsPage,
   SendPage,
+  StakingPage,
   StatsPage,
   SwapPage,
   TokenPage,
@@ -49,6 +50,9 @@ const AppRoutes = () => {
       {enabled && <Route path="/debug/stats" element={<StatsPage />} />}
       {enabled && features?.BRIDGE && (
         <Route path="/bridge" element={<BridgePage />} />
+      )}
+      {enabled && features?.STAKING && (
+        <Route path="/staking" element={<StakingPage />} />
       )}
       <Route path="/buy" element={<BuyPage />} />
       <Route path="*" element={<Navigate to="/tokens" replace />} />
