@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Box, Button, InputBase, Stack, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
@@ -14,6 +14,7 @@ import { Token, TokenBalance, TokenIcon, TokenSymbol } from "../../Token";
 import DialogSelect from "../../DialogSelect/DialogSelect";
 
 const SwapTokensInputTokenIn = ({ tokensIn }: SwapTokensInputProps) => {
+  const inputRef = useRef(null);
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const {
@@ -30,6 +31,10 @@ const SwapTokensInputTokenIn = ({ tokensIn }: SwapTokensInputProps) => {
     parseFloat(input.amountIn) >
     parseFloat(selectedToken?.balance || "0") /
       10 ** (selectedToken?.decimals || 18);
+
+  const balance =
+    parseFloat(selectedToken?.balance || "0") /
+    10 ** (selectedToken?.decimals || 18);
 
   const handleOpen = () => {
     setOpen(true);
@@ -109,7 +114,24 @@ const SwapTokensInputTokenIn = ({ tokensIn }: SwapTokensInputProps) => {
                 sx={{ marginTop: "4px", lineHeight: 1.5 }}
                 color="hint"
               >
-                Balance: <TokenBalance format="eth" />
+                Balance:{" "}
+                <Button
+                  onClick={() => {
+                    if (inputRef.current) {
+                      // @ts-ignore
+                      inputRef.current.value = balance.toString();
+                      debouncedSearchChange(balance.toString());
+                    }
+                  }}
+                  sx={{
+                    padding: "0",
+                    minWidth: "unset",
+                    fontSize: "12px",
+                    lineHeight: 1,
+                  }}
+                >
+                  <TokenBalance format="eth" />
+                </Button>
               </Typography>
               {notEnoughBalance && (
                 <Typography variant="xs" color="error" mt="4px">
@@ -135,6 +157,7 @@ const SwapTokensInputTokenIn = ({ tokensIn }: SwapTokensInputProps) => {
               },
             }}
             inputProps={{
+              ref: inputRef,
               type: "number",
               min: 0,
               max: 100,
