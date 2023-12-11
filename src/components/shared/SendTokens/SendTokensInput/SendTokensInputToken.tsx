@@ -129,6 +129,11 @@ const SendTokensInputToken = () => {
             token.symbol.toLowerCase().includes(search.toLowerCase())
           )
           .filter((token) => {
+            if (
+              token.address === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            ) {
+              return false;
+            }
             if (!features?.MULTICHAIN && token.chain !== "137") {
               return false;
             }
