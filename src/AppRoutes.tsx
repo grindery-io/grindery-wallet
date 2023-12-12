@@ -55,9 +55,7 @@ const AppRoutes = () => {
       {enabled && features?.STAKING && (
         <Route path="/staking" element={<StakingPage />} />
       )}
-      {enabled && features?.PRE_ORDER && (
-        <Route path="/pre-order" element={<PreOrderPage />} />
-      )}
+      <Route path="/pre-order" element={<PreOrderPage />} />
       <Route path="/buy" element={<BuyPage />} />
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>
