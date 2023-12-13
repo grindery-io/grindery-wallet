@@ -201,6 +201,11 @@ export const CHAINS: ChainType[] = [
   },
 ];
 
+export const CHAIN_EXPLORERS: { [key: string]: string } = {
+  "137": "https://polygonscan.com",
+  "59144": "https://lineascan.build",
+};
+
 /*
 {
     id: "80001",
