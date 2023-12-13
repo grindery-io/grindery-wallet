@@ -4,7 +4,9 @@ import { Box, SxProps, Typography } from "@mui/material";
 const ConvertTokensHeader = () => {
   return (
     <Box sx={ConvertTokensHeaderStyles}>
-      <Typography textAlign="center">Pre-order</Typography>
+      <Typography textAlign="center" variant="xl" fontWeight="bold">
+        Pre-order
+      </Typography>
     </Box>
   );
 };

@@ -10,7 +10,7 @@ const BridgeTokensHeader = () => {
 
   return (
     <Box sx={BridgeTokensHeaderStyles}>
-      <Typography textAlign="center">
+      <Typography textAlign="center" variant="xl" fontWeight="bold">
         {status === BridgeStatus.SENDING
           ? "Sending"
           : status === BridgeStatus.SENT

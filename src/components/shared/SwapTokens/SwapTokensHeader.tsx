@@ -10,7 +10,7 @@ const SwapTokensHeader = () => {
 
   return (
     <Box sx={SwapTokensHeaderStyles}>
-      <Typography textAlign="center">
+      <Typography textAlign="center" variant="xl" fontWeight="bold">
         {status === SwapStatus.SENDING
           ? "Sending"
           : status === SwapStatus.SENT

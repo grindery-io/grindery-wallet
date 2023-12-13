@@ -10,7 +10,7 @@ const SendTokensHeader = () => {
 
   return (
     <Box sx={SendTokensHeaderStyles}>
-      <Typography textAlign="center">
+      <Typography textAlign="center" variant="xl" fontWeight="bold">
         {status === SendStatus.SENDING
           ? "Sending"
           : status === SendStatus.SENT

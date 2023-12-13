@@ -18,7 +18,7 @@ const SendTokensRecipientInput = () => {
   return (
     <>
       <ContactsList
-        height={height - 104}
+        height={height - 105}
         onContactClick={(id) => {
           if (selectedContacts.length > 0) {
             dispatch(
