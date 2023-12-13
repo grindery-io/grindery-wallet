@@ -8,12 +8,13 @@ import MainButtonsGroupButtonBuy from "./MainButtonsGroupButtonBuy/MainButtonsGr
 
 const MainButtonsGroup = () => {
   const {
+    user,
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
 
   const buttonsNum =
     2 +
-    (enabled && features?.BRIDGE ? 1 : 0) +
+    ((enabled && features?.BRIDGE) || user?.optin_bridge ? 1 : 0) +
     (enabled && features?.ON_RAMP ? 1 : 0);
 
   return (
@@ -45,7 +46,7 @@ const MainButtonsGroup = () => {
         withIcon={buttonsNum < 4}
       />
 
-      {enabled && features?.BRIDGE && (
+      {((enabled && features?.BRIDGE) || user?.optin_bridge) && (
         <MainButtonsGroupButtonBridge
           label={buttonsNum > 2 ? "Bridge" : "Bridge tokens"}
           withIcon={buttonsNum < 4}

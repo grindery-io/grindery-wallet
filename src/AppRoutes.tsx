@@ -49,7 +49,7 @@ const AppRoutes = () => {
       <Route path="/debug" element={<DebugPage />} />
       <Route path="/swap" element={<SwapPage />} />
       {enabled && <Route path="/debug/stats" element={<StatsPage />} />}
-      {enabled && features?.BRIDGE && (
+      {((enabled && features?.BRIDGE) || user?.optin_bridge) && (
         <Route path="/bridge" element={<BridgePage />} />
       )}
       {enabled && features?.STAKING && (

@@ -8,4 +8,5 @@ export type UserProps = {
   dateAdded?: string;
   telegramSession?: string;
   phoneNumber?: string;
+  optin_bridge?: boolean;
 };
