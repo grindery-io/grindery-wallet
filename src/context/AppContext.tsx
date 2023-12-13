@@ -223,7 +223,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (user?.userTelegramID && balance.shouldUpdate) {
+    if (balance.shouldUpdate && user?.patchwallet) {
       dispatch(
         appStoreActions.setBalance({
           loading: true,
@@ -264,8 +264,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
       controller.abort();
     };
   }, [
-    user?.userTelegramID,
     user?.optin_bridge,
+    user?.patchwallet,
     balance.shouldUpdate,
     debug,
     dispatch,
