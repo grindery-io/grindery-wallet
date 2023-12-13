@@ -236,11 +236,19 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         controller
       )
         .then((res) => {
-          const tokens = res.data
-            ? extractTokensFromBalanceResponse(res.data)
-            : [];
+          const removedTokens = JSON.parse(
+            localStorage.getItem(STORAGE_KEYS.REMOVED_TOKENS) || "[]"
+          );
+          const tokens = (
+            res.data ? extractTokensFromBalanceResponse(res.data) : []
+          )
+            .map(fixTokens)
+            .filter(
+              (token) =>
+                !removedTokens.includes(`${token.chain}:${token.address}`)
+            );
 
-          dispatch(appStoreActions.updateTokens(tokens.map(fixTokens)));
+          dispatch(appStoreActions.updateTokens(tokens));
           dispatch(
             appStoreActions.setBalance({
               loading: false,

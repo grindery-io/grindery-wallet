@@ -40,7 +40,9 @@ const TokenDetailsTableAddress = () => {
         />
       }
     />
-  ) : null;
+  ) : (
+    <TableRow label="Native token" value={<span>Yes</span>} />
+  );
 };
 
 export default TokenDetailsTableAddress;

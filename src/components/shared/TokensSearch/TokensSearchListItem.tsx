@@ -18,6 +18,7 @@ import TokenIcon from "../Token/TokenIcon/TokenIcon";
 import TokenSymbol from "../Token/TokenSymbol/TokenSymbol";
 import TokenName from "../Token/TokenName/TokenName";
 import TokenAddress from "../Token/TokenAddress/TokenAddress";
+import { STORAGE_KEYS } from "../../../constants";
 
 const TokensSearchListItem = ({ token }: { token: TokenType }) => {
   const navigate = useNavigate();
@@ -30,7 +31,26 @@ const TokensSearchListItem = ({ token }: { token: TokenType }) => {
         <ListItemButton
           onClick={() => {
             dispatch(appStoreActions.setTokens([...tokens, token]));
+            const removedTokens = JSON.parse(
+              localStorage.getItem(STORAGE_KEYS.REMOVED_TOKENS) || "[]"
+            );
+            localStorage.setItem(
+              STORAGE_KEYS.REMOVED_TOKENS,
+              JSON.stringify([
+                ...removedTokens.filter(
+                  (t: string) =>
+                    t.toLowerCase() !==
+                    `${token.chain}:${token.address}`.toLowerCase()
+                ),
+              ])
+            );
             navigate("/tokens");
+            dispatch(
+              appStoreActions.setBalance({
+                loading: true,
+                shouldUpdate: true,
+              })
+            );
           }}
         >
           <ListItemAvatar sx={TokensSearchListItemAvatarStyles}>

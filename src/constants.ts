@@ -99,6 +99,7 @@ export const STORAGE_KEYS = {
   TOKENS: "gr_wallet_tokens_list",
   SOCIAL_CONTACTS: "gr_wallet_social_contacts",
   STAKING: "gr_wallet_staking",
+  REMOVED_TOKENS: "gr_wallet_removed_tokens",
 };
 
 export const BOTTOM_TABS = [
