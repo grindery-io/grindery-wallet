@@ -12,6 +12,7 @@ import TokensSearchChainSelector from "./TokensSearchChainSelector";
 
 const TokensSearch = () => {
   const {
+    user,
     tokens,
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
@@ -67,7 +68,7 @@ const TokensSearch = () => {
   return (
     <Box sx={TokensSearchStyles}>
       <Stack direction="row" alignItems="center" justifyContent="center">
-        {enabled && features?.MULTICHAIN && (
+        {((enabled && features?.MULTICHAIN) || user?.optin_bridge) && (
           <TokensSearchChainSelector
             sx={{
               padding: "16px 0px 6px 16px",
@@ -80,7 +81,7 @@ const TokensSearch = () => {
         )}
         <SearchBox
           sx={
-            enabled && features?.MULTICHAIN
+            (enabled && features?.MULTICHAIN) || user?.optin_bridge
               ? {
                   paddingLeft: "4px",
                 }

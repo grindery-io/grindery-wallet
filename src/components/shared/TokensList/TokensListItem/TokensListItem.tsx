@@ -30,6 +30,7 @@ const TokensListItem = ({
 }: TokensListItemProps) => {
   const navigate = useNavigate();
   const {
+    user,
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
 
@@ -52,23 +53,24 @@ const TokensListItem = ({
         >
           <ListItemAvatar sx={{ minWidth: "42px", position: "relative" }}>
             <TokenIcon size={32} />
-            {enabled && features?.MULTICHAIN && withChainIcon && (
-              <Stack
-                alignItems="center"
-                justifyContent="center"
-                sx={{
-                  width: "17px",
-                  height: "17px",
-                  position: "absolute",
-                  bottom: "-3px",
-                  left: "21px",
-                  backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
-                  borderRadius: "50%",
-                }}
-              >
-                <TokenChain onlyIcon iconSize={13} />
-              </Stack>
-            )}
+            {((enabled && features?.MULTICHAIN) || user?.optin_bridge) &&
+              withChainIcon && (
+                <Stack
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={{
+                    width: "17px",
+                    height: "17px",
+                    position: "absolute",
+                    bottom: "-3px",
+                    left: "21px",
+                    backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <TokenChain onlyIcon iconSize={13} />
+                </Stack>
+              )}
           </ListItemAvatar>
           <ListItemText
             primary={<TokenSymbol />}

@@ -230,7 +230,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         })
       );
       getFullBalanceRequest(
-        debug.enabled && debug.features?.MULTICHAIN
+        (debug.enabled && debug.features?.MULTICHAIN) || user?.optin_bridge
           ? CHAINS.map((chain) => chain.name).join(",")
           : "polygon",
         controller
@@ -263,7 +263,13 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     return () => {
       controller.abort();
     };
-  }, [user?.userTelegramID, balance.shouldUpdate, debug, dispatch]);
+  }, [
+    user?.userTelegramID,
+    user?.optin_bridge,
+    balance.shouldUpdate,
+    debug,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (tokens && tokens.length > 0) {

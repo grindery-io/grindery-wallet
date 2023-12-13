@@ -14,12 +14,15 @@ export type SwapTokensInputProps = {
 
 const SwapTokensInput = ({ tokensIn }: SwapTokensInputProps) => {
   const {
+    user,
     debug: { enabled, features },
   } = useAppSelector(selectAppStore);
 
   return (
     <>
-      {enabled && features?.MULTICHAIN && <SwapTokensInputChain />}
+      {((enabled && features?.MULTICHAIN) || user?.optin_bridge) && (
+        <SwapTokensInputChain />
+      )}
       <SwapTokensInputTokenIn tokensIn={tokensIn} />
       <SwapTokensInputArrow />
       <SwapTokensInputTokenOut tokensIn={tokensIn} />

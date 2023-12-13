@@ -23,6 +23,7 @@ const SendTokensInputToken = () => {
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const {
+    user,
     tokens,
     send: { input },
     debug: { enabled, features },
@@ -71,7 +72,7 @@ const SendTokensInputToken = () => {
           <Box sx={{ position: "relative", width: "36px", height: "36px" }}>
             <TokenIcon size={36} />
 
-            {enabled && features?.MULTICHAIN && (
+            {((enabled && features?.MULTICHAIN) || user?.optin_bridge) && (
               <Stack
                 alignItems="center"
                 justifyContent="center"
@@ -134,7 +135,11 @@ const SendTokensInputToken = () => {
             ) {
               return false;
             }
-            if (!features?.MULTICHAIN && token.chain !== "137") {
+            if (
+              !features?.MULTICHAIN &&
+              !user?.optin_bridge &&
+              token.chain !== "137"
+            ) {
               return false;
             }
             if (!CHAINS.map((c) => c.id).includes(token.chain)) {
