@@ -40,9 +40,7 @@ export const searchSwapTokensRequest = async (
   controller?: AbortController
 ) => {
   return await axios.get<SearchSwapTokensResponseType>(
-    `https://shortcuts-backend-dynamic-int.herokuapp.com/api/v1/baseTokens?chainId=${
-      chainId || "137"
-    }`,
+    `https://api.enso.finance/api/v1/baseTokens?chainId=${chainId || "137"}`,
     {
       signal: controller?.signal,
     }
