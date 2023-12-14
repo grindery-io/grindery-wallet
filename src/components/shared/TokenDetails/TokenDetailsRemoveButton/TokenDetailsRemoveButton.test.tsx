@@ -5,17 +5,26 @@ import { mockedToken } from "../../Token/mockedToken";
 import { renderWithProviders } from "../../../../utils/testUtils";
 
 describe("TokenDetailsRemoveButton", () => {
-  it("renders the remove button if balance is 0", () => {
+  it("renders the remove button if token address is not main or default", () => {
     renderWithProviders(
-      <TokenDetailsRemoveButton token={{ ...mockedToken, balance: "0" }} />
+      <TokenDetailsRemoveButton
+        token={{ ...mockedToken, address: "0x123..." }}
+      />
     );
     expect(screen.getByRole("button")).toHaveTextContent(
       "Remove token from wallet"
     );
   });
 
-  it("doesn't render the remove button if balance is more than 0", () => {
-    renderWithProviders(<TokenDetailsRemoveButton token={mockedToken} />);
+  it("doesn't render the remove button if token address is main or default", () => {
+    renderWithProviders(
+      <TokenDetailsRemoveButton
+        token={{
+          ...mockedToken,
+          address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        }}
+      />
+    );
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 });
