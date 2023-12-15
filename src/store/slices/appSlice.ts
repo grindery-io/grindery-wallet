@@ -336,14 +336,21 @@ const appSlice = createSlice({
     updateTokens(state, action: PayloadAction<TokenType[]>) {
       state.tokens = _.uniqBy(
         [
-          ...state.tokens.map(
-            (token) =>
-              action.payload.find(
-                (t) =>
-                  t.address.toLowerCase() === token.address.toLowerCase() &&
-                  t.chain === token.chain
-              ) || { ...token, balance: "0" }
-          ),
+          ...state.tokens.map((token) => {
+            const payloadToken = action.payload.find(
+              (t) =>
+                t.address.toLowerCase() === token.address.toLowerCase() &&
+                t.chain === token.chain
+            );
+            if (payloadToken) {
+              return {
+                ...payloadToken,
+                icon: token.icon || payloadToken.icon || "",
+              };
+            } else {
+              return { ...token, balance: "0" };
+            }
+          }),
           ...action.payload.filter(
             (token) =>
               !state.tokens.find(

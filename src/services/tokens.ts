@@ -1,31 +1,42 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
 
-export type SearchTokensResponseType = {
+export type SearchTokenType = {
   blockchain: string;
   address: string;
   name: string;
   decimals: number;
   symbol: string;
   thumbnail: string;
-}[];
+};
+
+export type SearchTokensResponseType = SearchTokenType[];
 
 export const searchTokensRequest = async (
   chain?: string,
   controller?: AbortController
 ) => {
-  return await axios.get<SearchTokensResponseType>(
-    `${WALLET_API_URL}/v2/tokens?chain=${chain || "polygon"}`,
-    {
-      signal: controller?.signal,
-      headers: {
-        Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
-      },
-    }
-  );
+  if (chain === "linea") {
+    return await axios.get<SearchSwapTokensResponseType>(
+      `https://api.enso.finance/api/v1/baseTokens?chainId=59144`,
+      {
+        signal: controller?.signal,
+      }
+    );
+  } else {
+    return await axios.get<SearchTokensResponseType>(
+      `${WALLET_API_URL}/v2/tokens?chain=${chain || "polygon"}`,
+      {
+        signal: controller?.signal,
+        headers: {
+          Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+        },
+      }
+    );
+  }
 };
 
-export type SearchSwapTokensResponseType = {
+export type SwapTokenType = {
   name: string;
   symbol: string;
   decimals: number;
@@ -33,7 +44,9 @@ export type SearchSwapTokensResponseType = {
   address: string;
   id: string;
   chainId: number;
-}[];
+};
+
+export type SearchSwapTokensResponseType = SwapTokenType[];
 
 export const searchSwapTokensRequest = async (
   chainId?: string,

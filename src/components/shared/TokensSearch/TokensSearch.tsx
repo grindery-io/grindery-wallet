@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack } from "@mui/material";
 import SearchBox from "../SearchBox/SearchBox";
-import { searchTokensRequest } from "../../../services/tokens";
+import {
+  SearchTokenType,
+  SwapTokenType,
+  searchTokensRequest,
+} from "../../../services/tokens";
 import TokensSearchList from "./TokensSearchList";
 import TokensSearchPlaceholder from "./TokensSearchPlaceholder";
 import { selectAppStore, useAppSelector } from "../../../store";
@@ -39,10 +43,16 @@ const TokensSearch = () => {
             symbol: token.symbol,
             address: token.address,
             decimals: token.decimals,
-            icon: token.thumbnail || "",
-            chain:
-              CHAINS.find((chain) => chain.name === token.blockchain)?.id ||
-              "137",
+            icon:
+              (token as SearchTokenType).thumbnail ||
+              (token as SwapTokenType).logoURI ||
+              "",
+            chain: (token as SearchTokenType).blockchain
+              ? CHAINS.find(
+                  (chain) =>
+                    chain.name === (token as SearchTokenType).blockchain
+                )?.id || "137"
+              : (token as SwapTokenType).chainId?.toString() || "137",
             balance: "0",
             price: "0",
           }))
