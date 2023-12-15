@@ -7,9 +7,9 @@ export type SwapRoute = {
     positionInId: string[];
     positionOutId: string[];
   }[];
-  gas: number;
-  amountOut: string;
-  priceImpact: number;
+  gas?: number;
+  amountOut?: string;
+  priceImpact?: number;
   createdAt: number;
   tx: any;
 };
