@@ -165,6 +165,28 @@ export type ContactsState = {
   socialLoading?: boolean;
 };
 
+export type ConvertInput = {
+  convert: string;
+  add: string;
+};
+
+export enum ConvertStatus {
+  WAITING = "waiting_user_input",
+  LOADING = "loading",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+/**
+ * Interface for the ConvertState object representing the state of the tokens convert page
+ */
+export type ConvertState = {
+  input: ConvertInput;
+  status: ConvertStatus;
+  result: string;
+};
+
 /**
  * Interface for the ConfigState object representing the state of app configuration
  */
@@ -388,6 +410,10 @@ export type AppState = {
    * Contacts list state
    */
   contacts: ContactsState;
+  /**
+   * Convert tokens state
+   */
+  convert: ConvertState;
   /**
    * App debug mode state
    */

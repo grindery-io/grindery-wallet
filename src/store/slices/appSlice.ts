@@ -26,6 +26,8 @@ import {
   TelegramUserReward,
   BridgeStatus,
   BridgeState,
+  ConvertStatus,
+  ConvertState,
 } from "types";
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
@@ -82,6 +84,14 @@ export const initialState: AppState = {
     social: localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS)
       ? JSON.parse(localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS) || "[]")
       : undefined,
+  },
+  convert: {
+    input: {
+      convert: "",
+      add: "",
+    },
+    status: ConvertStatus.WAITING,
+    result: "",
   },
   debug: {
     enabled: localStorage.getItem(STORAGE_KEYS.DEBUG) === "true",
@@ -345,6 +355,15 @@ const appSlice = createSlice({
         ],
         (token) => token.address.toLowerCase() + token.chain
       );
+    },
+    /**
+     * Reducer to set the convert state
+     */
+    setConvert(state, action: PayloadAction<Partial<ConvertState>>) {
+      state.convert = {
+        ...state.convert,
+        ...action.payload,
+      };
     },
   },
 });

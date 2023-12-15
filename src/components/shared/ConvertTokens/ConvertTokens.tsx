@@ -1,21 +1,32 @@
 import React from "react";
 import { Box } from "@mui/material";
 import ConvertTokensHeader from "./ConvertTokensHeader";
-import CovertTokensInput from "./CovertTokensInput/CovertTokensInput";
+import ConvertTokensInput from "./ConvertTokensInput/ConvertTokensInput";
 import ConvertTokensOutput from "./ConvertTokensOutput/ConvertTokensOutput";
 import ConvertTokensButton from "./ConvertTokensButton/ConvertTokensButton";
 import ConvertTokensInfo from "./ConvertTokensInfo/ConvertTokensInfo";
+import { selectAppStore, useAppSelector } from "store";
+import { ConvertStatus } from "types";
+import ConvertTokensSentMessage from "./ConvertTokensSentMessage";
+import Loading from "../Loading/Loading";
 
 const ConvertTokens = () => {
+  const {
+    convert: { status },
+  } = useAppSelector(selectAppStore);
   return (
     <>
-      <Box sx={ConvertTokensStyles}>
-        <ConvertTokensHeader />
-        <CovertTokensInput />
-        <ConvertTokensOutput />
-        <ConvertTokensButton />
-        <ConvertTokensInfo />
-      </Box>
+      {status === ConvertStatus.WAITING && (
+        <Box sx={ConvertTokensStyles}>
+          <ConvertTokensHeader />
+          <ConvertTokensInput />
+          <ConvertTokensOutput />
+          <ConvertTokensButton />
+          <ConvertTokensInfo />
+        </Box>
+      )}
+      {status === ConvertStatus.SENDING && <Loading />}
+      {status === ConvertStatus.SENT && <ConvertTokensSentMessage />}
     </>
   );
 };
