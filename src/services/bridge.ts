@@ -151,7 +151,7 @@ export type GetBridgeQuoteResponseType = {
     value: string;
     from: string; // the sender
     chainId: number;
-    gasPrice: string;
+    gasPrice?: string;
     gasLimit: string;
   };
 };

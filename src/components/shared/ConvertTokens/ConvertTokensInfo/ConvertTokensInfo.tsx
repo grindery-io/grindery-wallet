@@ -13,7 +13,7 @@ const ConvertTokensInfo = (props: ConvertTokensInfoProps) => {
       useFlexGap
       spacing="8px"
       sx={{
-        margin: "16px",
+        margin: "16px 16px 0",
         width: "calc(100% - 32px)",
         "& *": {
           lineHeight: "1.2",
