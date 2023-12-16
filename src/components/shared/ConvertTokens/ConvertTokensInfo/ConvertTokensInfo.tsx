@@ -1,59 +1,48 @@
 import React from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { selectAppStore, useAppSelector } from "store";
+import User, { UserType } from "components/shared/User/User";
+import UserName from "components/shared/User/UserName/UserName";
+import UserAvatar from "components/shared/User/UserAvatar/UserAvatar";
 
-type ConvertTokensInfoProps = {};
+const ConvertTokensInfo = () => {
+  const { user } = useAppSelector(selectAppStore);
 
-const ConvertTokensInfo = (props: ConvertTokensInfoProps) => {
+  const currentUser: UserType = {
+    userTelegramID: user?.userTelegramID || "",
+    userName: user?.userName || "",
+    userHandle: user?.userHandle || "",
+    patchwallet: user?.patchwallet || "",
+    dateAdded: user?.dateAdded || "",
+  };
+
+  if (!currentUser.patchwallet) return null;
+
   return (
-    <Stack
-      direction="column"
-      alignItems="stretch"
-      justifyContent="flex-start"
-      flexWrap="nowrap"
-      useFlexGap
-      spacing="8px"
-      sx={{
-        margin: "16px 16px 0",
-        width: "calc(100% - 32px)",
-        "& *": {
-          lineHeight: "1.2",
-        },
-      }}
-    >
+    <User user={currentUser}>
       <Stack
         direction="row"
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="flex-start"
+        flexWrap="nowrap"
+        useFlexGap
         spacing="8px"
-        width="100%"
+        sx={{
+          margin: "16px 24px 0",
+          width: "calc(100% - 48px)",
+        }}
       >
-        <Typography color="hint" textAlign="left">
-          <strong>MVU Score</strong>
+        <UserAvatar size={32} />
+        <Typography textAlign="left">
+          <strong>
+            <UserName />
+          </strong>
         </Typography>
-        <Typography variant="xs" color="hint" textAlign="right">
-          7.8 / 10
+        <Typography textAlign="right" variant="sm" ml="auto">
+          MVU: <strong>7.8/10</strong>
         </Typography>
       </Stack>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        spacing="8px"
-        width="100%"
-      >
-        <Typography color="hint" textAlign="left">
-          <strong>Position</strong>
-        </Typography>
-        <Typography variant="xs" color="hint" textAlign="right">
-          326
-        </Typography>
-      </Stack>
-      <Box>
-        <Typography variant="xs" color="hint" textAlign="left">
-          <em>Score and position influence your G1/GX exchange rate.</em>
-        </Typography>
-      </Box>
-    </Stack>
+    </User>
   );
 };
 

@@ -9,6 +9,8 @@ type UserAddressProps = {
   address?: string;
   avatar?: boolean;
   border?: boolean;
+  copy?: boolean;
+  link?: boolean;
   sx?: SxProps;
 };
 
@@ -22,6 +24,8 @@ const UserAddress = ({
   address: providedAddress,
   avatar = true,
   border = true,
+  copy = true,
+  link = true,
   sx,
 }: UserAddressProps) => {
   const { user } = useAppSelector(selectAppStore);
@@ -43,8 +47,9 @@ const UserAddress = ({
             <Jazzicon diameter={18} seed={jsNumberForAddress(address)} />
           )}
 
-          <span
-            style={UserAddressTextStyles}
+          <Box
+            component="span"
+            sx={UserAddressTextStyles}
             onClick={() => {
               navigator.clipboard.writeText(user?.patchwallet || "");
               setTimeout(() => {
@@ -59,38 +64,44 @@ const UserAddress = ({
             {address.substring(0, 6) +
               "..." +
               address.substring(address.length - 4)}
-          </span>
-          <span>
-            <CopyIcon
-              sx={{ width: "14px", height: "14px", marginTop: "6px" }}
-              onClick={() => {
-                navigator.clipboard.writeText(user?.patchwallet || "");
-                setTimeout(() => {
-                  if (window.Telegram?.WebApp?.showAlert) {
-                    window.Telegram?.WebApp?.showAlert("Wallet address copied");
+          </Box>
+          {copy && (
+            <span>
+              <CopyIcon
+                sx={{ width: "14px", height: "14px", marginTop: "6px" }}
+                onClick={() => {
+                  navigator.clipboard.writeText(user?.patchwallet || "");
+                  setTimeout(() => {
+                    if (window.Telegram?.WebApp?.showAlert) {
+                      window.Telegram?.WebApp?.showAlert(
+                        "Wallet address copied"
+                      );
+                    } else {
+                      window.alert("Wallet address copied");
+                    }
+                  }, 150);
+                }}
+              />
+            </span>
+          )}
+          {link && (
+            <span>
+              <LinkIcon
+                onClick={() => {
+                  if (window.Telegram?.WebApp?.openLink) {
+                    window.Telegram.WebApp.openLink(
+                      `https://polygonscan.com/tokenholdings?a=${address}`
+                    );
                   } else {
-                    window.alert("Wallet address copied");
+                    window.open(
+                      `https://polygonscan.com/tokenholdings?a=${address}`,
+                      "_blank"
+                    );
                   }
-                }, 150);
-              }}
-            />
-          </span>
-          <span>
-            <LinkIcon
-              onClick={() => {
-                if (window.Telegram?.WebApp?.openLink) {
-                  window.Telegram.WebApp.openLink(
-                    `https://polygonscan.com/tokenholdings?a=${address}`
-                  );
-                } else {
-                  window.open(
-                    `https://polygonscan.com/tokenholdings?a=${address}`,
-                    "_blank"
-                  );
-                }
-              }}
-            />
-          </span>
+                }}
+              />
+            </span>
+          )}
         </Box>
       </span>
     </Box>

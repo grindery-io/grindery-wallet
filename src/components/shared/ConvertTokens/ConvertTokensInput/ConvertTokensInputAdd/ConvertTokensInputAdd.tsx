@@ -24,8 +24,8 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
       sx={{ padding: "16px 16px 12px", "& *": { lineHeight: "1.2" } }}
     >
       <Box>
-        <Typography color="hint" mb="2px">
-          <strong>You add</strong>
+        <Typography color="hint" mb="2px" variant="sm">
+          <strong>Booster</strong>
         </Typography>
         <InputBase
           placeholder="0.00"
@@ -47,12 +47,12 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
               color: "var(--tg-theme-text-color, #000000)",
               fontSize: "24px",
               lineHeight: "1",
-              fontWeight: "600",
+              fontWeight: "300",
             },
           }}
         />
         <Typography variant="xs" color="hint">
-          UST, USDC, MATIC, ...{" "}
+          USDT, USDC, MATIC, ...{" "}
           <Tooltip title="Some text">
             <span>
               <InfoIcon

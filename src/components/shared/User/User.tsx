@@ -45,7 +45,7 @@ export type UserDateAddedType = string;
 export type UserScoreType = number;
 
 export interface UserType {
-  _id: UserIdType;
+  _id?: UserIdType;
   userTelegramID: UserTelegramIdType;
   userName: UserNameType;
   userHandle: UserHandleType;

@@ -229,4 +229,6 @@ var(--gr-theme-divider-color)
 var(--gr-theme-button-shadow-color)
 var(--gr-theme-success-color)
 var(--tg-theme-accent-pale)
+var(--gr-theme-color-secondary, #ea5230)
+var(--gr-theme-color-secondary-text, #ffffff)
 */

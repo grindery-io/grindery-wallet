@@ -78,20 +78,22 @@ const theme = createTheme({
           "&:disabled": {
             color: "var(--tg-theme-button-text-color, #ffffff)",
             backgroundColor: "var(--tg-theme-button-color, #2481CC)",
+            border: "1px solid var(--tg-theme-button-color, #2481CC)",
           },
         },
         containedSecondary: {
-          color: "var(--tg-theme-button-text-color, #ffffff)",
-          backgroundColor: "var(--tg-theme-button-color, #2481CC)",
-          border: "1px solid var(--tg-theme-button-color, #2481CC)",
+          color: "var(--gr-theme-color-secondary-text, #ffffff)",
+          backgroundColor: "var(--gr-theme-color-secondary, #ea5230)",
+          border: "1px solid var(--gr-theme-color-secondary, #ea5230)",
           "&:hover": {
-            color: "var(--tg-theme-button-text-color, #ffffff)",
-            backgroundColor: "var(--tg-theme-button-color, #2481CC)",
-            border: "1px solid var(--tg-theme-button-color, #2481CC)",
+            color: "var(--gr-theme-color-secondary-text, #ffffff)",
+            backgroundColor: "var(--gr-theme-color-secondary, #ea5230)",
+            border: "1px solid var(--gr-theme-color-secondary, #ea5230)",
           },
           "&:disabled": {
-            color: "var(--tg-theme-button-text-color, #ffffff)",
-            backgroundColor: "var(--tg-theme-button-color, #2481CC)",
+            color: "var(--gr-theme-color-secondary-text, #ffffff)",
+            backgroundColor: "var(--gr-theme-color-secondary, #ea5230)",
+            border: "1px solid var(--gr-theme-color-secondary, #ea5230)",
           },
         },
         outlinedPrimary: {
@@ -106,20 +108,22 @@ const theme = createTheme({
           "&:disabled": {
             color: "var(--tg-theme-button-color, #2481CC)",
             backgroundColor: "transparent",
+            border: "1px solid var(--tg-theme-button-color, #2481CC)",
           },
         },
         outlinedSecondary: {
-          color: "var(--tg-theme-button-color, #2481CC)",
+          color: "var(--gr-theme-color-secondary, #ea5230)",
           backgroundColor: "transparent",
-          border: "1px solid var(--tg-theme-button-color, #2481CC)",
+          border: "1px solid var(--gr-theme-color-secondary, #ea5230)",
           "&:hover": {
-            color: "var(--tg-theme-button-color, #2481CC)",
+            color: "var(--gr-theme-color-secondary, #ea5230)",
             backgroundColor: "transparent",
-            border: "1px solid var(--tg-theme-button-color, #2481CC)",
+            border: "1px solid var(--gr-theme-color-secondary, #ea5230)",
           },
           "&:disabled": {
-            color: "var(--tg-theme-button-color, #2481CC)",
+            color: "var(--gr-theme-color-secondary, #ea5230)",
             backgroundColor: "transparent",
+            border: "1px solid var(--gr-theme-color-secondary, #ea5230)",
           },
         },
         outlinedError: {

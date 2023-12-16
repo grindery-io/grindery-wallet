@@ -13,8 +13,8 @@ const ConvertTokensOutput = () => {
     <Stack
       direction="column"
       alignItems="center"
-      justifyContent="flex-start"
-      sx={{ margin: "16px" }}
+      justifyContent="center"
+      sx={{ margin: "16px", flex: 1 }}
     >
       <ArrowDownIcon />
       {status === ConvertStatus.LOADING ? (
@@ -23,7 +23,7 @@ const ConvertTokensOutput = () => {
         </Typography>
       ) : (
         <>
-          <Typography color="hint" mb="8px">
+          <Typography color="hint" mb="6px">
             <strong>You get</strong>
           </Typography>
           <Stack
@@ -56,7 +56,7 @@ const ConvertTokensOutput = () => {
             </Stack>
           </Stack>
           <Typography variant="xs" color="hint" mt="6px">
-            USD 102
+            USD 102 or USD 0.036/GX
           </Typography>
         </>
       )}

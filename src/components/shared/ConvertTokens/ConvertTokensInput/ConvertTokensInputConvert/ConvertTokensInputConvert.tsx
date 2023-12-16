@@ -43,7 +43,7 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
         sx={{ padding: "16px 16px 12px", "& *": { lineHeight: "1.2" } }}
       >
         <Box>
-          <Typography color="hint" mb="2px">
+          <Typography color="hint" mb="2px" variant="sm">
             <strong>You Exchange</strong>
           </Typography>
           <InputBase
@@ -67,7 +67,7 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
                 color: "var(--tg-theme-text-color, #000000)",
                 fontSize: "24px",
                 lineHeight: "1",
-                fontWeight: "600",
+                fontWeight: "300",
               },
             }}
           />
