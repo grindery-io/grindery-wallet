@@ -59,6 +59,12 @@ a {
   color: inherit;
 }
 
+#root {
+  overflow: hidden;
+  height: auto;
+  width: 100%;
+}
+
 /*.MuiTextField-root {
   background: none !important;
 }*/
