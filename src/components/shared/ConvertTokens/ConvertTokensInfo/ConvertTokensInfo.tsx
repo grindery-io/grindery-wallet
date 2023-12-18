@@ -39,7 +39,7 @@ const ConvertTokensInfo = () => {
           </strong>
         </Typography>
         <Typography textAlign="right" variant="sm" ml="auto">
-          MVU: <strong>7.8/10</strong>
+          MVU: <strong>7.8</strong>
         </Typography>
       </Stack>
     </User>

@@ -1,11 +1,9 @@
 import React from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import UserAddress from "../UserAddress";
-import { useNavigate } from "react-router";
 import { selectAppStore, useAppSelector } from "store";
 
 const ConvertTokensSentMessage = () => {
-  const navigate = useNavigate();
   const {
     convert: { input, result },
   } = useAppSelector(selectAppStore);
@@ -170,17 +168,6 @@ const ConvertTokensSentMessage = () => {
           More technical details on the token sale{" "}
           <a href="https://www.grindery.io">here</a>.
         </Typography>
-        <Button
-          sx={{ marginTop: "8px" }}
-          fullWidth
-          variant="outlined"
-          color="secondary"
-          onClick={() => {
-            navigate("/tokens");
-          }}
-        >
-          Return to wallet
-        </Button>
       </Stack>
     </Box>
   );

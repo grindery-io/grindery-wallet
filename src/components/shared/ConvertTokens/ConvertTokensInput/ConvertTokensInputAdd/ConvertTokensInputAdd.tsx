@@ -1,12 +1,11 @@
 import React from "react";
-import { Box, InputBase, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, InputBase, Stack, Typography } from "@mui/material";
 import {
   appStoreActions,
   selectAppStore,
   useAppDispatch,
   useAppSelector,
 } from "store";
-import InfoIcon from "components/icons/InfoIcon";
 
 type ConvertTokensInputAddProps = {};
 
@@ -25,7 +24,7 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
     >
       <Box>
         <Typography color="hint" mb="2px" variant="sm">
-          <strong>Booster</strong>
+          <strong>You Add</strong>
         </Typography>
         <InputBase
           placeholder="0.00"
@@ -52,14 +51,7 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
           }}
         />
         <Typography variant="xs" color="hint">
-          USDT, USDC, MATIC, ...{" "}
-          <Tooltip title="Some text">
-            <span>
-              <InfoIcon
-                sx={{ marginLeft: "2px", transform: "translateY(1.5px)" }}
-              />
-            </span>
-          </Tooltip>
+          USDT, USDC, MATIC, ...
         </Typography>
       </Box>
 

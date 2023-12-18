@@ -19,7 +19,7 @@ const ConvertTokensInput = () => {
 
 const ConvertTokensInputStyles = {
   position: "relative",
-  margin: "16px 16px 0",
+  margin: "16px 24px 0",
   borderRadius: "16px",
   border: "1px solid var(--gr-theme-divider-color)",
 };

@@ -6,13 +6,20 @@ import BalanceUpdated from "./BalanceUpdated/BalanceUpdated";
 import UserAddress from "../UserAddress";
 
 const Balance = () => {
-  const { balance } = useAppSelector(selectAppStore);
+  const {
+    debug: { enabled, features },
+    balance,
+  } = useAppSelector(selectAppStore);
 
   return (
     <Box
       data-testid="balance-container"
       sx={{
-        ...BalanceStyles,
+        width: "100%",
+        padding:
+          enabled && features?.GX_PREORDER ? "8px 16px 12px" : "16px 16px 12px",
+        textAlign: "center",
+        margin: "8px 0 0",
         opacity: balance.cached ? 0.6 : 1,
       }}
     >
@@ -21,13 +28,6 @@ const Balance = () => {
       <UserAddress avatar={false} border={false} sx={{ marginTop: "4px" }} />
     </Box>
   );
-};
-
-const BalanceStyles = {
-  width: "100%",
-  padding: "16px 16px 12px",
-  textAlign: "center",
-  margin: "8px 0 0",
 };
 
 export default Balance;

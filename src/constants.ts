@@ -67,6 +67,7 @@ export const EXPERIMENTAL_FEATURES = {
   BRIDGE: "Tokens bridge (requires multichain)",
   ON_RAMP: "On-ramp (sandbox)",
   STAKING: "Staking",
+  GX_PREORDER: "GX Pre-order (sandbox)",
 };
 
 export const TRANSACTION_STATUS = {

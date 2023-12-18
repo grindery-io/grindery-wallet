@@ -55,7 +55,9 @@ const AppRoutes = () => {
       {enabled && features?.STAKING && (
         <Route path="/staking" element={<StakingPage />} />
       )}
-      {enabled && <Route path="/pre-order" element={<PreOrderPage />} />}
+      {enabled && features?.GX_PREORDER && (
+        <Route path="/pre-order" element={<PreOrderPage />} />
+      )}
       <Route path="/buy" element={<BuyPage />} />
       <Route path="*" element={<Navigate to="/tokens" replace />} />
     </Routes>

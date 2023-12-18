@@ -60,15 +60,16 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
   };
 
   return (
-    <Box sx={{ margin: "auto 16px 16px" }}>
+    <Box sx={{ margin: "auto 16px 24px" }}>
       <Button
         disabled={disabled}
         variant="contained"
         fullWidth
         onClick={handleClick}
         color="secondary"
+        size="large"
       >
-        Pre-order
+        Pre-order (sandbox)
       </Button>
     </Box>
   );

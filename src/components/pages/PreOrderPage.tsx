@@ -27,9 +27,11 @@ const PreOrderPage = () => {
       })
     );
 
-    alert(
-      `The page is in the sandbox mode.\n\nNo real order will be placed, all numbers are fake.`
-    );
+    setTimeout(() => {
+      alert(
+        `GX pre-order is in the sandbox mode.\n\nNo real order will be placed, all numbers and prices are fake.`
+      );
+    }, 1000);
   }, [dispatch]);
 
   return user?.patchwallet ? <ConvertTokens /> : <Loading />;
