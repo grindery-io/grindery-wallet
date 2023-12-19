@@ -28,6 +28,7 @@ import {
   BridgeState,
   ConvertStatus,
   ConvertState,
+  ConvertInput,
 } from "types";
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
@@ -369,6 +370,12 @@ const appSlice = createSlice({
     setConvert(state, action: PayloadAction<Partial<ConvertState>>) {
       state.convert = {
         ...state.convert,
+        ...action.payload,
+      };
+    },
+    setConvertInput(state, action: PayloadAction<Partial<ConvertInput>>) {
+      state.convert.input = {
+        ...state.convert.input,
         ...action.payload,
       };
     },

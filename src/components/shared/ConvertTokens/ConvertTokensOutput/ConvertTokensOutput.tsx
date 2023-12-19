@@ -104,9 +104,6 @@ const ConvertTokensOutput = () => {
           <Typography variant="xs" color="hint" mt="6px">
             Value ${gxPriceTotal} USD or {gxPrice} USD/GX
           </Typography>
-          <Typography variant="xs" color="hint" mt="2px">
-            MVU score sets rate; discount decreases by minute.
-          </Typography>
         </>
       )}
     </Stack>

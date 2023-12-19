@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Box, Button, InputBase, Stack, Typography } from "@mui/material";
 import {
   appStoreActions,
@@ -32,6 +32,28 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
       (token) =>
         token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
     ) || (GRINDERY_ONE_TOKEN as TokenType);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (inputRef.current) {
+        const maxBalance = grinderyToken.balance
+          ? (
+              parseFloat(grinderyToken.balance) /
+              10 ** grinderyToken.decimals
+            ).toString()
+          : "";
+
+        // @ts-ignore
+        inputRef.current.value = maxBalance;
+
+        dispatch(
+          appStoreActions.setConvertInput({
+            convert: maxBalance,
+          })
+        );
+      }
+    }, 100);
+  }, [grinderyToken.balance, grinderyToken.decimals, dispatch]);
 
   return (
     <Token token={grinderyToken}>

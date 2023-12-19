@@ -1,5 +1,5 @@
+import React, { useEffect } from "react";
 import { Box, Button } from "@mui/material";
-import React from "react";
 import {
   appStoreActions,
   selectAppStore,
@@ -11,6 +11,7 @@ import { ConvertStatus } from "types";
 type ConvertTokensButtonProps = {};
 
 const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
+  const [timer, setTimer] = React.useState(0);
   const dispatch = useAppDispatch();
   const {
     convert: { input, status, result },
@@ -19,6 +20,11 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
     status === ConvertStatus.LOADING ||
     parseFloat(input.convert || "0") <= 0 ||
     parseFloat(result || "0") <= 0;
+
+  const gxPrice = "0.036";
+  const gxPriceTotal = (
+    parseFloat(result || "0") * parseFloat(gxPrice)
+  ).toFixed(2);
 
   const convertTokens = () => {
     dispatch(
@@ -37,7 +43,23 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
   };
 
   const handleClick = () => {
-    const message = `Confirm your pre-order.\n\nYou are reserving ${result} GX of a value of USD 122 with a non-refundable exchange of ${
+    if (timer >= 30) {
+      dispatch(
+        appStoreActions.setConvert({
+          status: ConvertStatus.LOADING,
+        })
+      );
+      setTimeout(() => {
+        dispatch(
+          appStoreActions.setConvert({
+            status: ConvertStatus.WAITING,
+          })
+        );
+      }, 1500);
+      setTimer(0);
+      return;
+    }
+    const message = `Confirm your pre-order.\n\nYou are reserving ${result} GX of a value of ${gxPriceTotal} USD with a non-refundable exchange of ${
       input.convert
     } G1${
       parseFloat(input.add) > 0
@@ -59,6 +81,24 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
     }
   };
 
+  useEffect(() => {
+    let timerId: any;
+
+    timerId = setInterval(() => {
+      setTimer((_timer) => _timer + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!disabled) {
+      setTimer(0);
+    }
+  }, [disabled]);
+
   return (
     <Box sx={{ margin: "auto 16px 24px" }}>
       <Button
@@ -69,7 +109,13 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
         color="secondary"
         size="large"
       >
-        Pre-order (sandbox)
+        {disabled ? (
+          "Pre-order"
+        ) : timer < 30 ? (
+          <>Pre-order ({(30 - timer).toString()}s)</>
+        ) : (
+          <>Refresh</>
+        )}
       </Button>
     </Box>
   );
