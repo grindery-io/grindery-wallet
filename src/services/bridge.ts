@@ -1,4 +1,5 @@
 import axios from "axios";
+import { WALLET_API_URL } from "../constants";
 import { BridgeStateInput } from "types";
 
 export type GetBridgeTokensResponseType = {
@@ -210,4 +211,30 @@ export const getBridgeConnectionsRequest = async ({
       signal: controller?.signal,
     }
   );
+};
+
+export type BridgeTokenRequestParams = {
+  to: string;
+  data: string;
+  value: string;
+  tokenIn: string;
+  amountIn: string;
+  tokenOut: string;
+  amountOut: string;
+  gas?: string;
+  priceImpact?: string;
+  chainIn?: string;
+  chainOut?: string;
+};
+
+export const bridgeTokensRequest = async (
+  params: BridgeTokenRequestParams,
+  controller?: AbortController
+) => {
+  return await axios.post(`${WALLET_API_URL}/v2/swap`, params, {
+    signal: controller?.signal,
+    headers: {
+      Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+    },
+  });
 };

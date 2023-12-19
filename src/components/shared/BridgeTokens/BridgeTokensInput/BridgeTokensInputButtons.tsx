@@ -9,7 +9,7 @@ import {
   useAppSelector,
 } from "../../../../store";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
-import { swapTokensRequest } from "services";
+import { bridgeTokensRequest, swapTokensRequest } from "services";
 
 const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
   let navigate = useNavigate();
@@ -52,7 +52,7 @@ const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
     );
 
     try {
-      await swapTokensRequest({
+      await bridgeTokensRequest({
         to: quote.transactionRequest.to,
         data: quote.transactionRequest.data,
         value: quote.transactionRequest.value,
@@ -62,7 +62,8 @@ const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
         amountOut: quote.estimate.toAmount,
         gas: quote.transactionRequest.gasPrice,
         priceImpact: "0",
-        chainId: input.chainIn || "137",
+        chainIn: input.chainIn || "137",
+        chainOut: input.chainOut || "137",
       });
 
       dispatch(
