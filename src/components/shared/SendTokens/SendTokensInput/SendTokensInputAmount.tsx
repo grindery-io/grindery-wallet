@@ -91,7 +91,7 @@ const SendTokensInputAmount = ({
                 color: "var(--tg-theme-text-color, #000000)",
               },
               step: 1,
-              enterkeyhint: "send",
+              enterKeyHint: "send",
             }}
           />
           {Array.isArray(recipient) && (

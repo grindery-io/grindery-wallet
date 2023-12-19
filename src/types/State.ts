@@ -239,45 +239,6 @@ export type ErrorState = {
 } | null;
 
 /**
- * Interface for the LeaderboardEntry object representing a single entry in the leaderboard
- */
-export type LeaderboardEntry = any;
-
-/**
- * Interface for the LeaderboardState object representing the state of the leaderboard
- */
-export type LeaderboardState = {
-  /**
-   * Array of leaderboard entries
-   */
-  docs: LeaderboardEntry[];
-  /**
-   * Total number of entries
-   */
-  total: number;
-  /**
-   * Current page
-   */
-  page: number;
-  /**
-   * Whether the leaderboard is loading
-   */
-  loading: boolean;
-  /**
-   * Sort key
-   */
-  sort: string;
-  /**
-   * Sort order
-   */
-  order: string;
-  /**
-   * Saved date
-   */
-  savedDate?: string;
-};
-
-/**
  * Interface for the RewardsState object representing the state of the user rewards
  */
 export type RewardsState = {
@@ -422,10 +383,6 @@ export type AppState = {
    * App error state
    */
   error: ErrorState;
-  /**
-   * Leaderboard list state
-   */
-  leaderboard: LeaderboardState;
   /**
    * Rewards list state
    */

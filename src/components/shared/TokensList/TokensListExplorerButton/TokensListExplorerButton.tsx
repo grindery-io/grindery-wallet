@@ -55,6 +55,8 @@ const TokensListExplorerButton = () => {
         sx={{
           "& .MuiList-root": {
             padding: "8px 8px 4px",
+            backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+            color: "var(--tg-theme-text-color, #000000)",
           },
           "& .MuiMenuItem-root": {
             borderRadius: "4px",

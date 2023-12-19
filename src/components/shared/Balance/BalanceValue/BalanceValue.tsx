@@ -65,14 +65,19 @@ const BalanceValue = () => {
       </Typography>
       <Select
         sx={{
+          color: "var(--tg-theme-text-color, #000000)",
           display: "inline-flex",
           marginLeft: "8px",
           fontFamily: "inherit",
           "& .MuiSelect-select": {
             padding: 0,
+            color: "var(--tg-theme-text-color, #000000)",
           },
           "& .MuiOutlinedInput-notchedOutline": {
             border: "none",
+          },
+          "& .MuiSelect-icon": {
+            color: "var(--tg-theme-text-color, #000000)",
           },
         }}
         value={display}
@@ -91,6 +96,8 @@ const BalanceValue = () => {
           PaperProps: {
             sx: {
               minWidth: "unset !important",
+              backgroundColor: "var(--tg-theme-bg-color, #ffffff)",
+              color: "var(--tg-theme-text-color, #000000)",
             },
           },
           sx: {

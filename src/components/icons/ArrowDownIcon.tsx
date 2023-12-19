@@ -19,14 +19,14 @@ const ArrowDownIcon = (props: SvgIconProps) => {
         }}
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M0.602056 6.44593L1.90748 5.1405L8.00002 11.233L14.0925 5.1405L15.398 6.44593L8.00002 13.8439L0.602056 6.44593Z"
           fill="currentColor"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M8.92308 0.23077V11.3077H7.07692V0.23077H8.92308Z"
           fill="currentColor"
         />

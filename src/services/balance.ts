@@ -1,31 +1,6 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
 
-export type GetBalanceResponseType = {
-  balanceWei: string;
-  balanceEther: string;
-};
-
-export const getBalanceRequest = async (
-  address: string,
-  tokenAddress?: string,
-  chainId?: string,
-  controller?: AbortController
-) => {
-  return await axios.post<GetBalanceResponseType>(
-    `${WALLET_API_URL}/v2/balance/`,
-    {
-      userAddress: address,
-      contractAddress:
-        tokenAddress || "0xe36BD65609c08Cd17b53520293523CF4560533d0",
-      chainId: chainId || "matic",
-    },
-    {
-      signal: controller?.signal,
-    }
-  );
-};
-
 export type GetFullBalanceResponseType = {
   totalBalanceUsd: string;
   totalCount: number;

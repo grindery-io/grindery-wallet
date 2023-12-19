@@ -13,8 +13,6 @@ import {
   ContactsState,
   DebugState,
   ErrorState,
-  LeaderboardEntry,
-  LeaderboardState,
   RewardsState,
   SendState,
   SendStatus,
@@ -106,16 +104,6 @@ export const initialState: AppState = {
     ),
   },
   error: null,
-  leaderboard: {
-    docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.LEADERBOARD) || "[]"),
-    total: 0,
-    page: 1,
-    loading: true,
-    sort: "txCount",
-    order: "desc",
-    savedDate: localStorage.getItem(STORAGE_KEYS.LEADERBOARD_SAVED) || "",
-  },
-
   rewards: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.REWARDS) || "[]"),
     total: 0,
@@ -154,30 +142,6 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    /**
-     * Reducer to set the leaderboard state
-     */
-    setLeaderboard(state, action: PayloadAction<Partial<LeaderboardState>>) {
-      state.leaderboard = {
-        ...state.leaderboard,
-        ...action.payload,
-      };
-    },
-    /**
-     * Reducer to set the leaderboard docs state
-     */
-    setLeaderboardDocs(state, action: PayloadAction<LeaderboardEntry[]>) {
-      state.leaderboard.docs = action.payload;
-    },
-    /**
-     * Reducer to add the leaderboard docs to the state
-     */
-    addLeaderboardDocs(state, action: PayloadAction<LeaderboardEntry[]>) {
-      state.leaderboard.docs = [...state.leaderboard.docs, ...action.payload];
-    },
-    /**
-     * Reducer to set the rewards state
-     */
     setRewards(state, action: PayloadAction<Partial<RewardsState>>) {
       state.rewards = {
         ...state.rewards,

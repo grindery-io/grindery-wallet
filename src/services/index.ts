@@ -3,7 +3,6 @@ export * from "./auth";
 export * from "./balance";
 export * from "./config";
 export * from "./contacts";
-export * from "./leaderboard";
 export * from "./me";
 export * from "./rewards";
 export * from "./send";

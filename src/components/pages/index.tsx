@@ -5,7 +5,6 @@ export { default as ConnectTelegramPage } from "./ConnectTelegramPage";
 export { default as ContactPage } from "./ContactPage";
 export { default as ContactsPage } from "./ContactsPage";
 export { default as DebugPage } from "./DebugPage";
-export { default as LeaderboardPage } from "./LeaderboardPage";
 export { default as RewardPage } from "./RewardPage";
 export { default as RewardsPage } from "./RewardsPage";
 export { default as SendPage } from "./SendPage";

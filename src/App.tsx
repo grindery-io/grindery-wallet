@@ -11,19 +11,29 @@ import AppRoutes from "AppRoutes";
 import Container from "components/shared/Container";
 import AppContextProvider from "context/AppContext";
 
-import { LeaderboardPage, ConnectTelegramPage } from "components/pages";
+import { ConnectTelegramPage } from "components/pages";
 
 function App() {
   useEffect(() => {
     expandApp();
     setAppStyles();
+    const colorSchemeDarkMedia = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+
+    colorSchemeDarkMedia.onchange = () => {
+      setAppStyles();
+    };
+
+    return () => {
+      colorSchemeDarkMedia.onchange = null;
+    };
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/connect/telegram" element={<ConnectTelegramPage />} />
           <Route
             path="*"

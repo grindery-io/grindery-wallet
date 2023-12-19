@@ -31,7 +31,7 @@ export const setAppStyles = (): void => {
 
   if (
     !window.Telegram?.WebApp?.colorScheme &&
-    window.location.href?.split("?")?.[1] === "theme=dark"
+    window.matchMedia("(prefers-color-scheme: dark)").matches
   ) {
     document.documentElement.style.setProperty(
       "--tg-theme-bg-color",
@@ -60,6 +60,38 @@ export const setAppStyles = (): void => {
     document.documentElement.style.setProperty(
       "--tg-theme-text-color",
       "#ffffff"
+    );
+  } else if (
+    !window.Telegram?.WebApp?.colorScheme &&
+    !window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    document.documentElement.style.setProperty(
+      "--tg-theme-bg-color",
+      "#ffffff"
+    );
+    document.documentElement.style.setProperty(
+      "--tg-theme-button-color",
+      "#2481cc"
+    );
+    document.documentElement.style.setProperty(
+      "--tg-theme-button-text-color",
+      "#ffffff"
+    );
+    document.documentElement.style.setProperty(
+      "--tg-theme-hint-color",
+      "#999999"
+    );
+    document.documentElement.style.setProperty(
+      "--tg-theme-link-color",
+      "#2481cc"
+    );
+    document.documentElement.style.setProperty(
+      "--tg-theme-secondary-bg-color",
+      "#efeff3"
+    );
+    document.documentElement.style.setProperty(
+      "--tg-theme-text-color",
+      "#000000"
     );
   }
 };
