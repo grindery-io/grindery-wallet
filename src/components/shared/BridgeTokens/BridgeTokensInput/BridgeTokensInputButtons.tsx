@@ -9,7 +9,7 @@ import {
   useAppSelector,
 } from "../../../../store";
 import { BridgeTokensInputProps } from "./BridgeTokensInput";
-import { bridgeTokensRequest, swapTokensRequest } from "services";
+import { bridgeTokensRequest } from "services";
 
 const BridgeTokensInputButtons = ({ tokensIn }: BridgeTokensInputProps) => {
   let navigate = useNavigate();
