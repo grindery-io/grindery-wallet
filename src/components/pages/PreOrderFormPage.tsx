@@ -10,7 +10,7 @@ import Loading from "components/shared/Loading/Loading";
 import ConvertTokens from "components/shared/ConvertTokens/ConvertTokens";
 import { ConvertStatus } from "types";
 
-const PreOrderPage = () => {
+const PreOrderFormPage = () => {
   useBackButton();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectAppStore);
@@ -26,15 +26,9 @@ const PreOrderPage = () => {
         status: ConvertStatus.WAITING,
       })
     );
-
-    setTimeout(() => {
-      alert(
-        `GX pre-order is in the sandbox mode.\n\nNo real order will be placed, all numbers and prices are fake.`
-      );
-    }, 750);
   }, [dispatch]);
 
   return user?.patchwallet ? <ConvertTokens /> : <Loading />;
 };
 
-export default PreOrderPage;
+export default PreOrderFormPage;

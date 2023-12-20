@@ -12,7 +12,8 @@ import {
   ContactPage,
   ContactsPage,
   DebugPage,
-  PreOrderPage,
+  PreOrderFormPage,
+  PreOrderIntroPage,
   RewardPage,
   RewardsPage,
   SendPage,
@@ -56,7 +57,10 @@ const AppRoutes = () => {
         <Route path="/staking" element={<StakingPage />} />
       )}
       {enabled && features?.GX_PREORDER && (
-        <Route path="/pre-order" element={<PreOrderPage />} />
+        <>
+          <Route path="/pre-order" element={<PreOrderIntroPage />} />
+          <Route path="/pre-order/form" element={<PreOrderFormPage />} />
+        </>
       )}
       <Route path="/buy" element={<BuyPage />} />
       <Route path="*" element={<Navigate to="/tokens" replace />} />

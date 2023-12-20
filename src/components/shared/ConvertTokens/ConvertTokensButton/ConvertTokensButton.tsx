@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import moment from "moment";
 import { Box, Button } from "@mui/material";
 import {
   appStoreActions,
@@ -7,6 +8,8 @@ import {
   useAppSelector,
 } from "store";
 import { ConvertStatus } from "types";
+
+const refreshTimeout = 600;
 
 type ConvertTokensButtonProps = {};
 
@@ -26,6 +29,8 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
     parseFloat(result || "0") * parseFloat(gxPrice)
   ).toFixed(2);
 
+  const duration = moment.duration(refreshTimeout - timer, "seconds");
+
   const convertTokens = () => {
     dispatch(
       appStoreActions.setConvert({
@@ -43,7 +48,7 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
   };
 
   const handleClick = () => {
-    if (timer >= 30) {
+    if (timer >= refreshTimeout) {
       dispatch(
         appStoreActions.setConvert({
           status: ConvertStatus.LOADING,
@@ -111,8 +116,16 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
       >
         {disabled ? (
           "Pre-order"
-        ) : timer < 30 ? (
-          <>Pre-order ({(30 - timer).toString()}s)</>
+        ) : timer < refreshTimeout ? (
+          <>
+            Pre-order (
+            {refreshTimeout - timer > 60
+              ? `${duration.minutes()}:${
+                  duration.seconds() < 10 ? "0" : ""
+                }${duration.seconds()}`
+              : `${duration.asSeconds()}s`}
+            )
+          </>
         ) : (
           <>Refresh</>
         )}

@@ -17,4 +17,5 @@ export { default as TokenPage } from "./TokenPage/TokenPage";
 export { default as BridgePage } from "./BridgePage";
 export { default as BuyPage } from "./BuyPage";
 export { default as StakingPage } from "./StakingPage";
-export { default as PreOrderPage } from "./PreOrderPage";
+export { default as PreOrderIntroPage } from "./PreOrderIntroPage";
+export { default as PreOrderFormPage } from "./PreOrderFormPage";
