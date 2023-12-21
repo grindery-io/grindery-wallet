@@ -35,10 +35,10 @@ const BuyTokens = () => {
           language="en"
           externalCustomerId={user?.userTelegramID || ""}
           walletAddresses={JSON.stringify({
-            MATIC_POLYGON: user?.patchwallet || "",
-            ETH_POLYGON: user?.patchwallet || "",
-            USDC_POLYGON: user?.patchwallet || "",
-            USDT_POLYGON: user?.patchwallet || "",
+            matic_polygon: user?.patchwallet || "",
+            eth_polygon: user?.patchwallet || "",
+            usdc_polygon: user?.patchwallet || "",
+            usdt_polygon: user?.patchwallet || "",
           })}
           onUrlSignatureRequested={handleGetSignature}
           showWalletAddressForm="true"
