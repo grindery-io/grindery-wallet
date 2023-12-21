@@ -19,7 +19,10 @@ const BuyTokens = () => {
 
   return (
     <Box sx={BuyTokensStyles}>
-      <MoonPayProvider apiKey={process.env.REACT_APP_MOONPAY_PK || ""} debug>
+      <MoonPayProvider
+        apiKey={process.env.REACT_APP_MOONPAY_PK || ""}
+        debug={Boolean(process.env.REACT_APP_ENV !== "production")}
+      >
         <MoonPayBuyWidget
           useWarnBeforeRefresh={false}
           variant="embedded"

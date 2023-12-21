@@ -65,7 +65,9 @@ export const EXPERIMENTAL_FEATURES = {
   CONTACT_PHOTOS: "Contact photos",
   MULTICHAIN: "Multichain support",
   BRIDGE: "Tokens bridge (requires multichain)",
-  ON_RAMP: "On-ramp (sandbox)",
+  ON_RAMP: `On-ramp (${
+    process.env.REACT_APP_ENV !== "production" ? "sandbox" : "live"
+  })`,
   STAKING: "Staking",
   GX_PREORDER: "GX Pre-order (sandbox)",
 };

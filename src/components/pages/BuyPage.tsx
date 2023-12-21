@@ -11,10 +11,12 @@ const BuyPage = () => {
   const { user } = useAppSelector(selectAppStore);
 
   useEffect(() => {
-    if (window.Telegram?.WebApp?.showAlert) {
-      window.Telegram?.WebApp?.showAlert(alertMessage);
-    } else {
-      window.alert(alertMessage);
+    if (process.env.REACT_APP_ENV !== "production") {
+      if (window.Telegram?.WebApp?.showAlert) {
+        window.Telegram?.WebApp?.showAlert(alertMessage);
+      } else {
+        window.alert(alertMessage);
+      }
     }
   }, []);
 

@@ -1,6 +1,6 @@
 {
   "name": "grindery-wallet",
-  "version": "0.9.21",
+  "version": "0.9.22",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -40,7 +40,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:env:staging": "REACT_APP_ENV=staging react-scripts build",
+    "build:env:staging": "REACT_APP_ENV=staging REACT_APP_MOONPAY_PK=pk_test_relDpm1G9B54FAcIGvnGFlLLpH5hX react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
