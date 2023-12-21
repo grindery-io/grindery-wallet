@@ -28,14 +28,18 @@ const BuyTokens = () => {
           variant="embedded"
           baseCurrencyCode="usd"
           //baseCurrencyAmount="100"
-          defaultCurrencyCode="eth"
+          defaultCurrencyCode="MATIC_POLYGON"
           visible
           colorCode={colorCode}
           theme={theme}
           language="en"
           externalCustomerId={user?.userTelegramID || ""}
-          walletAddress={user?.patchwallet || ""}
-          currencyCode="MATIC_POLYGON"
+          walletAddresses={JSON.stringify({
+            MATIC_POLYGON: user?.patchwallet || "",
+            ETH_POLYGON: user?.patchwallet || "",
+            USDC_POLYGON: user?.patchwallet || "",
+            USDT_POLYGON: user?.patchwallet || "",
+          })}
           onUrlSignatureRequested={handleGetSignature}
           showWalletAddressForm="true"
         />
