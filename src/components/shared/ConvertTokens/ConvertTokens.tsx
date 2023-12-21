@@ -32,13 +32,13 @@ const ConvertTokens = () => {
         appStoreActions.setConvert({
           status: ConvertStatus.WAITING,
           result:
-            parseFloat(input.convert) > 0
+            parseFloat(input.convert) > 0 || parseFloat(input.add) > 0
               ? parseFloat(input.add) > 0
                 ? (
-                    parseFloat(input.add) * 10 +
-                    parseFloat(input.convert) * 0.1
+                    parseFloat(input.add) * 27.7777777778 +
+                    parseFloat(input.convert || "0") * 0.1
                   ).toString()
-                : (parseFloat(input.convert) * 0.1).toString()
+                : (parseFloat(input.convert || "0") * 0.1).toString()
               : "",
         })
       );

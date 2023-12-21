@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Box, InputBase, Stack, Typography } from "@mui/material";
 import {
   appStoreActions,
@@ -10,10 +10,34 @@ import {
 type ConvertTokensInputAddProps = {};
 
 const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
+  const inputRef = useRef(null);
   const dispatch = useAppDispatch();
   const {
     convert: { input },
+    balance: { value },
   } = useAppSelector(selectAppStore);
+
+  const balanceWithoutDecimals = String(value || 0).split(".")[0];
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (
+        inputRef.current &&
+        balanceWithoutDecimals &&
+        parseInt(balanceWithoutDecimals) > 0
+      ) {
+        // @ts-ignore
+        inputRef.current.value = balanceWithoutDecimals;
+
+        dispatch(
+          appStoreActions.setConvertInput({
+            add: balanceWithoutDecimals,
+          })
+        );
+      }
+    }, 100);
+  }, [balanceWithoutDecimals, dispatch]);
+
   return (
     <Stack
       direction="row"
@@ -40,6 +64,7 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
             );
           }}
           inputProps={{
+            ref: inputRef,
             sx: {
               padding: 0,
               background: "transparent",

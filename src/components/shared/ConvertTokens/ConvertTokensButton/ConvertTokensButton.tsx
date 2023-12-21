@@ -20,9 +20,7 @@ const ConvertTokensButton = (props: ConvertTokensButtonProps) => {
     convert: { input, status, result },
   } = useAppSelector(selectAppStore);
   const disabled =
-    status === ConvertStatus.LOADING ||
-    parseFloat(input.convert || "0") <= 0 ||
-    parseFloat(result || "0") <= 0;
+    status === ConvertStatus.LOADING || parseFloat(result || "0") <= 0;
 
   const gxPrice = "0.036";
   const gxPriceTotal = (
