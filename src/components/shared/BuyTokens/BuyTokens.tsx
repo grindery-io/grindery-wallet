@@ -35,7 +35,7 @@ const BuyTokens = () => {
           language="en"
           externalCustomerId={user?.userTelegramID || ""}
           walletAddress={user?.patchwallet || ""}
-          currencyCode="ETH_POLYGON"
+          currencyCode="MATIC_POLYGON"
           onUrlSignatureRequested={handleGetSignature}
           showWalletAddressForm="true"
         />
