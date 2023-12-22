@@ -18,14 +18,14 @@ import {
   TokenType,
 } from "components/shared/Token";
 
-type ConvertTokensInputConvertProps = {};
+type OrderTokensInputConvertProps = {};
 
-const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
+const OrderTokensInputConvert = (props: OrderTokensInputConvertProps) => {
   const dispatch = useAppDispatch();
   const inputRef = useRef(null);
   const {
     tokens,
-    convert: { input },
+    order: { input },
   } = useAppSelector(selectAppStore);
   const grinderyToken =
     tokens.find(
@@ -47,7 +47,7 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
         inputRef.current.value = maxBalance;
 
         dispatch(
-          appStoreActions.setConvertInput({
+          appStoreActions.setOrderInput({
             convert: maxBalance,
           })
         );
@@ -73,7 +73,7 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
             sx={{ marginBottom: "2px" }}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               dispatch(
-                appStoreActions.setConvert({
+                appStoreActions.setOrder({
                   input: {
                     ...input,
                     convert: event.target.value,
@@ -126,7 +126,7 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
                   10 ** grinderyToken.decimals
                 ).toString();
                 dispatch(
-                  appStoreActions.setConvert({
+                  appStoreActions.setOrder({
                     input: {
                       ...input,
                       convert: maxBalance,
@@ -166,4 +166,4 @@ const ConvertTokensInputConvert = (props: ConvertTokensInputConvertProps) => {
   );
 };
 
-export default ConvertTokensInputConvert;
+export default OrderTokensInputConvert;

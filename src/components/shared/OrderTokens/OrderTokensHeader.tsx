@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, SxProps, Typography } from "@mui/material";
 
-const ConvertTokensHeader = () => {
+const OrderTokensHeader = () => {
   return (
-    <Box sx={ConvertTokensHeaderStyles}>
+    <Box sx={OrderTokensHeaderStyles}>
       <Typography textAlign="center" variant="xl" fontWeight="bold">
         Pre-order
       </Typography>
@@ -11,7 +11,7 @@ const ConvertTokensHeader = () => {
   );
 };
 
-const ConvertTokensHeaderStyles = {
+const OrderTokensHeaderStyles = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -21,4 +21,4 @@ const ConvertTokensHeaderStyles = {
   boxSizing: "border-box",
 } as SxProps;
 
-export default ConvertTokensHeader;
+export default OrderTokensHeader;

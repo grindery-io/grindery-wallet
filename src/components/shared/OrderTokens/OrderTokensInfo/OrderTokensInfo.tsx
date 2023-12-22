@@ -5,7 +5,7 @@ import User, { UserType } from "components/shared/User/User";
 import UserName from "components/shared/User/UserName/UserName";
 import UserAvatar from "components/shared/User/UserAvatar/UserAvatar";
 
-const ConvertTokensInfo = () => {
+const OrderTokensInfo = () => {
   const { user } = useAppSelector(selectAppStore);
 
   const currentUser: UserType = {
@@ -39,11 +39,11 @@ const ConvertTokensInfo = () => {
           </strong>
         </Typography>
         <Typography textAlign="right" variant="sm" ml="auto">
-          MVU: <strong>7.8</strong>
+          MVU: <strong>4</strong>
         </Typography>
       </Stack>
     </User>
   );
 };
 
-export default ConvertTokensInfo;
+export default OrderTokensInfo;

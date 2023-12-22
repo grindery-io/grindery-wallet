@@ -24,9 +24,9 @@ import {
   TelegramUserReward,
   BridgeStatus,
   BridgeState,
-  ConvertStatus,
-  ConvertState,
-  ConvertInput,
+  OrderStatus,
+  OrderState,
+  OrderInput,
 } from "types";
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
@@ -84,14 +84,6 @@ export const initialState: AppState = {
       ? JSON.parse(localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS) || "[]")
       : undefined,
   },
-  convert: {
-    input: {
-      convert: "",
-      add: "",
-    },
-    status: ConvertStatus.WAITING,
-    result: "",
-  },
   debug: {
     enabled: localStorage.getItem(STORAGE_KEYS.DEBUG) === "true",
     features: Object.fromEntries(
@@ -104,6 +96,14 @@ export const initialState: AppState = {
     ),
   },
   error: null,
+  order: {
+    input: {
+      convert: "",
+      add: "",
+    },
+    status: OrderStatus.WAITING,
+    quote: null,
+  },
   rewards: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.REWARDS) || "[]"),
     total: 0,
@@ -329,17 +329,17 @@ const appSlice = createSlice({
       );
     },
     /**
-     * Reducer to set the convert state
+     * Reducer to set the order state
      */
-    setConvert(state, action: PayloadAction<Partial<ConvertState>>) {
-      state.convert = {
-        ...state.convert,
+    setOrder(state, action: PayloadAction<Partial<OrderState>>) {
+      state.order = {
+        ...state.order,
         ...action.payload,
       };
     },
-    setConvertInput(state, action: PayloadAction<Partial<ConvertInput>>) {
-      state.convert.input = {
-        ...state.convert.input,
+    setOrderInput(state, action: PayloadAction<Partial<OrderInput>>) {
+      state.order.input = {
+        ...state.order.input,
         ...action.payload,
       };
     },

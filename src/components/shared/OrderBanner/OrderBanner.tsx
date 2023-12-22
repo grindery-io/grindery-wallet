@@ -2,11 +2,11 @@ import React from "react";
 import { ButtonBase, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 
-const PreOrderBanner = () => {
+const OrderBanner = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/pre-order");
+    navigate("/order");
   };
 
   return (
@@ -49,4 +49,4 @@ const PreOrderBanner = () => {
   );
 };
 
-export default PreOrderBanner;
+export default OrderBanner;

@@ -7,13 +7,13 @@ import {
   useAppSelector,
 } from "store";
 
-type ConvertTokensInputAddProps = {};
+type OrderTokensInputAddProps = {};
 
-const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
+const OrderTokensInputAdd = (props: OrderTokensInputAddProps) => {
   const inputRef = useRef(null);
   const dispatch = useAppDispatch();
   const {
-    convert: { input },
+    order: { input },
     balance: { value },
   } = useAppSelector(selectAppStore);
 
@@ -30,7 +30,7 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
         inputRef.current.value = balanceWithoutDecimals;
 
         dispatch(
-          appStoreActions.setConvertInput({
+          appStoreActions.setOrderInput({
             add: balanceWithoutDecimals,
           })
         );
@@ -55,7 +55,7 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
           sx={{ marginBottom: "2px" }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             dispatch(
-              appStoreActions.setConvert({
+              appStoreActions.setOrder({
                 input: {
                   ...input,
                   add: event.target.value,
@@ -89,4 +89,4 @@ const ConvertTokensInputAdd = (props: ConvertTokensInputAddProps) => {
   );
 };
 
-export default ConvertTokensInputAdd;
+export default OrderTokensInputAdd;

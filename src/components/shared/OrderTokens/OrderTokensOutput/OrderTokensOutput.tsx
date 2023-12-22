@@ -3,18 +3,17 @@ import { Box, Stack, Typography } from "@mui/material";
 import ArrowDownIcon from "components/icons/ArrowDownIcon";
 import GXIcon from "components/icons/GXIcon";
 import { selectAppStore, useAppSelector } from "store";
-import { ConvertStatus } from "types";
+import { OrderStatus } from "types";
 
-const ConvertTokensOutput = () => {
+const OrderTokensOutput = () => {
   const {
-    convert: { result, status },
+    order: { quote, status },
   } = useAppSelector(selectAppStore);
 
-  const discount = "19.34";
-  const gxPrice = "0.036";
-  const gxPriceTotal = (
-    parseFloat(result || "0") * parseFloat(gxPrice)
-  ).toFixed(2);
+  const gxAmount = quote?.before_mvu || 0;
+  const discount = (quote?.discount_received || 0).toFixed(2);
+  const gxPrice = 1 / (quote?.standard_gx_usd_exchange_rate || 0);
+  const gxPriceTotal = (gxAmount * gxPrice).toFixed(2);
 
   return (
     <Stack
@@ -24,7 +23,7 @@ const ConvertTokensOutput = () => {
       sx={{ margin: "16px", flex: 1 }}
     >
       <ArrowDownIcon sx={{ marginBottom: "4px !important" }} />
-      {status === ConvertStatus.LOADING ? (
+      {status === OrderStatus.LOADING ? (
         <Typography color="hint" mt="8px">
           <strong>Calculating...</strong>
         </Typography>
@@ -49,7 +48,7 @@ const ConvertTokensOutput = () => {
                   height: "21px",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  padding: "4px 12px 4px 6px",
+                  padding: "4px 10px 4px 4px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -87,7 +86,7 @@ const ConvertTokensOutput = () => {
                 textOverflow: "ellipsis",
               }}
             >
-              <strong>{result || "0"}</strong>
+              <strong>{gxAmount}</strong>
             </Typography>
             <Stack
               direction="row"
@@ -110,4 +109,4 @@ const ConvertTokensOutput = () => {
   );
 };
 
-export default ConvertTokensOutput;
+export default OrderTokensOutput;

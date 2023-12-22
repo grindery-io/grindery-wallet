@@ -4,7 +4,10 @@ import { TokenType } from "components/shared/Token";
 import { SwapRoute } from "./SwapRoute";
 import { TelegramUserActivity, TelegramUserReward } from "./Telegram";
 import { UserProps } from "./User";
-import { GetBridgeQuoteResponseType } from "services";
+import {
+  GetBridgeQuoteResponseType,
+  GetOrderQuoteResponseType,
+} from "services";
 
 /**
  * Interface for the ActivityState object representing the state of the user activity
@@ -165,28 +168,6 @@ export type ContactsState = {
   socialLoading?: boolean;
 };
 
-export type ConvertInput = {
-  convert: string;
-  add: string;
-};
-
-export enum ConvertStatus {
-  WAITING = "waiting_user_input",
-  LOADING = "loading",
-  ERROR = "error",
-  SENDING = "sending",
-  SENT = "sent",
-}
-
-/**
- * Interface for the ConvertState object representing the state of the tokens convert page
- */
-export type ConvertState = {
-  input: ConvertInput;
-  status: ConvertStatus;
-  result: string;
-};
-
 /**
  * Interface for the ConfigState object representing the state of app configuration
  */
@@ -237,6 +218,30 @@ export type ErrorState = {
   code?: number;
   type?: string;
 } | null;
+
+export type OrderInput = {
+  convert: string;
+  add: string;
+};
+
+export enum OrderStatus {
+  WAITING = "waiting_user_input",
+  LOADING = "loading",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+export type OrderQuote = GetOrderQuoteResponseType | null;
+
+/**
+ * Interface for the ConvertState object representing the state of the tokens convert page
+ */
+export type OrderState = {
+  input: OrderInput;
+  status: OrderStatus;
+  quote: OrderQuote;
+};
 
 /**
  * Interface for the RewardsState object representing the state of the user rewards
@@ -372,10 +377,6 @@ export type AppState = {
    */
   contacts: ContactsState;
   /**
-   * Convert tokens state
-   */
-  convert: ConvertState;
-  /**
    * App debug mode state
    */
   debug: DebugState;
@@ -383,6 +384,10 @@ export type AppState = {
    * App error state
    */
   error: ErrorState;
+  /**
+   * Order tokens state
+   */
+  order: OrderState;
   /**
    * Rewards list state
    */

@@ -3,10 +3,12 @@ import { Box, Stack, Typography } from "@mui/material";
 import UserAddress from "../UserAddress";
 import { selectAppStore, useAppSelector } from "store";
 
-const ConvertTokensSentMessage = () => {
+const OrderTokensSentMessage = () => {
   const {
-    convert: { input, result },
+    order: { input, quote },
   } = useAppSelector(selectAppStore);
+
+  const gxAmount = String(quote?.before_mvu || 0);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -68,7 +70,7 @@ const ConvertTokensSentMessage = () => {
               />
             </svg>
             <Typography variant="sm">
-              <strong>{result} GX preordered</strong>
+              <strong>{gxAmount} GX preordered</strong>
             </Typography>
           </Stack>
           <Stack direction="row" alignItems="center" spacing="6px">
@@ -173,4 +175,4 @@ const ConvertTokensSentMessage = () => {
   );
 };
 
-export default ConvertTokensSentMessage;
+export default OrderTokensSentMessage;

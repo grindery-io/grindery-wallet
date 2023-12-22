@@ -7,28 +7,28 @@ import {
   useAppSelector,
 } from "store";
 import Loading from "components/shared/Loading/Loading";
-import ConvertTokens from "components/shared/ConvertTokens/ConvertTokens";
-import { ConvertStatus } from "types";
+import OrderTokens from "components/shared/OrderTokens/OrderTokens";
+import { OrderStatus } from "types";
 
-const PreOrderFormPage = () => {
+const OrderFormPage = () => {
   useBackButton();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectAppStore);
 
   useEffect(() => {
     dispatch(
-      appStoreActions.setConvert({
+      appStoreActions.setOrder({
         input: {
           convert: "",
           add: "",
         },
-        result: "",
-        status: ConvertStatus.WAITING,
+        quote: null,
+        status: OrderStatus.WAITING,
       })
     );
   }, [dispatch]);
 
-  return user?.patchwallet ? <ConvertTokens /> : <Loading />;
+  return user?.patchwallet ? <OrderTokens /> : <Loading />;
 };
 
-export default PreOrderFormPage;
+export default OrderFormPage;
