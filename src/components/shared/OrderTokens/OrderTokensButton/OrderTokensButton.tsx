@@ -19,7 +19,7 @@ const OrderTokensButton = (props: OrderTokensButtonProps) => {
   const {
     order: { input, status, quote },
   } = useAppSelector(selectAppStore);
-  const gxAmount = quote?.before_mvu || 0;
+  const gxAmount = parseFloat(quote?.gx_received || "0");
   const disabled = status === OrderStatus.LOADING || gxAmount <= 0;
 
   const duration = moment.duration(refreshTimeout - timer, "seconds");

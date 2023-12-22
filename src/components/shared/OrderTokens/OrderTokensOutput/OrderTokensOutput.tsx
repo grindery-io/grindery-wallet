@@ -10,9 +10,9 @@ const OrderTokensOutput = () => {
     order: { quote, status },
   } = useAppSelector(selectAppStore);
 
-  const gxAmount = quote?.before_mvu || 0;
+  const gxAmount = parseFloat(quote?.gx_received || "0");
   const discount = (quote?.discount_received || 0).toFixed(2);
-  const gxPrice = 1 / (quote?.standard_gx_usd_exchange_rate || 0);
+  const gxPrice = 1 / (quote?.equivalent_gx_usd_exchange_rate || 0);
   const gxPriceTotal = (gxAmount * gxPrice).toFixed(2);
 
   return (
