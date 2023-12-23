@@ -5,7 +5,7 @@ const CheckIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon
       {...props}
-      sx={{ ...(props.sx || {}), width: "16px", height: "16px" }}
+      sx={{ width: "16px", height: "16px", ...(props.sx || {}) }}
     >
       <svg
         width="16"
