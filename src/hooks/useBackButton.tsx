@@ -1,18 +1,16 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-const useBackButton = (path?: string) => {
+const useBackButton = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const callback = () => {
       if (location.key !== "default") {
-        const navigatePath = path || "-1";
-        navigate(navigatePath);
+        navigate(-1);
       } else {
-        const navigatePath = path || "/";
-        navigate(navigatePath);
+        navigate("/");
       }
     };
     if (window.Telegram?.WebApp?.BackButton) {
@@ -26,7 +24,7 @@ const useBackButton = (path?: string) => {
         window.Telegram.WebApp.BackButton.offClick(callback);
       }
     };
-  }, [path, navigate, location.key]);
+  }, [navigate, location.key]);
 
   return { BackButton: window.Telegram?.WebApp?.BackButton || {} };
 };

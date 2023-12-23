@@ -11,7 +11,7 @@ import OrderDetails from "components/shared/OrderDetails/OrderDetails";
 import useBackButton from "hooks/useBackButton";
 
 const OrderDetailsPage = () => {
-  useBackButton("/tokens");
+  useBackButton();
   const dispatch = useAppDispatch();
   const {
     user,
