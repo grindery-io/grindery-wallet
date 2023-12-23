@@ -230,6 +230,9 @@ export enum OrderStatus {
   ERROR = "error",
   SENDING = "sending",
   SENT = "sent",
+  WAITING_USD_PAYMENT = "waiting_usd_payment",
+  PAYING = "paying_usd",
+  COMPLETED = "completed",
 }
 
 export type OrderQuote = GetOrderQuoteResponseType | null;

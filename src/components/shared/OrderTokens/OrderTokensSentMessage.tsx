@@ -8,7 +8,7 @@ const OrderTokensSentMessage = () => {
     order: { input, quote },
   } = useAppSelector(selectAppStore);
 
-  const gxAmount = parseFloat(quote?.gx_received || "0");
+  const gxAmount = quote?.gx_received || 0;
 
   return (
     <Box sx={{ width: "100%" }}>

@@ -8,21 +8,21 @@ import {
   useAppSelector,
 } from "store";
 import { OrderStatus } from "types";
+import { useNavigate } from "react-router";
 
-const refreshTimeout = 600;
+const REFRESH_TIMEOUT = 600;
 
-type OrderTokensButtonProps = {};
-
-const OrderTokensButton = (props: OrderTokensButtonProps) => {
+const OrderTokensButton = () => {
+  const navigate = useNavigate();
   const [timer, setTimer] = React.useState(0);
   const dispatch = useAppDispatch();
   const {
     order: { input, status, quote },
   } = useAppSelector(selectAppStore);
-  const gxAmount = parseFloat(quote?.gx_received || "0");
+  const gxAmount = quote?.gx_received || 0;
   const disabled = status === OrderStatus.LOADING || gxAmount <= 0;
 
-  const duration = moment.duration(refreshTimeout - timer, "seconds");
+  const duration = moment.duration(REFRESH_TIMEOUT - timer, "seconds");
 
   const timerString = `${duration.hours() < 10 ? "0" : ""}${duration.hours()}:${
     duration.minutes() < 10 ? "0" : ""
@@ -31,23 +31,18 @@ const OrderTokensButton = (props: OrderTokensButtonProps) => {
   }${duration.seconds()}`;
 
   const OrderTokens = () => {
+    // TODO: send order to server
     dispatch(
       appStoreActions.setOrder({
         status: OrderStatus.SENDING,
       })
     );
-    // TODO: place real order on server
-    setTimeout(() => {
-      dispatch(
-        appStoreActions.setOrder({
-          status: OrderStatus.SENT,
-        })
-      );
-    }, 1500);
+
+    navigate(`/order/orderId`);
   };
 
   const handleClick = () => {
-    if (timer >= refreshTimeout) {
+    if (timer >= REFRESH_TIMEOUT) {
       dispatch(
         appStoreActions.setOrder({
           status: OrderStatus.LOADING,
@@ -109,7 +104,7 @@ const OrderTokensButton = (props: OrderTokensButtonProps) => {
       >
         {disabled
           ? "Order Now"
-          : timer < refreshTimeout
+          : timer < REFRESH_TIMEOUT
           ? "Order Now"
           : "Refresh"}
       </Button>

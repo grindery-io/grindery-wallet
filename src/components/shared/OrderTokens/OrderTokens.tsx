@@ -46,6 +46,10 @@ const OrderTokens = () => {
           })
         );
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [input.convert, input.add, dispatch]);
 
   return (

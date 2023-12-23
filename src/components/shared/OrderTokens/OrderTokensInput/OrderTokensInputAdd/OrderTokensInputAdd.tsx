@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, InputBase, Stack, Typography } from "@mui/material";
+import { debounce } from "lodash";
 import {
   appStoreActions,
   selectAppStore,
@@ -7,35 +8,36 @@ import {
   useAppSelector,
 } from "store";
 
-type OrderTokensInputAddProps = {};
-
-const OrderTokensInputAdd = (props: OrderTokensInputAddProps) => {
-  const inputRef = useRef(null);
+const OrderTokensInputAdd = () => {
   const dispatch = useAppDispatch();
   const {
-    order: { input },
     balance: { value },
   } = useAppSelector(selectAppStore);
-
+  const [inputValue, setInputValue] = useState("");
   const balanceWithoutDecimals = String(value || 0).split(".")[0];
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (
-        inputRef.current &&
-        balanceWithoutDecimals &&
-        parseInt(balanceWithoutDecimals) > 0
-      ) {
-        // @ts-ignore
-        inputRef.current.value = balanceWithoutDecimals;
+  const changeState = debounce((value) => {
+    dispatch(
+      appStoreActions.setOrderInput({
+        add: value,
+      })
+    );
+  }, 1200);
 
-        dispatch(
-          appStoreActions.setOrderInput({
-            add: balanceWithoutDecimals,
-          })
-        );
-      }
-    }, 100);
+  const debouncedInputChange = useCallback(
+    (value: string) => changeState(value),
+    [changeState]
+  );
+
+  useEffect(() => {
+    if (balanceWithoutDecimals && parseInt(balanceWithoutDecimals) > 0) {
+      dispatch(
+        appStoreActions.setOrderInput({
+          add: balanceWithoutDecimals,
+        })
+      );
+      setInputValue(balanceWithoutDecimals);
+    }
   }, [balanceWithoutDecimals, dispatch]);
 
   return (
@@ -51,20 +53,14 @@ const OrderTokensInputAdd = (props: OrderTokensInputAddProps) => {
           <strong>You Add</strong>
         </Typography>
         <InputBase
+          value={inputValue}
           placeholder="0.00"
           sx={{ marginBottom: "2px" }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch(
-              appStoreActions.setOrder({
-                input: {
-                  ...input,
-                  add: event.target.value,
-                },
-              })
-            );
+            debouncedInputChange(event.target.value);
+            setInputValue(event.target.value);
           }}
           inputProps={{
-            ref: inputRef,
             sx: {
               padding: 0,
               background: "transparent",

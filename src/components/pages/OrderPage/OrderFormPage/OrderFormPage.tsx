@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useBackButton from "hooks/useBackButton";
 import {
   appStoreActions,
@@ -12,6 +12,7 @@ import { OrderStatus } from "types";
 
 const OrderFormPage = () => {
   useBackButton();
+  const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectAppStore);
 
@@ -26,9 +27,10 @@ const OrderFormPage = () => {
         status: OrderStatus.WAITING,
       })
     );
+    setLoading(false);
   }, [dispatch]);
 
-  return user?.patchwallet ? <OrderTokens /> : <Loading />;
+  return user?.patchwallet && !loading ? <OrderTokens /> : <Loading />;
 };
 
 export default OrderFormPage;

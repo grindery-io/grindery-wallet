@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Button, InputBase, Stack, Typography } from "@mui/material";
 import {
   appStoreActions,
@@ -17,42 +17,46 @@ import {
   TokenSymbol,
   TokenType,
 } from "components/shared/Token";
+import { debounce } from "lodash";
 
-type OrderTokensInputConvertProps = {};
-
-const OrderTokensInputConvert = (props: OrderTokensInputConvertProps) => {
+const OrderTokensInputConvert = () => {
   const dispatch = useAppDispatch();
-  const inputRef = useRef(null);
-  const {
-    tokens,
-    order: { input },
-  } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
+  const [inputValue, setInputValue] = useState("");
   const grinderyToken =
     tokens.find(
       (token) =>
         token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
     ) || (GRINDERY_ONE_TOKEN as TokenType);
 
+  const changeState = debounce((value) => {
+    dispatch(
+      appStoreActions.setOrderInput({
+        convert: value,
+      })
+    );
+  }, 1200);
+
+  const debouncedInputChange = useCallback(
+    (value: string) => changeState(value),
+    [changeState]
+  );
+
   useEffect(() => {
-    setTimeout(() => {
-      if (inputRef.current) {
-        const maxBalance = grinderyToken.balance
-          ? (
-              parseFloat(grinderyToken.balance) /
-              10 ** grinderyToken.decimals
-            ).toString()
-          : "";
+    const maxBalance = grinderyToken.balance
+      ? (
+          parseFloat(grinderyToken.balance) /
+          10 ** grinderyToken.decimals
+        ).toString()
+      : "";
 
-        // @ts-ignore
-        inputRef.current.value = maxBalance;
+    dispatch(
+      appStoreActions.setOrderInput({
+        convert: maxBalance,
+      })
+    );
 
-        dispatch(
-          appStoreActions.setOrderInput({
-            convert: maxBalance,
-          })
-        );
-      }
-    }, 100);
+    setInputValue(maxBalance);
   }, [grinderyToken.balance, grinderyToken.decimals, dispatch]);
 
   return (
@@ -69,20 +73,14 @@ const OrderTokensInputConvert = (props: OrderTokensInputConvertProps) => {
             <strong>You Exchange</strong>
           </Typography>
           <InputBase
+            value={inputValue}
             placeholder="0.00"
             sx={{ marginBottom: "2px" }}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(
-                appStoreActions.setOrder({
-                  input: {
-                    ...input,
-                    convert: event.target.value,
-                  },
-                })
-              );
+              debouncedInputChange(event.target.value);
+              setInputValue(event.target.value);
             }}
             inputProps={{
-              ref: inputRef,
               sx: {
                 padding: 0,
                 background: "transparent",
@@ -125,18 +123,8 @@ const OrderTokensInputConvert = (props: OrderTokensInputConvertProps) => {
                   parseFloat(grinderyToken.balance) /
                   10 ** grinderyToken.decimals
                 ).toString();
-                dispatch(
-                  appStoreActions.setOrder({
-                    input: {
-                      ...input,
-                      convert: maxBalance,
-                    },
-                  })
-                );
-                if (inputRef.current) {
-                  // @ts-ignore
-                  inputRef.current.value = maxBalance;
-                }
+                debouncedInputChange(maxBalance);
+                setInputValue(maxBalance);
               }}
             >
               <TokenBalance />

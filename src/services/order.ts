@@ -13,7 +13,7 @@ export type GetOrderQuoteResponseType = {
   equivalent_gx_usd_exchange_rate: number;
   standard_gx_usd_exchange_rate: number;
   discount_received: number;
-  gx_received: string;
+  gx_received: number;
 };
 
 export const getOrderQuote = async (
