@@ -29,9 +29,7 @@ const OrderDetailsPage = () => {
   }, [dispatch]);
 
   return user?.patchwallet &&
-    (status === OrderStatus.SENT ||
-      status === OrderStatus.PAYING ||
-      status === OrderStatus.COMPLETED) ? (
+    (status === OrderStatus.SENT || status === OrderStatus.COMPLETED) ? (
     <OrderDetails />
   ) : (
     <Loading />

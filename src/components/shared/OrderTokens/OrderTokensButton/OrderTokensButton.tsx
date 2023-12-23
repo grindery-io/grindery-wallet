@@ -9,6 +9,8 @@ import {
 } from "store";
 import { OrderStatus } from "types";
 import { useNavigate } from "react-router";
+import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../../constants";
+import { TokenType } from "components/shared/Token";
 
 const REFRESH_TIMEOUT = 600;
 
@@ -17,10 +19,20 @@ const OrderTokensButton = () => {
   const [timer, setTimer] = React.useState(0);
   const dispatch = useAppDispatch();
   const {
+    tokens,
     order: { input, status, quote },
   } = useAppSelector(selectAppStore);
   const gxAmount = quote?.gx_received || 0;
-  const disabled = status === OrderStatus.LOADING || gxAmount <= 0;
+  const grinderyToken =
+    tokens.find(
+      (token) =>
+        token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
+    ) || (GRINDERY_ONE_TOKEN as TokenType);
+  const notEnoughG1 =
+    parseFloat(input.convert || "0") >
+    parseFloat(grinderyToken.balance || "0") / 10 ** grinderyToken.decimals;
+  const disabled =
+    status === OrderStatus.LOADING || gxAmount <= 0 || notEnoughG1;
 
   const duration = moment.duration(REFRESH_TIMEOUT - timer, "seconds");
 
@@ -102,7 +114,9 @@ const OrderTokensButton = () => {
         color="secondary"
         size="large"
       >
-        {disabled
+        {notEnoughG1
+          ? "Not enough G1"
+          : disabled
           ? "Order Now"
           : timer < REFRESH_TIMEOUT
           ? "Order Now"
