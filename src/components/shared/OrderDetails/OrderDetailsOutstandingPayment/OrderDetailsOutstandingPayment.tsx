@@ -59,8 +59,8 @@ const OrderDetailsOutstandingPayment = () => {
         >
           <rect width="16" height="16" rx="8" fill="#FFB930" />
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M7.79711 7.56665H12.0001C12.2394 7.56665 12.4334 7.76066 12.4334 7.99998C12.4334 8.23931 12.2394 8.43332 12.0001 8.43332H8.20304L4.99964 12.2774C4.84643 12.4613 4.57318 12.4861 4.38933 12.3329C4.20548 12.1797 4.18064 11.9064 4.33385 11.7226L7.79711 7.56665Z"
             fill="white"
           />

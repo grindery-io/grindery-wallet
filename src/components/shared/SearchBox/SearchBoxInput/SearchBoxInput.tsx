@@ -7,13 +7,8 @@ const SearchBoxInput = ({ value, placeholder, onChange }: SearchBoxProps) => {
   return (
     <InputBase
       data-testid="search-box-input"
-      name="search"
+      name="field1"
       placeholder={placeholder}
-      inputProps={{
-        autoComplete: "off",
-        type: "search",
-        "aria-label": placeholder,
-      }}
       startAdornment={
         <span style={{ marginRight: "8px" }}>
           <svg

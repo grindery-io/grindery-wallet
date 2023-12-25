@@ -22,7 +22,7 @@ const OrderTokensButton = () => {
     tokens,
     order: { input, status, quote },
   } = useAppSelector(selectAppStore);
-  const gxAmount = quote?.gx_received || 0;
+  const gxAmount = quote?.gx_received || "0";
   const grinderyToken =
     tokens.find(
       (token) =>
@@ -32,7 +32,7 @@ const OrderTokensButton = () => {
     parseFloat(input.convert || "0") >
     parseFloat(grinderyToken.balance || "0") / 10 ** grinderyToken.decimals;
   const disabled =
-    status === OrderStatus.LOADING || gxAmount <= 0 || notEnoughG1;
+    status === OrderStatus.LOADING || parseFloat(gxAmount) <= 0 || notEnoughG1;
 
   const duration = moment.duration(REFRESH_TIMEOUT - timer, "seconds");
 
