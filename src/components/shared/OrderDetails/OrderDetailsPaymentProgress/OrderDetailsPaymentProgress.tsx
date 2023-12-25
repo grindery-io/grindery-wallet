@@ -41,6 +41,9 @@ const OrderDetailsPaymentProgress = () => {
           },
           "& .Mui-completed": {
             color: "#00B674",
+            "& svg": {
+              color: "#00B674 !important",
+            },
             "& .MuiStepLabel-label": {
               color: "var(--tg-theme-text-color, #000000)",
             },
@@ -53,6 +56,11 @@ const OrderDetailsPaymentProgress = () => {
           },
           "& .Mui-disabled svg": {
             color: "var(--tg-theme-secondary-bg-color, #efeff3)",
+          },
+          "& .Mui-disabled": {
+            "& .MuiStepLabel-label": {
+              color: "var(--tg-theme-hint-color, #999999)",
+            },
           },
         }}
       >
