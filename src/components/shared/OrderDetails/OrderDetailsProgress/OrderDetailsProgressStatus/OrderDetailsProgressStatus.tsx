@@ -1,13 +1,11 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import OrderDetailsPayment from "../../OrderDetailsPayment/OrderDetailsPayment";
+import OrderDetailsPaymentProgress from "../../OrderDetailsPaymentProgress/OrderDetailsPaymentProgress";
 
 const OrderDetailsProgressStatus = () => {
   return (
     <>
-      <Typography variant="xs" textAlign="center" color="hint">
-        Progress Steps Comin Soon
-      </Typography>
+      <OrderDetailsPaymentProgress />
       <OrderDetailsPayment />
     </>
   );

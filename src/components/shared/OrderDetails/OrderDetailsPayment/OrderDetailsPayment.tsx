@@ -33,6 +33,7 @@ const OrderDetailsPayment = () => {
     tokens,
     order: {
       input: { add },
+      status,
     },
   } = useAppSelector(selectAppStore);
 
@@ -92,7 +93,7 @@ const OrderDetailsPayment = () => {
           status: OrderStatus.COMPLETED,
         })
       );
-    }, 1500);
+    }, 3000);
   };
 
   const handleOrderCompleteClick = () => {
@@ -148,6 +149,7 @@ const OrderDetailsPayment = () => {
               useFlexGap
             >
               <ButtonBase
+                disabled={status === OrderStatus.PAYING}
                 onClick={handleOpen}
                 sx={{
                   padding: "6px 8px",
@@ -222,7 +224,7 @@ const OrderDetailsPayment = () => {
           useFlexGap
         >
           <Button
-            disabled={isBalanceNotEnough}
+            disabled={isBalanceNotEnough || status === OrderStatus.PAYING}
             color="secondary"
             variant="contained"
             fullWidth
@@ -230,7 +232,11 @@ const OrderDetailsPayment = () => {
             sx={{ paddingTop: "10px", paddingBottom: "10px" }}
             onClick={handleOrderCompleteClick}
           >
-            {isBalanceNotEnough ? "Balance too low" : "Complete order now"}
+            {isBalanceNotEnough
+              ? "Balance too low"
+              : status === OrderStatus.PAYING
+              ? "Processing"
+              : "Complete order now"}
           </Button>
           {isBalanceNotEnough ? (
             <Typography

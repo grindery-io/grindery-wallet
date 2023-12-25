@@ -25,11 +25,13 @@ const OrderDetailsPage = () => {
           status: OrderStatus.SENT,
         })
       );
-    }, 1500);
+    }, 3000);
   }, [dispatch]);
 
   return user?.patchwallet &&
-    (status === OrderStatus.SENT || status === OrderStatus.COMPLETED) ? (
+    (status === OrderStatus.SENT ||
+      status === OrderStatus.COMPLETED ||
+      status === OrderStatus.PAYING) ? (
     <OrderDetails />
   ) : (
     <Loading />

@@ -1,14 +1,16 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "store";
+import { OrderStatus } from "types";
 
 const OrderDetailsPayLater = () => {
   const {
     order: {
       input: { add },
+      status,
     },
   } = useAppSelector(selectAppStore);
-  return (
+  return status !== OrderStatus.PAYING ? (
     <Box
       sx={{
         width: "calc(100% - 32px)",
@@ -45,7 +47,7 @@ const OrderDetailsPayLater = () => {
         .
       </Typography>
     </Box>
-  );
+  ) : null;
 };
 
 export default OrderDetailsPayLater;
