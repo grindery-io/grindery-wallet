@@ -7,10 +7,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { OrderStatus } from "types";
+import { OrderDetailsStatus, OrderStatus } from "types";
 import { useNavigate } from "react-router";
 import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import { TokenType } from "components/shared/Token";
+import { getOrderStatus, sendOrder } from "services";
 
 const REFRESH_TIMEOUT = 600;
 
@@ -32,7 +33,10 @@ const OrderTokensButton = () => {
     parseFloat(input.convert || "0") >
     parseFloat(grinderyToken.balance || "0") / 10 ** grinderyToken.decimals;
   const disabled =
-    status === OrderStatus.LOADING || parseFloat(gxAmount) <= 0 || notEnoughG1;
+    status === OrderStatus.LOADING ||
+    parseFloat(gxAmount) <= 0 ||
+    notEnoughG1 ||
+    !quote?.quoteId;
 
   const duration = moment.duration(REFRESH_TIMEOUT - timer, "seconds");
 
@@ -42,15 +46,44 @@ const OrderTokensButton = () => {
     duration.seconds() < 10 ? "0" : ""
   }${duration.seconds()}`;
 
-  const OrderTokens = () => {
+  const orderTokens = async () => {
     // TODO: send order to server
     dispatch(
       appStoreActions.setOrder({
         status: OrderStatus.SENDING,
       })
     );
-
-    navigate(`/order/orderId`);
+    try {
+      const res = await sendOrder(quote?.quoteId || "");
+      if (res.data?.success) {
+        const status = await getOrderStatus();
+        dispatch(
+          appStoreActions.setOrder({
+            status:
+              status.data?.status === OrderDetailsStatus.COMPLETE
+                ? OrderStatus.COMPLETED
+                : status.data?.status === OrderDetailsStatus.PENDING
+                ? OrderStatus.SENDING
+                : OrderStatus.WAITING_USD_PAYMENT,
+            details: status.data || null,
+          })
+        );
+        navigate(`/order/${status.data?.orderId}`);
+      } else {
+        dispatch(
+          appStoreActions.setOrder({
+            status: OrderStatus.ERROR,
+          })
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      dispatch(
+        appStoreActions.setOrder({
+          status: OrderStatus.ERROR,
+        })
+      );
+    }
   };
 
   const handleClick = () => {
@@ -75,13 +108,13 @@ const OrderTokensButton = () => {
     if (window.Telegram?.WebApp?.showConfirm) {
       window.Telegram?.WebApp?.showConfirm(message, (confirmed: boolean) => {
         if (confirmed) {
-          OrderTokens();
+          orderTokens();
         }
       });
     } else {
       const confirmed = window.confirm(message);
       if (confirmed) {
-        OrderTokens();
+        orderTokens();
       }
     }
   };
