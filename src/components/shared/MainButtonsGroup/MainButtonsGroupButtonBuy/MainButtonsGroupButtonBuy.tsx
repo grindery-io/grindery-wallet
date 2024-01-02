@@ -36,7 +36,9 @@ const MainButtonsGroupButtonBuy = ({
       onClick={async () => {
         if (window.Telegram?.WebApp?.openLink) {
           window.Telegram.WebApp.openLink(
-            `${url}?${window.Telegram?.WebApp?.initData || ""}`
+            `${url}?${encodeURIComponent(
+              window.Telegram?.WebApp?.initData || ""
+            )}`
           );
         } else {
           window.open(
