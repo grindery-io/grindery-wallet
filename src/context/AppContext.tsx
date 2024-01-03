@@ -5,6 +5,7 @@ import {
   getFullBalanceRequest,
   getSocialContactsRequest,
   updateMeRequest,
+  getOrders,
 } from "services";
 import {
   appStoreActions,
@@ -338,6 +339,31 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
         });
     }
   }, [user?.patchwallet, debug]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (user?.patchwallet && debug.features?.GX_PREORDER) {
+      getOrders(controller)
+        .then((res) => {
+          dispatch(
+            appStoreActions.setOrder({
+              details: res.data?.[0] || null,
+            })
+          );
+        })
+        .catch((err) => {
+          dispatch(
+            appStoreActions.setOrder({
+              details: null,
+            })
+          );
+        });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [user?.patchwallet, debug.features?.GX_PREORDER, dispatch]);
 
   return (
     <AppContext.Provider

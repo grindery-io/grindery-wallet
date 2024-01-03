@@ -7,6 +7,7 @@ import { UserProps } from "./User";
 import {
   GetBridgeQuoteResponseType,
   GetOrderQuoteResponseType,
+  OrderResponseType,
 } from "services";
 
 /**
@@ -237,27 +238,7 @@ export enum OrderStatus {
 
 export type OrderQuote = GetOrderQuoteResponseType | null;
 
-export enum OrderDetailsStatus {
-  PENDING = "PENDING",
-  COMPLETE = "COMPLETE",
-  FAILURE = "FAILURE",
-  PENDING_USD = "PENDING_USD",
-}
-
-/**
- * in eth
- */
-export type OrderDetailsG1Amount = string;
-
-export type OrderDetails = {
-  orderId: string;
-  date: string;
-  status: OrderDetailsStatus;
-  userTelegramID: string;
-  g1_amount: OrderDetailsG1Amount;
-  transactionHash?: string;
-  userOpHash?: string;
-};
+export type OrderDetails = OrderResponseType | null;
 
 /**
  * Interface for the ConvertState object representing the state of the tokens convert page
@@ -266,7 +247,7 @@ export type OrderState = {
   input: OrderInput;
   status: OrderStatus;
   quote: OrderQuote;
-  details?: OrderDetails | null;
+  details?: OrderDetails;
 };
 
 /**

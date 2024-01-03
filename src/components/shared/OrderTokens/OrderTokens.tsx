@@ -14,6 +14,7 @@ import { OrderStatus } from "types";
 import OrderTokensSentMessage from "./OrderTokensSentMessage";
 import Loading from "../Loading/Loading";
 import { getOrderQuote } from "services";
+import OrderTokensError from "./OrderTokensError";
 
 const OrderTokens = () => {
   const dispatch = useAppDispatch();
@@ -64,6 +65,7 @@ const OrderTokens = () => {
       )}
       {status === OrderStatus.SENDING && <Loading />}
       {status === OrderStatus.SENT && <OrderTokensSentMessage />}
+      {status === OrderStatus.ERROR && <OrderTokensError />}
     </>
   );
 };

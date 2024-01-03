@@ -1,20 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ButtonBase, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import {
-  appStoreActions,
-  selectAppStore,
-  useAppDispatch,
-  useAppSelector,
-} from "store";
-import { getOrderStatus } from "services";
+import { selectAppStore, useAppSelector } from "store";
 
 const OrderBanner = () => {
   const navigate = useNavigate();
   const {
     order: { details },
   } = useAppSelector(selectAppStore);
-  const dispatch = useAppDispatch();
 
   const handleClick = () => {
     if (details) {
@@ -23,30 +16,6 @@ const OrderBanner = () => {
       navigate("/order");
     }
   };
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    getOrderStatus(controller)
-      .then((res) => {
-        dispatch(
-          appStoreActions.setOrder({
-            details: res.data || null,
-          })
-        );
-      })
-      .catch((err) => {
-        dispatch(
-          appStoreActions.setOrder({
-            details: null,
-          })
-        );
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [dispatch]);
 
   return typeof details !== "undefined" ? (
     <ButtonBase

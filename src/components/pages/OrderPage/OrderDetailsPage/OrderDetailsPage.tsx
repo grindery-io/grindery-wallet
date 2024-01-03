@@ -1,41 +1,21 @@
 import React, { useEffect } from "react";
 import Loading from "components/shared/Loading/Loading";
-import {
-  appStoreActions,
-  selectAppStore,
-  useAppDispatch,
-  useAppSelector,
-} from "store";
-import { OrderStatus } from "types";
+import { selectAppStore, useAppSelector } from "store";
 import OrderDetails from "components/shared/OrderDetails/OrderDetails";
-import useBackButton from "hooks/useBackButton";
 
 const OrderDetailsPage = () => {
-  useBackButton();
-  const dispatch = useAppDispatch();
   const {
     user,
-    order: { status },
+    order: { details },
   } = useAppSelector(selectAppStore);
-  useEffect(() => {
-    // TODO: Get order status from server
-    setTimeout(() => {
-      dispatch(
-        appStoreActions.setOrder({
-          status: OrderStatus.SENT,
-        })
-      );
-    }, 3000);
-  }, [dispatch]);
 
-  return user?.patchwallet &&
-    (status === OrderStatus.SENT ||
-      status === OrderStatus.COMPLETED ||
-      status === OrderStatus.PAYING) ? (
-    <OrderDetails />
-  ) : (
-    <Loading />
-  );
+  useEffect(() => {
+    if (window.Telegram?.WebApp.BackButton) {
+      window.Telegram?.WebApp.BackButton.hide();
+    }
+  }, []);
+
+  return user?.patchwallet && details?.orderId ? <OrderDetails /> : <Loading />;
 };
 
 export default OrderDetailsPage;

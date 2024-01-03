@@ -9,9 +9,7 @@ const LABEL = "Non-refundable deposit";
 const OrderDetailsNonRefundableDeposit = () => {
   const {
     tokens,
-    order: {
-      input: { convert },
-    },
+    order: { details },
   } = useAppSelector(selectAppStore);
   const grinderyToken =
     tokens.find(
@@ -58,7 +56,7 @@ const OrderDetailsNonRefundableDeposit = () => {
           }}
         >
           <Typography>
-            <strong>{convert}</strong>
+            <strong>{details?.tokenAmount_G1}</strong>
           </Typography>
           <TokenIcon size={14} />
           <Typography

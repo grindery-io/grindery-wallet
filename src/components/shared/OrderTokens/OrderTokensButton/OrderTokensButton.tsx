@@ -7,11 +7,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { OrderDetailsStatus, OrderStatus } from "types";
+import { OrderStatus } from "types";
 import { useNavigate } from "react-router";
 import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import { TokenType } from "components/shared/Token";
-import { getOrderStatus, sendOrder } from "services";
+import { OrderStatusType, getOrderStatus, sendOrder } from "services";
 
 const REFRESH_TIMEOUT = 600;
 
@@ -56,13 +56,13 @@ const OrderTokensButton = () => {
     try {
       const res = await sendOrder(quote?.quoteId || "");
       if (res.data?.success) {
-        const status = await getOrderStatus();
+        const status = await getOrderStatus(quote?.quoteId || "");
         dispatch(
           appStoreActions.setOrder({
             status:
-              status.data?.status === OrderDetailsStatus.COMPLETE
+              status.data?.status === OrderStatusType.COMPLETE
                 ? OrderStatus.COMPLETED
-                : status.data?.status === OrderDetailsStatus.PENDING
+                : status.data?.status === OrderStatusType.PENDING
                 ? OrderStatus.SENDING
                 : OrderStatus.WAITING_USD_PAYMENT,
             details: status.data || null,
