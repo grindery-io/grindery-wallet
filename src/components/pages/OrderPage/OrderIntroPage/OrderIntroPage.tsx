@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useBackButton from "hooks/useBackButton";
 import { Box, Button, ButtonBase, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -10,14 +10,6 @@ const OrderIntroPage = () => {
   const handleNextClick = () => {
     navigate("/order/form");
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      alert(
-        `GX pre-order is in the sandbox mode.\n\nNo real order will be placed, all numbers and prices are fake.`
-      );
-    }, 500);
-  }, []);
 
   return (
     <>

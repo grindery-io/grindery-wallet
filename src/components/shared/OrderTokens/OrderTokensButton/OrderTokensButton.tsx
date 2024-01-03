@@ -47,7 +47,6 @@ const OrderTokensButton = () => {
   }${duration.seconds()}`;
 
   const orderTokens = async () => {
-    // TODO: send order to server
     dispatch(
       appStoreActions.setOrder({
         status: OrderStatus.SENDING,
@@ -60,15 +59,16 @@ const OrderTokensButton = () => {
         dispatch(
           appStoreActions.setOrder({
             status:
-              status.data?.status === OrderStatusType.COMPLETE
+              status.data?.order?.status === OrderStatusType.COMPLETE
                 ? OrderStatus.COMPLETED
-                : status.data?.status === OrderStatusType.PENDING
+                : status.data?.order?.status === OrderStatusType.PENDING
                 ? OrderStatus.SENDING
                 : OrderStatus.WAITING_USD_PAYMENT,
-            details: status.data || null,
+            details: status.data?.order || null,
+            quote: status.data?.quote || null,
           })
         );
-        navigate(`/order/${status.data?.orderId}`);
+        navigate(`/order/${status.data?.order?.orderId}`);
       } else {
         dispatch(
           appStoreActions.setOrder({
@@ -157,7 +157,7 @@ const OrderTokensButton = () => {
       </Button>
       <Box
         sx={{
-          opacity: !disabled && quote ? 1 : 0,
+          opacity: !disabled && quote && timer < REFRESH_TIMEOUT ? 1 : 0,
         }}
       >
         <Stack

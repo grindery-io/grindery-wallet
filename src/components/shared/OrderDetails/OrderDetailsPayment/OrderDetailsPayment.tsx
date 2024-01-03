@@ -17,6 +17,7 @@ import {
 import DialogSelect from "components/shared/DialogSelect/DialogSelect";
 import TokensListItem from "components/shared/TokensList/TokensListItem/TokensListItem";
 import { OrderStatus } from "types";
+import { OrderStatusType, getOrderStatus, payOrder } from "services";
 
 const getTokenRquiredAmount = (
   token: TokenType,
@@ -31,10 +32,7 @@ const OrderDetailsPayment = () => {
   const dispatch = useAppDispatch();
   const {
     tokens,
-    order: {
-      input: { add },
-      status,
-    },
+    order: { quote, details },
   } = useAppSelector(selectAppStore);
 
   const usdTokens = tokens.filter((token) => {
@@ -52,7 +50,7 @@ const OrderDetailsPayment = () => {
 
   const [selectedToken, setSelectedToken] = useState(usdTokens[0]);
 
-  const requiredUsd = parseFloat(add || "0");
+  const requiredUsd = parseFloat(quote?.usd_from_usd_investment || "0");
 
   const requiredUsdFormatted = parseFloat(
     requiredUsd.toFixed(2)
@@ -80,20 +78,46 @@ const OrderDetailsPayment = () => {
     setOpen(false);
   };
 
-  const completeOrder = () => {
+  const completeOrder = async () => {
     dispatch(
       appStoreActions.setOrder({
-        status: OrderStatus.PAYING,
+        details: details
+          ? {
+              ...details,
+              status: OrderStatusType.PENDING_USD,
+            }
+          : null,
       })
     );
 
-    setTimeout(() => {
+    try {
+      const res = await payOrder({
+        orderId: details?.orderId || "",
+        tokenAddress: selectedToken.address,
+        chainId: selectedToken.chain,
+      });
+      if (res.data?.success) {
+        const status = await getOrderStatus(quote?.quoteId || "");
+        dispatch(
+          appStoreActions.setOrder({
+            details: status.data?.order || null,
+            quote: status.data?.quote || null,
+          })
+        );
+      } else {
+        dispatch(
+          appStoreActions.setOrder({
+            status: OrderStatus.ERROR,
+          })
+        );
+      }
+    } catch (error) {
       dispatch(
         appStoreActions.setOrder({
-          status: OrderStatus.COMPLETED,
+          status: OrderStatus.ERROR,
         })
       );
-    }, 3000);
+    }
   };
 
   const handleOrderCompleteClick = () => {
@@ -149,7 +173,7 @@ const OrderDetailsPayment = () => {
               useFlexGap
             >
               <ButtonBase
-                disabled={status === OrderStatus.PAYING}
+                disabled={details?.status === OrderStatusType.PENDING_USD}
                 onClick={handleOpen}
                 sx={{
                   padding: "6px 8px",
@@ -224,7 +248,10 @@ const OrderDetailsPayment = () => {
           useFlexGap
         >
           <Button
-            disabled={isBalanceNotEnough || status === OrderStatus.PAYING}
+            disabled={
+              isBalanceNotEnough ||
+              details?.status === OrderStatusType.PENDING_USD
+            }
             color="secondary"
             variant="contained"
             fullWidth
@@ -234,7 +261,7 @@ const OrderDetailsPayment = () => {
           >
             {isBalanceNotEnough
               ? "Balance too low"
-              : status === OrderStatus.PAYING
+              : details?.status === OrderStatusType.PENDING_USD
               ? "Processing"
               : "Complete order now"}
           </Button>

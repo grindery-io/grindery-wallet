@@ -1,19 +1,19 @@
 import React from "react";
 import { Box, Step, StepIconProps, StepLabel, Stepper } from "@mui/material";
 import { selectAppStore, useAppSelector } from "store";
-import { OrderStatus } from "types";
 import AnimatedTimeIcon from "components/icons/AnimatedTimeIcon";
+import { OrderStatusType } from "services";
 
 const OrderDetailsPaymentProgress = () => {
   const {
-    order: { status },
+    order: { details },
   } = useAppSelector(selectAppStore);
   const activeStepIndex =
-    status === OrderStatus.SENT
+    details?.status === OrderStatusType.WAITING_USD
       ? 1
-      : status === OrderStatus.PAYING
+      : details?.status === OrderStatusType.PENDING_USD
       ? 2
-      : status === OrderStatus.COMPLETED
+      : details?.status === OrderStatusType.COMPLETE
       ? 3
       : 0;
 

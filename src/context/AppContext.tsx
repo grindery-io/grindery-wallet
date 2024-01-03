@@ -6,6 +6,7 @@ import {
   getSocialContactsRequest,
   updateMeRequest,
   getOrders,
+  getOrderStatus,
 } from "services";
 import {
   appStoreActions,
@@ -345,16 +346,39 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     if (user?.patchwallet && debug.features?.GX_PREORDER) {
       getOrders(controller)
         .then((res) => {
-          dispatch(
-            appStoreActions.setOrder({
-              details: res.data?.[0] || null,
-            })
-          );
+          const orderId = res.data?.[0]?.orderId;
+          if (orderId) {
+            getOrderStatus(orderId, controller)
+              .then((order) => {
+                dispatch(
+                  appStoreActions.setOrder({
+                    details: order.data?.order || null,
+                    quote: order.data?.quote || null,
+                  })
+                );
+              })
+              .catch((err) => {
+                dispatch(
+                  appStoreActions.setOrder({
+                    details: null,
+                    quote: null,
+                  })
+                );
+              });
+          } else {
+            dispatch(
+              appStoreActions.setOrder({
+                details: null,
+                quote: null,
+              })
+            );
+          }
         })
         .catch((err) => {
           dispatch(
             appStoreActions.setOrder({
               details: null,
+              quote: null,
             })
           );
         });

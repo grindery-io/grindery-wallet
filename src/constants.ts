@@ -69,7 +69,7 @@ export const EXPERIMENTAL_FEATURES = {
     process.env.REACT_APP_ENV !== "production" ? "sandbox" : "live"
   })`,
   STAKING: "Staking",
-  GX_PREORDER: "GX Pre-order (sandbox)",
+  GX_PREORDER: "GX Pre-order (live)",
 };
 
 export const TRANSACTION_STATUS = {
