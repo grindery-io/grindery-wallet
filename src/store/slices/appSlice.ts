@@ -25,7 +25,6 @@ import {
   BridgeStatus,
   BridgeState,
   OrderState,
-  OrderInput,
   TGEStatus,
   TGEState,
   TGEInput,
@@ -33,7 +32,6 @@ import {
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
 import _ from "lodash";
-import { OrderStatusType } from "services";
 
 export const initialState: AppState = {
   activity: {
@@ -99,13 +97,6 @@ export const initialState: AppState = {
     ),
   },
   error: null,
-  order: {
-    input: {
-      tokenAddress: "",
-      chainId: "",
-    },
-    status: OrderStatusType.PENDING,
-  },
   rewards: {
     docs: JSON.parse(localStorage.getItem(STORAGE_KEYS.REWARDS) || "[]"),
     total: 0,
@@ -341,17 +332,8 @@ const appSlice = createSlice({
     /**
      * Reducer to set the order state
      */
-    setOrder(state, action: PayloadAction<Partial<OrderState>>) {
-      state.order = {
-        ...state.order,
-        ...action.payload,
-      };
-    },
-    setOrderInput(state, action: PayloadAction<Partial<OrderInput>>) {
-      state.order.input = {
-        ...state.order.input,
-        ...action.payload,
-      };
+    setOrder(state, action: PayloadAction<OrderState>) {
+      state.order = action.payload;
     },
     setTGE(state, action: PayloadAction<Partial<TGEState>>) {
       state.tge = {

@@ -6,10 +6,7 @@ import { Navigate, useNavigate } from "react-router";
 
 const OrderDetailsPage = () => {
   const navigate = useNavigate();
-  const {
-    user,
-    order: { details },
-  } = useAppSelector(selectAppStore);
+  const { user, order } = useAppSelector(selectAppStore);
 
   useEffect(() => {
     if (window.Telegram?.WebApp.BackButton) {
@@ -18,15 +15,15 @@ const OrderDetailsPage = () => {
   }, []);
 
   useEffect(() => {
-    if (typeof details !== "undefined" && !details) {
-      navigate("/");
+    if (typeof order !== "undefined" && !order) {
+      navigate("/", { replace: true });
     }
-  }, [details, navigate]);
+  }, [order, navigate]);
 
-  return user?.patchwallet && details?.orderId ? (
+  return user?.patchwallet && order?.orderId ? (
     <OrderDetails />
-  ) : typeof details !== "undefined" && !details ? (
-    <Navigate to="/order" />
+  ) : typeof order !== "undefined" && !order ? (
+    <Navigate to="/order" replace />
   ) : (
     <Loading />
   );

@@ -1,36 +1,6 @@
 import axios from "axios";
 import { WALLET_API_URL } from "../constants";
-
-export enum OrderStatusType {
-  PENDING = "pending",
-  COMPLETE = "complete",
-  FAILURE_G1 = "failure_G1",
-  FAILURE_USD = "failure_USD",
-  WAITING_USD = "waiting_usd",
-  PENDING_USD = "pending_usd",
-}
-
-export type OrderResponseType = {
-  orderId: string;
-  quoteId: string;
-  tokenAmountG1: string;
-  usdFromUsdInvestment: string;
-  usdFromG1Investment: string;
-  usdFromMvu: string;
-  usdFromTime: string;
-  equivalentUsdInvested: string;
-  gxBeforeMvu: string;
-  gxMvuEffect: string;
-  gxTimeEffect: string;
-  GxUsdExchangeRate: string;
-  standardGxUsdExchangeRate: string;
-  discountReceived: string;
-  gxReceived: string;
-  userTelegramID: string;
-  status: OrderStatusType;
-  transactionHash_G1?: string;
-  userOpHash_G1?: string;
-};
+import { OrderStatus, OrderType } from "types";
 
 export type GetOrderQuoteResponseType = {
   usdFromUsdInvestment: string;
@@ -66,7 +36,7 @@ export const getOrderQuote = async (
   );
 };
 
-export type GetOrderStatusResponseType = OrderResponseType;
+export type GetOrderStatusResponseType = OrderType;
 
 export const getOrderStatus = async (
   orderId: string,
@@ -88,7 +58,7 @@ export type SendOrderResponseType = {
   order?: {
     orderId: string;
     dateG1: string;
-    status: OrderStatusType;
+    status: OrderStatus;
     transactionHashG1?: string;
     userOpHashG1?: string;
     quote?: GetOrderQuoteResponseType;
@@ -113,7 +83,7 @@ export const sendOrder = async (
   );
 };
 
-export type GetOrdersResponseType = OrderResponseType[];
+export type GetOrdersResponseType = OrderType[];
 
 export const getOrders = async (controller?: AbortController) => {
   return await axios.get<GetOrdersResponseType>(
@@ -129,7 +99,7 @@ export const getOrders = async (controller?: AbortController) => {
 
 export type PayOrderResponseType = {
   success: boolean;
-  order?: OrderResponseType;
+  order?: OrderType;
 };
 
 export const payOrder = async (

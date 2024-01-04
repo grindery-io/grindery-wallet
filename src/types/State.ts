@@ -7,9 +7,8 @@ import { UserProps } from "./User";
 import {
   GetBridgeQuoteResponseType,
   GetOrderQuoteResponseType,
-  OrderResponseType,
-  OrderStatusType,
 } from "services";
+import { OrderType } from "./Order";
 
 /**
  * Interface for the ActivityState object representing the state of the user activity
@@ -221,23 +220,10 @@ export type ErrorState = {
   type?: string;
 } | null;
 
-export type OrderInput = {
-  tokenAddress: string;
-  chainId: string;
-};
-
-export type OrderDetails = OrderResponseType | null;
-
-export type OrderStatus = OrderStatusType;
-
 /**
  * Interface for the OrderState object representing the state of the gx tokens order page
  */
-export type OrderState = {
-  input: OrderInput;
-  status: OrderStatus;
-  details?: OrderDetails;
-};
+export type OrderState = OrderType | null;
 
 /**
  * Interface for the RewardsState object representing the state of the user rewards
@@ -416,7 +402,7 @@ export type AppState = {
   /**
    * Order tokens state
    */
-  order: OrderState;
+  order?: OrderState;
   /**
    * Rewards list state
    */

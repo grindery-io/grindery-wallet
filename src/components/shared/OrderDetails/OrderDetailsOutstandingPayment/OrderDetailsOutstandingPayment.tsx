@@ -1,13 +1,9 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import { selectAppStore, useAppSelector } from "store";
 import AnimatedTimeIcon from "components/icons/AnimatedTimeIcon";
+import OrderAmount from "components/shared/Order/OrderAmount/OrderAmount";
 
 const OrderDetailsOutstandingPayment = () => {
-  const {
-    order: { details },
-  } = useAppSelector(selectAppStore);
-
   return (
     <Stack
       direction="row"
@@ -75,7 +71,7 @@ const OrderDetailsOutstandingPayment = () => {
       >
         <Typography style={{ width: "100%" }}>
           <strong>
-            ${parseFloat(details?.usdFromUsdInvestment || "0").toFixed(2)}
+            $<OrderAmount format="usd" />
           </strong>
         </Typography>
         <Typography

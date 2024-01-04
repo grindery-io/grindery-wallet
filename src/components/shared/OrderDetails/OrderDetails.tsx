@@ -2,19 +2,21 @@ import React from "react";
 import { selectAppStore, useAppSelector } from "store";
 import OrderDetailsCompleted from "./OrderDetailsCompleted/OrderDetailsCompleted";
 import OrderDetailsProgress from "./OrderDetailsProgress/OrderDetailsProgress";
-import { OrderStatusType } from "services";
+import { OrderStatus } from "types";
+import Order from "../Order/Order";
+import Loading from "../Loading/Loading";
 
 const OrderDetails = () => {
-  const {
-    order: { details },
-  } = useAppSelector(selectAppStore);
+  const { order } = useAppSelector(selectAppStore);
 
-  const isOrderCompleted = details?.status === OrderStatusType.COMPLETE;
+  const isOrderCompleted = order?.status === OrderStatus.COMPLETE;
 
-  return isOrderCompleted ? (
-    <OrderDetailsCompleted />
+  return order ? (
+    <Order order={order}>
+      {isOrderCompleted ? <OrderDetailsCompleted /> : <OrderDetailsProgress />}
+    </Order>
   ) : (
-    <OrderDetailsProgress />
+    <Loading />
   );
 };
 

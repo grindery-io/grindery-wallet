@@ -1,19 +1,15 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import { selectAppStore, useAppSelector } from "store";
+import { useOrder } from "components/shared/Order/Order";
+import OrderAmount from "components/shared/Order/OrderAmount/OrderAmount";
 
 const LABEL = "Booster payment";
 
 const OrderDetailsUsdAmount = () => {
-  const {
-    order: { details },
-  } = useAppSelector(selectAppStore);
+  const order = useOrder();
   const hasBooster = Boolean(
-    details && parseFloat(details.usdFromUsdInvestment) > 0
+    order && parseFloat(order.usdFromUsdInvestment) > 0
   );
-  const usdAmount = `$${parseFloat(
-    details?.usdFromUsdInvestment || "0"
-  ).toFixed(2)}`;
 
   return hasBooster ? (
     <Stack
@@ -53,7 +49,9 @@ const OrderDetailsUsdAmount = () => {
         }}
       >
         <Typography>
-          <strong>{usdAmount}</strong>
+          <strong>
+            <OrderAmount format="usd" />
+          </strong>
         </Typography>
         <Typography
           style={{ width: "35px", minWidth: "35px", maxWidth: "35px" }}

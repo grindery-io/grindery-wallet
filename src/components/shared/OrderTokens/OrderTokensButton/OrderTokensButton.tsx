@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router";
 import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import { TokenType } from "components/shared/Token";
-import { OrderStatusType, getOrderStatus, sendOrder } from "services";
+import { getOrderStatus, sendOrder } from "services";
 import { TGEStatus } from "types";
 
 const REFRESH_TIMEOUT = 600;
@@ -56,12 +56,7 @@ const OrderTokensButton = () => {
       const res = await sendOrder(quote?.quoteId || "");
       if (res.data?.success) {
         const updatedOrder = await getOrderStatus(quote?.quoteId || "");
-        dispatch(
-          appStoreActions.setOrder({
-            status: updatedOrder.data?.status || OrderStatusType.PENDING,
-            details: updatedOrder.data || null,
-          })
-        );
+        dispatch(appStoreActions.setOrder(updatedOrder.data || null));
         dispatch(
           appStoreActions.setTGE({
             status: TGEStatus.SENT,

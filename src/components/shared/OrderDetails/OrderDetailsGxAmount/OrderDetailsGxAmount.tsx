@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import GXIcon from "components/icons/GXIcon";
-import { selectAppStore, useAppSelector } from "store";
+import OrderAmount from "components/shared/Order/OrderAmount/OrderAmount";
+import OrderPrice from "components/shared/Order/OrderPrice/OrderPrice";
 
 export type OrderDetailsGxAmountProps = {
   title?: string;
@@ -14,15 +15,6 @@ const OrderDetailsGxAmount = ({
   icon,
   showGxIcon,
 }: OrderDetailsGxAmountProps) => {
-  const {
-    order: { details },
-  } = useAppSelector(selectAppStore);
-  const gxTotal = String(details?.gxReceived || 0);
-  const gxPrice = (1 / parseFloat(details?.GxUsdExchangeRate || "0")).toFixed(
-    4
-  );
-  const gxPriceTotal = String(details?.equivalentUsdInvested || 0);
-
   return (
     <Stack
       direction="column"
@@ -68,7 +60,9 @@ const OrderDetailsGxAmount = ({
               textOverflow: "ellipsis",
             }}
           >
-            <strong>{gxTotal}</strong>
+            <strong>
+              <OrderAmount format="gx" />
+            </strong>
           </Typography>
           {showGxIcon ? (
             <>
@@ -98,7 +92,8 @@ const OrderDetailsGxAmount = ({
         </Stack>
 
         <Typography textAlign="center" color="hint" variant="xs" mb="8px">
-          Value ${gxPriceTotal} USD or {gxPrice} USD/GX
+          Value $<OrderPrice format="total" /> USD or <OrderPrice format="gx" />{" "}
+          USD/GX
         </Typography>
       </Box>
     </Stack>

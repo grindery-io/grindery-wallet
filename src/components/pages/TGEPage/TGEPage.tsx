@@ -7,25 +7,22 @@ import Loading from "components/shared/Loading/Loading";
 
 const TGEPage = () => {
   const navigate = useNavigate();
-  const {
-    user,
-    order: { details },
-  } = useAppSelector(selectAppStore);
+  const { user, order } = useAppSelector(selectAppStore);
 
   useEffect(() => {
-    if (typeof details !== "undefined" && details) {
-      navigate("/order");
+    if (typeof order !== "undefined" && order) {
+      navigate("/order", { replace: true });
     }
-  }, [details, navigate]);
+  }, [order, navigate]);
 
-  return user?.patchwallet && !details && typeof details !== "undefined" ? (
+  return user?.patchwallet && !order && typeof order !== "undefined" ? (
     <Routes>
       <Route path="/" element={<TGEIntroPage />} />
       <Route path="/form" element={<TGEFormPage />} />
       <Route path="*" element={<Navigate to="/tge" />} />
     </Routes>
-  ) : typeof details !== "undefined" ? (
-    <Navigate to="/order" />
+  ) : typeof order !== "undefined" ? (
+    <Navigate to="/order" replace />
   ) : (
     <Loading />
   );

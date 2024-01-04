@@ -16,7 +16,9 @@ import {
 } from "components/shared/Token";
 import DialogSelect from "components/shared/DialogSelect/DialogSelect";
 import TokensListItem from "components/shared/TokensList/TokensListItem/TokensListItem";
-import { OrderStatusType, getOrderStatus, payOrder } from "services";
+import { getOrderStatus, payOrder } from "services";
+import { OrderStatus } from "types";
+import { useOrder } from "components/shared/Order/Order";
 
 const getTokenRquiredAmount = (
   token: TokenType,
@@ -29,10 +31,8 @@ const OrderDetailsPayment = () => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
-  const {
-    tokens,
-    order: { details },
-  } = useAppSelector(selectAppStore);
+  const { tokens } = useAppSelector(selectAppStore);
+  const order = useOrder();
 
   const usdTokens = tokens.filter((token) => {
     const tokenUsdValue =
@@ -49,7 +49,7 @@ const OrderDetailsPayment = () => {
 
   const [selectedToken, setSelectedToken] = useState(usdTokens[0]);
 
-  const requiredUsd = parseFloat(details?.usdFromUsdInvestment || "0");
+  const requiredUsd = parseFloat(order?.usdFromUsdInvestment || "0");
 
   const requiredUsdFormatted = parseFloat(
     requiredUsd.toFixed(2)
@@ -79,41 +79,47 @@ const OrderDetailsPayment = () => {
 
   const completeOrder = async () => {
     dispatch(
-      appStoreActions.setOrder({
-        details: details
+      appStoreActions.setOrder(
+        order
           ? {
-              ...details,
-              status: OrderStatusType.PENDING_USD,
+              ...order,
+              status: OrderStatus.PENDING_USD,
             }
-          : null,
-      })
+          : null
+      )
     );
 
     try {
       const res = await payOrder({
-        orderId: details?.orderId || "",
+        orderId: order?.orderId || "",
         tokenAddress: selectedToken.address,
         chainId: selectedToken.chain,
       });
       if (res.data?.success) {
-        const status = await getOrderStatus(details?.orderId || "");
-        dispatch(
-          appStoreActions.setOrder({
-            details: status.data || null,
-          })
-        );
+        const status = await getOrderStatus(order?.orderId || "");
+        dispatch(appStoreActions.setOrder(status.data || null));
       } else {
         dispatch(
-          appStoreActions.setOrder({
-            status: OrderStatusType.FAILURE_USD,
-          })
+          appStoreActions.setOrder(
+            order
+              ? {
+                  ...order,
+                  status: OrderStatus.FAILURE_USD,
+                }
+              : null
+          )
         );
       }
     } catch (error) {
       dispatch(
-        appStoreActions.setOrder({
-          status: OrderStatusType.FAILURE_USD,
-        })
+        appStoreActions.setOrder(
+          order
+            ? {
+                ...order,
+                status: OrderStatus.FAILURE_USD,
+              }
+            : null
+        )
       );
     }
   };
@@ -171,7 +177,7 @@ const OrderDetailsPayment = () => {
               useFlexGap
             >
               <ButtonBase
-                disabled={details?.status === OrderStatusType.PENDING_USD}
+                disabled={order?.status === OrderStatus.PENDING_USD}
                 onClick={handleOpen}
                 sx={{
                   padding: "6px 8px",
@@ -214,7 +220,7 @@ const OrderDetailsPayment = () => {
                 </Stack>
               </ButtonBase>
               <Typography variant="title" color="hint" fontWeight="300">
-                {selectedTokenRequiredAmountFormatted}
+                ~{selectedTokenRequiredAmountFormatted}
               </Typography>
             </Stack>
             <Stack
@@ -247,8 +253,7 @@ const OrderDetailsPayment = () => {
         >
           <Button
             disabled={
-              isBalanceNotEnough ||
-              details?.status === OrderStatusType.PENDING_USD
+              isBalanceNotEnough || order?.status === OrderStatus.PENDING_USD
             }
             color="secondary"
             variant="contained"
@@ -259,7 +264,7 @@ const OrderDetailsPayment = () => {
           >
             {isBalanceNotEnough
               ? "Balance too low"
-              : details?.status === OrderStatusType.PENDING_USD
+              : order?.status === OrderStatus.PENDING_USD
               ? "Processing"
               : "Complete order now"}
           </Button>

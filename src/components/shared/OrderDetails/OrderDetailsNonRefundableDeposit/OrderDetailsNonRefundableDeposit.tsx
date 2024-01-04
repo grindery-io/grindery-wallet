@@ -1,21 +1,13 @@
 import React from "react";
 import { Token, TokenIcon, TokenType } from "components/shared/Token";
-import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../../constants";
-import { selectAppStore, useAppSelector } from "store";
+import { GRINDERY_ONE_TOKEN } from "../../../../constants";
 import { Stack, Typography } from "@mui/material";
+import OrderAmount from "components/shared/Order/OrderAmount/OrderAmount";
 
 const LABEL = "Non-refundable deposit";
 
 const OrderDetailsNonRefundableDeposit = () => {
-  const {
-    tokens,
-    order: { details },
-  } = useAppSelector(selectAppStore);
-  const grinderyToken =
-    tokens.find(
-      (token) =>
-        token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
-    ) || (GRINDERY_ONE_TOKEN as TokenType);
+  const grinderyToken = GRINDERY_ONE_TOKEN as TokenType;
 
   return (
     <Token token={grinderyToken}>
@@ -56,7 +48,9 @@ const OrderDetailsNonRefundableDeposit = () => {
           }}
         >
           <Typography>
-            <strong>{details?.tokenAmountG1}</strong>
+            <strong>
+              <OrderAmount format="g1" />
+            </strong>
           </Typography>
           <TokenIcon size={14} />
           <Typography
