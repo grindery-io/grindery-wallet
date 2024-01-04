@@ -10,7 +10,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { OrderStatus } from "types";
+import { TGEStatus } from "types";
 import OrderTokensSentMessage from "./OrderTokensSentMessage";
 import Loading from "../Loading/Loading";
 import { getOrderQuote } from "services";
@@ -19,30 +19,30 @@ import OrderTokensError from "./OrderTokensError";
 const OrderTokens = () => {
   const dispatch = useAppDispatch();
   const {
-    order: { status, input },
+    tge: { status, input },
   } = useAppSelector(selectAppStore);
 
   useEffect(() => {
     const controller = new AbortController();
     dispatch(
-      appStoreActions.setOrder({
-        status: OrderStatus.LOADING,
+      appStoreActions.setTGE({
+        status: TGEStatus.LOADING,
       })
     );
 
-    getOrderQuote(input.convert || "0", input.add || "0", controller)
+    getOrderQuote(input.g1Quantity || "0", input.usdQuantity || "0", controller)
       .then((res) => {
         dispatch(
-          appStoreActions.setOrder({
-            status: OrderStatus.WAITING,
+          appStoreActions.setTGE({
+            status: TGEStatus.WAITING,
             quote: res.data,
           })
         );
       })
       .catch((error) => {
         dispatch(
-          appStoreActions.setOrder({
-            status: OrderStatus.WAITING,
+          appStoreActions.setTGE({
+            status: TGEStatus.WAITING,
             quote: null,
           })
         );
@@ -51,11 +51,11 @@ const OrderTokens = () => {
     return () => {
       controller.abort();
     };
-  }, [input.convert, input.add, dispatch]);
+  }, [input.g1Quantity, input.usdQuantity, dispatch]);
 
   return (
     <>
-      {(status === OrderStatus.WAITING || status === OrderStatus.LOADING) && (
+      {(status === TGEStatus.WAITING || status === TGEStatus.LOADING) && (
         <Box sx={OrderTokensStyles}>
           <OrderTokensInfo />
           <OrderTokensInput />
@@ -63,9 +63,9 @@ const OrderTokens = () => {
           <OrderTokensButton />
         </Box>
       )}
-      {status === OrderStatus.SENDING && <Loading />}
-      {status === OrderStatus.SENT && <OrderTokensSentMessage />}
-      {status === OrderStatus.ERROR && <OrderTokensError />}
+      {status === TGEStatus.SENDING && <Loading />}
+      {status === TGEStatus.SENT && <OrderTokensSentMessage />}
+      {status === TGEStatus.ERROR && <OrderTokensError />}
     </>
   );
 };

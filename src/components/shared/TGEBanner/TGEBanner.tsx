@@ -3,7 +3,7 @@ import { ButtonBase, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { selectAppStore, useAppSelector } from "store";
 
-const OrderBanner = () => {
+const TGEBanner = () => {
   const navigate = useNavigate();
   const {
     order: { details },
@@ -11,9 +11,9 @@ const OrderBanner = () => {
 
   const handleClick = () => {
     if (details) {
-      navigate(`/order/${details.orderId}`);
+      navigate(`/order`);
     } else {
-      navigate("/order");
+      navigate("/tge");
     }
   };
 
@@ -57,4 +57,4 @@ const OrderBanner = () => {
   ) : null;
 };
 
-export default OrderBanner;
+export default TGEBanner;

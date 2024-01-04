@@ -5,7 +5,7 @@ import AnimatedTimeIcon from "components/icons/AnimatedTimeIcon";
 
 const OrderDetailsOutstandingPayment = () => {
   const {
-    order: { quote },
+    order: { details },
   } = useAppSelector(selectAppStore);
 
   return (
@@ -75,7 +75,7 @@ const OrderDetailsOutstandingPayment = () => {
       >
         <Typography style={{ width: "100%" }}>
           <strong>
-            ${parseFloat(quote?.usd_from_usd_investment || "0").toFixed(2)}
+            ${parseFloat(details?.usdFromUsdInvestment || "0").toFixed(2)}
           </strong>
         </Typography>
         <Typography

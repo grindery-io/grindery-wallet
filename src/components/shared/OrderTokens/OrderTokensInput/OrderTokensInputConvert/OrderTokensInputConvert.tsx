@@ -31,8 +31,8 @@ const OrderTokensInputConvert = () => {
 
   const changeState = debounce((value) => {
     dispatch(
-      appStoreActions.setOrderInput({
-        convert: value,
+      appStoreActions.setTGEInput({
+        g1Quantity: value,
       })
     );
   }, 1200);
@@ -51,8 +51,8 @@ const OrderTokensInputConvert = () => {
       : "";
 
     dispatch(
-      appStoreActions.setOrderInput({
-        convert: maxBalance,
+      appStoreActions.setTGEInput({
+        g1Quantity: maxBalance,
       })
     );
 

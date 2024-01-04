@@ -8,9 +8,9 @@ import {
 } from "store";
 import Loading from "components/shared/Loading/Loading";
 import OrderTokens from "components/shared/OrderTokens/OrderTokens";
-import { OrderStatus } from "types";
+import { TGEStatus } from "types";
 
-const OrderFormPage = () => {
+const TGEFormPage = () => {
   useBackButton();
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
@@ -18,13 +18,13 @@ const OrderFormPage = () => {
 
   useEffect(() => {
     dispatch(
-      appStoreActions.setOrder({
+      appStoreActions.setTGE({
         input: {
-          convert: "",
-          add: "",
+          g1Quantity: "",
+          usdQuantity: "",
         },
         quote: null,
-        status: OrderStatus.WAITING,
+        status: TGEStatus.WAITING,
       })
     );
     setLoading(false);
@@ -33,4 +33,4 @@ const OrderFormPage = () => {
   return user?.patchwallet && !loading ? <OrderTokens /> : <Loading />;
 };
 
-export default OrderFormPage;
+export default TGEFormPage;

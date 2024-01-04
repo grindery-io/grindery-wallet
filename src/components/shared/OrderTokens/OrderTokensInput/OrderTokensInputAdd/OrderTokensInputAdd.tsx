@@ -18,8 +18,8 @@ const OrderTokensInputAdd = () => {
 
   const changeState = debounce((value) => {
     dispatch(
-      appStoreActions.setOrderInput({
-        add: value,
+      appStoreActions.setTGEInput({
+        usdQuantity: value,
       })
     );
   }, 1200);
@@ -32,8 +32,8 @@ const OrderTokensInputAdd = () => {
   useEffect(() => {
     if (balanceWithoutDecimals && parseInt(balanceWithoutDecimals) > 0) {
       dispatch(
-        appStoreActions.setOrderInput({
-          add: balanceWithoutDecimals,
+        appStoreActions.setTGEInput({
+          usdQuantity: balanceWithoutDecimals,
         })
       );
       setInputValue(balanceWithoutDecimals);

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import Title from "../Title";
 import { appStoreActions, useAppDispatch } from "../../../store";
-import { OrderStatus } from "../../../types/State";
+import { TGEStatus } from "../../../types/State";
 
 const OrderTokensError = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ const OrderTokensError = () => {
       </Typography>
       <Button
         onClick={() => {
-          dispatch(appStoreActions.setOrder({ status: OrderStatus.WAITING }));
+          dispatch(appStoreActions.setTGE({ status: TGEStatus.WAITING }));
         }}
       >
         Try again

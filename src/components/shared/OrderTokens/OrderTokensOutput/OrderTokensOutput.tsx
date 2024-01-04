@@ -3,19 +3,17 @@ import { Box, Stack, Typography } from "@mui/material";
 import ArrowDownIcon from "components/icons/ArrowDownIcon";
 import GXIcon from "components/icons/GXIcon";
 import { selectAppStore, useAppSelector } from "store";
-import { OrderStatus } from "types";
+import { TGEStatus } from "types";
 
 const OrderTokensOutput = () => {
   const {
-    order: { quote, status, input },
+    tge: { quote, status, input },
   } = useAppSelector(selectAppStore);
 
-  const gxAmount = parseFloat(quote?.gx_received || "0");
-  const discount = quote?.discount_received || "0.00";
-  const gxPrice = (
-    1 / parseFloat(quote?.equivalent_gx_usd_exchange_rate || "0")
-  ).toFixed(4);
-  const gxPriceTotal = String(quote?.equivalent_usd_invested || 0);
+  const gxAmount = parseFloat(quote?.gxReceived || "0");
+  const discount = quote?.discountReceived || "0.00";
+  const gxPrice = (1 / parseFloat(quote?.GxUsdExchangeRate || "0")).toFixed(4);
+  const gxPriceTotal = String(quote?.equivalentUsdInvested || 0);
 
   return (
     <Stack
@@ -24,10 +22,10 @@ const OrderTokensOutput = () => {
       justifyContent="center"
       sx={{ margin: "16px", flex: 1 }}
     >
-      {Boolean(input.convert) ? (
+      {Boolean(input.g1Quantity) ? (
         <>
           <ArrowDownIcon sx={{ marginBottom: "4px !important" }} />
-          {status === OrderStatus.LOADING ? (
+          {status === TGEStatus.LOADING ? (
             <Typography color="hint" mt="8px" textAlign="center">
               <strong>Calculating...</strong>
             </Typography>

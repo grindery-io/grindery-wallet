@@ -8,6 +8,7 @@ import {
   GetBridgeQuoteResponseType,
   GetOrderQuoteResponseType,
   OrderResponseType,
+  OrderStatusType,
 } from "services";
 
 /**
@@ -221,32 +222,20 @@ export type ErrorState = {
 } | null;
 
 export type OrderInput = {
-  convert: string;
-  add: string;
+  tokenAddress: string;
+  chainId: string;
 };
-
-export enum OrderStatus {
-  WAITING = "waiting_user_input",
-  LOADING = "loading",
-  ERROR = "error",
-  SENDING = "sending",
-  SENT = "sent",
-  WAITING_USD_PAYMENT = "waiting_usd_payment",
-  PAYING = "paying_usd",
-  COMPLETED = "completed",
-}
-
-export type OrderQuote = GetOrderQuoteResponseType | null;
 
 export type OrderDetails = OrderResponseType | null;
 
+export type OrderStatus = OrderStatusType;
+
 /**
- * Interface for the ConvertState object representing the state of the tokens convert page
+ * Interface for the OrderState object representing the state of the gx tokens order page
  */
 export type OrderState = {
   input: OrderInput;
   status: OrderStatus;
-  quote: OrderQuote;
   details?: OrderDetails;
 };
 
@@ -351,6 +340,39 @@ export type SwapState = {
 };
 
 /**
+ * Interface for the TGEInput object representing the state of the TGE input
+ */
+export type TGEInput = {
+  g1Quantity: string;
+  usdQuantity: string;
+};
+
+/**
+ * Interface for the TGEStatus object representing the state of the TGE page
+ */
+export enum TGEStatus {
+  WAITING = "waiting_user_input",
+  LOADING = "loading",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+/**
+ * Interface for the TGEquote object representing the state of the TGE quote
+ */
+export type TGEquote = GetOrderQuoteResponseType | null;
+
+/**
+ * Interface for the TGEState object representing the state of the TGE page
+ */
+export type TGEState = {
+  input: TGEInput;
+  status: TGEStatus;
+  quote: TGEquote;
+};
+
+/**
  * Interface for the UserState object representing the state of the current user
  */
 export type UserState = UserProps | null;
@@ -411,6 +433,10 @@ export type AppState = {
    * Swap state
    */
   swap: SwapState;
+  /**
+   * TGE state
+   */
+  tge: TGEState;
   /**
    * Tokens state
    */

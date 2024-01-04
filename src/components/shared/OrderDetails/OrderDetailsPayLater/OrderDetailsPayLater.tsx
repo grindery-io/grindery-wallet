@@ -1,16 +1,13 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "store";
-import { OrderStatus } from "types";
+import { OrderStatusType } from "services";
 
 const OrderDetailsPayLater = () => {
   const {
-    order: {
-      input: { add },
-      status,
-    },
+    order: { details, status },
   } = useAppSelector(selectAppStore);
-  return status !== OrderStatus.PAYING ? (
+  return status !== OrderStatusType.PENDING_USD ? (
     <Box
       sx={{
         width: "calc(100% - 32px)",
@@ -39,8 +36,9 @@ const OrderDetailsPayLater = () => {
           },
         }}
       >
-        You can pay the outstanding balance of *${parseFloat(add).toFixed(2)}{" "}
-        USD until the 3.1.2024.{" "}
+        You can pay the outstanding balance of *$
+        {parseFloat(details?.usdFromUsdInvestment || "0").toFixed(2)} USD until
+        the 14.1.2024.{" "}
         <a href="https://grindery.io" target="_blank" rel="noreferrer">
           Learn more
         </a>

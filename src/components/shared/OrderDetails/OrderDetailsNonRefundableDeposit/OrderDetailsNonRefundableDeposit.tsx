@@ -56,7 +56,7 @@ const OrderDetailsNonRefundableDeposit = () => {
           }}
         >
           <Typography>
-            <strong>{details?.tokenAmount_G1}</strong>
+            <strong>{details?.tokenAmountG1}</strong>
           </Typography>
           <TokenIcon size={14} />
           <Typography

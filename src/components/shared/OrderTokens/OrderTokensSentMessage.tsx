@@ -5,10 +5,10 @@ import { selectAppStore, useAppSelector } from "store";
 
 const OrderTokensSentMessage = () => {
   const {
-    order: { input, quote },
+    tge: { input, quote },
   } = useAppSelector(selectAppStore);
 
-  const gxAmount = quote?.gx_received || 0;
+  const gxAmount = quote?.gxReceived || 0;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -88,10 +88,10 @@ const OrderTokensSentMessage = () => {
               />
             </svg>
             <Typography variant="sm">
-              <strong>{input.convert} G1 exchanged</strong>
+              <strong>{input.g1Quantity} G1 exchanged</strong>
             </Typography>
           </Stack>
-          {parseFloat(input.add) > 0 && (
+          {parseFloat(input.usdQuantity) > 0 && (
             <Stack direction="row" alignItems="center" spacing="6px">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -114,17 +114,17 @@ const OrderTokensSentMessage = () => {
                 </defs>
               </svg>
               <Typography variant="sm">
-                <strong>{input.add} USD pending*</strong>
+                <strong>{input.usdQuantity} USD pending*</strong>
               </Typography>
             </Stack>
           )}
         </Stack>
-        {parseFloat(input.add) > 0 && (
+        {parseFloat(input.usdQuantity) > 0 && (
           <>
             <Typography color="hint" variant="sm" fontWeight="300">
-              * Your wallet will be charged {input.add} USD on 20.12.2023.
-              Please make sure that your wallet holds at least {input.add} USD
-              or the transaction will not go through.
+              * Your wallet will be charged {input.usdQuantity} USD on
+              20.12.2023. Please make sure that your wallet holds at least{" "}
+              {input.usdQuantity} USD or the transaction will not go through.
             </Typography>
             <Typography color="hint" variant="sm" fontWeight="300">
               Please make sure to deposit in your wallet{" "}

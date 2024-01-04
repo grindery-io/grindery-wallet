@@ -6,12 +6,14 @@ const LABEL = "Booster payment";
 
 const OrderDetailsUsdAmount = () => {
   const {
-    order: {
-      input: { add },
-    },
+    order: { details },
   } = useAppSelector(selectAppStore);
-  const hasBooster = Boolean(add && parseFloat(add) > 0);
-  const usdAmount = `$${parseFloat(add).toFixed(2)}`;
+  const hasBooster = Boolean(
+    details && parseFloat(details.usdFromUsdInvestment) > 0
+  );
+  const usdAmount = `$${parseFloat(
+    details?.usdFromUsdInvestment || "0"
+  ).toFixed(2)}`;
 
   return hasBooster ? (
     <Stack

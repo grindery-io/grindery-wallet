@@ -7,11 +7,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
-import { OrderStatus } from "types";
 import { useNavigate } from "react-router";
 import { GRINDERY_ONE_TOKEN, MAIN_TOKEN_ADDRESS } from "../../../../constants";
 import { TokenType } from "components/shared/Token";
 import { OrderStatusType, getOrderStatus, sendOrder } from "services";
+import { TGEStatus } from "types";
 
 const REFRESH_TIMEOUT = 600;
 
@@ -21,19 +21,19 @@ const OrderTokensButton = () => {
   const dispatch = useAppDispatch();
   const {
     tokens,
-    order: { input, status, quote },
+    tge: { input, status, quote },
   } = useAppSelector(selectAppStore);
-  const gxAmount = quote?.gx_received || "0";
+  const gxAmount = quote?.gxReceived || "0";
   const grinderyToken =
     tokens.find(
       (token) =>
         token.address.toLowerCase() === MAIN_TOKEN_ADDRESS.toLowerCase()
     ) || (GRINDERY_ONE_TOKEN as TokenType);
   const notEnoughG1 =
-    parseFloat(input.convert || "0") >
+    parseFloat(input.g1Quantity || "0") >
     parseFloat(grinderyToken.balance || "0") / 10 ** grinderyToken.decimals;
   const disabled =
-    status === OrderStatus.LOADING ||
+    status === TGEStatus.LOADING ||
     parseFloat(gxAmount) <= 0 ||
     notEnoughG1 ||
     !quote?.quoteId;
@@ -48,39 +48,38 @@ const OrderTokensButton = () => {
 
   const orderTokens = async () => {
     dispatch(
-      appStoreActions.setOrder({
-        status: OrderStatus.SENDING,
+      appStoreActions.setTGE({
+        status: TGEStatus.SENDING,
       })
     );
     try {
       const res = await sendOrder(quote?.quoteId || "");
       if (res.data?.success) {
-        const status = await getOrderStatus(quote?.quoteId || "");
+        const updatedOrder = await getOrderStatus(quote?.quoteId || "");
         dispatch(
           appStoreActions.setOrder({
-            status:
-              status.data?.order?.status === OrderStatusType.COMPLETE
-                ? OrderStatus.COMPLETED
-                : status.data?.order?.status === OrderStatusType.PENDING
-                ? OrderStatus.SENDING
-                : OrderStatus.WAITING_USD_PAYMENT,
-            details: status.data?.order || null,
-            quote: status.data?.quote || null,
+            status: updatedOrder.data?.status || OrderStatusType.PENDING,
+            details: updatedOrder.data || null,
           })
         );
-        navigate(`/order/${status.data?.order?.orderId}`);
+        dispatch(
+          appStoreActions.setTGE({
+            status: TGEStatus.SENT,
+          })
+        );
+        navigate(`/order`);
       } else {
         dispatch(
-          appStoreActions.setOrder({
-            status: OrderStatus.ERROR,
+          appStoreActions.setTGE({
+            status: TGEStatus.ERROR,
           })
         );
       }
     } catch (err) {
       console.log(err);
       dispatch(
-        appStoreActions.setOrder({
-          status: OrderStatus.ERROR,
+        appStoreActions.setTGE({
+          status: TGEStatus.ERROR,
         })
       );
     }
@@ -89,21 +88,21 @@ const OrderTokensButton = () => {
   const handleClick = () => {
     if (timer >= REFRESH_TIMEOUT) {
       dispatch(
-        appStoreActions.setOrder({
-          status: OrderStatus.LOADING,
+        appStoreActions.setTGE({
+          status: TGEStatus.LOADING,
         })
       );
       setTimeout(() => {
         dispatch(
-          appStoreActions.setOrder({
-            status: OrderStatus.WAITING,
+          appStoreActions.setTGE({
+            status: TGEStatus.WAITING,
           })
         );
       }, 1500);
       setTimer(0);
       return;
     }
-    const message = `You are exchanging\n${input.convert} G1 for ${gxAmount} GX.\n\nThe deposit is not refundable.\nWould you like to proceed?`;
+    const message = `You are exchanging\n${input.g1Quantity} G1 for ${gxAmount} GX.\n\nThe deposit is not refundable.\nWould you like to proceed?`;
 
     if (window.Telegram?.WebApp?.showConfirm) {
       window.Telegram?.WebApp?.showConfirm(message, (confirmed: boolean) => {

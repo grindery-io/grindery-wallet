@@ -3,12 +3,12 @@ import useBackButton from "hooks/useBackButton";
 import { Box, Button, ButtonBase, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 
-const OrderIntroPage = () => {
+const TGEIntroPage = () => {
   useBackButton();
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    navigate("/order/form");
+    navigate("form");
   };
 
   return (
@@ -105,4 +105,4 @@ const OrderIntroPage = () => {
   );
 };
 
-export default OrderIntroPage;
+export default TGEIntroPage;

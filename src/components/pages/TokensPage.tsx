@@ -5,7 +5,7 @@ import Balance from "../shared/Balance/Balance";
 import MainButtonsGroup from "../shared/MainButtonsGroup/MainButtonsGroup";
 import AccountRecoveryBanner from "../shared/AccountRecoveryBanner/AccountRecoveryBanner";
 import { selectAppStore, useAppSelector } from "store";
-import OrderBanner from "components/shared/OrderBanner/OrderBanner";
+import TGEBanner from "components/shared/TGEBanner/TGEBanner";
 
 const TokensPage = () => {
   const {
@@ -13,7 +13,7 @@ const TokensPage = () => {
   } = useAppSelector(selectAppStore);
   return (
     <>
-      {enabled && features?.GX_PREORDER && <OrderBanner />}
+      {enabled && features?.GX_PREORDER && <TGEBanner />}
       <Balance />
       <MainButtonsGroup />
       <TokensTabs />

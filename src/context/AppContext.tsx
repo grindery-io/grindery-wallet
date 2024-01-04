@@ -7,6 +7,7 @@ import {
   updateMeRequest,
   getOrders,
   getOrderStatus,
+  OrderStatusType,
 } from "services";
 import {
   appStoreActions,
@@ -352,8 +353,8 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
               .then((order) => {
                 dispatch(
                   appStoreActions.setOrder({
-                    details: order.data?.order || null,
-                    quote: order.data?.quote || null,
+                    details: order.data || null,
+                    status: order.data?.status || OrderStatusType.PENDING,
                   })
                 );
               })
@@ -361,7 +362,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
                 dispatch(
                   appStoreActions.setOrder({
                     details: null,
-                    quote: null,
                   })
                 );
               });
@@ -369,7 +369,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             dispatch(
               appStoreActions.setOrder({
                 details: null,
-                quote: null,
               })
             );
           }
@@ -378,7 +377,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
           dispatch(
             appStoreActions.setOrder({
               details: null,
-              quote: null,
             })
           );
         });

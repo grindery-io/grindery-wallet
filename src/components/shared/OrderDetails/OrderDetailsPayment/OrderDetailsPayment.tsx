@@ -16,7 +16,6 @@ import {
 } from "components/shared/Token";
 import DialogSelect from "components/shared/DialogSelect/DialogSelect";
 import TokensListItem from "components/shared/TokensList/TokensListItem/TokensListItem";
-import { OrderStatus } from "types";
 import { OrderStatusType, getOrderStatus, payOrder } from "services";
 
 const getTokenRquiredAmount = (
@@ -32,7 +31,7 @@ const OrderDetailsPayment = () => {
   const dispatch = useAppDispatch();
   const {
     tokens,
-    order: { quote, details },
+    order: { details },
   } = useAppSelector(selectAppStore);
 
   const usdTokens = tokens.filter((token) => {
@@ -50,7 +49,7 @@ const OrderDetailsPayment = () => {
 
   const [selectedToken, setSelectedToken] = useState(usdTokens[0]);
 
-  const requiredUsd = parseFloat(quote?.usd_from_usd_investment || "0");
+  const requiredUsd = parseFloat(details?.usdFromUsdInvestment || "0");
 
   const requiredUsdFormatted = parseFloat(
     requiredUsd.toFixed(2)
@@ -97,24 +96,23 @@ const OrderDetailsPayment = () => {
         chainId: selectedToken.chain,
       });
       if (res.data?.success) {
-        const status = await getOrderStatus(quote?.quoteId || "");
+        const status = await getOrderStatus(details?.orderId || "");
         dispatch(
           appStoreActions.setOrder({
-            details: status.data?.order || null,
-            quote: status.data?.quote || null,
+            details: status.data || null,
           })
         );
       } else {
         dispatch(
           appStoreActions.setOrder({
-            status: OrderStatus.ERROR,
+            status: OrderStatusType.FAILURE_USD,
           })
         );
       }
     } catch (error) {
       dispatch(
         appStoreActions.setOrder({
-          status: OrderStatus.ERROR,
+          status: OrderStatusType.FAILURE_USD,
         })
       );
     }

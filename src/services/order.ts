@@ -12,30 +12,42 @@ export enum OrderStatusType {
 
 export type OrderResponseType = {
   orderId: string;
-  date?: string;
-  status: OrderStatusType;
+  quoteId: string;
+  tokenAmountG1: string;
+  usdFromUsdInvestment: string;
+  usdFromG1Investment: string;
+  usdFromMvu: string;
+  usdFromTime: string;
+  equivalentUsdInvested: string;
+  gxBeforeMvu: string;
+  gxMvuEffect: string;
+  gxTimeEffect: string;
+  GxUsdExchangeRate: string;
+  standardGxUsdExchangeRate: string;
+  discountReceived: string;
+  gxReceived: string;
   userTelegramID: string;
-  tokenAmount_G1: string;
+  status: OrderStatusType;
   transactionHash_G1?: string;
   userOpHash_G1?: string;
 };
 
 export type GetOrderQuoteResponseType = {
+  usdFromUsdInvestment: string;
+  usdFromG1Investment: string;
+  usdFromMvu: string;
+  usdFromTime: string;
+  equivalentUsdInvested: string;
+  gxBeforeMvu: string;
+  gxMvuEffect: string;
+  gxTimeEffect: string;
+  gxReceived: string;
+  GxUsdExchangeRate: string;
+  standardGxUsdExchangeRate: string;
+  discountReceived: string;
+  date: string;
   quoteId: string;
   userTelegramID: string;
-  date: string;
-  usd_from_usd_investment: string;
-  usd_from_g1_holding: string;
-  usd_from_mvu: string;
-  usd_from_time: string;
-  equivalent_usd_invested: string;
-  gx_before_mvu: string;
-  gx_mvu_effect: string;
-  gx_time_effect: string;
-  equivalent_gx_usd_exchange_rate: string;
-  standard_gx_usd_exchange_rate: string;
-  discount_received: string;
-  gx_received: string;
 };
 
 export const getOrderQuote = async (
@@ -54,28 +66,7 @@ export const getOrderQuote = async (
   );
 };
 
-export type GetOrderStatusResponseType = {
-  order: {
-    orderId: string;
-    status: OrderStatusType;
-    quoteId: string;
-    tokenAmount_G1: string;
-    usd_from_usd_investment: string;
-    usd_from_g1_holding: string;
-    usd_from_mvu: string;
-    usd_from_time: string;
-    equivalent_usd_invested: string;
-    gx_before_mvu: string;
-    gx_mvu_effect: string;
-    gx_time_effect: string;
-    equivalent_gx_usd_exchange_rate: string;
-    standard_gx_usd_exchange_rate: string;
-    discount_received: string;
-    gx_received: string;
-    userTelegramID: string;
-  };
-  quote: GetOrderQuoteResponseType;
-};
+export type GetOrderStatusResponseType = OrderResponseType;
 
 export const getOrderStatus = async (
   orderId: string,
@@ -94,7 +85,14 @@ export const getOrderStatus = async (
 
 export type SendOrderResponseType = {
   success: boolean;
-  order?: OrderResponseType;
+  order?: {
+    orderId: string;
+    dateG1: string;
+    status: OrderStatusType;
+    transactionHashG1?: string;
+    userOpHashG1?: string;
+    quote?: GetOrderQuoteResponseType;
+  };
 };
 
 export const sendOrder = async (

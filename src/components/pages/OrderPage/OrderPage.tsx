@@ -1,29 +1,35 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router";
-import OrderIntroPage from "./OrderIntroPage/OrderIntroPage";
-import OrderFormPage from "./OrderFormPage/OrderFormPage";
-import OrderDetailsPage from "./OrderDetailsPage/OrderDetailsPage";
-import { selectAppStore, useAppSelector } from "store";
+import React, { useEffect } from "react";
 import Loading from "components/shared/Loading/Loading";
+import { selectAppStore, useAppSelector } from "store";
+import OrderDetails from "components/shared/OrderDetails/OrderDetails";
+import { Navigate, useNavigate } from "react-router";
 
-const OrderPage = () => {
+const OrderDetailsPage = () => {
+  const navigate = useNavigate();
   const {
+    user,
     order: { details },
   } = useAppSelector(selectAppStore);
-  return typeof details !== "undefined" ? (
-    <Routes>
-      {!details && (
-        <>
-          <Route path="/" element={<OrderIntroPage />} />
-          <Route path="/form" element={<OrderFormPage />} />
-        </>
-      )}
-      <Route path="/:orderId" element={<OrderDetailsPage />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+
+  useEffect(() => {
+    if (window.Telegram?.WebApp.BackButton) {
+      window.Telegram?.WebApp.BackButton.hide();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof details !== "undefined" && !details) {
+      navigate("/");
+    }
+  }, [details, navigate]);
+
+  return user?.patchwallet && details?.orderId ? (
+    <OrderDetails />
+  ) : typeof details !== "undefined" && !details ? (
+    <Navigate to="/order" />
   ) : (
     <Loading />
   );
 };
 
-export default OrderPage;
+export default OrderDetailsPage;

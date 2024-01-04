@@ -24,6 +24,7 @@ import {
   TokensPage,
   WelcomePage,
 } from "components/pages";
+import TGEPage from "components/pages/TGEPage/TGEPage";
 
 const AppRoutes = () => {
   const {
@@ -56,7 +57,10 @@ const AppRoutes = () => {
         <Route path="/staking" element={<StakingPage />} />
       )}
       {enabled && features?.GX_PREORDER && (
-        <Route path="/order/*" element={<OrderPage />} />
+        <>
+          <Route path="/tge/*" element={<TGEPage />} />
+          <Route path="/order" element={<OrderPage />} />
+        </>
       )}
       <Route path="/buy" element={<BuyPage />} />
       <Route path="*" element={<Navigate to="/tokens" replace />} />

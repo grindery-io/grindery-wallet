@@ -15,13 +15,13 @@ const OrderDetailsGxAmount = ({
   showGxIcon,
 }: OrderDetailsGxAmountProps) => {
   const {
-    order: { quote },
+    order: { details },
   } = useAppSelector(selectAppStore);
-  const gxTotal = String(quote?.gx_received || 0);
-  const gxPrice = (
-    1 / parseFloat(quote?.equivalent_gx_usd_exchange_rate || "0")
-  ).toFixed(4);
-  const gxPriceTotal = String(quote?.equivalent_usd_invested || 0);
+  const gxTotal = String(details?.gxReceived || 0);
+  const gxPrice = (1 / parseFloat(details?.GxUsdExchangeRate || "0")).toFixed(
+    4
+  );
+  const gxPriceTotal = String(details?.equivalentUsdInvested || 0);
 
   return (
     <Stack
