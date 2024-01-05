@@ -1,6 +1,6 @@
 {
   "name": "grindery-wallet",
-  "version": "0.9.26",
+  "version": "0.10.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
