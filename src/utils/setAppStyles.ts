@@ -31,6 +31,7 @@ export const setAppStyles = (): void => {
 
   if (
     !window.Telegram?.WebApp?.colorScheme &&
+    typeof window.matchMedia !== "undefined" &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
   ) {
     document.documentElement.style.setProperty(
@@ -63,7 +64,8 @@ export const setAppStyles = (): void => {
     );
   } else if (
     !window.Telegram?.WebApp?.colorScheme &&
-    !window.matchMedia("(prefers-color-scheme: dark)").matches
+    (typeof window.matchMedia === "undefined" ||
+      !window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     document.documentElement.style.setProperty(
       "--tg-theme-bg-color",
