@@ -63,7 +63,11 @@ const OrderTokens = () => {
           <OrderTokensButton />
         </Box>
       )}
-      {status === TGEStatus.SENDING && <Loading />}
+      {status === TGEStatus.SENDING && (
+        <>
+          <Loading title="Sending G1 transaction..." />
+        </>
+      )}
       {status === TGEStatus.SENT && <OrderTokensSentMessage />}
       {status === TGEStatus.ERROR && <OrderTokensError />}
     </>
