@@ -18,14 +18,24 @@ const TGEBanner = () => {
   return (
     <Box
       sx={{
+        width: "calc(100% - 32px)",
+        maxWidth: "calc(100% - 32px)",
+        margin: "0 16px",
         overflow: "hidden",
         transition: "height 0.25s ease",
-        height: typeof order !== "undefined" ? "106px" : "0px",
+        height: typeof order !== "undefined" ? "122px" : "0px",
       }}
     >
       <ButtonBase
         onClick={handleClick}
-        sx={{ backgroundColor: "var(--gr-theme-color-secondary, #ea5230)" }}
+        sx={{
+          marginTop: "16px",
+          backgroundColor: "var(--gr-theme-color-secondary, #ea5230)",
+          width: "100%",
+          borderRadius: "16px",
+          transform: typeof order !== "undefined" ? "scale(1)" : "scale(0)",
+          transition: "transform 0.30s ease",
+        }}
       >
         <Stack
           direction="row"
@@ -36,7 +46,7 @@ const TGEBanner = () => {
           sx={{
             height: "106px",
             maxHeight: "106px",
-            width: "100vw",
+            width: "100%",
             padding: "0 20px 0 24px",
             "& img": {
               width: "auto",

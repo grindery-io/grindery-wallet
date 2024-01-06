@@ -119,21 +119,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
   }, [user?.telegramSession]);
 
   useEffect(() => {
-    if (!user?._id && window.Telegram?.WebApp?.initDataUnsafe?.user) {
-      dispatch(
-        appStoreActions.setUser({
-          _id:
-            window.Telegram?.WebApp?.initDataUnsafe?.user?.id?.toString() || "",
-          userTelegramID:
-            window.Telegram?.WebApp?.initDataUnsafe?.user?.id?.toString() || "",
-          userHandle:
-            window.Telegram?.WebApp?.initDataUnsafe?.user?.username || "",
-        })
-      );
-    }
-  }, [user, dispatch]);
-
-  useEffect(() => {
     getMe();
   }, [getMe]);
 
