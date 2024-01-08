@@ -18,6 +18,7 @@ import {
   TokenType,
 } from "components/shared/Token";
 import { debounce } from "lodash";
+import { TGEStatus } from "types";
 
 const OrderTokensInputConvert = () => {
   const dispatch = useAppDispatch();
@@ -77,6 +78,11 @@ const OrderTokensInputConvert = () => {
             placeholder="0.00"
             sx={{ marginBottom: "2px" }}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(
+                appStoreActions.setTGE({
+                  status: TGEStatus.LOADING,
+                })
+              );
               debouncedInputChange(event.target.value);
               setInputValue(event.target.value);
             }}

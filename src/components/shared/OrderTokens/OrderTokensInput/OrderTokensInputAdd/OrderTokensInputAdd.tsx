@@ -7,6 +7,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "store";
+import { TGEStatus } from "types";
 
 const OrderTokensInputAdd = () => {
   const dispatch = useAppDispatch();
@@ -57,6 +58,11 @@ const OrderTokensInputAdd = () => {
           placeholder="0.00"
           sx={{ marginBottom: "2px" }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            dispatch(
+              appStoreActions.setTGE({
+                status: TGEStatus.LOADING,
+              })
+            );
             debouncedInputChange(event.target.value);
             setInputValue(event.target.value);
           }}

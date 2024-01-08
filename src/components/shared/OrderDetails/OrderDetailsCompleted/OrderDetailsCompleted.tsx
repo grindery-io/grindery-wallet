@@ -4,6 +4,7 @@ import OrderDetailsNonRefundableDeposit from "../OrderDetailsNonRefundableDeposi
 import OrderDetailsGxAmount from "../OrderDetailsGxAmount/OrderDetailsGxAmount";
 import CheckIcon from "components/icons/CheckIcon";
 import OrderDetailsUsdAmount from "../OrderDetailsUsdAmount/OrderDetailsUsdAmount";
+import { deleteOrder } from "services";
 
 const OrderDetailsCompleted = () => {
   const [isEnded, setIsEnded] = useState(false);
@@ -53,21 +54,40 @@ const OrderDetailsCompleted = () => {
       >
         &lt;text and instructions about how tokens are received&gt;
       </Typography>
-      {!isEnded && (
-        <Box sx={{ margin: "auto 16px 16px" }}>
+      <Box sx={{ margin: "auto 16px 16px" }}>
+        {!isEnded && (
           <Button
-            color="secondary"
+            color="success"
             variant="outlined"
             size="small"
             fullWidth
             onClick={() => {
               setIsEnded(true);
             }}
+            sx={{ marginBottom: "12px" }}
           >
-            Simulate end of TGE
+            Simulate end of TGE (testing)
           </Button>
-        </Box>
-      )}
+        )}
+
+        <Button
+          color="error"
+          variant="outlined"
+          size="small"
+          fullWidth
+          onClick={() => {
+            deleteOrder()
+              .then(() => {
+                window.location.reload();
+              })
+              .catch(() => {
+                //
+              });
+          }}
+        >
+          Delete order and restart (testing)
+        </Button>
+      </Box>
     </>
   );
 };

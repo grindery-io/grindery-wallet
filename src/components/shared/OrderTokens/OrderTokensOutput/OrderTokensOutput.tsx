@@ -25,7 +25,7 @@ const OrderTokensOutput = () => {
       {Boolean(input.g1Quantity) ? (
         <>
           <ArrowDownIcon sx={{ marginBottom: "4px !important" }} />
-          {status === TGEStatus.LOADING ? (
+          {status === TGEStatus.LOADING || !quote ? (
             <Typography color="hint" mt="8px" textAlign="center">
               <strong>Calculating...</strong>
             </Typography>

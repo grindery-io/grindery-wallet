@@ -121,3 +121,11 @@ export const payOrder = async (
     }
   );
 };
+
+export const deleteOrder = async () => {
+  return await axios.delete(`${WALLET_API_URL}/v2/order`, {
+    headers: {
+      Authorization: `Bearer ${window.Telegram?.WebApp?.initData || ""}`,
+    },
+  });
+};
