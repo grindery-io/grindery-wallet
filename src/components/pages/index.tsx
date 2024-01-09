@@ -18,3 +18,4 @@ export { default as BridgePage } from "./BridgePage";
 export { default as BuyPage } from "./BuyPage";
 export { default as StakingPage } from "./StakingPage";
 export { default as OrderPage } from "./OrderPage/OrderPage";
+export { default as ConvertPage } from "./ConvertPage/ConvertPage";

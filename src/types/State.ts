@@ -174,6 +174,40 @@ export type ContactsState = {
  */
 export type ConfigState = {};
 
+export type ConvertInput = {
+  tokenIn: string;
+  amountIn: string;
+  tokenOut: string;
+  chainIn: string;
+  chainOut: string;
+};
+
+export enum ConvertStatus {
+  WAITING = "waiting_user_input",
+  LOADING = "loading",
+  ERROR = "error",
+  SENDING = "sending",
+  SENT = "sent",
+}
+
+export enum ConvertQuoteType {
+  SWAP = "swap",
+  BRIDGE = "bridge",
+}
+
+export type ConvertQuote = {
+  quote_type: ConvertQuoteType;
+} & (GetBridgeQuoteResponseType | SwapRoute);
+
+/**
+ * Interface for the ConvertState object representing the state of the convert page
+ */
+export type ConvertState = {
+  input: ConvertInput;
+  status: ConvertStatus;
+  quote: ConvertQuote | null;
+};
+
 /**
  * Interface for the DebugState object representing the state of the debug mode
  */
@@ -391,6 +425,10 @@ export type AppState = {
    * Contacts list state
    */
   contacts: ContactsState;
+  /**
+   * Convert page state
+   */
+  convert: ConvertState;
   /**
    * App debug mode state
    */

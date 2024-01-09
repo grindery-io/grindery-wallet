@@ -28,6 +28,8 @@ import {
   TGEStatus,
   TGEState,
   TGEInput,
+  ConvertStatus,
+  ConvertState,
 } from "types";
 import { fixTokens } from "utils";
 import { TokenType } from "components/shared/Token";
@@ -84,6 +86,17 @@ export const initialState: AppState = {
     social: localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS)
       ? JSON.parse(localStorage.getItem(STORAGE_KEYS.SOCIAL_CONTACTS) || "[]")
       : undefined,
+  },
+  convert: {
+    input: {
+      tokenIn: "",
+      amountIn: "",
+      tokenOut: "",
+      chainIn: "",
+      chainOut: "",
+    },
+    status: ConvertStatus.WAITING,
+    quote: null,
   },
   debug: {
     enabled: localStorage.getItem(STORAGE_KEYS.DEBUG) === "true",
@@ -344,6 +357,12 @@ const appSlice = createSlice({
     setTGEInput(state, action: PayloadAction<Partial<TGEInput>>) {
       state.tge.input = {
         ...state.tge.input,
+        ...action.payload,
+      };
+    },
+    setConvert(state, action: PayloadAction<Partial<ConvertState>>) {
+      state.convert = {
+        ...state.convert,
         ...action.payload,
       };
     },

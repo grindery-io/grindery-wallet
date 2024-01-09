@@ -11,6 +11,7 @@ import {
   CommunityPage,
   ContactPage,
   ContactsPage,
+  ConvertPage,
   DebugPage,
   OrderPage,
   RewardPage,
@@ -49,6 +50,7 @@ const AppRoutes = () => {
       <Route path="/send" element={<SendPage />} />
       <Route path="/debug" element={<DebugPage />} />
       <Route path="/swap" element={<SwapPage />} />
+      <Route path="/convert" element={<ConvertPage />} />
       {enabled && <Route path="/debug/stats" element={<StatsPage />} />}
       {((enabled && features?.BRIDGE) || user?.optin_bridge) && (
         <Route path="/bridge" element={<BridgePage />} />
