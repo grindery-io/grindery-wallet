@@ -24,7 +24,7 @@ import Chain from "components/shared/Chain/Chain";
 import ChainName from "components/shared/Chain/ChainName/ChainName";
 import ChainAvatar from "components/shared/Chain/ChainAvatar/ChainAvatar";
 import { isDarkTheme } from "utils";
-import { GetBridgeQuoteResponseType } from "services";
+import { GetConvertQuoteResponseType } from "services/convert";
 
 const ConvertTokensInputTokenOut = ({
   tokensOut,
@@ -188,7 +188,7 @@ const ConvertTokensInputTokenOut = ({
               disabled={convert.status === ConvertStatus.LOADING}
               value={(
                 parseFloat(
-                  (convert.quote as GetBridgeQuoteResponseType)?.estimate
+                  (convert.quote as GetConvertQuoteResponseType)?.estimate
                     ?.toAmount || "0"
                 ) / Math.pow(10, selectedToken?.decimals || 18)
               ).toString()}
@@ -200,7 +200,7 @@ const ConvertTokensInputTokenOut = ({
                 {(
                   parseFloat(tokenIsNotImported ? price : selectedToken.price) *
                   (parseFloat(
-                    (convert.quote as GetBridgeQuoteResponseType)?.estimate
+                    (convert.quote as GetConvertQuoteResponseType)?.estimate
                       ?.toAmount || "0"
                   ) /
                     Math.pow(10, selectedToken?.decimals || 18))

@@ -9,7 +9,7 @@ import {
   useAppSelector,
 } from "../../../../store";
 import { ConvertTokensInputProps } from "./ConvertTokensInput";
-import { GetBridgeQuoteResponseType, bridgeTokensRequest } from "services";
+import { GetConvertQuoteResponseType, convertTokensRequest } from "services";
 
 const ConvertTokensInputButtons = ({ tokensIn }: ConvertTokensInputProps) => {
   let navigate = useNavigate();
@@ -52,15 +52,15 @@ const ConvertTokensInputButtons = ({ tokensIn }: ConvertTokensInputProps) => {
     );
 
     try {
-      await bridgeTokensRequest({
-        to: (quote as GetBridgeQuoteResponseType).transactionRequest.to,
-        data: (quote as GetBridgeQuoteResponseType).transactionRequest.data,
-        value: (quote as GetBridgeQuoteResponseType).transactionRequest.value,
+      await convertTokensRequest({
+        to: (quote as GetConvertQuoteResponseType).transactionRequest.to,
+        data: (quote as GetConvertQuoteResponseType).transactionRequest.data,
+        value: (quote as GetConvertQuoteResponseType).transactionRequest.value,
         tokenIn: input.tokenIn,
         amountIn: input.amountIn,
         tokenOut: input.tokenOut,
-        amountOut: (quote as GetBridgeQuoteResponseType).estimate.toAmount,
-        gas: (quote as GetBridgeQuoteResponseType).transactionRequest.gasPrice,
+        amountOut: (quote as GetConvertQuoteResponseType).estimate.toAmount,
+        gas: (quote as GetConvertQuoteResponseType).transactionRequest.gasPrice,
         priceImpact: "0",
         chainIn: input.chainIn || "137",
         chainOut: input.chainOut || "137",

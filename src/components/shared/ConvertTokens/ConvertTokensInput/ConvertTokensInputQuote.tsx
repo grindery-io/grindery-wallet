@@ -3,7 +3,7 @@ import { CircularProgress, Stack, Typography } from "@mui/material";
 import { selectAppStore, useAppSelector } from "../../../../store";
 import { ConvertStatus } from "../../../../types/State";
 import { ConvertTokensInputProps } from "./ConvertTokensInput";
-import { GetBridgeQuoteResponseType } from "services";
+import { GetConvertQuoteResponseType } from "services";
 
 const ConvertTokensInputQuote = ({ tokensIn }: ConvertTokensInputProps) => {
   const {
@@ -66,7 +66,7 @@ const ConvertTokensInputQuote = ({ tokensIn }: ConvertTokensInputProps) => {
                   1 {selectedTokenIn?.symbol} ={" "}
                   {(
                     parseFloat(
-                      (quote as GetBridgeQuoteResponseType)?.estimate
+                      (quote as GetConvertQuoteResponseType)?.estimate
                         .toAmount || "0"
                     ) /
                     Math.pow(10, selectedTokenOut?.decimals || 18) /
@@ -81,7 +81,7 @@ const ConvertTokensInputQuote = ({ tokensIn }: ConvertTokensInputProps) => {
             <Typography color="hint">
               {isNothingFound
                 ? "No routes found"
-                : "Select tokens and enter an amount to bridge"}
+                : "Select tokens and enter an amount to convert"}
             </Typography>
           )}
         </Stack>

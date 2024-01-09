@@ -10,11 +10,6 @@ import { ConvertQuoteType, ConvertStatus } from "../../../types/State";
 import { CHAINS } from "../../../constants";
 import { fixTokens } from "../../../utils/fixTokens";
 import { TokenType } from "../Token";
-import {
-  getBridgeConnectionsRequest,
-  getBridgeQuoteRequest,
-  getBridgeTokensRequest,
-} from "services";
 import Web3 from "web3";
 import _ from "lodash";
 import ConvertTokensHeader from "./ConvertTokensHeader";
@@ -22,6 +17,11 @@ import ConvertTokensSentMessage from "./ConvertTokensSentMessage";
 import ConvertTokensSending from "./ConvertTokensSending";
 import ConvertTokensError from "./ConvertTokensError";
 import ConvertTokensInput from "./ConvertTokensInput/ConvertTokensInput";
+import {
+  getConvertConnectionsRequest,
+  getConvertQuoteRequest,
+  getConvertTokensRequest,
+} from "services/convert";
 
 const ConvertTokens = () => {
   const dispatch = useAppDispatch();
@@ -117,7 +117,7 @@ const ConvertTokens = () => {
         status: ConvertStatus.LOADING,
       })
     );
-    getBridgeQuoteRequest({
+    getConvertQuoteRequest({
       input: {
         ...convert.input,
         amountIn: Web3.utils.toWei(parseFloat(convert.input.amountIn), "ether"),
@@ -156,7 +156,7 @@ const ConvertTokens = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    getBridgeTokensRequest(
+    getConvertTokensRequest(
       CHAINS.map((c) => parseInt(c.id)).join(","),
       controller
     ).then((res) => {
@@ -188,7 +188,7 @@ const ConvertTokens = () => {
     if (!convert.input.tokenIn || !convert.input.chainIn) {
       return;
     }
-    getBridgeConnectionsRequest({
+    getConvertConnectionsRequest({
       controller,
       fromToken: convert.input.tokenIn,
       fromChain: convert.input.chainIn,

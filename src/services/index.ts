@@ -13,3 +13,4 @@ export * from "./user";
 export * from "./bridge";
 export * from "./buy";
 export * from "./order";
+export * from "./convert";

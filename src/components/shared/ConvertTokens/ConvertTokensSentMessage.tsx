@@ -31,8 +31,8 @@ const ConvertTokensSentMessage = () => {
       <Title style={{ marginBottom: 0 }}>Tokens sent</Title>
       <Subtitle>
         Tokens have been sent, and you will receive a Telegram notification once
-        the bridge is complete and confirmed on the blockchain. Bridging can
-        take up to 30 minutes.
+        the conversion is complete and confirmed on the blockchain. It can take
+        up to 30 minutes.
       </Subtitle>
       <Box sx={{ textAlign: "center" }}>
         <Button
